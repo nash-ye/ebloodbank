@@ -143,7 +143,8 @@ final class Users {
 			$id = 0;
 
 			$data = array_merge( array(
-				'user_status' => 0,
+				'user_rtime' => gmdate( 'Y-m-d H:i:s' ),
+				'user_status' => 'default',
 			), $data );
 
 			$columns = implode( '`, `', array_keys( $data ) );

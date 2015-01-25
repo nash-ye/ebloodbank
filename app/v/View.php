@@ -33,20 +33,23 @@ class Default_View extends View {
 	protected function template_header() { ?>
 		<!doctype html>
 		<html lang="ar" dir="rtl">
-		  <head>
-			<meta charset="UTF-8">
-			<title><?php echo $this->get_title() ?></title>
-			<meta http-equiv="X-UA-Compatible" content="IE=edge">
-			<link rel="stylesheet" type="text/css" href="/assets/style.css">
-		  </head>
+			<head>
+				<meta charset="UTF-8">
+				<title><?php echo $this->get_title() ?></title>
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+			</head>
 
-		  <body>
+			<body>
 
-			<div id="wrapper">
+			  <div id="wrapper">
 
-				<header id="header">
+				  <header id="header" role="banner">
 
-				</header><?php
+					  <h1 id="site-title">بنك الدم الإلكتروني</h1>
+					  <h2 id="site-slogan">لأن الحياة تستحق...</h2>
+
+				  </header><?php
 
 	}
 

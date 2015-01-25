@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.1-alpha' );
+define( 'eBloodBank\VERSION', '0.2-alpha' );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
 	define( 'eBloodBank\DEBUG', FALSE );
@@ -70,12 +70,12 @@ function class_loader( $class_name ) {
 			require 'app/m/cites.php';
 			break;
 
-		case 'eBloodBank\Dstrict':
-			require 'app/m/dstrict.php';
+		case 'eBloodBank\District':
+			require 'app/m/district.php';
 			break;
 
-		case 'eBloodBank\Dstricts':
-			require 'app/m/dstricts.php';
+		case 'eBloodBank\Districts':
+			require 'app/m/districts.php';
 			break;
 
 		case 'eBloodBank\Donor':
@@ -100,6 +100,26 @@ function class_loader( $class_name ) {
 			require 'app/v/View.php';
 			break;
 
+		case 'eBloodBank\City_View':
+			require 'app/v/City.php';
+			break;
+
+		case 'eBloodBank\District_View':
+			require 'app/v/District.php';
+			break;
+
+		case 'eBloodBank\User_View':
+			require 'app/v/User.php';
+			break;
+
+		case 'eBloodBank\Donor_View':
+			require 'app/v/Donor.php';
+			break;
+
+		case 'eBloodBank\Donors_View':
+			require 'app/v/Donors.php';
+			break;
+
 		case 'eBloodBank\Default_View':
 			require 'app/v/View.php';
 			break;
@@ -112,6 +132,26 @@ function class_loader( $class_name ) {
 
 		case 'eBloodBank\Controller':
 			require 'app/c/Controller.php';
+			break;
+
+		case 'eBloodBank\City_Controller':
+			require 'app/c/City.php';
+			break;
+
+		case 'eBloodBank\District_Controller':
+			require 'app/c/District.php';
+			break;
+
+		case 'eBloodBank\User_Controller':
+			require 'app/c/User.php';
+			break;
+
+		case 'eBloodBank\Donor_Controller':
+			require 'app/c/Donor.php';
+			break;
+
+		case 'eBloodBank\Donors_Controller':
+			require 'app/c/Donors.php';
 			break;
 
 		case 'eBloodBank\FrontPage_Controller':

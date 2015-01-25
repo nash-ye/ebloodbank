@@ -1,0 +1,53 @@
+@import "normalize.css";
+
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    color: #333;
+    direction: rtl;
+    font-size: 14px;
+    line-height: 20px;
+    unicode-bidi: embed;
+    background-color: #fff;
+    font-family: Tahoma, Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4, 
+h5,
+h6 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#wrapper {
+    width: 960px;
+    margin: 0 auto;
+}
+
+#header {
+    text-align: center;
+}
+
+
+.list-table {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.form-block {
+}
+.form-block > div {
+    margin: 10px 0;
+}
+.form-block label {
+    width: 150px;
+    display: inline-block;
+}

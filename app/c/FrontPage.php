@@ -35,6 +35,26 @@ class FrontPage_Controller extends Controller {
 
 		switch( $this->page ) {
 
+			case 'city':
+				new City_Controller();
+				break;
+
+			case 'distr':
+				new District_Controller();
+				break;
+
+			case 'user':
+				new User_Controller();
+				break;
+
+			case 'donor':
+				new Donor_Controller();
+				break;
+
+			case 'donors':
+				new Donors_Controller();
+				break;
+
 			default:
 				$view = new FrontPage_View();
 				$view();
