@@ -12,7 +12,21 @@ class District_View extends Default_View {
 	 * @since 0.2
 	 */
 	public function get_title() {
-		return 'eBloodBank';
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'distr':
+			case 'view-distr':
+				return 'عرض مديرية';
+
+			case 'add-distr':
+				return 'إضافة مديرية';
+
+			case 'edit-distr':
+				return 'تحرير مديرية';
+
+		}
+
 	}
 
 	/**
@@ -22,8 +36,6 @@ class District_View extends Default_View {
 	public function __invoke() {
 
 		$this->template_header(); ?>
-
-		<div id="content">
 
 			<form id="form_distr" method="POST">
 
@@ -59,9 +71,7 @@ class District_View extends Default_View {
 
 				<input type="hidden" name="action" value="submit_distr" />
 
-			</form>
-
-		</div> <!-- #content --><?php
+			</form><?php
 
 		$this->template_footer();
 

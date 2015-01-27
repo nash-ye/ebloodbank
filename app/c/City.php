@@ -22,8 +22,9 @@ class City_Controller extends Controller {
 			}
 
 			$city_id = Cites::insert( $city_data );
-			// TODO: Redirect
-			die(0);
+			$submitted = is_vaild_ID( $city_id );
+
+			redirect( "?page=add-city&flag-submitted={$submitted}" );
 
 		}
 

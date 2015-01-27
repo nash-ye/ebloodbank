@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.2-alpha' );
+define( 'eBloodBank\VERSION', '0.3-alpha' );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
 	define( 'eBloodBank\DEBUG', FALSE );
@@ -35,7 +35,7 @@ date_default_timezone_set( 'UTC' );
 
 try {
 
-	$db = new \PDO( sprintf( 'mysql:host=%s;dbname=%s', DB_HOST, DB_NAME ), DB_USER, DB_PASS );
+	$db = new \PDO( sprintf( 'mysql:host=%s;dbname=%s;charset=utf8', DB_HOST, DB_NAME ), DB_USER, DB_PASS );
 	$db->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
 
 } catch ( \PDOException $ex ) {
@@ -59,39 +59,39 @@ function class_loader( $class_name ) {
 		/*** Models ************************************************************/
 
 		case 'eBloodBank\Model':
-			require 'app/m/model.php';
+			require 'app/m/Model.php';
 			break;
 
 		case 'eBloodBank\City':
-			require 'app/m/city.php';
+			require 'app/m/City.php';
 			break;
 
 		case 'eBloodBank\Cites':
-			require 'app/m/cites.php';
+			require 'app/m/Cites.php';
 			break;
 
 		case 'eBloodBank\District':
-			require 'app/m/district.php';
+			require 'app/m/District.php';
 			break;
 
 		case 'eBloodBank\Districts':
-			require 'app/m/districts.php';
+			require 'app/m/Districts.php';
 			break;
 
 		case 'eBloodBank\Donor':
-			require 'app/m/donor.php';
+			require 'app/m/Donor.php';
 			break;
 
 		case 'eBloodBank\Donors':
-			require 'app/m/donors.php';
+			require 'app/m/Donors.php';
 			break;
 
 		case 'eBloodBank\User':
-			require 'app/m/user.php';
+			require 'app/m/User.php';
 			break;
 
 		case 'eBloodBank\Users':
-			require 'app/m/users.php';
+			require 'app/m/Users.php';
 			break;
 
 		/*** Views ************************************************************/
@@ -104,12 +104,24 @@ function class_loader( $class_name ) {
 			require 'app/v/City.php';
 			break;
 
+		case 'eBloodBank\Cites_View':
+			require 'app/v/Cites.php';
+			break;
+
 		case 'eBloodBank\District_View':
 			require 'app/v/District.php';
 			break;
 
+		case 'eBloodBank\Districts_View':
+			require 'app/v/Districts.php';
+			break;
+
 		case 'eBloodBank\User_View':
 			require 'app/v/User.php';
+			break;
+
+		case 'eBloodBank\Users_View':
+			require 'app/v/Users.php';
 			break;
 
 		case 'eBloodBank\Donor_View':
@@ -138,12 +150,24 @@ function class_loader( $class_name ) {
 			require 'app/c/City.php';
 			break;
 
+		case 'eBloodBank\Cites_Controller':
+			require 'app/c/Cites.php';
+			break;
+
 		case 'eBloodBank\District_Controller':
 			require 'app/c/District.php';
 			break;
 
+		case 'eBloodBank\Districts_Controller':
+			require 'app/c/Districts.php';
+			break;
+
 		case 'eBloodBank\User_Controller':
 			require 'app/c/User.php';
+			break;
+
+		case 'eBloodBank\Users_Controller':
+			require 'app/c/Users.php';
 			break;
 
 		case 'eBloodBank\Donor_Controller':

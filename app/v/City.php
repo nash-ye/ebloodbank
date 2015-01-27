@@ -12,7 +12,21 @@ class City_View extends Default_View {
 	 * @since 0.2
 	 */
 	public function get_title() {
-		return 'eBloodBank';
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'city':
+			case 'view-city':
+				return 'عرض مدينة';
+
+			case 'add-city':
+				return 'إضافة مدينة';
+
+			case 'edit-city':
+				return 'تحرير مدينة';
+
+		}
+
 	}
 
 	/**
@@ -22,8 +36,6 @@ class City_View extends Default_View {
 	public function __invoke() {
 
 		$this->template_header(); ?>
-
-		<div id="content">
 
 			<form id="form-city" class="form-block" method="POST">
 
@@ -38,9 +50,7 @@ class City_View extends Default_View {
 
 				<input type="hidden" name="action" value="submit_city" />
 
-			</form>
-
-		</div> <!-- #content --><?php
+			</form><?php
 
 		$this->template_footer();
 

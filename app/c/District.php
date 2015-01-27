@@ -26,8 +26,9 @@ class District_Controller extends Controller {
 			}
 
 			$distr_id = Districts::insert( $distr_data );
-			// TODO: Redirect
-			die(0);
+			$submitted = is_vaild_ID( $distr_id );
+
+			redirect( "?page=add-distr&flag-submitted={$submitted}" );
 
 		}
 

@@ -13,7 +13,6 @@ $db->exec(
 CREATE  TABLE IF NOT EXISTS `city` (
   `city_id` INT NOT NULL AUTO_INCREMENT ,
   `city_name` VARCHAR(255) NOT NULL ,
-  `city_order` INT NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`city_id`) )
 ENGINE = InnoDB;
 
@@ -25,7 +24,6 @@ CREATE  TABLE IF NOT EXISTS `district` (
   `distr_id` INT NOT NULL ,
   `distr_name` VARCHAR(255) NOT NULL ,
   `distr_city_id` INT NOT NULL ,
-  `distr_order` INT NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`distr_id`) ,
   CONSTRAINT `district_city_id`
     FOREIGN KEY (`distr_city_id` )
@@ -38,22 +36,6 @@ CREATE INDEX `dis_idx` ON `district` (`distr_city_id` ASC) ;
 
 
 -- -----------------------------------------------------
--- Table `user`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `user` (
-  `user_id` INT NOT NULL AUTO_INCREMENT ,
-  `user_logon` VARCHAR(100) NOT NULL ,
-  `user_pass` VARCHAR(100) NOT NULL ,
-  `user_rtime` DATETIME NOT NULL ,
-  `user_role` VARCHAR(45) NOT NULL ,
-  `user_status` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`user_id`) )
-ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX `user_logon_UNIQUE` ON `user` (`user_logon` ASC) ;
-
-
--- -----------------------------------------------------
 -- Table `donor`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `donor` (
@@ -62,9 +44,8 @@ CREATE  TABLE IF NOT EXISTS `donor` (
   `donor_gender` VARCHAR(45) NOT NULL ,
   `donor_weight` SMALLINT NOT NULL ,
   `donor_birthdate` DATE NOT NULL ,
-  `donor_blood_type` VARCHAR(45) NOT NULL ,
+  `donor_blood_group` VARCHAR(45) NOT NULL ,
   `donor_distr_id` INT NOT NULL ,
-  `donor_user_id` INT NULL ,
   `donor_phone` VARCHAR(50) NOT NULL ,
   `donor_email` VARCHAR(100) NULL ,
   `donor_rtime` DATETIME NOT NULL ,
@@ -74,16 +55,10 @@ CREATE  TABLE IF NOT EXISTS `donor` (
     FOREIGN KEY (`donor_distr_id` )
     REFERENCES `district` (`distr_id` )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `donor_user_id`
-    FOREIGN KEY (`donor_user_id` )
-    REFERENCES `user` (`user_id` )
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 CREATE INDEX `donor_district_id_idx` ON `donor` (`donor_distr_id` ASC) ;
-CREATE INDEX `donor_user_id_idx` ON `donor` (`donor_user_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -103,6 +78,22 @@ CREATE  TABLE IF NOT EXISTS `donor_meta` (
 ENGINE = InnoDB;
 
 CREATE INDEX `dm_donor_id_idx` ON `donor_meta` (`donor_id` ASC) ;
+
+
+-- -----------------------------------------------------
+-- Table `user`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `user` (
+  `user_id` INT NOT NULL AUTO_INCREMENT ,
+  `user_logon` VARCHAR(100) NOT NULL ,
+  `user_pass` VARCHAR(100) NOT NULL ,
+  `user_role` VARCHAR(45) NOT NULL ,
+  `user_rtime` DATETIME NOT NULL ,
+  `user_status` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`user_id`) )
+ENGINE = InnoDB;
+
+CREATE UNIQUE INDEX `user_logon_UNIQUE` ON `user` (`user_logon` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -159,6 +150,7 @@ CREATE  TABLE IF NOT EXISTS `donor_test` (
 ENGINE = InnoDB;
 
 CREATE INDEX `dt_donor_id_idx` ON `donor_test` (`test_donor_id` ASC) ;
+
 CREATE INDEX `dt_type_id_idx` ON `donor_test` (`test_type_id` ASC) ;
 
 

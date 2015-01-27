@@ -23,7 +23,9 @@ class Donors_View extends Default_View {
 
 		$this->template_header(); ?>
 
-		<div id="content">
+			<a href="?page=add-donor">
+				<button type="button">أضف متبرع جديد</button>
+			</a>
 
 			<table id="table-donors" class="list-table">
 
@@ -31,12 +33,10 @@ class Donors_View extends Default_View {
 					<th>#</th>
 					<th>الاسم</th>
 					<th>الجنس</th>
-					<th>الوزن</th>
 					<th>العمر</th>
 					<th>فصيلة الدم</th>
 					<th>المدينة/المديرية</th>
 					<th>رقم التلفون</th>
-					<th>البريد الإلكتروني</th>
 				</thead>
 
 				<tbody>
@@ -55,12 +55,10 @@ class Donors_View extends Default_View {
 									<td><?php $donor->display( 'donor_id' ) ?></td>
 									<td><?php $donor->display( 'donor_name' ) ?></td>
 									<td><?php $donor->display( 'donor_gender' ) ?></td>
-									<td><?php $donor->display( 'donor_weight' ) ?></td>
 									<td><?php $donor->display( 'donor_birthdate' ) ?></td>
-									<td><?php $donor->display( 'donor_blood_type' ) ?></td>
+									<td><?php $donor->display( 'donor_blood_group' ) ?></td>
 									<td><?php $donor->display( 'donor_distr_id' ) ?></td>
 									<td><?php $donor->display( 'donor_phone' ) ?></td>
-									<td><?php $donor->display( 'donor_email' ) ?></td>
 								</tr>
 
 								<?php
@@ -73,10 +71,7 @@ class Donors_View extends Default_View {
 
 				</tbody>
 
-
-			</table>
-
-		</div> <!-- #content --><?php
+			</table><?php
 
 		$this->template_footer();
 

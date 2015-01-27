@@ -42,14 +42,40 @@ class Default_View extends View {
 
 			<body>
 
-			  <div id="wrapper">
+			<div id="wrapper">
 
-				  <header id="header" role="banner">
+				<header id="header" role="banner">
 
-					  <h1 id="site-title">بنك الدم الإلكتروني</h1>
-					  <h2 id="site-slogan">لأن الحياة تستحق...</h2>
+					<div class="wrapper">
 
-				  </header><?php
+						<h1 id="site-title">بنك الدم الإلكتروني</h1>
+
+						<nav id="primary-nav" role="navigation">
+
+							<ul class="dropdown">
+								<li><a href="?page=index">الرئيسية</a></li>
+								<li><a href="?page=donors">المتبرعين</a></li>
+								<li>
+									<span>المدن والمديريات</span>
+									<ul>
+										<li><a href="?page=cites">المدن</a></li>
+										<li><a href="?page=distrs">المديريات</a></li>
+									</ul>
+								</li>
+								<li><a href="?page=users">المستخدمين</a></li>
+							</ul>
+
+					</div>
+
+				</header>
+
+				<section id="content">
+
+					<div class="wrapper">
+
+						<header id="page-header">
+							<h1 id="page-title"><?php echo $this->get_title() ?></h1>
+						</header><?php
 
 	}
 
@@ -59,7 +85,18 @@ class Default_View extends View {
 	 */
 	protected function template_footer() { ?>
 
-				</div> <!-- #wrapper -->
+						</div>
+
+				</section> <!-- #content -->
+
+				<footer id="footer">
+
+					<div class="wrapper">
+					</div>
+
+				</footer>
+
+			</div> <!-- #wrapper -->
 
 			</body>
 

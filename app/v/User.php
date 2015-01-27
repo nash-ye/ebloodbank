@@ -12,7 +12,21 @@ class User_View extends Default_View {
 	 * @since 0.2
 	 */
 	public function get_title() {
-		return 'eBloodBank';
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'user':
+			case 'view-user':
+				return 'عرض مستخدم';
+
+			case 'add-user':
+				return 'إضافة مستخدم';
+
+			case 'edit-user':
+				return 'تحرير مستخدم';
+
+		}
+
 	}
 
 	/**
@@ -22,8 +36,6 @@ class User_View extends Default_View {
 	public function __invoke() {
 
 		$this->template_header(); ?>
-
-		<div id="content">
 
 			<form id="form-user" class="form-block" method="POST">
 
@@ -50,9 +62,7 @@ class User_View extends Default_View {
 
 				<input type="hidden" name="action" value="submit_user" />
 
-			</form>
-
-		</div> <!-- #content --><?php
+			</form><?php
 
 		$this->template_footer();
 

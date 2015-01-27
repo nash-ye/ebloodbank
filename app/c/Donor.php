@@ -40,7 +40,7 @@ class Donor_Controller extends Controller {
 			IF ( isset( $_POST['donor_blood_group'] ) ) {
 
 				if ( in_array( $_POST['donor_blood_type'], array( '-O', '+O', '-A', '+A', '-B', '+B', '-AB', '+AB' ) ) ) {
-					$donor_data['donor_blood_type'] = $_POST['donor_blood_group'];
+					$donor_data['donor_blood_group'] = $_POST['donor_blood_group'];
 				}
 
 			}
@@ -58,8 +58,9 @@ class Donor_Controller extends Controller {
 			}
 
 			$donor_id = Donors::insert( $donor_data );
-			// TODO: Redirect
-			die(0);
+			$submitted = is_vaild_ID( $donor_id );
+
+			redirect( "?page=add-donor&flag-submitted={$submitted}" );
 
 		}
 

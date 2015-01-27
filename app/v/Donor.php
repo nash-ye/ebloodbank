@@ -12,7 +12,21 @@ class Donor_View extends Default_View {
 	 * @since 0.2
 	 */
 	public function get_title() {
-		return 'eBloodBank';
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'donor':
+			case 'view-donor':
+				return 'عرض متبرع';
+
+			case 'add-donor':
+				return 'إضافة متبرع';
+
+			case 'edit-donor':
+				return 'تحرير متبرع';
+
+		}
+
 	}
 
 	/**
@@ -22,8 +36,6 @@ class Donor_View extends Default_View {
 	public function __invoke() {
 
 		$this->template_header(); ?>
-
-		<div id="content">
 
 			<form id="form-donor" class="form-block" method="POST">
 
@@ -121,9 +133,7 @@ class Donor_View extends Default_View {
 
 				<input type="hidden" name="action" value="submit_donor" />
 
-			</form>
-
-		</div> <!-- #content --><?php
+			</form><?php
 
 		$this->template_footer();
 

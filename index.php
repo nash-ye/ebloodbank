@@ -14,7 +14,7 @@ namespace eBloodBank;
  * @author Nashwan Doaqan<nashwan.doaqan@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt GPL
  * @copyright (c) 2015, Nashwan Doaqan
- * @version 0.1
+ * @version 0.3-alpha
  */
 
 /*** Core Bootstrap ***********************************************************/

@@ -1,5 +1,16 @@
 @import "normalize.css";
 
+@font-face {
+    font-family: 'ge_ss_unique_light';
+    src: url('../fonts/ge_ss_unique_light-webfont.eot');
+    src: url('../fonts/ge_ss_unique_light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ge_ss_unique_light-webfont.woff2') format('woff2'),
+         url('../fonts/ge_ss_unique_light-webfont.woff') format('woff'),
+         url('../fonts/ge_ss_unique_light-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 *:before,
 *:after {
     -webkit-box-sizing: border-box;
@@ -14,33 +25,174 @@ body {
     font-size: 14px;
     line-height: 20px;
     unicode-bidi: embed;
-    background-color: #fff;
+    background-color: #f0f1e9;
     font-family: Tahoma, Helvetica, Arial, sans-serif;
 }
 
 h1,
 h2,
 h3,
-h4, 
+h4,
 h5,
 h6 {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+/**
+ * The Wrapper
+ * ----------------------------------------------------------------------------
+ */
+
 #wrapper {
+    width: 100%;
+}
+.wrapper {
+    height: 100%;
     width: 960px;
     margin: 0 auto;
+    position: relative;
 }
+
+/**
+ * The Header
+ * ----------------------------------------------------------------------------
+ */
 
 #header {
+    height: 100px;
+    background: #fff;
+}
+#site-title {
+    margin: 0;
+    color: #d81e05;
+    font: 18pt "ge_ss_unique_light";
     text-align: center;
+    line-height: 80px;
+}
+#primary-nav {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    background: #d81e05;
+    bottom: -20px;
 }
 
+/* Dropdown Menu */
+
+.dropdown {
+    display: block;
+    position: relative;
+}
+ul.dropdown,
+.dropdown ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.dropdown li {
+    color: #fff;
+    padding: 0 10px;
+    line-height: 40px;
+    position: relative;
+    display: inline-block;
+}
+.dropdown li a {
+    color: #fff;
+    text-decoration: none;
+}
+.dropdown li:hover,
+.dropdown li:focus {
+    background-color: #ec3627;
+}
+.dropdown ul {
+    position: absolute;
+    display: none;
+    right: 0px;
+    top: 100%;
+}
+
+.dropdown li:hover > ul,
+.dropdown li:active > ul {
+    display: block;
+    z-index: 999999;
+    background: #fff;
+    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+.dropdown ul ul {
+    right: 100%;
+    top: 0px;
+}
+.dropdown ul li {
+    color: #333;
+    width: 200px;
+}
+.dropdown ul li a {
+    color: #333;
+}
+.dropdown ul li:hover a,
+.dropdown ul li:focus a {
+    color: #fff;
+}
+
+/**
+ * The Content
+ * ----------------------------------------------------------------------------
+ */
+
+#content {
+    margin: 60px 0 40px 0;
+}
+
+/* Page Header */
+
+#page-header {
+    margin: 0 0 20px 0;
+    border-bottom: 2px solid #d81e05;
+}
+#page-title {
+    color: #333;
+    margin: 0px;
+    font: bold 18pt "ge_ss_unique_light";
+}
+
+/* List Table */
 
 .list-table {
     width: 100%;
     margin: 10px 0;
+    background: #fff;
+    border-collapse: collapse;
+    border: 2px solid #c7c8bb;
 }
+.list-table:hover,
+.list-table:focus {
+    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+.list-table thead tr {
+    background: #d81e05;
+}
+.list-table thead th {
+    color: #fff;
+    padding: 5px;
+    text-align: right;
+    font-weight: normal;
+    border-left: 1px solid #c7c8bb;
+}
+.list-table tbody tr {
+    background: #fff;
+}
+.list-table tbody td {
+    color: #333;
+    padding: 5px;
+    text-align: right;
+    border-left: 1px solid #c7c8bb;
+}
+
+/* Form Block */
 
 .form-block {
 }
@@ -50,4 +202,14 @@ h6 {
 .form-block label {
     width: 150px;
     display: inline-block;
+}
+
+/**
+ * The Footer
+ * ----------------------------------------------------------------------------
+ */
+
+#footer {
+    height: 50px;
+    background: #fff;
 }

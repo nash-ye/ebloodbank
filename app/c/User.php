@@ -34,8 +34,9 @@ class User_Controller extends Controller {
 			}
 
 			$user_id = Users::insert( $user_data );
-			// TODO: Redirect
-			die(0);
+			$submitted = is_vaild_ID( $user_id );
+
+			redirect( "?page=add-user&flag-submitted={$submitted}" );
 
 		}
 
