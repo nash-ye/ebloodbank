@@ -22,7 +22,7 @@ class User_Controller extends Controller {
 			}
 
 			IF ( ! empty( $_POST['user_pass'] ) ) {
-				$user_data['user_pass'] = $_POST['user_pass'];
+				$user_data['user_pass'] = password_hash( $_POST['user_pass'], PASSWORD_BCRYPT );
 			}
 
 			IF ( isset( $_POST['user_role'] ) ) {

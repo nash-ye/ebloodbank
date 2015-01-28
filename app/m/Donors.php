@@ -20,8 +20,7 @@ final class Donors {
 	 */
 	public static function fetch_all() {
 
-		$sql = 'SELECT * FROM donor';
-		return self::fetch_multi( $sql );
+		return self::fetch_multi( 'SELECT * FROM donor' );
 
 	}
 
@@ -31,20 +30,64 @@ final class Donors {
 	 */
 	public static function fetch_by_ID( $id ) {
 
-		try {
+		$id = (int) $id;
 
-			$id = (int) $id;
-
-			if ( empty( $id ) ) {
-				return FALSE;
-			}
-
-			$sql = 'SELECT * FROM donor WHERE donor_id = ?';
-			return self::fetch_single( $sql, array( $id ) );
-
-		} catch ( \PDOException $ex ) {
+		if ( empty( $id ) ) {
 			return FALSE;
 		}
+
+		return self::fetch_single( 'SELECT * FROM donor WHERE donor_id = ?', array( $id ) );
+
+	}
+
+	/**
+	 * @return eBloodBank\Donor[]
+	 * @since 0.4
+	 */
+	public static function fetch_by_args( array $args ) {
+
+		$params = array();
+		$where_stmt = array();
+
+		$args = array_merge( array(
+			'blood_group' => 'all',
+			'distr_id'    => 0,
+			'city_id'     => 0,
+		), $args );
+
+		if ( empty( $args['blood_group'] ) ) {
+			$args['blood_group'] = 'all';
+		}
+
+		$args['distr_id'] = (int) $args['distr_id'];
+		$args['city_id']  = (int) $args['city_id'];
+
+		if ( 'all' !== $args['blood_group'] ) {
+
+			$where_stmt[] = 'donor_blood_group = ?';
+			$params[] = $args['blood_group'];
+
+		}
+
+		if ( is_vaild_ID( $args['distr_id'] ) ) {
+
+			$where_stmt[] = 'donor_distr_id = ?';
+			$params[] = $args['distr_id'];
+
+		} elseif ( is_vaild_ID( $args['city_id'] ) ) {
+
+			$where_stmt[] = 'donor_distr_id IN ( SELECT distr_id FROM district WHERE distr_city_id = ? )';
+			$params[] = $args['city_id'];
+
+		}
+
+		$where_stmt = implode( ' AND ', $where_stmt );
+
+		if ( ! empty( $where_stmt ) ) {
+			$where_stmt = " WHERE {$where_stmt}";
+		}
+
+		return self::fetch_multi( "SELECT * FROM donor {$where_stmt}", $params );
 
 	}
 
@@ -143,7 +186,7 @@ final class Donors {
 			$id = 0;
 
 			$data = array_merge( array(
-				'donor_status' => 0,
+				'donor_status' => 'default',
 			), $data );
 
 			$columns = implode( '`, `', array_keys( $data ) );

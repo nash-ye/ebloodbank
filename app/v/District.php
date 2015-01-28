@@ -37,7 +37,7 @@ class District_View extends Default_View {
 
 		$this->template_header(); ?>
 
-			<form id="form_distr" method="POST">
+			<form id="form-distr" class="form-block" method="POST">
 
 				<div>
 					<label for="distr_name">الاسم</label>

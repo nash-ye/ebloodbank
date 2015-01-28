@@ -39,7 +39,7 @@ class Donor_Controller extends Controller {
 
 			IF ( isset( $_POST['donor_blood_group'] ) ) {
 
-				if ( in_array( $_POST['donor_blood_type'], array( '-O', '+O', '-A', '+A', '-B', '+B', '-AB', '+AB' ) ) ) {
+				if ( in_array( $_POST['donor_blood_group'], get_blood_groups(), TRUE ) ) {
 					$donor_data['donor_blood_group'] = $_POST['donor_blood_group'];
 				}
 

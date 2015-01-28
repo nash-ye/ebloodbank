@@ -8,6 +8,12 @@ namespace eBloodBank;
 class Donors_View extends Default_View {
 
 	/**
+	 * @var array
+	 * @since 0.4
+	 */
+	public $filter_args = arraY();
+
+	/**
 	 * @return string
 	 * @since 0.2
 	 */
@@ -43,7 +49,7 @@ class Donors_View extends Default_View {
 
 					<?php
 
-						$donors = Donors::fetch_all();
+						$donors = Donors::fetch_by_args( $this->filter_args );
 
 						if ( ! empty( $donors ) && is_array( $donors ) ) {
 

@@ -21,6 +21,7 @@
 body {
     margin: 0;
     color: #333;
+    height: 100%;
     direction: rtl;
     font-size: 14px;
     line-height: 20px;
@@ -168,9 +169,9 @@ ul.dropdown,
 }
 .list-table:hover,
 .list-table:focus {
-    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-            box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
 }
 .list-table thead tr {
     background: #d81e05;
@@ -180,7 +181,7 @@ ul.dropdown,
     padding: 5px;
     text-align: right;
     font-weight: normal;
-    border-left: 1px solid #c7c8bb;
+    border: 1px solid #c7c8bb;
 }
 .list-table tbody tr {
     background: #fff;
@@ -189,7 +190,7 @@ ul.dropdown,
     color: #333;
     padding: 5px;
     text-align: right;
-    border-left: 1px solid #c7c8bb;
+    border: 1px solid #c7c8bb;
 }
 
 /* Form Block */
@@ -204,6 +205,57 @@ ul.dropdown,
     display: inline-block;
 }
 
+/* Layout Helpers */
+
+.row {
+    display: block;
+    white-space: nowrap;
+}
+.row .column {
+    white-space: normal;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* FrontPage Header */
+
+body#page-frontpage #page-header {
+    display: none;
+}
+
+/* FrontPage Slider */
+
+#wrapper-frontpage-slider {
+    width: 760px;
+    height: 240px;
+    margin: 0 10px;
+}
+
+/* Filter Donors Form */
+
+#wrapper-filter-donors {
+    width: 140px;
+    height: 220px;
+    padding: 10px;
+    margin: 0 10px;
+    background: #d81e05;
+}
+#form-filter-donors label {
+    color: #fff;
+}
+#form-filter-donors > div {
+    margin: 0 0 10px 0;
+}
+#form-filter-donors select {
+    width: 100%;
+    padding: 5px;
+    display: block;
+}
+#form-filter-donors button {
+    width: 100%;
+    padding: 5px;
+}
+
 /**
  * The Footer
  * ----------------------------------------------------------------------------
@@ -212,4 +264,13 @@ ul.dropdown,
 #footer {
     height: 50px;
     background: #fff;
+    line-height: 50px;
+}
+#footer a {
+    color: #d81e05;
+    text-decoration: none;
+}
+#footer a:hover,
+#footer a:focus {
+    color: #000;
 }

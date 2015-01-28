@@ -71,6 +71,10 @@ class FrontPage_Controller extends Controller {
 				new Donors_Controller();
 				break;
 
+			case 'signin':
+				new SignIn_Controller();
+				break;
+
 			default:
 				$view = new FrontPage_View();
 				$view();

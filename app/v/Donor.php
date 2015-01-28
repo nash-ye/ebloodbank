@@ -65,14 +65,9 @@ class Donor_View extends Default_View {
 				<div>
 					<label for="donor_blood_group">فصيلة الدم</label>
 					<select name="donor_blood_group" id="donor_blood_group">
-						<option>-O</option>
-						<option>+O</option>
-						<option>-A</option>
-						<option>+A</option>
-						<option>-B</option>
-						<option>+B</option>
-						<option>-AB</option>
-						<option>+AB</option>
+						<?php foreach( get_blood_groups() as $blood_group ) : ?>
+							<option><?php echo $blood_group ?></option>
+						<?php endforeach; ?>
 					</select>
 				</div>
 
@@ -107,9 +102,7 @@ class Donor_View extends Default_View {
 											if ( ! empty( $districts ) && is_array( $districts ) ) {
 
 												foreach( $districts as $district ) { ?>
-													<option value="<?php $district->display( 'distr_id', 'attr' ) ?>">
-														<?php $district->display( 'distr_name' ) ?>
-													</option><?php
+													<option value="<?php $district->display( 'distr_id', 'attr' ) ?>"><?php $district->display( 'distr_name' ) ?></option><?php
 												}
 
 											}

@@ -20,8 +20,7 @@ final class Users {
 	 */
 	public static function fetch_all() {
 
-		$sql = 'SELECT * FROM user';
-		return self::fetch_multi( $sql );
+		return self::fetch_multi( 'SELECT * FROM user' );
 
 	}
 
@@ -31,20 +30,27 @@ final class Users {
 	 */
 	public static function fetch_by_ID( $id ) {
 
-		try {
+		$id = (int) $id;
 
-			$id = (int) $id;
-
-			if ( empty( $id ) ) {
-				return FALSE;
-			}
-
-			$sql = 'SELECT * FROM user WHERE user_id = ?';
-			return self::fetch_single( $sql, array( $id ) );
-
-		} catch ( \PDOException $ex ) {
+		if ( empty( $id ) ) {
 			return FALSE;
 		}
+
+		return self::fetch_single( 'SELECT * FROM user WHERE user_id = ?', array( $id ) );
+
+	}
+
+	/**
+	 * @return eBloodBank\User
+	 * @since 0.4
+	 */
+	public static function fetch_by_logon( $logon ) {
+
+		if ( empty( $logon ) ) {
+			return FALSE;
+		}
+
+		return self::fetch_single( 'SELECT * FROM user WHERE user_logon = ?', array( $logon ) );
 
 	}
 

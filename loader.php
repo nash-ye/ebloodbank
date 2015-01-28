@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.3-alpha' );
+define( 'eBloodBank\VERSION', '0.4-alpha' );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
 	define( 'eBloodBank\DEBUG', FALSE );
@@ -45,6 +45,14 @@ try {
 /*** Load Includes ************************************************************/
 
 require 'includes/helpers.php';
+require 'includes/password.php';
+require 'includes/sessions.php';
+
+/*** Sessions *****************************************************************/
+
+if ( session_status() !== PHP_SESSION_ACTIVE ) {
+	session_start();
+}
 
 /*** App Classes **************************************************************/
 
@@ -140,7 +148,11 @@ function class_loader( $class_name ) {
 			require 'app/v/FrontPage.php';
 			break;
 
-		/*** FrontPages *******************************************************/
+		case 'eBloodBank\SignIn_View':
+			require 'app/v/SignIn.php';
+			break;
+
+		/*** Controllers ******************************************************/
 
 		case 'eBloodBank\Controller':
 			require 'app/c/Controller.php';
@@ -180,6 +192,10 @@ function class_loader( $class_name ) {
 
 		case 'eBloodBank\FrontPage_Controller':
 			require 'app/c/FrontPage.php';
+			break;
+
+		case 'eBloodBank\SignIn_Controller':
+			require 'app/c/SignIn.php';
 			break;
 
 	}

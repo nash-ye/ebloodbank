@@ -20,8 +20,7 @@ final class Cites {
 	 */
 	public static function fetch_all() {
 
-		$sql = 'SELECT * FROM city';
-		return self::fetch_multi( $sql );
+		return self::fetch_multi( 'SELECT * FROM city' );
 
 	}
 
@@ -31,20 +30,13 @@ final class Cites {
 	 */
 	public static function fetch_by_ID( $id ) {
 
-		try {
+		$id = (int) $id;
 
-			$id = (int) $id;
-
-			if ( empty( $id ) ) {
-				return FALSE;
-			}
-
-			$sql = 'SELECT * FROM city WHERE city_id = ?';
-			return self::fetch_single( $sql, array( $id ) );
-
-		} catch ( \PDOException $ex ) {
+		if ( empty( $id ) ) {
 			return FALSE;
 		}
+
+		return self::fetch_single( 'SELECT * FROM city WHERE city_id = ?', array( $id ) );
 
 	}
 
