@@ -50,7 +50,12 @@ class Users_View extends Default_View {
 								<tr>
 									<td><?php $user->display( 'user_id' ) ?></td>
 									<td><?php $user->display( 'user_logon' ) ?></td>
-									<td><?php $user->display( 'user_role' ) ?></td>
+									<td>
+										<?php
+											$user_role = Roles::get_role( $user->get( 'user_role' ) );
+											echo ( $user_role ) ? $user_role->title : $user->get( 'user_role' );
+										?>
+									</td>
 								</tr>
 
 								<?php

@@ -52,7 +52,9 @@ class User_View extends Default_View {
 				<div>
 					<label for="user_role">الرتبة</label>
 					<select name="user_role" id="user_role">
-						<option value="administrator">مدير</option>
+						<?php foreach( Roles::get_roles() as $role ) : ?>
+							<option value="<?php echo esc_attr( $role->slug ) ?>"><?php echo $role->title ?></option>
+						<?php endforeach; ?>
 					</select>
 				</div>
 

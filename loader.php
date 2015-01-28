@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.4-alpha' );
+define( 'eBloodBank\VERSION', '0.4.1-alpha' );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
 	define( 'eBloodBank\DEBUG', FALSE );
@@ -47,6 +47,7 @@ try {
 require 'includes/helpers.php';
 require 'includes/password.php';
 require 'includes/sessions.php';
+require 'includes/capabilities.php';
 
 /*** Sessions *****************************************************************/
 
