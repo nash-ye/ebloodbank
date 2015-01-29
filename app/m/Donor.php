@@ -7,6 +7,32 @@ namespace eBloodBank;
  */
 class Donor extends Model {
 
+	use Model_Meta;
+
+	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const TABLE = 'donor';
+
+	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const PK_ATTR = 'donor_id';
+
+	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const META_TABLE = 'donor_meta';
+
+	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const META_FK_ATTR = 'donor_id';
+
 	/**
 	 * @var int
 	 * @since 0.1
@@ -72,24 +98,5 @@ class Donor extends Model {
 	 * @since 0.1
 	 */
 	protected $donor_status = 0;
-
-}
-
-/**
- * @since 0.4.2
- */
-class Donor_Meta extends Model_Meta {
-
-	/**
-	 * @var string
-	 * @since 0.4.2
-	 */
-	const TABLE = 'donor_meta';
-
-	/**
-	 * @var string
-	 * @since 0.4.2
-	 */
-	const FK_ATTR = 'donor_id';
 
 }

@@ -8,6 +8,18 @@ namespace eBloodBank;
 class District extends Model {
 
 	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const TABLE = 'district';
+
+	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const PK_ATTR = 'distr_id';
+
+	/**
 	 * @var int
 	 * @since 0.1
 	 */

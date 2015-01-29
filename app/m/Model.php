@@ -34,6 +34,22 @@ abstract class Model {
 	// Getters
 
 	/**
+	 * @return int
+	 * @since 0.4.4
+	 */
+	public function get_ID() {
+		return (int) $this->get( static::PK_ATTR );
+	}
+
+	/**
+	 * @return mixed
+	 * @since 0.4.2
+	 */
+	public function get( $key ) {
+		return isset( $this->$key ) ? $this->$key : NULL;
+	}
+
+	/**
 	 * @return mixed
 	 * @since 0.4.2
 	 */
@@ -58,18 +74,6 @@ abstract class Model {
 	}
 
 	/**
-	 * @return mixed
-	 * @since 0.4.2
-	 */
-	public function get( $key ) {
-
-		if ( isset( $this->$key ) ) {
-			return $this->$key;
-		}
-
-	}
-
-	/**
 	 * @return array
 	 * @since 0.4.2
 	 */
@@ -82,15 +86,7 @@ abstract class Model {
 /**
  * @since 0.1
  */
-abstract class Model_Meta {
-
-	/*** Variables ************************************************************/
-
-	/**
-	 * @var int
-	 * @since 0.1
-	 */
-	protected $id = 0;
+trait Model_Meta {
 
 	/**
 	 * @var array
@@ -98,22 +94,11 @@ abstract class Model_Meta {
 	 */
 	protected $meta = array();
 
-
-	/*** Methods **************************************************************/
-
-	/**
-	 * @return void
-	 * @since 0.1
-	 */
-	public function __construct( $id ) {
-		$this->id = (int) $id;
-	}
-
 	/**
 	 * @return mixed
-	 * @since 0.1
+	 * @since 0.4.4
 	 */
-	public function get( $meta_key, $single = TRUE ) {
+	public function get_meta( $meta_key, $single = TRUE ) {
 
 		try {
 
@@ -125,7 +110,7 @@ abstract class Model_Meta {
 				$meta_value = array();
 			}
 
-			if ( ! $this->id || ! $meta_key ) {
+			if ( ! parent::get_ID() || ! $meta_key ) {
 				return $meta_value;
 			}
 
@@ -133,8 +118,8 @@ abstract class Model_Meta {
 
 				if ( $single ) {
 
-					$stmt = $db->prepare( 'SELECT meta_id, meta_value FROM ' . static::TABLE . ' WHERE ' . static::FK_ATTR . ' = ? AND meta_key = ?', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
-					$stmt->execute( array( $this->id, $meta_key ) );
+					$stmt = $db->prepare( 'SELECT meta_id, meta_value FROM ' . static::META_TABLE . ' WHERE ' . static::META_FK_ATTR . ' = ? AND meta_key = ?', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
+					$stmt->execute( array( parent::get_ID(), $meta_key ) );
 
 					$row = $stmt->fetch( \PDO::FETCH_ASSOC );
 					$stmt->closeCursor();
@@ -145,8 +130,8 @@ abstract class Model_Meta {
 
 				} else {
 
-					$stmt = $db->prepare( 'SELECT meta_id, meta_value FROM ' . static::TABLE . ' WHERE ' . static::FK_ATTR . ' = ? AND meta_key = ?', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
-					$stmt->execute( array( $this->id, $meta_key ) );
+					$stmt = $db->prepare( 'SELECT meta_id, meta_value FROM ' . static::META_TABLE . ' WHERE ' . static::META_FK_ATTR . ' = ? AND meta_key = ?', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
+					$stmt->execute( array( parent::get_ID(), $meta_key ) );
 
 					$rows = $stmt->fetchAll( \PDO::FETCH_ASSOC );
 					$stmt->closeCursor();
@@ -183,25 +168,25 @@ abstract class Model_Meta {
 
 	/**
 	 * @return void
-	 * @since 0.1
+	 * @since 0.4.4
 	 */
-	public function submit( $meta_key, $meta_value ) {
+	public function submit_meta( $meta_key, $meta_value ) {
 
 		if ( empty( $meta_value ) ) {
 
-			$this->delete( $meta_key );
+			$this->delete_meta( $meta_key );
 
 		} else {
 
-			$old_value = $this->get( $meta_key );
+			$old_value = $this->get_meta( $meta_key );
 
 			if ( is_null( $old_value ) ) {
 
-				$this->insert( $meta_key, $meta_value );
+				$this->insert_meta( $meta_key, $meta_value );
 
 			} else {
 
-				$this->update( $meta_key, $meta_value );
+				$this->update_meta( $meta_key, $meta_value );
 
 			}
 
@@ -211,28 +196,28 @@ abstract class Model_Meta {
 
 	/**
 	 * @return int
-	 * @since 0.1
+	 * @since 0.4.4
 	 */
-	public function insert( $meta_key, $meta_value ) {
+	public function insert_meta( $meta_key, $meta_value ) {
 
 		try {
 
 			global $db;
 
-			if ( ! $this->id || ! $meta_key ) {
+			if ( ! parent::get_ID() || ! $meta_key ) {
 				return FALSE;
 			}
 
 			$data = array(
-				static::FK_ATTR => $this->id,
-				'meta_value'    => $meta_value,
-				'meta_key'      => $meta_key,
+				static::META_FK_ATTR  => parent::get_ID(),
+				'meta_value'          => $meta_value,
+				'meta_key'            => $meta_key,
 			);
 
 			$columns = implode( '`, `', array_keys( $data ) );
 			$holders = implode( ', ',  array_fill( 0, count( $data ), '?' ) );
 
-			$stmt = $db->prepare( "INSERT INTO " . static::TABLE . " (`$columns`) VALUES ($holders)" );
+			$stmt = $db->prepare( "INSERT INTO " . static::META_TABLE . " (`$columns`) VALUES ($holders)" );
 			$inserted = (bool) $stmt->execute( array_values( $data ) );
 			$stmt = $stmt->closeCursor();
 
@@ -246,9 +231,9 @@ abstract class Model_Meta {
 
 	/**
 	 * @return bool
-	 * @since 0.1
+	 * @since 0.4.4
 	 */
-	public function update( $meta_key, $meta_value, $prev_value = NULL ) {
+	public function update_meta( $meta_key, $meta_value, $prev_value = NULL ) {
 
 		try {
 
@@ -257,7 +242,7 @@ abstract class Model_Meta {
 			$where_stmt = array();
 			$stmt_params = array();
 
-			if ( ! $this->id  || ! $meta_key ) {
+			if ( ! parent::get_ID()  || ! $meta_key ) {
 				return FALSE;
 			}
 
@@ -266,8 +251,8 @@ abstract class Model_Meta {
 			$where_stmt[] = 'meta_key = ?';
 			$stmt_params[] = $meta_key;
 
-			$where_stmt[] = static::FK_ATTR  . ' = ?';
-			$stmt_params[] = $this->id;
+			$where_stmt[] = sprintf( '%s = ?', static::META_FK_ATTR );
+			$stmt_params[] = parent::get_ID();
 
 			if ( ! is_null( $prev_value ) ) {
 
@@ -279,7 +264,7 @@ abstract class Model_Meta {
 			$where_stmt = implode( ' AND ', $where_stmt );
 			$where_stmt = "WHERE {$where_stmt}";
 
-			$stmt = $db->prepare( "UPDATE " . static::TABLE . " SET meta_value = ? {$where_stmt}" );
+			$stmt = $db->prepare( "UPDATE " . static::META_TABLE . " SET meta_value = ? {$where_stmt}" );
 			$updated = (bool) $stmt->execute( $stmt_params );
 			$stmt = $stmt->closeCursor();
 
@@ -293,9 +278,9 @@ abstract class Model_Meta {
 
 	/**
 	 * @return int
-	 * @since 0.1
+	 * @since 0.4.4
 	 */
-	public function delete( $meta_key, $meta_value = NULL ) {
+	public function delete_meta( $meta_key, $meta_value = NULL ) {
 
 		try {
 
@@ -304,15 +289,15 @@ abstract class Model_Meta {
 			$where_stmt = array();
 			$stmt_params = array();
 
-			if ( ! $this->id  || ! $meta_key ) {
+			if ( ! parent::get_ID()  || ! $meta_key ) {
 				return FALSE;
 			}
 
 			$where_stmt[] = 'meta_key = ?';
 			$stmt_params[] = $meta_key;
 
-			$where_stmt[] = static::FK_ATTR  . ' = ?';
-			$stmt_params[] = $this->id;
+			$where_stmt[] = sprintf( '%s = ?', static::META_FK_ATTR );
+			$stmt_params[] = parent::get_ID();
 
 			if ( ! is_null( $meta_value ) ) {
 
@@ -324,7 +309,7 @@ abstract class Model_Meta {
 			$where_stmt = implode( ' AND ', $where_stmt );
 			$where_stmt = "WHERE {$where_stmt}";
 
-			$stmt = $db->prepare( "DELETE FROM " . static::TABLE . " $where_stmt" );
+			$stmt = $db->prepare( "DELETE FROM " . static::META_TABLE . " $where_stmt" );
 			$deleted = (bool) $stmt->execute( $stmt_params );
 			$stmt = $stmt->closeCursor();
 

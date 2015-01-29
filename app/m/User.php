@@ -7,6 +7,32 @@ namespace eBloodBank;
  */
 class User extends Model {
 
+	use Model_Meta;
+
+	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const TABLE = 'user';
+
+	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const PK_ATTR = 'user_id';
+
+	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const META_TABLE = 'user_meta';
+
+	/**
+	 * @var string
+	 * @since 0.4.4
+	 */
+	const META_FK_ATTR = 'user_id';
+
 	/**
 	 * @var int
 	 * @since 0.1
@@ -82,24 +108,5 @@ class User extends Model {
 		return $role->has_cap( $cap );
 
 	}
-
-}
-
-/**
- * @since 0.4.2
- */
-class User_Meta extends Model_Meta {
-
-	/**
-	 * @var string
-	 * @since 0.4.2
-	 */
-	const TABLE = 'user_meta';
-
-	/**
-	 * @var string
-	 * @since 0.4.2
-	 */
-	const FK_ATTR = 'user_id';
 
 }
