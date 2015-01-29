@@ -73,85 +73,23 @@ class Donor extends Model {
 	 */
 	protected $donor_status = 0;
 
+}
 
-	/*** Methods **************************************************************/
-
-	/**
-	 * @return void
-	 * @since 0.1
-	 */
-	public function __construct( $data = array() ) {
-
-		if ( is_object( $data ) ) {
-			$data = get_object_vars( $data );
-		}
-
-		if ( ! $data || ! is_array( $data ) ) {
-			return;
-		}
-
-		foreach( $data as $key => $value ) {
-
-			if ( property_exists( $this, $key ) ) {
-				$this->$key = $value;
-			}
-
-		}
-
-	}
-
-	// Getters
+/**
+ * @since 0.4.2
+ */
+class Donor_Meta extends Model_Meta {
 
 	/**
-	 * @return mixed
-	 * @since 0.1
+	 * @var string
+	 * @since 0.4.2
 	 */
-	public function display( $key, $format = 'html' ) {
-
-		switch( $format ) {
-
-			case 'attr':
-				echo esc_attr( $this->get( $key ) );
-				break;
-
-			case 'html':
-				echo esc_html( $this->get( $key ) );
-				break;
-
-			default:
-				echo $this->get( $key );
-				break;
-
-		}
-
-	}
+	const TABLE = 'donor_meta';
 
 	/**
-	 * @return mixed
-	 * @since 0.1
+	 * @var string
+	 * @since 0.4.2
 	 */
-	public function get( $key ) {
-
-		if ( isset( $this->$key ) ) {
-			return $this->$key;
-		}
-
-	}
-
-	/**
-	 * @return bool
-	 * @since 0.1
-	 */
-	public function is_exists() {
-		return ! empty( $this->city_id );
-	}
-
-	/**
-	 * @return array
-	 * @since 0.1
-	 */
-	public function to_array() {
-		return get_object_vars( $this );
-	}
+	const FK_ATTR = 'donor_id';
 
 }

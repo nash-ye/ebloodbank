@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.4.1-alpha' );
+define( 'eBloodBank\VERSION', '0.4.2-alpha' );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
 	define( 'eBloodBank\DEBUG', FALSE );
@@ -68,6 +68,7 @@ function class_loader( $class_name ) {
 		/*** Models ************************************************************/
 
 		case 'eBloodBank\Model':
+		case 'eBloodBank\Model_Meta':
 			require 'app/m/Model.php';
 			break;
 
@@ -96,6 +97,7 @@ function class_loader( $class_name ) {
 			break;
 
 		case 'eBloodBank\User':
+		case 'eBloodBank\User_Meta':
 			require 'app/m/User.php';
 			break;
 

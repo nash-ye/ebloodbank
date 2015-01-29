@@ -6,6 +6,77 @@ namespace eBloodBank;
  * @since 0.1
  */
 abstract class Model {
+
+	/**
+	 * @return void
+	 * @since 0.4.2
+	 */
+	public function __construct( $data = array() ) {
+
+		if ( is_object( $data ) ) {
+			$data = get_object_vars( $data );
+		}
+
+		if ( ! $data || ! is_array( $data ) ) {
+			return;
+		}
+
+		foreach( $data as $key => $value ) {
+
+			if ( property_exists( $this, $key ) ) {
+				$this->$key = $value;
+			}
+
+		}
+
+	}
+
+	// Getters
+
+	/**
+	 * @return mixed
+	 * @since 0.4.2
+	 */
+	public function display( $key, $format = 'html' ) {
+
+		switch( $format ) {
+
+			case 'attr':
+				echo esc_attr( $this->get( $key ) );
+				break;
+
+			case 'html':
+				echo esc_html( $this->get( $key ) );
+				break;
+
+			default:
+				echo $this->get( $key );
+				break;
+
+		}
+
+	}
+
+	/**
+	 * @return mixed
+	 * @since 0.4.2
+	 */
+	public function get( $key ) {
+
+		if ( isset( $this->$key ) ) {
+			return $this->$key;
+		}
+
+	}
+
+	/**
+	 * @return array
+	 * @since 0.4.2
+	 */
+	public function to_array() {
+		return get_object_vars( $this );
+	}
+
 }
 
 /**
@@ -42,40 +113,48 @@ abstract class Model_Meta {
 	 * @return mixed
 	 * @since 0.1
 	 */
-	public function get( $m_key, $single = true ) {
-
-		if ( $single ) {
-			$m_value = NULL;
-		} else {
-			$m_value = array();
-		}
+	public function get( $meta_key, $single = TRUE ) {
 
 		try {
 
 			global $db;
 
-			if ( ! $this->id || ! $m_key ) {
-				return $m_value;
+			if ( $single ) {
+				$meta_value = NULL;
+			} else {
+				$meta_value = array();
 			}
 
-			if ( ! isset( $this->meta[ $m_key ] ) ) {
+			if ( ! $this->id || ! $meta_key ) {
+				return $meta_value;
+			}
+
+			if ( ! isset( $this->meta[ $meta_key ] ) ) {
 
 				if ( $single ) {
 
-					$row = $db->fetchAssoc( 'SELECT m_id, m_value FROM ' . static::TABLE . ' WHERE ' . static::FK_ATTR . ' = ? AND m_key = ?', array( $this->id, $m_key ) );
+					$stmt = $db->prepare( 'SELECT meta_id, meta_value FROM ' . static::TABLE . ' WHERE ' . static::FK_ATTR . ' = ? AND meta_key = ?', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
+					$stmt->execute( array( $this->id, $meta_key ) );
+
+					$row = $stmt->fetch( \PDO::FETCH_ASSOC );
+					$stmt->closeCursor();
 
 					if ( $row ) {
-						$this->meta[ $m_key ][ $row['m_id'] ] = $row['m_value'];
+						$this->meta[ $meta_key ][ $row['meta_id'] ] = $row['meta_value'];
 					}
 
 				} else {
 
-					$rows = $db->fetchAll( 'SELECT m_id, m_value FROM ' . static::TABLE . ' WHERE ' . static::FK_ATTR . ' = ? AND m_key = ?', array( $this->id, $m_key ) );
+					$stmt = $db->prepare( 'SELECT meta_id, meta_value FROM ' . static::TABLE . ' WHERE ' . static::FK_ATTR . ' = ? AND meta_key = ?', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
+					$stmt->execute( array( $this->id, $meta_key ) );
+
+					$rows = $stmt->fetchAll( \PDO::FETCH_ASSOC );
+					$stmt->closeCursor();
 
 					if ( $rows ) {
 
 						foreach( $rows as $row ) {
-							$this->meta[ $m_key ][ $row['m_id'] ] = $row['m_value'];
+							$this->meta[ $meta_key ][ $row['meta_id'] ] = $row['meta_value'];
 						}
 
 					}
@@ -84,12 +163,12 @@ abstract class Model_Meta {
 
 			}
 
-			if ( isset( $this->meta[ $m_key ] ) ) {
+			if ( isset( $this->meta[ $meta_key ] ) ) {
 
 				if ( $single ) {
-					$m_value = reset( $this->meta[ $m_key ] );
+					$meta_value = reset( $this->meta[ $meta_key ] );
 				} else {
-					$m_value = (array) $this->meta[ $m_key ];
+					$meta_value = (array) $this->meta[ $meta_key ];
 				}
 
 			}
@@ -98,7 +177,7 @@ abstract class Model_Meta {
 			// TODO: Logging
 		}
 
-		return $m_value;
+		return $meta_value;
 
 	}
 
@@ -106,23 +185,23 @@ abstract class Model_Meta {
 	 * @return void
 	 * @since 0.1
 	 */
-	public function submit( $m_key, $m_value ) {
+	public function submit( $meta_key, $meta_value ) {
 
-		if ( empty( $m_value ) ) {
+		if ( empty( $meta_value ) ) {
 
-			$this->delete( $m_key );
+			$this->delete( $meta_key );
 
 		} else {
 
-			$old_value = $this->get( $m_key );
+			$old_value = $this->get( $meta_key );
 
 			if ( is_null( $old_value ) ) {
 
-				$this->insert( $m_key, $m_value );
+				$this->insert( $meta_key, $meta_value );
 
 			} else {
 
-				$this->update( $m_key, $m_value );
+				$this->update( $meta_key, $meta_value );
 
 			}
 
@@ -134,25 +213,30 @@ abstract class Model_Meta {
 	 * @return int
 	 * @since 0.1
 	 */
-	public function insert( $m_key, $m_value ) {
+	public function insert( $meta_key, $meta_value ) {
 
 		try {
 
 			global $db;
 
-			$m_key = (string) $m_key;
-
-			if ( ! $this->id || ! $m_key ) {
+			if ( ! $this->id || ! $meta_key ) {
 				return FALSE;
 			}
 
-			$m_value = $this->prepare_value( $m_key, $m_value );
-
-			return $db->insert( static::TABLE, array(
+			$data = array(
 				static::FK_ATTR => $this->id,
-				'm_value' => $m_value,
-				'm_key' => $m_key,
-			) );
+				'meta_value'    => $meta_value,
+				'meta_key'      => $meta_key,
+			);
+
+			$columns = implode( '`, `', array_keys( $data ) );
+			$holders = implode( ', ',  array_fill( 0, count( $data ), '?' ) );
+
+			$stmt = $db->prepare( "INSERT INTO " . static::TABLE . " (`$columns`) VALUES ($holders)" );
+			$inserted = (bool) $stmt->execute( array_values( $data ) );
+			$stmt = $stmt->closeCursor();
+
+			return ( $inserted ) ? $db->lastInsertId() : 0;
 
 		} catch( Exception $ex ) {
 			return FALSE;
@@ -164,28 +248,42 @@ abstract class Model_Meta {
 	 * @return bool
 	 * @since 0.1
 	 */
-	public function update( $m_key, $m_value, $prev_value = NULL ) {
+	public function update( $meta_key, $meta_value, $prev_value = NULL ) {
 
 		try {
 
 			global $db;
 
-			$m_key = (string) $m_key;
+			$where_stmt = array();
+			$stmt_params = array();
 
-			if ( ! $this->id  || ! $m_key ) {
+			if ( ! $this->id  || ! $meta_key ) {
 				return FALSE;
 			}
 
-			$where = array(
-				'm_key' => $m_key,
-				static::FK_ATTR => $this->id,
-			);
+			$stmt_params[] = $meta_value;
+
+			$where_stmt[] = 'meta_key = ?';
+			$stmt_params[] = $meta_key;
+
+			$where_stmt[] = static::FK_ATTR  . ' = ?';
+			$stmt_params[] = $this->id;
 
 			if ( ! is_null( $prev_value ) ) {
-				$where['m_value'] = $prev_value;
+
+				$where_stmt[] = 'meta_value = ?';
+				$stmt_params[] = $prev_value;
+
 			}
 
-			return $db->update( static::TABLE, array( 'm_value' => $m_value ), $where );
+			$where_stmt = implode( ' AND ', $where_stmt );
+			$where_stmt = "WHERE {$where_stmt}";
+
+			$stmt = $db->prepare( "UPDATE " . static::TABLE . " SET meta_value = ? {$where_stmt}" );
+			$updated = (bool) $stmt->execute( $stmt_params );
+			$stmt = $stmt->closeCursor();
+
+			return $updated;
 
 		} catch( Exception $ex ) {
 			return FALSE;
@@ -197,28 +295,40 @@ abstract class Model_Meta {
 	 * @return int
 	 * @since 0.1
 	 */
-	public function delete( $m_key, $m_value = NULL ) {
+	public function delete( $meta_key, $meta_value = NULL ) {
 
 		try {
 
 			global $db;
 
-			$m_key = (string) $m_key;
+			$where_stmt = array();
+			$stmt_params = array();
 
-			if ( ! $this->id || ! $m_key ) {
+			if ( ! $this->id  || ! $meta_key ) {
 				return FALSE;
 			}
 
-			$where = array(
-				'm_key' => $m_key,
-				static::FK_ATTR => $this->id,
-			);
+			$where_stmt[] = 'meta_key = ?';
+			$stmt_params[] = $meta_key;
 
-			if ( ! is_null( $m_value ) ) {
-				$where['m_value'] = $m_value;
+			$where_stmt[] = static::FK_ATTR  . ' = ?';
+			$stmt_params[] = $this->id;
+
+			if ( ! is_null( $meta_value ) ) {
+
+				$where_stmt[] = 'meta_value = ?';
+				$stmt_params[] = $meta_value;
+
 			}
 
-			return $db->delete( static::TABLE, $where );
+			$where_stmt = implode( ' AND ', $where_stmt );
+			$where_stmt = "WHERE {$where_stmt}";
+
+			$stmt = $db->prepare( "DELETE FROM " . static::TABLE . " $where_stmt" );
+			$deleted = (bool) $stmt->execute( $stmt_params );
+			$stmt = $stmt->closeCursor();
+
+			return $deleted;
 
 		} catch( \Exception $ex ) {
 			return FALSE;
