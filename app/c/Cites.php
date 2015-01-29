@@ -12,6 +12,23 @@ class Cites_Controller extends Controller {
 	 * @since 0.3
 	 */
 	public function process_request() {
+
+		if ( isset( $_GET['action'] ) && 'del_city' === $_GET['action'] ) {
+
+			if ( current_user_can( 'del_city' ) ) {
+
+				$city_id = (int) $_GET['id'];
+				$deleted = Cites::delete( $city_id );
+
+				redirect( get_site_url( array(
+					'page' => 'cites',
+					'flag-deleted' => $deleted,
+				) ) );
+
+			}
+
+		}
+
 	}
 
 	/**

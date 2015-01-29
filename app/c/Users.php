@@ -12,6 +12,23 @@ class Users_Controller extends Controller {
 	 * @since 0.3
 	 */
 	public function process_request() {
+
+		if ( isset( $_GET['action'] ) && 'del_user' === $_GET['action'] ) {
+
+			if ( current_user_can( 'del_user' ) ) {
+
+				$user_id = (int) $_GET['id'];
+				$deleted = Users::delete( $user_id );
+
+				redirect( get_site_url( array(
+					'page' => 'users',
+					'flag-deleted' => $deleted,
+				) ) );
+
+			}
+
+		}
+
 	}
 
 	/**

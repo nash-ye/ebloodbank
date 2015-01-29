@@ -226,11 +226,32 @@ function user_can( $user_id, $caps, $opt = 'AND' ) {
 
 Roles::add_role( new Role( 'administrator', 'مدير', array(
 
-	// User
+	// Users
 	'add_user'          => TRUE,
 	'del_user'          => TRUE,
 	'edit_user'         => TRUE,
-	'view_user'         => TRUE,
-	'manage_user'       => TRUE,
+	'view_users'        => TRUE,
+	'manage_users'      => TRUE,
+
+	// Donors
+	'add_donor'         => TRUE,
+	'del_donor'         => TRUE,
+	'edit_donor'        => TRUE,
+	'view_donors'       => TRUE,
+	'manage_donors'     => TRUE,
+
+	// Cites
+	'add_city'          => TRUE,
+	'del_city'          => TRUE,
+	'edit_city'         => TRUE,
+	'view_cites'        => TRUE,
+	'manage_cites'      => TRUE,
+
+	// Districts
+	'add_distr'         => TRUE,
+	'del_distr'         => TRUE,
+	'edit_distr'        => TRUE,
+	'view_distrs'       => TRUE,
+	'manage_distrs'     => TRUE,
 
 ) ) );

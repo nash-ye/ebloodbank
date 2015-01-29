@@ -12,6 +12,23 @@ class Donors_Controller extends Controller {
 	 * @since 0.2
 	 */
 	public function process_request() {
+
+		if ( isset( $_GET['action'] ) && 'del_donor' === $_GET['action'] ) {
+
+			if ( current_user_can( 'del_donor' ) ) {
+
+				$donor_id = (int) $_GET['id'];
+				$deleted = Donors::delete( $donor_id );
+
+				redirect( get_site_url( array(
+					'page' => 'donors',
+					'flag-deleted' => $deleted,
+				) ) );
+
+			}
+
+		}
+
 	}
 
 	/**

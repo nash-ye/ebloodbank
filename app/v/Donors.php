@@ -27,6 +27,10 @@ class Donors_View extends Default_View {
 	 */
 	public function __invoke() {
 
+		$can_edit = current_user_can( 'edit_donor' );
+		$can_delete = current_user_can( 'del_donor' );
+		$can_manage = current_user_can( 'manage_donors' );
+
 		$this->template_header(); ?>
 
 			<a href="?page=add-donor">
@@ -43,6 +47,9 @@ class Donors_View extends Default_View {
 					<th>فصيلة الدم</th>
 					<th>المدينة/المديرية</th>
 					<th>رقم التلفون</th>
+					<?php if ( $can_manage ) : ?>
+						<th>الإجراءات</th>
+					<?php endif; ?>
 				</thead>
 
 				<tbody>
@@ -65,6 +72,16 @@ class Donors_View extends Default_View {
 									<td><?php $donor->display( 'donor_blood_group' ) ?></td>
 									<td><?php $donor->display( 'donor_distr_id' ) ?></td>
 									<td><?php $donor->display( 'donor_phone' ) ?></td>
+									<?php if ( $can_manage ) : ?>
+									<td>
+										<?php if ( $can_edit ) : ?>
+											<a href="<?php site_url( array( 'page' => 'edit-donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
+										<?php endif; ?>
+										<?php if ( $can_delete ) : ?>
+											<a href="<?php site_url( array( 'page' => 'donors', 'action' => 'del_donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+										<?php endif; ?>
+									</td>
+									<?php endif; ?>
 								</tr>
 
 								<?php

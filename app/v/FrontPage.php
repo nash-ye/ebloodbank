@@ -46,7 +46,7 @@ class FrontPage_View extends Default_View {
 
 				<div id="wrapper-filter-donors" class="column">
 
-					<form id="form-filter-donors" method="GET">
+					<form id="form-filter-donors" action="<?php site_url() ?>" method="GET">
 
 						<div>
 							<label for="blood_group">فصيلة الدم</label>

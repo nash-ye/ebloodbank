@@ -36,7 +36,8 @@ class Default_View extends View {
 			<head>
 				<meta charset="UTF-8">
 				<title><?php echo $this->get_title() ?></title>
-				<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+				<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+				<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
 				<?php if ( method_exists( $this, 'hook_head' ) ) { $this->hook_head(); } ?>
 			</head>
 
@@ -53,16 +54,16 @@ class Default_View extends View {
 							<nav id="primary-nav" role="navigation">
 
 								<ul class="dropdown">
-									<li><a href="?page=frontpage">الرئيسية</a></li>
-									<li><a href="?page=donors">المتبرعين</a></li>
+									<li><a href="<?php site_url() ?>">الرئيسية</a></li>
+									<li><a href="<?php site_url( array( 'page' => 'donors' ) ) ?>">المتبرعين</a></li>
 									<li>
 										<span>المدن والمديريات</span>
 										<ul>
-											<li><a href="?page=cites">المدن</a></li>
-											<li><a href="?page=distrs">المديريات</a></li>
+											<li><a href="<?php site_url( array( 'page' => 'cites' ) ) ?>">المدن</a></li>
+											<li><a href="<?php site_url( array( 'page' => 'distrs' ) ) ?>">المديريات</a></li>
 										</ul>
 									</li>
-									<li><a href="?page=users">المستخدمين</a></li>
+									<li><a href="<?php site_url( array( 'page' => 'users' ) ) ?>">المستخدمين</a></li>
 								</ul>
 
 							</nav>
@@ -96,9 +97,9 @@ class Default_View extends View {
 						<div class="wrapper">
 
 							<?php if ( Sessions::is_signed_in() ) : ?>
-								<p><?php printf( '<b>%s</b>، <a href="?page=signin&action=signout">تسجيل الخروج</a>', Sessions::get_current_user()->get( 'user_logon' ) ) ?></p>
+								<p><?php printf( '<b>%s</b>، <a href="%s">تسجيل الخروج</a>', Sessions::get_current_user()->get( 'user_logon' ), get_site_url( array( 'page' => 'signin', 'action' => 'signout' ) ) ) ?></p>
 							<?php else: ?>
-								<p>مجهول، <a href="?page=signin">تسجيل الدخول</a></p>
+								<p>مجهول، <a href="<?php site_url( array( 'page' => 'signin' ) ) ?>">تسجيل الدخول</a></p>
 							<?php endif; ?>
 
 						</div>
