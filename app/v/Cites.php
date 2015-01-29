@@ -21,15 +21,18 @@ class Cites_View extends Default_View {
 	 */
 	public function __invoke() {
 
-		$can_edit = current_user_can( 'edit_city' );
+		$can_add    = current_user_can( 'add_city' );
+		$can_edit   = current_user_can( 'edit_city' );
 		$can_delete = current_user_can( 'del_city' );
 		$can_manage = current_user_can( 'manage_cites' );
 
 		$this->template_header(); ?>
 
-			<a href="?page=add-city">
+			<?php if ( $can_add ) : ?>
+			<a href="<?php site_url( array( 'page' => 'add-city' ) ) ?>" class="add-link">
 				<button type="button">أضف مدينة جديدة</button>
 			</a>
+			<?php endif; ?>
 
 			<table id="table-cites" class="list-table">
 
@@ -37,7 +40,7 @@ class Cites_View extends Default_View {
 					<th>#</th>
 					<th>الاسم</th>
 					<?php if ( $can_manage ) : ?>
-						<th>الإجراءات</th>
+					<th>الإجراءات</th>
 					<?php endif; ?>
 				</thead>
 
@@ -59,10 +62,10 @@ class Cites_View extends Default_View {
 									<?php if ( $can_manage ) : ?>
 									<td>
 										<?php if ( $can_edit ) : ?>
-											<a href="<?php site_url( array( 'page' => 'edit-city', 'id' => $city->get( 'city_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
+										<a href="<?php site_url( array( 'page' => 'edit-city', 'id' => $city->get( 'city_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
 										<?php endif; ?>
 										<?php if ( $can_delete ) : ?>
-											<a href="<?php site_url( array( 'page' => 'cites', 'action' => 'del_city', 'id' => $city->get( 'city_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+										<a href="<?php site_url( array( 'page' => 'cites', 'action' => 'del_city', 'id' => $city->get( 'city_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
 										<?php endif; ?>
 									</td>
 									<?php endif; ?>

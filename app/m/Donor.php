@@ -37,66 +37,66 @@ class Donor extends Model {
 	 * @var int
 	 * @since 0.1
 	 */
-	protected $donor_id = 0;
+	public $donor_id = 0;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $donor_name;
+	public $donor_name;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $donor_gender;
+	public $donor_gender;
 
 	/**
 	 * @var int
 	 * @since 0.1
 	 */
-	protected $donor_weight = 0;
+	public $donor_weight = 0;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $donor_birthdate;
+	public $donor_birthdate;
 
 	/**
 	 * @var string
 	 * @since 0.2
 	 */
-	protected $donor_blood_group;
+	public $donor_blood_group;
 
 	/**
 	 * @var int
 	 * @since 0.1
 	 */
-	protected $donor_distr_id = 0;
+	public $donor_distr_id = 0;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $donor_phone;
+	public $donor_phone;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $donor_email;
+	public $donor_email;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $donor_rtime;
+	public $donor_rtime;
 
 	/**
 	 * @var int
 	 * @since 0.1
 	 */
-	protected $donor_status = 0;
+	public $donor_status = 0;
 
 }

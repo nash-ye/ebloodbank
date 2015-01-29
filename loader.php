@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.4.4-alpha' );
+define( 'eBloodBank\VERSION', '0.4.5-alpha' );
 define( 'eBloodBank\DIR', dirname( __FILE__ ) );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
@@ -98,7 +98,6 @@ function class_loader( $class_name ) {
 			break;
 
 		case 'eBloodBank\User':
-		case 'eBloodBank\User_Meta':
 			require 'app/m/User.php';
 			break;
 

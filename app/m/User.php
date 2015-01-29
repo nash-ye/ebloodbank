@@ -37,37 +37,37 @@ class User extends Model {
 	 * @var int
 	 * @since 0.1
 	 */
-	protected $user_id = 0;
+	public $user_id = 0;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $user_logon;
+	public $user_logon;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $user_pass;
+	public $user_pass;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $user_rtime;
+	public $user_rtime;
 
 	/**
 	 * @var string
 	 * @since 0.1
 	 */
-	protected $user_role;
+	public $user_role;
 
 	/**
 	 * @var int
 	 * @since 0.1
 	 */
-	protected $user_status = 0;
+	public $user_status = 0;
 
 	/**
 	 * @return Role

@@ -27,15 +27,18 @@ class Donors_View extends Default_View {
 	 */
 	public function __invoke() {
 
-		$can_edit = current_user_can( 'edit_donor' );
+		$can_add    = current_user_can( 'add_donor' );
+		$can_edit   = current_user_can( 'edit_donor' );
 		$can_delete = current_user_can( 'del_donor' );
 		$can_manage = current_user_can( 'manage_donors' );
 
 		$this->template_header(); ?>
 
-			<a href="?page=add-donor">
+			<?php if ( $can_add ) : ?>
+			<a href="<?php site_url( array( 'page' => 'add-donor' ) ) ?>" class="add-link">
 				<button type="button">أضف متبرع جديد</button>
 			</a>
+			<?php endif; ?>
 
 			<table id="table-donors" class="list-table">
 
@@ -48,7 +51,7 @@ class Donors_View extends Default_View {
 					<th>المدينة/المديرية</th>
 					<th>رقم التلفون</th>
 					<?php if ( $can_manage ) : ?>
-						<th>الإجراءات</th>
+					<th>الإجراءات</th>
 					<?php endif; ?>
 				</thead>
 
@@ -75,10 +78,10 @@ class Donors_View extends Default_View {
 									<?php if ( $can_manage ) : ?>
 									<td>
 										<?php if ( $can_edit ) : ?>
-											<a href="<?php site_url( array( 'page' => 'edit-donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
+										<a href="<?php site_url( array( 'page' => 'edit-donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
 										<?php endif; ?>
 										<?php if ( $can_delete ) : ?>
-											<a href="<?php site_url( array( 'page' => 'donors', 'action' => 'del_donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+										<a href="<?php site_url( array( 'page' => 'donors', 'action' => 'del_donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
 										<?php endif; ?>
 									</td>
 									<?php endif; ?>

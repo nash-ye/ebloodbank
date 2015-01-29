@@ -21,15 +21,18 @@ class Users_View extends Default_View {
 	 */
 	public function __invoke() {
 
-		$can_edit = current_user_can( 'edit_user' );
+		$can_add    = current_user_can( 'add_user' );
+		$can_edit   = current_user_can( 'edit_user' );
 		$can_delete = current_user_can( 'del_user' );
 		$can_manage = current_user_can( 'manage_users' );
 
 		$this->template_header(); ?>
 
-			<a href="?page=add-user">
+			<?php if ( $can_add ) : ?>
+			<a href="<?php site_url( array( 'page' => 'add-user' ) ) ?>" class="add-link">
 				<button type="button">أضف مستخدم جديد</button>
 			</a>
+			<?php endif; ?>
 
 			<table id="table-users" class="list-table">
 
@@ -38,7 +41,7 @@ class Users_View extends Default_View {
 					<th>الاسم</th>
 					<th>الرتبة</th>
 					<?php if ( $can_manage ) : ?>
-						<th>الإجراءات</th>
+					<th>الإجراءات</th>
 					<?php endif; ?>
 				</thead>
 
@@ -66,10 +69,10 @@ class Users_View extends Default_View {
 									<?php if ( $can_manage ) : ?>
 									<td>
 										<?php if ( $can_edit ) : ?>
-											<a href="<?php site_url( array( 'page' => 'edit-user', 'id' => $user->get( 'user_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
+										<a href="<?php site_url( array( 'page' => 'edit-user', 'id' => $user->get( 'user_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
 										<?php endif; ?>
 										<?php if ( $can_delete ) : ?>
-											<a href="<?php site_url( array( 'page' => 'users', 'action' => 'del_user', 'id' => $user->get( 'user_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+										<a href="<?php site_url( array( 'page' => 'users', 'action' => 'del_user', 'id' => $user->get( 'user_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
 										<?php endif; ?>
 									</td>
 									<?php endif; ?>

@@ -15,16 +15,20 @@ class City_Controller extends Controller {
 
 		if ( isset( $_POST['action'] ) && 'submit_city' === $_POST['action'] ) {
 
-			$city_data = array();
+			if ( current_user_can( 'add_city' ) ) {
 
-			IF ( isset( $_POST['city_name'] ) ) {
-				$city_data['city_name'] = filter_var( $_POST['city_name'], FILTER_SANITIZE_STRING );
+				$city_data = array();
+
+				IF ( isset( $_POST['city_name'] ) ) {
+					$city_data['city_name'] = filter_var( $_POST['city_name'], FILTER_SANITIZE_STRING );
+				}
+
+				$city_id = Cites::insert( $city_data );
+				$submitted = is_vaild_ID( $city_id );
+
+				redirect( "?page=add-city&flag-submitted={$submitted}" );
+
 			}
-
-			$city_id = Cites::insert( $city_data );
-			$submitted = is_vaild_ID( $city_id );
-
-			redirect( "?page=add-city&flag-submitted={$submitted}" );
 
 		}
 
