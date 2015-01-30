@@ -118,14 +118,22 @@ final class Users {
 				return FALSE;
 			}
 
-			$columns = array();
-			foreach( array_keys( $data ) as $key ) {
-				$columns[] = "{$key}=?";
-			}
-			$columns = implode( ', ', $columns );
+			$params = array();
+			$set_stmt = array();
 
-			$stmt = $db->prepare( "UPDATE user SET {$columns} WHERE user_id = {$id}" );
-			$updated = (bool) $stmt->execute( array_values( $data ) );
+			foreach( $data as $key => $value ) {
+				$set_stmt[] = "`$key` = ?";
+				$params[] = $value;
+			}
+
+			$set_stmt = implode( ', ', $set_stmt );
+			$set_stmt = "SET $set_stmt";
+
+			$where_stmt = 'WHERE user_id = ?';
+			$params[] = $id;
+
+			$stmt = $db->prepare( "UPDATE user $set_stmt $where_stmt" );
+			$updated = (bool) $stmt->execute( $params );
 			$stmt = $stmt->closeCursor();
 
 			return $updated;
@@ -150,7 +158,7 @@ final class Users {
 
 			$data = array_merge( array(
 				'user_rtime' => gmdate( 'Y-m-d H:i:s' ),
-				'user_status' => 'default',
+				'user_status' => 'activated',
 			), $data );
 
 			$columns = implode( '`, `', array_keys( $data ) );
@@ -188,8 +196,8 @@ final class Users {
 				return FALSE;
 			}
 
-			$stmt = $db->prepare( "DELETE FROM user WHERE user_id = $id" );
-			$deleted = (bool) $stmt->execute();
+			$stmt = $db->prepare( "DELETE FROM user WHERE user_id = ?" );
+			$deleted = (bool) $stmt->execute( array( $id ) );
 			$stmt = $stmt->closeCursor();
 
 			return $deleted;

@@ -228,30 +228,31 @@ Roles::add_role( new Role( 'administrator', 'مدير', array(
 
 	// Users
 	'add_user'          => TRUE,
-	'del_user'          => TRUE,
 	'edit_user'         => TRUE,
-	'view_users'        => TRUE,
+	'view_user'         => TRUE,
+	'delete_user'       => TRUE,
 	'manage_users'      => TRUE,
 
 	// Donors
 	'add_donor'         => TRUE,
-	'del_donor'         => TRUE,
 	'edit_donor'        => TRUE,
-	'view_donors'       => TRUE,
+	'view_donor'        => TRUE,
+	'delete_donor'      => TRUE,
+	'approve_donor'     => TRUE,
 	'manage_donors'     => TRUE,
 
 	// Cites
 	'add_city'          => TRUE,
-	'del_city'          => TRUE,
 	'edit_city'         => TRUE,
-	'view_cites'        => TRUE,
+	'view_city'         => TRUE,
+	'delete_city'       => TRUE,
 	'manage_cites'      => TRUE,
 
 	// Districts
 	'add_distr'         => TRUE,
-	'del_distr'         => TRUE,
 	'edit_distr'        => TRUE,
-	'view_distrs'       => TRUE,
+	'view_distr'        => TRUE,
+	'delete_distr'      => TRUE,
 	'manage_distrs'     => TRUE,
 
 ) ) );

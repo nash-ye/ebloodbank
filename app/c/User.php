@@ -31,14 +31,13 @@ class User_Controller extends Controller {
 					$user_data['user_role'] = filter_var( $_POST['user_role'], FILTER_SANITIZE_STRING );
 				}
 
-				IF ( isset( $_POST['user_status'] ) ) {
-					$user_data['user_status'] = filter_var( $_POST['user_status'], FILTER_SANITIZE_STRING );
-				}
-
 				$user_id = Users::insert( $user_data );
 				$submitted = is_vaild_ID( $user_id );
 
-				redirect( "?page=add-user&flag-submitted={$submitted}" );
+				redirect( get_site_url( array(
+					'page' => 'add-user',
+					'flag-submitted' => $submitted,
+				) ) );
 
 			}
 

@@ -13,9 +13,9 @@ class Districts_Controller extends Controller {
 	 */
 	public function process_request() {
 
-		if ( isset( $_GET['action'] ) && 'del_distr' === $_GET['action'] ) {
+		if ( isset( $_GET['action'] ) && 'delete_distr' === $_GET['action'] ) {
 
-			if ( current_user_can( 'del_distr' ) ) {
+			if ( current_user_can( 'delete_distr' ) ) {
 
 				$distr_id = (int) $_GET['id'];
 				$deleted = Districts::delete( $distr_id );

@@ -104,14 +104,22 @@ final class Districts {
 				return FALSE;
 			}
 
-			$columns = array();
-			foreach( array_keys( $data ) as $key ) {
-				$columns[] = "{$key}=?";
-			}
-			$columns = implode( ', ', $columns );
+			$params = array();
+			$set_stmt = array();
 
-			$stmt = $db->prepare( "UPDATE district SET {$columns} WHERE distr_id = {$id}" );
-			$updated = (bool) $stmt->execute( array_values( $data ) );
+			foreach( $data as $key => $value ) {
+				$set_stmt[] = "`$key` = ?";
+				$params[] = $value;
+			}
+
+			$set_stmt = implode( ', ', $set_stmt );
+			$set_stmt = "SET $set_stmt";
+
+			$where_stmt = 'WHERE distr_id = ?';
+			$params[] = $id;
+
+			$stmt = $db->prepare( "UPDATE district $set_stmt $where_stmt" );
+			$updated = (bool) $stmt->execute( $params );
 			$stmt = $stmt->closeCursor();
 
 			return $updated;
@@ -168,8 +176,8 @@ final class Districts {
 				return FALSE;
 			}
 
-			$stmt = $db->prepare( "DELETE FROM district WHERE distr_id = $id" );
-			$deleted = (bool) $stmt->execute();
+			$stmt = $db->prepare( "DELETE FROM district WHERE distr_id = ?" );
+			$deleted = (bool) $stmt->execute( array( $id ) );
 			$stmt = $stmt->closeCursor();
 
 			return $deleted;

@@ -27,10 +27,11 @@ class Donors_View extends Default_View {
 	 */
 	public function __invoke() {
 
-		$can_add    = current_user_can( 'add_donor' );
-		$can_edit   = current_user_can( 'edit_donor' );
-		$can_delete = current_user_can( 'del_donor' );
-		$can_manage = current_user_can( 'manage_donors' );
+		$can_add     = current_user_can( 'add_donor' );
+		$can_edit    = current_user_can( 'edit_donor' );
+		$can_delete  = current_user_can( 'delete_donor' );
+		$can_manage  = current_user_can( 'manage_donors' );
+		$can_approve = current_user_can( 'approve_donor' );
 
 		$this->template_header(); ?>
 
@@ -81,7 +82,10 @@ class Donors_View extends Default_View {
 										<a href="<?php site_url( array( 'page' => 'edit-donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
 										<?php endif; ?>
 										<?php if ( $can_delete ) : ?>
-										<a href="<?php site_url( array( 'page' => 'donors', 'action' => 'del_donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+										<a href="<?php site_url( array( 'page' => 'donors', 'action' => 'delete_donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+										<?php endif; ?>
+										<?php if ( $can_approve && $donor->is_pending() ) : ?>
+										<a href="<?php site_url( array( 'page' => 'donors', 'action' => 'approve_donor', 'id' => $donor->get( 'donor_id' ) ) ) ?>" class="approve-link"><i class="fa fa-check"></i></a>
 										<?php endif; ?>
 									</td>
 									<?php endif; ?>

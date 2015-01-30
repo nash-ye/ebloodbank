@@ -59,10 +59,17 @@ class Donor_Controller extends Controller {
 					$donor_data['donor_distr_id'] = (int) $_POST['donor_distr_id'];
 				}
 
+				if ( current_user_can( 'approve_donor' ) ) {
+					$donor_data['donor_status'] = 'approved';
+				}
+
 				$donor_id = Donors::insert( $donor_data );
 				$submitted = is_vaild_ID( $donor_id );
 
-				redirect( "?page=add-donor&flag-submitted={$submitted}" );
+				redirect( get_site_url( array(
+					'page' => 'add-donor',
+					'flag-submitted' => $submitted,
+				) ) );
 
 			}
 

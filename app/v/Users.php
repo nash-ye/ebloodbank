@@ -23,7 +23,7 @@ class Users_View extends Default_View {
 
 		$can_add    = current_user_can( 'add_user' );
 		$can_edit   = current_user_can( 'edit_user' );
-		$can_delete = current_user_can( 'del_user' );
+		$can_delete = current_user_can( 'delete_user' );
 		$can_manage = current_user_can( 'manage_users' );
 
 		$this->template_header(); ?>
@@ -72,7 +72,7 @@ class Users_View extends Default_View {
 										<a href="<?php site_url( array( 'page' => 'edit-user', 'id' => $user->get( 'user_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
 										<?php endif; ?>
 										<?php if ( $can_delete ) : ?>
-										<a href="<?php site_url( array( 'page' => 'users', 'action' => 'del_user', 'id' => $user->get( 'user_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+										<a href="<?php site_url( array( 'page' => 'users', 'action' => 'delete_user', 'id' => $user->get( 'user_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
 										<?php endif; ?>
 									</td>
 									<?php endif; ?>

@@ -61,13 +61,13 @@ class User extends Model {
 	 * @var string
 	 * @since 0.1
 	 */
-	public $user_role;
+	public $user_role = 'default';
 
 	/**
-	 * @var int
+	 * @var string
 	 * @since 0.1
 	 */
-	public $user_status = 0;
+	public $user_status = 'activated';
 
 	/**
 	 * @return Role

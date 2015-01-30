@@ -23,7 +23,7 @@ class Districts_View extends Default_View {
 
 		$can_add    = current_user_can( 'add_distr' );
 		$can_edit   = current_user_can( 'edit_distr' );
-		$can_delete = current_user_can( 'del_distr' );
+		$can_delete = current_user_can( 'delete_distr' );
 		$can_manage = current_user_can( 'manage_distrs' );
 
 		$this->template_header(); ?>
@@ -74,7 +74,7 @@ class Districts_View extends Default_View {
 										<a href="<?php site_url( array( 'page' => 'edit-distr', 'id' => $distr->get( 'distr_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
 										<?php endif; ?>
 										<?php if ( $can_delete ) : ?>
-										<a href="<?php site_url( array( 'page' => 'distrs', 'action' => 'del_distr', 'id' => $distr->get( 'distr_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+										<a href="<?php site_url( array( 'page' => 'distrs', 'action' => 'delete_distr', 'id' => $distr->get( 'distr_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
 										<?php endif; ?>
 									</td>
 									<?php endif; ?>

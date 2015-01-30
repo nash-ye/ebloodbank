@@ -94,9 +94,25 @@ class Donor extends Model {
 	public $donor_rtime;
 
 	/**
-	 * @var int
+	 * @var string
 	 * @since 0.1
 	 */
-	public $donor_status = 0;
+	public $donor_status = 'pending';
+
+	/**
+	 * @var bool
+	 * @since 0.4.6
+	 */
+	public function is_approved() {
+		return 'approved' === $this->get( 'donor_status' );
+	}
+
+	/**
+	 * @var bool
+	 * @since 0.4.6
+	 */
+	public function is_pending() {
+		return 'pending' === $this->get( 'donor_status' );
+	}
 
 }

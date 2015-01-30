@@ -53,7 +53,12 @@ final class Donors {
 			'blood_group' => 'all',
 			'distr_id'    => 0,
 			'city_id'     => 0,
+			'status'      => 'all',
 		), $args );
+
+		if ( empty( $args['status'] ) ) {
+			$args['status'] = 'all';
+		}
 
 		if ( empty( $args['blood_group'] ) ) {
 			$args['blood_group'] = 'all';
@@ -61,6 +66,13 @@ final class Donors {
 
 		$args['distr_id'] = (int) $args['distr_id'];
 		$args['city_id']  = (int) $args['city_id'];
+
+		if ( 'all' !== $args['status'] ) {
+
+			$where_stmt[] = 'donor_status = ?';
+			$params[] = $args['status'];
+
+		}
 
 		if ( 'all' !== $args['blood_group'] ) {
 
@@ -155,14 +167,22 @@ final class Donors {
 				return FALSE;
 			}
 
-			$columns = array();
-			foreach( array_keys( $data ) as $key ) {
-				$columns[] = "{$key}=?";
-			}
-			$columns = implode( ', ', $columns );
+			$params = array();
+			$set_stmt = array();
 
-			$stmt = $db->prepare( "UPDATE donor SET {$columns} WHERE donor_id = {$id}" );
-			$updated = (bool) $stmt->execute( array_values( $data ) );
+			foreach( $data as $key => $value ) {
+				$set_stmt[] = "`$key` = ?";
+				$params[] = $value;
+			}
+
+			$set_stmt = implode( ', ', $set_stmt );
+			$set_stmt = "SET $set_stmt";
+
+			$where_stmt = 'WHERE donor_id = ?';
+			$params[] = $id;
+
+			$stmt = $db->prepare( "UPDATE donor $set_stmt $where_stmt" );
+			$updated = (bool) $stmt->execute( $params );
 			$stmt = $stmt->closeCursor();
 
 			return $updated;
@@ -186,7 +206,8 @@ final class Donors {
 			$id = 0;
 
 			$data = array_merge( array(
-				'donor_status' => 'default',
+				'donor_rtime' => gmdate( 'Y-m-d H:i:s' ),
+				'donor_status' => 'pending',
 			), $data );
 
 			$columns = implode( '`, `', array_keys( $data ) );
@@ -224,8 +245,8 @@ final class Donors {
 				return FALSE;
 			}
 
-			$stmt = $db->prepare( "DELETE FROM donor WHERE donor_id = $id" );
-			$deleted = (bool) $stmt->execute();
+			$stmt = $db->prepare( "DELETE FROM donor WHERE donor_id = ?" );
+			$deleted = (bool) $stmt->execute( array( $id ) );
 			$stmt = $stmt->closeCursor();
 
 			return $deleted;

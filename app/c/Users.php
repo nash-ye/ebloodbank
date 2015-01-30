@@ -13,9 +13,9 @@ class Users_Controller extends Controller {
 	 */
 	public function process_request() {
 
-		if ( isset( $_GET['action'] ) && 'del_user' === $_GET['action'] ) {
+		if ( isset( $_GET['action'] ) && 'delete_user' === $_GET['action'] ) {
 
-			if ( current_user_can( 'del_user' ) ) {
+			if ( current_user_can( 'delete_user' ) ) {
 
 				$user_id = (int) $_GET['id'];
 				$deleted = Users::delete( $user_id );
