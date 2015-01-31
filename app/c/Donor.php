@@ -15,7 +15,7 @@ class Donor_Controller extends Controller {
 
 		if ( isset( $_POST['action'] ) && 'submit_donor' === $_POST['action'] ) {
 
-			if ( current_user_can( 'add_donor' ) ) {
+			if ( current_user_can( 'add_donor' ) || ( ! Sessions::is_signed_in() && anonymous_can( 'add_donor' ) ) ) {
 
 				$donor_data = array();
 
@@ -83,7 +83,7 @@ class Donor_Controller extends Controller {
 	 */
 	public function output_response() {
 
-		if ( current_user_can( 'add_donor' ) ) {
+		if ( current_user_can( 'add_donor' ) || ( ! Sessions::is_signed_in() && anonymous_can( 'add_donor' ) ) ) {
 			$view = new Donor_View();
 		} else {
 			$view = new Error401_View();

@@ -106,6 +106,25 @@ class FrontPage_View extends Default_View {
 
 			</div>
 
+			<div id="blocks" class="row">
+
+				<div id="block-1" class="column block">
+					<h3>التبرع بالدم؟</h3>
+					<p>هو اجراء طبي يكمن في نقل دم من شخص سليم معافى طوعاً إلى شخص مريض </p>
+				</div>
+
+				<div id="block-2" class="column block">
+					<h3>فوائد التبرع بالدم؟</h3>
+					<p>يساعد التبرع على تنشيط نخاع العظم في إنتاج خلايا دم جديدة تستطيع حمل كمية أكبر من الأوكسجين إلى أعضاء الجسم الرئيسية مثلًا (الدماغ ….يساعد على زيادة التركيز والنشاط في العمل وعدم الخمول).</p>
+				</div>
+
+				<div id="block-3" class="column block">
+					<h3>سجل معنا كمتبرع دم!</h3>
+					<p>ماذا تنتظر؟ بنقرة واحدة يمكنك التسجيل معنا كمتبرع للدم!. لربما تنقذ حياة شخص ما.<br /><br /><a href="<?php site_url( array( 'page' => 'add-donor' ) ) ?>"><button type="button">التسجيل كمتبرع</button></a></p>
+				</div>
+
+			</div>
+
 		<?php
 
 		$this->template_footer();

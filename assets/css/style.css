@@ -26,10 +26,14 @@ body {
     font-size: 14px;
     line-height: 20px;
     unicode-bidi: embed;
-    background-color: #f0f1e9;
+    background-color: #fff;
     font-family: Tahoma, Helvetica, Arial, sans-serif;
 }
 
+a {
+    color: #333;
+    text-decoration: underline;
+}
 h1,
 h2,
 h3,
@@ -142,8 +146,11 @@ ul.dropdown,
  * ----------------------------------------------------------------------------
  */
 
+#container {
+    background: #f0f1e9;
+}
 #content {
-    margin: 60px 0 40px 0;
+    padding: 60px 0 40px 0;
 }
 
 /* Page Header */
@@ -214,7 +221,7 @@ ul.dropdown,
 .row .column {
     white-space: normal;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 /* FrontPage Header */
@@ -256,6 +263,24 @@ body#page-frontpage #page-header {
     padding: 5px;
 }
 
+/* FrontPage Blocks */
+
+#blocks {
+    margin: 20px 0 0 0;
+}
+.block {
+    width: 280px;
+    padding: 10px;
+    margin: 0 10px;
+    background: #fff;
+    min-height: 200px;
+    text-align: center;
+    border-bottom: 5px solid #d81e05;
+}
+.block h3 {
+    color: #d81e05;
+}
+
 /**
  * The Footer
  * ----------------------------------------------------------------------------
@@ -273,4 +298,7 @@ body#page-frontpage #page-header {
 #footer a:hover,
 #footer a:focus {
     color: #000;
+}
+.copyrights {
+    text-align: center;
 }

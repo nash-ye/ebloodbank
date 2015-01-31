@@ -63,7 +63,16 @@ class Default_View extends View {
 											<li><a href="<?php site_url( array( 'page' => 'distrs' ) ) ?>">المديريات</a></li>
 										</ul>
 									</li>
-									<li><a href="<?php site_url( array( 'page' => 'users' ) ) ?>">المستخدمين</a></li>
+									<li>
+										<a href="<?php site_url( array( 'page' => 'users' ) ) ?>">المستخدمين</a>
+										<ul>
+											<?php if ( Sessions::is_signed_in() ) : ?>
+												<li><a href="<?php site_url( array( 'page' => 'signin', 'action' => 'signout' ) ) ?>">تسجيل الخروج</a></li>
+											<?php else: ?>
+												<li><a href="<?php site_url( array( 'page' => 'signin' ) ) ?>">تسجيل الدخول</a></li>
+											<?php endif; ?>
+										</ul>
+									</li>
 								</ul>
 
 							</nav>
@@ -72,13 +81,15 @@ class Default_View extends View {
 
 					</header>
 
-					<section id="content">
+					<div id="container">
 
-						<div class="wrapper">
+						<section id="content">
 
-							<header id="page-header">
-								<h1 id="page-title"><?php echo $this->get_title() ?></h1>
-							</header><?php
+							<div class="wrapper">
+
+								<header id="page-header">
+									<h1 id="page-title"><?php echo $this->get_title() ?></h1>
+								</header><?php
 
 	}
 
@@ -88,20 +99,16 @@ class Default_View extends View {
 	 */
 	protected function template_footer() { ?>
 
-							</div>
+								</div>
 
-					</section> <!-- #content -->
+						</section> <!-- #content -->
+
+					</div> <!-- #container -->
 
 					<footer id="footer">
 
 						<div class="wrapper">
-
-							<?php if ( Sessions::is_signed_in() ) : ?>
-								<p><?php printf( '<b>%s</b>، <a href="%s">تسجيل الخروج</a>', Sessions::get_current_user()->get( 'user_logon' ), get_site_url( array( 'page' => 'signin', 'action' => 'signout' ) ) ) ?></p>
-							<?php else: ?>
-								<p>مجهول، <a href="<?php site_url( array( 'page' => 'signin' ) ) ?>">تسجيل الدخول</a></p>
-							<?php endif; ?>
-
+							<p class="copyrights">جميع الحقوق محفوظة</p>
 						</div>
 
 					</footer>

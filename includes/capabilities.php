@@ -222,6 +222,37 @@ function user_can( $user_id, $caps, $opt = 'AND' ) {
 
 }
 
+/**
+ * @return bool
+ * @since 0.4.8
+ */
+function anonymous_can( $caps, $opt = 'AND' ) {
+
+	if ( empty( $caps ) ) {
+		return FALSE;
+	}
+
+	$role = new Role( 'anonymous', 'مجهول', array(
+
+		// Users
+		'view_user'         => TRUE,
+
+		// Donors
+		'add_donor'         => TRUE,
+		'view_donor'        => TRUE,
+
+		// Cites
+		'view_city'         => TRUE,
+
+		// Districts
+		'view_distr'        => TRUE,
+
+	) );
+
+	return $role->has_caps( (array) $caps, $opt );
+
+}
+
 /*** Settings *****************************************************************/
 
 Roles::add_role( new Role( 'administrator', 'مدير', array(
