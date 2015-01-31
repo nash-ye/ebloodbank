@@ -57,7 +57,7 @@ final class Sessions {
 	 * @since 0.4
 	 */
 	public static function get_current_user_ID() {
-		return self::get_current_user()->get( 'user_id' );
+		return self::get_current_user()->get_ID();
 	}
 
 	/**
@@ -88,7 +88,7 @@ final class Sessions {
 			session_start();
 		}
 
-		$_SESSION['user_id'] = $user->get( 'user_id' );
+		$_SESSION['user_id'] = $user->get_ID();
 		$_SESSION['signin_time'] = time();
 		$_SESSION['signed'] = TRUE;
 
