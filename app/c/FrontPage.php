@@ -19,10 +19,14 @@ class FrontPage_Controller extends Controller {
 	 */
 	public function process_request() {
 
-		if ( ! empty( $_GET['page'] ) ) {
-			define( 'eBloodBank\CURRENT_PAGE', $_GET['page'] );
-		} else {
-			define( 'eBloodBank\CURRENT_PAGE', 'frontpage' );
+		if ( ! defined( 'eBloodBank\CURRENT_PAGE' ) ) {
+
+			if ( ! empty( $_GET['page'] ) ) {
+				define( 'eBloodBank\CURRENT_PAGE', $_GET['page'] );
+			} else {
+				define( 'eBloodBank\CURRENT_PAGE', 'frontpage' );
+			}
+
 		}
 
 	}
@@ -75,8 +79,13 @@ class FrontPage_Controller extends Controller {
 				new SignIn_Controller();
 				break;
 
-			default:
+			case 'frontpage':
 				$view = new FrontPage_View();
+				$view();
+				break;
+
+			default:
+				$view = new Error404_View();
 				$view();
 				break;
 

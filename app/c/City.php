@@ -43,7 +43,12 @@ class City_Controller extends Controller {
 	 */
 	public function output_response() {
 
-		$view = new City_View();
+		if ( current_user_can( 'add_city' ) ) {
+			$view = new City_View();
+		} else {
+			$view = new Error401_View();
+		}
+
 		$view();
 
 	}

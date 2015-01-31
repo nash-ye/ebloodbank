@@ -83,7 +83,12 @@ class Donor_Controller extends Controller {
 	 */
 	public function output_response() {
 
-		$view = new Donor_View();
+		if ( current_user_can( 'add_donor' ) ) {
+			$view = new Donor_View();
+		} else {
+			$view = new Error401_View();
+		}
+
 		$view();
 
 	}

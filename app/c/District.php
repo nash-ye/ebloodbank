@@ -47,7 +47,12 @@ class District_Controller extends Controller {
 	 */
 	public function output_response() {
 
-		$view = new District_View();
+		if ( current_user_can( 'add_distr' ) ) {
+			$view = new District_View();
+		} else {
+			$view = new Error401_View();
+		}
+
 		$view();
 
 	}
