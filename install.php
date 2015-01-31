@@ -21,7 +21,7 @@ ENGINE = InnoDB;
 -- Table `district`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `district` (
-  `distr_id` INT NOT NULL ,
+  `distr_id` INT NOT NULL AUTO_INCREMENT ,
   `distr_name` VARCHAR(255) NOT NULL ,
   `distr_city_id` INT NOT NULL ,
   PRIMARY KEY (`distr_id`) ,
@@ -158,7 +158,7 @@ CREATE INDEX `dt_type_id_idx` ON `donor_test` (`test_type_id` ASC) ;
 -- Table `donation`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `donation` (
-  `donat_id` INT NOT NULL ,
+  `donat_id` INT NOT NULL AUTO_INCREMENT ,
   `donat_time` DATETIME NOT NULL ,
   `donat_purpose` VARCHAR(255) NULL ,
   `donat_donor_id` INT NOT NULL ,

@@ -71,7 +71,7 @@ class Users_View extends Default_View {
 										<?php if ( $can_edit ) : ?>
 										<a href="<?php site_url( array( 'page' => 'edit-user', 'id' => $user->get( 'user_id' ) ) ) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
 										<?php endif; ?>
-										<?php if ( $can_delete ) : ?>
+										<?php if ( $can_delete && $user->get_ID() !== Sessions::get_current_user_ID() ) : ?>
 										<a href="<?php site_url( array( 'page' => 'users', 'action' => 'delete_user', 'id' => $user->get( 'user_id' ) ) ) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
 										<?php endif; ?>
 									</td>

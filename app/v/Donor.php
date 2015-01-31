@@ -59,7 +59,7 @@ class Donor_View extends Default_View {
 
 				<div>
 					<label for="donor_birthdate">تاريخ الميلاد</label>
-					<input type="date" name="donor_birthdate" id="donor_birthdate" />
+					<input type="date" name="donor_birthdate" id="donor_birthdate" placeholder="YYYY-MM-DD" />
 				</div>
 
 				<div>

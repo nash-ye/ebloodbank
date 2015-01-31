@@ -18,12 +18,17 @@ class Users_Controller extends Controller {
 			if ( current_user_can( 'delete_user' ) ) {
 
 				$user_id = (int) $_GET['id'];
-				$deleted = Users::delete( $user_id );
 
-				redirect( get_site_url( array(
-					'page' => 'users',
-					'flag-deleted' => $deleted,
-				) ) );
+				if ( ! empty( $user_id ) && $user_id !== Sessions::get_current_user_ID() ) {
+
+					$deleted = Users::delete( $user_id );
+
+					redirect( get_site_url( array(
+						'page' => 'users',
+						'flag-deleted' => $deleted,
+					) ) );
+
+				}
 
 			}
 
