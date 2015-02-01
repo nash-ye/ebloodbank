@@ -25,7 +25,7 @@ class Donor_Controller extends Controller {
 
 				IF ( isset( $_POST['donor_gender'] ) ) {
 
-					if ( in_array( $_POST['donor_gender'], array( 'male', 'female', 'unknown' ) ) ) {
+					if ( in_array( $_POST['donor_gender'], array_keys( Donor::$genders ), TRUE ) ) {
 						$donor_data['donor_gender'] = $_POST['donor_gender'];
 					}
 
@@ -41,7 +41,7 @@ class Donor_Controller extends Controller {
 
 				IF ( isset( $_POST['donor_blood_group'] ) ) {
 
-					if ( in_array( $_POST['donor_blood_group'], get_blood_groups(), TRUE ) ) {
+					if ( in_array( $_POST['donor_blood_group'], Donor::$blood_groups, TRUE ) ) {
 						$donor_data['donor_blood_group'] = $_POST['donor_blood_group'];
 					}
 

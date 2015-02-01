@@ -20,25 +20,6 @@ function redirect( $location ) {
 	die();
 }
 
-/**
- * @return array
- * @since 0.1
- */
-function get_blood_groups() {
-
-	return array(
-		'-O',
-		'+O',
-		'-A',
-		'+A',
-		'-B',
-		'+B',
-		'-AB',
-		'+AB',
-	);
-
-}
-
 /*** URLs Helpers *************************************************************/
 
 /**

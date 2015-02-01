@@ -198,6 +198,11 @@ function current_user_can( $caps, $opt = 'AND' ) {
 	}
 
 	$current_user = Sessions::get_current_user();
+
+	if ( empty( $current_user ) ) {
+		return FALSE;
+	}
+
 	return $current_user->has_caps( (array) $caps, $opt );
 
 }

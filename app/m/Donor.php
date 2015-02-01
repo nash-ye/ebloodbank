@@ -100,6 +100,109 @@ class Donor extends Model {
 	public $donor_status = 'pending';
 
 	/**
+	 * @var array
+	 * @since 0.5.1
+	 */
+	public static $genders = array(
+		'male'   => 'ذكر',
+		'female' => 'أنثى',
+	);
+
+	/**
+	 * @var array
+	 * @since 0.5.1
+	 */
+	public static $blood_groups = array(
+		'-O',
+		'+O',
+		'-A',
+		'+A',
+		'-B',
+		'+B',
+		'-AB',
+		'+AB',
+	);
+
+	/**
+	 * @var int
+	 * @since 0.5.1
+	 */
+	public function get_age() {
+
+		$current_date = new \DateTime( date( 'Y-m-d' ) );
+		$birthdate = new \DateTime( $this->get( 'donor_birthdate' ) );
+
+		if ( $birthdate > $current_date ) {
+			return FALSE;
+		}
+
+		return (int) $current_date->diff( $birthdate )->format( '%y' );
+
+	}
+
+	/**
+	 * @var string
+	 * @since 0.5.1
+	 */
+	public function get_city_name() {
+
+		try {
+
+			global $db;
+
+			$stmt = $db->prepare( 'SELECT city_name FROM city WHERE city_id IN( SELECT distr_city_id FROM district WHERE distr_id = ?)', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
+			$stmt->execute( array( (int) $this->get( 'distr_id' ) ) );
+
+			$city_name = $stmt->fetchColumn();
+			$stmt->closeCursor();
+
+			return $city_name;
+
+		} catch ( \PDOException $ex ) {
+			return FALSE;
+		}
+
+	}
+
+	/**
+	 * @var string
+	 * @since 0.5.1
+	 */
+	public function get_district_name() {
+
+		try {
+
+			global $db;
+
+			$stmt = $db->prepare( 'SELECT distr_name FROM district WHERE distr_id = ?', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
+			$stmt->execute( array( (int) $this->get( 'distr_id' ) ) );
+
+			$distr_name = $stmt->fetchColumn();
+			$stmt->closeCursor();
+
+			return $distr_name;
+
+		} catch ( \PDOException $ex ) {
+			return FALSE;
+		}
+
+	}
+
+	/**
+	 * @var string
+	 * @since 0.5.1
+	 */
+	public function get_gender_label() {
+
+		$gender = $this->get( 'donor_gender' );
+
+		if ( isset( self::$genders[ $gender ] ) ) {
+			return self::$genders[ $gender ];
+		}
+
+	}
+
+	/**
 	 * @var bool
 	 * @since 0.4.6
 	 */

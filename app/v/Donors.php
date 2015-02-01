@@ -71,10 +71,10 @@ class Donors_View extends Default_View {
 								<tr>
 									<td><?php $donor->display( 'donor_id' ) ?></td>
 									<td><?php $donor->display( 'donor_name' ) ?></td>
-									<td><?php $donor->display( 'donor_gender' ) ?></td>
-									<td><?php $donor->display( 'donor_birthdate' ) ?></td>
+									<td><?php echo $donor->get_gender_label() ?></td>
+									<td><?php echo $donor->get_age() ?></td>
 									<td><?php $donor->display( 'donor_blood_group' ) ?></td>
-									<td><?php $donor->display( 'donor_distr_id' ) ?></td>
+									<td><?php printf( '%s/%s', $donor->get_city_name(), $donor->get_district_name() ) ?></td>
 									<td><?php $donor->display( 'donor_phone' ) ?></td>
 									<?php if ( $can_manage ) : ?>
 									<td>

@@ -47,8 +47,9 @@ class Donor_View extends Default_View {
 				<div>
 					<label for="donor_gender">الجنس</label>
 					<select name="donor_gender" id="donor_gender">
-						<option value="male">ذكر</option>
-						<option value="female">أنثى</option>
+						<?php foreach( Donor::$genders as $key => $label ) : ?>
+							<option value="<?php echo esc_attr( $key ) ?>"><?php echo $label ?></option>
+						<?php endforeach; ?>
 					</select>
 				</div>
 
@@ -65,7 +66,7 @@ class Donor_View extends Default_View {
 				<div>
 					<label for="donor_blood_group">فصيلة الدم</label>
 					<select name="donor_blood_group" id="donor_blood_group">
-						<?php foreach( get_blood_groups() as $blood_group ) : ?>
+						<?php foreach( Donor::$blood_groups as $blood_group ) : ?>
 							<option><?php echo $blood_group ?></option>
 						<?php endforeach; ?>
 					</select>

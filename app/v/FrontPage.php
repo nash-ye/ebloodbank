@@ -52,8 +52,8 @@ class FrontPage_View extends Default_View {
 							<label for="blood_group">فصيلة الدم</label>
 							<select name="blood_group" id="blood_group">
 								<option value="all">الكل</option>
-								<?php foreach( get_blood_groups() as $distr ) : ?>
-									<option><?php echo $distr ?></option>
+								<?php foreach( Donor::$blood_groups as $blood_group ) : ?>
+									<option><?php echo $blood_group ?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
