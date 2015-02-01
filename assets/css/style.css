@@ -152,6 +152,14 @@ ul.dropdown,
 #content {
     padding: 60px 0 40px 0;
 }
+#content img {
+    max-width: 100%;
+    height: auto;
+}
+.code-snippet {
+    direction: ltr;
+    text-align: left;
+}
 
 /* Page Header */
 
@@ -163,6 +171,39 @@ ul.dropdown,
     color: #333;
     margin: 0px;
     font: bold 18pt "ge_ss_unique_light";
+}
+
+/* Data Table */
+
+.data-table {
+    width: 100%;
+    margin: 10px 0;
+    background: #fff;
+    border-collapse: collapse;
+    border: 2px solid #c7c8bb;
+}
+.data-table:hover,
+.data-table:focus {
+    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+}
+.data-table th {
+    color: #fff;
+    padding: 5px 15px;
+    text-align: center;
+    font-weight: normal;
+    background: #d81e05;
+    border: 1px solid #c7c8bb;
+}
+.data-table tr {
+    background: #fff;
+}
+.data-table td {
+    color: #333;
+    padding: 5px;
+    text-align: right;
+    border: 1px solid #c7c8bb;
 }
 
 /* List Table */

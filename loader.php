@@ -163,6 +163,10 @@ function class_loader( $class_name ) {
 			require 'app/v/Error404.php';
 			break;
 
+		case 'eBloodBank\About_View':
+			require 'app/v/About.php';
+			break;
+
 		/*** Controllers ******************************************************/
 
 		case 'eBloodBank\Controller':
@@ -207,6 +211,10 @@ function class_loader( $class_name ) {
 
 		case 'eBloodBank\SignIn_Controller':
 			require 'app/c/SignIn.php';
+			break;
+
+		case 'eBloodBank\About_Controller':
+			require 'app/c/About.php';
 			break;
 
 	}

@@ -79,6 +79,10 @@ class FrontPage_Controller extends Controller {
 				new SignIn_Controller();
 				break;
 
+			case 'about':
+				new About_Controller();
+				break;
+
 			case 'frontpage':
 				$view = new FrontPage_View();
 				$view();

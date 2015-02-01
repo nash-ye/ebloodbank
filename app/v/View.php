@@ -73,6 +73,7 @@ class Default_View extends View {
 											<?php endif; ?>
 										</ul>
 									</li>
+									<li><a href="<?php site_url( array( 'page' => 'about' ) ) ?>">حول المشروع</a></li>
 								</ul>
 
 							</nav>
