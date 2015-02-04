@@ -174,7 +174,7 @@ CREATE  TABLE `donor` (
   `donor_birthdate` DATE NOT NULL ,
   `donor_blood_group` VARCHAR(45) NOT NULL ,
   `donor_distr_id` INT NOT NULL ,
-  `donar_address` VARCHAR(255) NOT NULL ,
+  `donor_address` VARCHAR(255) NOT NULL ,
   `donor_phone` VARCHAR(50) NOT NULL ,
   `donor_email` VARCHAR(100) NULL ,
   `donor_rtime` DATETIME NOT NULL ,
