@@ -46,7 +46,7 @@ class About_View extends Default_View {
 			<div id="project-database">
 
 				<h3>قاعدة بيانات المشروع</h3>
-				<p>قاعدة بيانات المشروع تحتوي على 9 جداول. إستخدمنا نظام MySQL نظرا لكفائته وسهولة إستخدامه مع تطبيقات الويب. وتم تصميمها بناءً على المعلومات التي تم جمعها من النزول الميداني والمناقشة مع المستفيدين من المشروع، النسخة الحالية من قاعدة البيانات قادرة على تخزين البيانات الأكثر أهمية، بالإضافة إلى إستخدامنا فكرة الـ <a href="http://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model">Open Schema</a> لجعل قاعدة البيانات مرنة، وقادرة على إستيعاب معظم التطويرات المستقبلية الممكنة بدون الحاجة إلى تغيير هيكلة قاعدة البيانات في كل مرة.</p>
+				<p>قاعدة بيانات المشروع تحتوي على 10 جداول. إستخدمنا نظام MySQL نظرا لكفائته وسهولة إستخدامه مع تطبيقات الويب. وتم تصميمها بناءً على المعلومات التي تم جمعها من النزول الميداني والمناقشة مع المستفيدين من المشروع، النسخة الحالية من قاعدة البيانات قادرة على تخزين البيانات الأكثر أهمية، بالإضافة إلى إستخدامنا فكرة الـ <a href="http://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model">Open Schema</a> لجعل قاعدة البيانات مرنة، وقادرة على إستيعاب معظم التطويرات المستقبلية الممكنة بدون الحاجة إلى تغيير هيكلة قاعدة البيانات في كل مرة.</p>
 
 				<figure>
 					<a href="assets/img/db-summery.png" target="__blank">
@@ -74,19 +74,27 @@ class About_View extends Default_View {
 				<table id="database-tables" class="data-table">
 
 					<thead>
+						<tr>
+							<th>الاسم</th>
+							<th>الوصف</th>
+						</tr>
 					</thead>
 
 					<tr>
 						<th>donor</th>
-						<td><p>جدول المتبرعين، يحتوي على بيانات المتطوعين المستعدين للتبرع بالدم.</p></td>
+						<td><p>جدول المتبرعين، يحتوي على بيانات المتطوعين المستعدين للتبرع بالدم، كالاسم، الجنس، الوزن، تاريخ الميلاد، فصيلة الدم، رقم المديرية، العنوان، رقم التلفون، البريد الإلكتروني، تاريخ التسجيل والحالة.</p></td>
 					</tr>
 					<tr>
 						<th>donor_meta</th>
 						<td><p>جدول البيانات الإضافية للمتبرعين، تطبيق لموديل الـ EAV. تكمن فائدته في حال رغبنا بإضافة طلب المزيد من البيانات من المتبرعين مستقبلا كرقم تلفون ثاني، أو رابط حساب الفيس بوك أو حتى يقوم بإخبارنا بالطريقة المفضلة له للتواصل، عبر التلفون أو البريد الإلكتروني؟! .. تعديل هيكلة قاعدة البيانات في كل مرة نرغب بها بإضافة ميزة معينة أمر مرهق وغير مجدي. لذا  فكرة هذا الجدول مفيدة جداً.</p></td>
 					</tr>
 					<tr>
+						<th>donation</th>
+						<td><p>سجل التبرعات لكل متبرع، يحتوي على كمية التبرع، الغرض من التبرع، وتاريخ التبرع. إن أكثر ما يهمنا في الجدول هو معرفة آخر وقت تبرع لكل متبرع للمساهم في تحسين جودة البحث عن المتبرعين.</p></td>
+					</tr>
+					<tr>
 						<th>user</th>
-						<td><p>جدول المستخدمين، مدراء والمسئولين عن مراجعة بيانات المتطوعين ومتابعة تطويرات المشروع.</p></td>
+						<td><p>جدول المستخدمين، مثل مدراء والمشرفين عن مراجعة بيانات المتطوعين وإدارة المشروع، يحتوي على اسم المستخدم، كلمة المرور، الرتبة، تاريخ التسجيل والحالة.</p></td>
 					</tr>
 					<tr>
 						<th>user_meta</th>
@@ -94,23 +102,23 @@ class About_View extends Default_View {
 					</tr>
 					<tr>
 						<th>city</th>
-						<td><p>جدول المدن، يحتوي على قائمة المدن ليتم إستخدامه في فهرسة وترتيب المتبرعين بكفاءة عالية.</p></td>
+						<td><p>جدول المدن، يحتوي على قائمة بأسماء المدن ويتم إستخدامها في فهرسة وترتيب المتبرعين وبنوك الدم.</p></td>
 					</tr>
 					<tr>
 						<th>district</th>
-						<td><p>جدول المديريات، يحتوي على بيانات المديريات لكل مدينة ويتم إستخدامه في فهرسة وترتيب المتبرعين بكفاءة عالية.</p></td>
+						<td><p>جدول المديريات، يحتوي على قائمة بأسماء المديريات ويتم إستخدامها في فهرسة وترتيب المتبرعين وبنوك الدم.</p></td>
 					</tr>
 					<tr>
-						<th>test</th>
-						<td><p>سجل للفحوصات الطبية للمتبرع، يستخدم لتأكيد حالة المتبرع الصحية ونوع فصيلة دمه وغيرها من الأسباب الطبية.</p></td>
+						<th>bank</th>
+						<td><p>جدول بنوك الدم، يحتوي على اسم البنك، رقم التلفون، البريد الإلكتروني، الرقم المعرف للمديرية، العنوان، تاريخ التسجيل والحالة.</p></td>
 					</tr>
 					<tr>
-						<th>test_type</th>
-						<td><p>جدول أنواع الفحوصات الطبية مع عناوينها ورقم يشير إلى أهمية الفحص الطبي.</p></td>
+						<th>bank_meta</th>
+						<td><p>جدول البيانات الإضافية للبنوك الدم، نفس فكرة جدول الـ donor_meta أعلاه.</p></td>
 					</tr>
 					<tr>
-						<th>donation</th>
-						<td><p>سجل التبرعات لكل متبرع، أهميته تكمن في معرفة آخر وقت تبرع لكل متبرع والمساهمة في تحسين جودة البحث عن متبرعين بالدم.</p></td>
+						<th>stock</th>
+						<td><p>جدول مخزونات بنوك الدم، يحتوي على بيانات توضح الكميات المتوفرة للدم حسب الفصيلة.</p></td>
 					</tr>
 				</table>
 
@@ -140,6 +148,8 @@ CREATE  TABLE `city` (
   `city_id` INT NOT NULL AUTO_INCREMENT ,
   `city_name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`city_id`) )
+ENGINE = InnoDB;
+
 
 CREATE  TABLE `district` (
   `distr_id` INT NOT NULL AUTO_INCREMENT ,
@@ -151,7 +161,10 @@ CREATE  TABLE `district` (
     REFERENCES `city` (`city_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 CREATE INDEX `dis_idx` ON `district` (`distr_city_id` ASC) ;
+
 
 CREATE  TABLE `donor` (
   `donor_id` INT NOT NULL AUTO_INCREMENT ,
@@ -161,6 +174,7 @@ CREATE  TABLE `donor` (
   `donor_birthdate` DATE NOT NULL ,
   `donor_blood_group` VARCHAR(45) NOT NULL ,
   `donor_distr_id` INT NOT NULL ,
+  `donar_address` VARCHAR(255) NOT NULL ,
   `donor_phone` VARCHAR(50) NOT NULL ,
   `donor_email` VARCHAR(100) NULL ,
   `donor_rtime` DATETIME NOT NULL ,
@@ -171,7 +185,10 @@ CREATE  TABLE `donor` (
     REFERENCES `district` (`distr_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 CREATE INDEX `donor_district_id_idx` ON `donor` (`donor_distr_id` ASC) ;
+
 
 CREATE  TABLE `donor_meta` (
   `meta_id` INT NOT NULL AUTO_INCREMENT ,
@@ -184,7 +201,10 @@ CREATE  TABLE `donor_meta` (
     REFERENCES `donor` (`donor_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 CREATE INDEX `dm_donor_id_idx` ON `donor_meta` (`donor_id` ASC) ;
+
 
 CREATE  TABLE `user` (
   `user_id` INT NOT NULL AUTO_INCREMENT ,
@@ -194,7 +214,10 @@ CREATE  TABLE `user` (
   `user_rtime` DATETIME NOT NULL ,
   `user_status` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`user_id`) )
+ENGINE = InnoDB;
+
 CREATE UNIQUE INDEX `user_logon_UNIQUE` ON `user` (`user_logon` ASC) ;
+
 
 CREATE  TABLE `user_meta` (
   `meta_id` INT NOT NULL AUTO_INCREMENT ,
@@ -207,48 +230,79 @@ CREATE  TABLE `user_meta` (
     REFERENCES `user` (`user_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 CREATE INDEX `um_user_id_idx` ON `user_meta` (`user_id` ASC) ;
 
-CREATE  TABLE `test` (
-  `test_id` INT NOT NULL AUTO_INCREMENT ,
-  `test_date` DATE NOT NULL ,
-  `test_type_id` INT NOT NULL ,
-  `test_donor_id` INT NOT NULL ,
-  `test_document` BLOB NOT NULL ,
-  `test_rtime` DATETIME NOT NULL ,
-  `test_status` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`test_id`) ,
-  CONSTRAINT `dt_donor_id`
-    FOREIGN KEY (`test_donor_id` )
-    REFERENCES `donor` (`donor_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `dt_type_id`
-    FOREIGN KEY (`test_type_id` )
-    REFERENCES `test_type` (`tt_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-CREATE INDEX `dt_donor_id_idx` ON `test` (`test_donor_id` ASC) ;
-CREATE INDEX `dt_type_id_idx` ON `test` (`test_type_id` ASC) ;
-
-CREATE  TABLE `test_type` (
-  `tt_id` INT NOT NULL AUTO_INCREMENT ,
-  `tt_title` VARCHAR(255) NOT NULL ,
-  `tt_priority` INT NOT NULL DEFAULT 10 ,
-  PRIMARY KEY (`tt_id`) )
 
 CREATE  TABLE `donation` (
   `donat_id` INT NOT NULL AUTO_INCREMENT ,
-  `donat_date` DATE NULL ,
+  `donat_amount` INT NULL ,
   `donat_purpose` VARCHAR(255) NULL ,
   `donat_donor_id` INT NOT NULL ,
+  `donat_date` DATE NULL ,
   PRIMARY KEY (`donat_id`) ,
   CONSTRAINT `donat_donor_id`
     FOREIGN KEY (`donat_donor_id` )
     REFERENCES `donor` (`donor_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 CREATE INDEX `donat_donor_id_idx` ON `donation` (`donat_donor_id` ASC) ;
+
+
+CREATE  TABLE `bank` (
+  `bank_id` INT NOT NULL AUTO_INCREMENT ,
+  `bank_name` VARCHAR(255) NOT NULL ,
+  `bank_phone` VARCHAR(50) NOT NULL ,
+  `bank_email` VARCHAR(100) NULL ,
+  `bank_distr_id` INT NOT NULL ,
+  `bank_address` VARCHAR(255) NOT NULL ,
+  `bank_rtime` DATETIME NOT NULL ,
+  `bank_status` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`bank_id`) ,
+  CONSTRAINT `bank_district_id`
+    FOREIGN KEY (`bank_distr_id` )
+    REFERENCES `district` (`distr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `bank_district_id_idx` ON `bank` (`bank_distr_id` ASC) ;
+
+
+CREATE  TABLE `bank_meta` (
+  `meta_id` INT NOT NULL AUTO_INCREMENT ,
+  `bank_id` INT NOT NULL ,
+  `meta_key` VARCHAR(45) NOT NULL ,
+  `meta_value` LONGTEXT NULL ,
+  PRIMARY KEY (`meta_id`) ,
+  CONSTRAINT `bm_bank_id`
+    FOREIGN KEY (`bank_id` )
+    REFERENCES `bank` (`bank_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `bm_bank_id_idx` ON `bank_meta` (`bank_id` ASC) ;
+
+
+CREATE  TABLE `stock` (
+  `stock_id` INT NOT NULL AUTO_INCREMENT ,
+  `stock_bank_id` INT NOT NULL ,
+  `stock_blood_group` VARCHAR(45) NOT NULL ,
+  `stock_quantity` INT NOT NULL ,
+  `stock_status` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`stock_id`) ,
+  CONSTRAINT `stock_bank_id`
+    FOREIGN KEY (`stock_bank_id` )
+    REFERENCES `bank` (`bank_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `stock_bank_id_idx` ON `stock` (`stock_bank_id` ASC) ;
 </code>
 				</pre>
 

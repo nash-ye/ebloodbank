@@ -77,6 +77,12 @@ class Donor extends Model {
 
 	/**
 	 * @var string
+	 * @since 0.5.5
+	 */
+	public $donor_address;
+
+	/**
+	 * @var string
 	 * @since 0.1
 	 */
 	public $donor_phone;

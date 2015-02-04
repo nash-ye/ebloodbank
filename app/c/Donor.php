@@ -55,6 +55,10 @@ class Donor_Controller extends Controller {
 					$donor_data['donor_email'] = filter_var( $_POST['donor_email'], FILTER_SANITIZE_EMAIL );
 				}
 
+				IF ( isset( $_POST['donor_address'] ) ) {
+					$donor_data['donor_address'] = filter_var( $_POST['donor_address'], FILTER_SANITIZE_STRING );
+				}
+
 				IF ( isset( $_POST['donor_distr_id'] ) ) {
 					$donor_data['donor_distr_id'] = (int) $_POST['donor_distr_id'];
 				}

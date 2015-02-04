@@ -60,12 +60,12 @@ class Donor_View extends Default_View {
 
 				<div>
 					<label for="donor_birthdate">تاريخ الميلاد</label>
-					<input type="date" name="donor_birthdate" id="donor_birthdate" placeholder="YYYY-MM-DD" />
+					<input type="date" name="donor_birthdate" id="donor_birthdate" placeholder="YYYY-MM-DD" required="required" />
 				</div>
 
 				<div>
 					<label for="donor_blood_group">فصيلة الدم</label>
-					<select name="donor_blood_group" id="donor_blood_group">
+					<select name="donor_blood_group" id="donor_blood_group" required="required">
 						<?php foreach( Donor::$blood_groups as $blood_group ) : ?>
 							<option><?php echo $blood_group ?></option>
 						<?php endforeach; ?>
@@ -74,7 +74,7 @@ class Donor_View extends Default_View {
 
 				<div>
 					<label for="donor_phone">رقم التلفون</label>
-					<input type="phone" name="donor_phone" id="donor_phone" />
+					<input type="phone" name="donor_phone" id="donor_phone" required="required" />
 				</div>
 
 				<div>
@@ -84,7 +84,7 @@ class Donor_View extends Default_View {
 
 				<div>
 					<label for="donor_distr_id">المدينة/المديرية</label>
-					<select name="donor_distr_id" id="donor_distr_id">
+					<select name="donor_distr_id" id="donor_distr_id" required="required">
 
 						<?php
 
@@ -122,10 +122,15 @@ class Donor_View extends Default_View {
 				</div>
 
 				<div>
-					<button type="submit">ارسال</button>
+					<label for="donor_address">العنوان</label>
+					<input type="text" name="donor_address" id="donor_address" />
 				</div>
 
 				<input type="hidden" name="action" value="submit_donor" />
+
+				<div>
+					<button type="submit">ارسال</button>
+				</div>
 
 			</form><?php
 
