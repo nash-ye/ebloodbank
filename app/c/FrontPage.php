@@ -57,6 +57,15 @@ class FrontPage_Controller extends Controller {
 				new Districts_Controller();
 				break;
 
+			case 'donor':
+			case 'add-donor':
+				new Donor_Controller();
+				break;
+
+			case 'donors':
+				new Donors_Controller();
+				break;
+
 			case 'user':
 			case 'add-user':
 				new User_Controller();
@@ -66,13 +75,22 @@ class FrontPage_Controller extends Controller {
 				new Users_Controller();
 				break;
 
-			case 'donor':
-			case 'add-donor':
-				new Donor_Controller();
+			case 'test':
+			case 'add-test':
+				new Test_Controller();
 				break;
 
-			case 'donors':
-				new Donors_Controller();
+			case 'tests':
+				new Tests_Controller();
+				break;
+
+			case 'test-type':
+			case 'add-test-type':
+				new Test_Type_Controller();
+				break;
+
+			case 'test-types':
+				new Test_Types_Controller();
 				break;
 
 			case 'signin':

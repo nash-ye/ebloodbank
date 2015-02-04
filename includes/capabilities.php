@@ -263,32 +263,46 @@ function anonymous_can( $caps, $opt = 'AND' ) {
 Roles::add_role( new Role( 'administrator', 'مدير', array(
 
 	// Users
-	'add_user'          => TRUE,
-	'edit_user'         => TRUE,
-	'view_user'         => TRUE,
-	'delete_user'       => TRUE,
-	'manage_users'      => TRUE,
+	'add_user'              => TRUE,
+	'edit_user'             => TRUE,
+	'view_user'             => TRUE,
+	'delete_user'           => TRUE,
+	'manage_users'          => TRUE,
 
 	// Donors
-	'add_donor'         => TRUE,
-	'edit_donor'        => TRUE,
-	'view_donor'        => TRUE,
-	'delete_donor'      => TRUE,
-	'approve_donor'     => TRUE,
-	'manage_donors'     => TRUE,
+	'add_donor'             => TRUE,
+	'edit_donor'            => TRUE,
+	'view_donor'            => TRUE,
+	'delete_donor'          => TRUE,
+	'approve_donor'         => TRUE,
+	'manage_donors'         => TRUE,
 
 	// Cites
-	'add_city'          => TRUE,
-	'edit_city'         => TRUE,
-	'view_city'         => TRUE,
-	'delete_city'       => TRUE,
-	'manage_cites'      => TRUE,
+	'add_city'              => TRUE,
+	'edit_city'             => TRUE,
+	'view_city'             => TRUE,
+	'delete_city'           => TRUE,
+	'manage_cites'          => TRUE,
 
 	// Districts
-	'add_distr'         => TRUE,
-	'edit_distr'        => TRUE,
-	'view_distr'        => TRUE,
-	'delete_distr'      => TRUE,
-	'manage_distrs'     => TRUE,
+	'add_distr'             => TRUE,
+	'edit_distr'            => TRUE,
+	'view_distr'            => TRUE,
+	'delete_distr'          => TRUE,
+	'manage_distrs'         => TRUE,
+
+	// Tests
+	'add_test'              => TRUE,
+	'edit_test'             => TRUE,
+	'view_test'             => TRUE,
+	'delete_test'           => TRUE,
+	'manage_tests'          => TRUE,
+
+	// Test Types
+	'add_test_type'         => TRUE,
+	'edit_test_type'        => TRUE,
+	'view_test_type'        => TRUE,
+	'delete_test_type'      => TRUE,
+	'manage_test_types'     => TRUE,
 
 ) ) );

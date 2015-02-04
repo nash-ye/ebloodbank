@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.5.1-alpha' );
+define( 'eBloodBank\VERSION', '0.5.3-alpha' );
 define( 'eBloodBank\DIR', dirname( __FILE__ ) );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
@@ -73,6 +73,10 @@ function class_loader( $class_name ) {
 			require 'app/m/Model.php';
 			break;
 
+		case 'eBloodBank\Models':
+			require 'app/m/Models.php';
+			break;
+
 		case 'eBloodBank\City':
 			require 'app/m/City.php';
 			break;
@@ -105,6 +109,22 @@ function class_loader( $class_name ) {
 			require 'app/m/Users.php';
 			break;
 
+		case 'eBloodBank\Test':
+			require 'app/m/Test.php';
+			break;
+
+		case 'eBloodBank\Tests':
+			require 'app/m/Tests.php';
+			break;
+
+		case 'eBloodBank\Test_Type':
+			require 'app/m/Test_Type.php';
+			break;
+
+		case 'eBloodBank\Test_Types':
+			require 'app/m/Test_Types.php';
+			break;
+
 		/*** Views ************************************************************/
 
 		case 'eBloodBank\View':
@@ -127,6 +147,14 @@ function class_loader( $class_name ) {
 			require 'app/v/Districts.php';
 			break;
 
+		case 'eBloodBank\Donor_View':
+			require 'app/v/Donor.php';
+			break;
+
+		case 'eBloodBank\Donors_View':
+			require 'app/v/Donors.php';
+			break;
+
 		case 'eBloodBank\User_View':
 			require 'app/v/User.php';
 			break;
@@ -135,12 +163,20 @@ function class_loader( $class_name ) {
 			require 'app/v/Users.php';
 			break;
 
-		case 'eBloodBank\Donor_View':
-			require 'app/v/Donor.php';
+		case 'eBloodBank\Test_View':
+			require 'app/v/Test.php';
 			break;
 
-		case 'eBloodBank\Donors_View':
-			require 'app/v/Donors.php';
+		case 'eBloodBank\Tests_View':
+			require 'app/v/Tests.php';
+			break;
+
+		case 'eBloodBank\Test_Type_View':
+			require 'app/v/Test_Type.php';
+			break;
+
+		case 'eBloodBank\Test_Types_View':
+			require 'app/v/Test_Types.php';
 			break;
 
 		case 'eBloodBank\Default_View':
@@ -189,6 +225,14 @@ function class_loader( $class_name ) {
 			require 'app/c/Districts.php';
 			break;
 
+		case 'eBloodBank\Donor_Controller':
+			require 'app/c/Donor.php';
+			break;
+
+		case 'eBloodBank\Donors_Controller':
+			require 'app/c/Donors.php';
+			break;
+
 		case 'eBloodBank\User_Controller':
 			require 'app/c/User.php';
 			break;
@@ -197,12 +241,20 @@ function class_loader( $class_name ) {
 			require 'app/c/Users.php';
 			break;
 
-		case 'eBloodBank\Donor_Controller':
-			require 'app/c/Donor.php';
+		case 'eBloodBank\Test_Controller':
+			require 'app/c/Test.php';
 			break;
 
-		case 'eBloodBank\Donors_Controller':
-			require 'app/c/Donors.php';
+		case 'eBloodBank\Tests_Controller':
+			require 'app/c/Tests.php';
+			break;
+
+		case 'eBloodBank\Test_Type_Controller':
+			require 'app/c/Test_Type.php';
+			break;
+
+		case 'eBloodBank\Test_Types_Controller':
+			require 'app/c/Test_Types.php';
 			break;
 
 		case 'eBloodBank\FrontPage_Controller':

@@ -1,5 +1,7 @@
 <?php
 
+namespace eBloodBank;
+
 require 'config.php';
 require 'loader.php';
 
@@ -127,14 +129,15 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `donor_test`
+-- Table `test`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `donor_test` (
+CREATE  TABLE IF NOT EXISTS `test` (
   `test_id` INT NOT NULL AUTO_INCREMENT ,
-  `test_time` DATETIME NOT NULL ,
+  `test_date` DATE NOT NULL ,
   `test_type_id` INT NOT NULL ,
   `test_donor_id` INT NOT NULL ,
   `test_document` BLOB NOT NULL ,
+  `test_rtime` DATETIME NOT NULL ,
   `test_status` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`test_id`) ,
   CONSTRAINT `dt_donor_id`
@@ -149,9 +152,9 @@ CREATE  TABLE IF NOT EXISTS `donor_test` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `dt_donor_id_idx` ON `donor_test` (`test_donor_id` ASC) ;
+CREATE INDEX `dt_donor_id_idx` ON `test` (`test_donor_id` ASC) ;
 
-CREATE INDEX `dt_type_id_idx` ON `donor_test` (`test_type_id` ASC) ;
+CREATE INDEX `dt_type_id_idx` ON `test` (`test_type_id` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -159,7 +162,7 @@ CREATE INDEX `dt_type_id_idx` ON `donor_test` (`test_type_id` ASC) ;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `donation` (
   `donat_id` INT NOT NULL AUTO_INCREMENT ,
-  `donat_time` DATETIME NOT NULL ,
+  `donat_date` DATE NULL ,
   `donat_purpose` VARCHAR(255) NULL ,
   `donat_donor_id` INT NOT NULL ,
   PRIMARY KEY (`donat_id`) ,
@@ -173,5 +176,11 @@ ENGINE = InnoDB;
 CREATE INDEX `donat_donor_id_idx` ON `donation` (`donat_donor_id` ASC) ;
 '
 		);
+
+Users::insert( array(
+	'user_logon' => 'admin',
+	'user_pass' => password_hash( 'admin', PASSWORD_BCRYPT ),
+	'user_role' => 'administrator',
+) );
 
 echo 'Done!';

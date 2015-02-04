@@ -57,6 +57,12 @@ class Default_View extends View {
 									<li><a href="<?php site_url() ?>">الرئيسية</a></li>
 									<li><a href="<?php site_url( array( 'page' => 'donors' ) ) ?>">المتبرعين</a></li>
 									<li>
+										<a href="<?php site_url( array( 'page' => 'tests' ) ) ?>">الفحوصات الطبية</a>
+										<ul>
+											<li><a href="<?php site_url( array( 'page' => 'test-types' ) ) ?>">الأنواع</a></li>
+										</ul>
+									</li>
+									<li>
 										<span>المدن والمديريات</span>
 										<ul>
 											<li><a href="<?php site_url( array( 'page' => 'cites' ) ) ?>">المدن</a></li>
