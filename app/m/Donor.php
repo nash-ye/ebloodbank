@@ -151,7 +151,7 @@ class Donor extends Model {
 			global $db;
 
 			$stmt = $db->prepare( 'SELECT city_name FROM city WHERE city_id IN( SELECT distr_city_id FROM district WHERE distr_id = ?)', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
-			$stmt->execute( array( (int) $this->get( 'distr_id' ) ) );
+			$stmt->execute( array( (int) $this->get( 'donor_distr_id' ) ) );
 
 			$city_name = $stmt->fetchColumn();
 			$stmt->closeCursor();
@@ -175,7 +175,7 @@ class Donor extends Model {
 			global $db;
 
 			$stmt = $db->prepare( 'SELECT distr_name FROM district WHERE distr_id = ?', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
-			$stmt->execute( array( (int) $this->get( 'distr_id' ) ) );
+			$stmt->execute( array( (int) $this->get( 'donor_distr_id' ) ) );
 
 			$distr_name = $stmt->fetchColumn();
 			$stmt->closeCursor();

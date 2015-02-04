@@ -3,30 +3,30 @@
 namespace eBloodBank;
 
 /**
-* @since 0.5.3
+* @since 0.5.4
 */
-final class Test_Types extends Models {
+final class Stocks extends Models {
 
 	/**
 	 * @access private
 	 * @return void
-	 * @since 0.5.3
+	 * @since 0.5.4
 	 */
 	private function __construct() {}
 
 	/**
-	 * @return eBloodBank\Test_Type[]
-	 * @since 0.5.3
+	 * @return eBloodBank\Stock[]
+	 * @since 0.5.4
 	 */
 	public static function fetch_all() {
 
-		return self::fetch_multi( 'SELECT * FROM test_type' );
+		return self::fetch_multi( 'SELECT * FROM stock' );
 
 	}
 
 	/**
-	 * @return eBloodBank\Test_Type
-	 * @since 0.5.3
+	 * @return eBloodBank\Stock
+	 * @since 0.5.4
 	 */
 	public static function fetch_by_ID( $id ) {
 
@@ -36,13 +36,13 @@ final class Test_Types extends Models {
 			return FALSE;
 		}
 
-		return self::fetch_single( 'SELECT * FROM test_type WHERE tt_id = ?', array( $id ) );
+		return self::fetch_single( 'SELECT * FROM stock WHERE stock_id = ?', array( $id ) );
 
 	}
 
 	/**
-	 * @return eBloodBank\Test_Type[]
-	 * @since 0.5.3
+	 * @return eBloodBank\Stock[]
+	 * @since 0.5.4
 	 */
 	public static function fetch_multi( $sql, array $params = array() ) {
 
@@ -53,7 +53,7 @@ final class Test_Types extends Models {
 			$stmt = $db->prepare( $sql, array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
 			$stmt->execute( $params );
 
-			$results = $stmt->fetchAll( \PDO::FETCH_CLASS, 'eBloodBank\Test_Type' );
+			$results = $stmt->fetchAll( \PDO::FETCH_CLASS, 'eBloodBank\Stock' );
 			$stmt->closeCursor();
 
 			return $results;
@@ -65,8 +65,8 @@ final class Test_Types extends Models {
 	}
 
 	/**
-	 * @return eBloodBank\Test_Type
-	 * @since 0.5.3
+	 * @return eBloodBank\Stock
+	 * @since 0.5.4
 	 */
 	public static function fetch_single( $sql, array $params = array() ) {
 
@@ -77,7 +77,7 @@ final class Test_Types extends Models {
 			$stmt = $db->prepare( $sql, array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL) );
 			$stmt->execute( $params );
 
-			$results = $stmt->fetchObject( 'eBloodBank\Test_Type' );
+			$results = $stmt->fetchObject( 'eBloodBank\Stock' );
 			$stmt->closeCursor();
 
 			return $results;
@@ -90,7 +90,7 @@ final class Test_Types extends Models {
 
 	/**
 	 * @return bool
-	 * @since 0.5.3
+	 * @since 0.5.4
 	 */
 	public static function update( $id, array $data ) {
 
@@ -112,13 +112,12 @@ final class Test_Types extends Models {
 				$params[] = $value;
 			}
 
+			array_push( $params,  $id );
+
 			$set_stmt = implode( ', ', $set_stmt );
 			$set_stmt = "SET $set_stmt";
 
-			$where_stmt = 'WHERE tt_id = ?';
-			$params[] = $id;
-
-			$stmt = $db->prepare( "UPDATE test_type $set_stmt $where_stmt" );
+			$stmt = $db->prepare( "UPDATE stock $set_stmt WHERE stock_id = ?" );
 			$updated = (bool) $stmt->execute( $params );
 			$stmt = $stmt->closeCursor();
 
@@ -132,7 +131,7 @@ final class Test_Types extends Models {
 
 	/**
 	 * @return int
-	 * @since 0.5.3
+	 * @since 0.5.4
 	 */
 	public static function insert( array $data ) {
 
@@ -144,7 +143,7 @@ final class Test_Types extends Models {
 			$columns = implode( '`, `', array_keys( $data ) );
 			$holders = implode( ', ',  array_fill( 0, count( $data ), '?' ) );
 
-			$stmt = $db->prepare( "INSERT INTO test_type (`$columns`) VALUES ($holders)" );
+			$stmt = $db->prepare( "INSERT INTO stock (`$columns`) VALUES ($holders)" );
 			$inserted = (bool) $stmt->execute( array_values( $data ) );
 			$stmt = $stmt->closeCursor();
 
@@ -162,7 +161,7 @@ final class Test_Types extends Models {
 
 	/**
 	 * @return bool
-	 * @since 0.5.3
+	 * @since 0.5.4
 	 */
 	public static function delete( $id ) {
 
@@ -176,7 +175,7 @@ final class Test_Types extends Models {
 				return FALSE;
 			}
 
-			$stmt = $db->prepare( "DELETE FROM test_type WHERE tt_id = ?" );
+			$stmt = $db->prepare( "DELETE FROM stock WHERE stock_id = ?" );
 			$deleted = (bool) $stmt->execute( array( $id ) );
 			$stmt = $stmt->closeCursor();
 

@@ -48,6 +48,7 @@ CREATE  TABLE IF NOT EXISTS `donor` (
   `donor_birthdate` DATE NOT NULL ,
   `donor_blood_group` VARCHAR(45) NOT NULL ,
   `donor_distr_id` INT NOT NULL ,
+  `donar_address` VARCHAR(255) NOT NULL ,
   `donor_phone` VARCHAR(50) NOT NULL ,
   `donor_email` VARCHAR(100) NULL ,
   `donor_rtime` DATETIME NOT NULL ,
@@ -118,53 +119,14 @@ CREATE INDEX `um_user_id_idx` ON `user_meta` (`user_id` ASC) ;
 
 
 -- -----------------------------------------------------
--- Table `test_type`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `test_type` (
-  `tt_id` INT NOT NULL AUTO_INCREMENT ,
-  `tt_title` VARCHAR(255) NOT NULL ,
-  `tt_priority` INT NOT NULL DEFAULT 10 ,
-  PRIMARY KEY (`tt_id`) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `test`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `test` (
-  `test_id` INT NOT NULL AUTO_INCREMENT ,
-  `test_date` DATE NOT NULL ,
-  `test_type_id` INT NOT NULL ,
-  `test_donor_id` INT NOT NULL ,
-  `test_document` BLOB NOT NULL ,
-  `test_rtime` DATETIME NOT NULL ,
-  `test_status` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`test_id`) ,
-  CONSTRAINT `dt_donor_id`
-    FOREIGN KEY (`test_donor_id` )
-    REFERENCES `donor` (`donor_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `dt_type_id`
-    FOREIGN KEY (`test_type_id` )
-    REFERENCES `test_type` (`tt_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `dt_donor_id_idx` ON `test` (`test_donor_id` ASC) ;
-
-CREATE INDEX `dt_type_id_idx` ON `test` (`test_type_id` ASC) ;
-
-
--- -----------------------------------------------------
 -- Table `donation`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `donation` (
   `donat_id` INT NOT NULL AUTO_INCREMENT ,
-  `donat_date` DATE NULL ,
+  `donat_amount` INT NULL ,
   `donat_purpose` VARCHAR(255) NULL ,
   `donat_donor_id` INT NOT NULL ,
+  `donat_date` DATE NULL ,
   PRIMARY KEY (`donat_id`) ,
   CONSTRAINT `donat_donor_id`
     FOREIGN KEY (`donat_donor_id` )
@@ -174,6 +136,68 @@ CREATE  TABLE IF NOT EXISTS `donation` (
 ENGINE = InnoDB;
 
 CREATE INDEX `donat_donor_id_idx` ON `donation` (`donat_donor_id` ASC) ;
+
+
+-- -----------------------------------------------------
+-- Table `bank`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bank` (
+  `bank_id` INT NOT NULL AUTO_INCREMENT ,
+  `bank_name` VARCHAR(255) NOT NULL ,
+  `bank_phone` VARCHAR(50) NOT NULL ,
+  `bank_email` VARCHAR(100) NULL ,
+  `bank_distr_id` INT NOT NULL ,
+  `bank_address` VARCHAR(255) NOT NULL ,
+  `bank_rtime` DATETIME NOT NULL ,
+  `bank_status` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`bank_id`) ,
+  CONSTRAINT `bank_district_id`
+    FOREIGN KEY (`bank_distr_id` )
+    REFERENCES `district` (`distr_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `bank_district_id_idx` ON `bank` (`bank_distr_id` ASC) ;
+
+
+-- -----------------------------------------------------
+-- Table `bank_meta`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `bank_meta` (
+  `meta_id` INT NOT NULL AUTO_INCREMENT ,
+  `bank_id` INT NOT NULL ,
+  `meta_key` VARCHAR(45) NOT NULL ,
+  `meta_value` LONGTEXT NULL ,
+  PRIMARY KEY (`meta_id`) ,
+  CONSTRAINT `bm_bank_id`
+    FOREIGN KEY (`bank_id` )
+    REFERENCES `bank` (`bank_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `bm_bank_id_idx` ON `bank_meta` (`bank_id` ASC) ;
+
+
+-- -----------------------------------------------------
+-- Table `stock`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `stock` (
+  `stock_id` INT NOT NULL AUTO_INCREMENT ,
+  `stock_bank_id` INT NOT NULL ,
+  `stock_blood_group` VARCHAR(45) NOT NULL ,
+  `stock_quantity` INT NOT NULL ,
+  `stock_status` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`stock_id`) ,
+  CONSTRAINT `stock_bank_id`
+    FOREIGN KEY (`stock_bank_id` )
+    REFERENCES `bank` (`bank_id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `stock_bank_id_idx` ON `stock` (`stock_bank_id` ASC) ;
 '
 		);
 

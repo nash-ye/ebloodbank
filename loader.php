@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.5.3-alpha' );
+define( 'eBloodBank\VERSION', '0.5.4-alpha' );
 define( 'eBloodBank\DIR', dirname( __FILE__ ) );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
@@ -109,20 +109,20 @@ function class_loader( $class_name ) {
 			require 'app/m/Users.php';
 			break;
 
-		case 'eBloodBank\Test':
-			require 'app/m/Test.php';
+		case 'eBloodBank\Bank':
+			require 'app/m/Bank.php';
 			break;
 
-		case 'eBloodBank\Tests':
-			require 'app/m/Tests.php';
+		case 'eBloodBank\Banks':
+			require 'app/m/Banks.php';
 			break;
 
-		case 'eBloodBank\Test_Type':
-			require 'app/m/Test_Type.php';
+		case 'eBloodBank\Stock':
+			require 'app/m/Stock.php';
 			break;
 
-		case 'eBloodBank\Test_Types':
-			require 'app/m/Test_Types.php';
+		case 'eBloodBank\Stocks':
+			require 'app/m/Stocks.php';
 			break;
 
 		/*** Views ************************************************************/
@@ -163,20 +163,20 @@ function class_loader( $class_name ) {
 			require 'app/v/Users.php';
 			break;
 
-		case 'eBloodBank\Test_View':
-			require 'app/v/Test.php';
+		case 'eBloodBank\Bank_View':
+			require 'app/v/Bank.php';
 			break;
 
-		case 'eBloodBank\Tests_View':
-			require 'app/v/Tests.php';
+		case 'eBloodBank\Banks_View':
+			require 'app/v/Banks.php';
 			break;
 
-		case 'eBloodBank\Test_Type_View':
-			require 'app/v/Test_Type.php';
+		case 'eBloodBank\Stock_View':
+			require 'app/v/Stock.php';
 			break;
 
-		case 'eBloodBank\Test_Types_View':
-			require 'app/v/Test_Types.php';
+		case 'eBloodBank\Stocks_View':
+			require 'app/v/Stocks.php';
 			break;
 
 		case 'eBloodBank\Default_View':
@@ -241,20 +241,20 @@ function class_loader( $class_name ) {
 			require 'app/c/Users.php';
 			break;
 
-		case 'eBloodBank\Test_Controller':
-			require 'app/c/Test.php';
+		case 'eBloodBank\Bank_Controller':
+			require 'app/c/Bank.php';
 			break;
 
-		case 'eBloodBank\Tests_Controller':
-			require 'app/c/Tests.php';
+		case 'eBloodBank\Banks_Controller':
+			require 'app/c/Banks.php';
 			break;
 
-		case 'eBloodBank\Test_Type_Controller':
-			require 'app/c/Test_Type.php';
+		case 'eBloodBank\Stock_Controller':
+			require 'app/c/Stock.php';
 			break;
 
-		case 'eBloodBank\Test_Types_Controller':
-			require 'app/c/Test_Types.php';
+		case 'eBloodBank\Stocks_Controller':
+			require 'app/c/Stocks.php';
 			break;
 
 		case 'eBloodBank\FrontPage_Controller':

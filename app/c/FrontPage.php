@@ -75,22 +75,22 @@ class FrontPage_Controller extends Controller {
 				new Users_Controller();
 				break;
 
-			case 'test':
-			case 'add-test':
-				new Test_Controller();
+			case 'bank':
+			case 'add-bank':
+				new Bank_Controller();
 				break;
 
-			case 'tests':
-				new Tests_Controller();
+			case 'banks':
+				new Banks_Controller();
 				break;
 
-			case 'test-type':
-			case 'add-test-type':
-				new Test_Type_Controller();
+			case 'stock':
+			case 'add-stock':
+				new Stock_Controller();
 				break;
 
-			case 'test-types':
-				new Test_Types_Controller();
+			case 'stocks':
+				new Stocks_Controller();
 				break;
 
 			case 'signin':

@@ -252,6 +252,12 @@ function anonymous_can( $caps, $opt = 'AND' ) {
 		// Districts
 		'view_distr'        => TRUE,
 
+		// Tests
+		'view_bank'         => TRUE,
+
+		// Stocks
+		'view_stock'        => TRUE,
+
 	) );
 
 	return $role->has_caps( (array) $caps, $opt );
@@ -291,18 +297,19 @@ Roles::add_role( new Role( 'administrator', 'مدير', array(
 	'delete_distr'          => TRUE,
 	'manage_distrs'         => TRUE,
 
-	// Tests
-	'add_test'              => TRUE,
-	'edit_test'             => TRUE,
-	'view_test'             => TRUE,
-	'delete_test'           => TRUE,
-	'manage_tests'          => TRUE,
+	// Banks
+	'add_bank'              => TRUE,
+	'edit_bank'             => TRUE,
+	'view_bank'             => TRUE,
+	'delete_bank'           => TRUE,
+	'approve_bank'          => TRUE,
+	'manage_banks'          => TRUE,
 
-	// Test Types
-	'add_test_type'         => TRUE,
-	'edit_test_type'        => TRUE,
-	'view_test_type'        => TRUE,
-	'delete_test_type'      => TRUE,
-	'manage_test_types'     => TRUE,
+	// Stocks
+	'add_stock'             => TRUE,
+	'edit_stock'            => TRUE,
+	'view_stock'            => TRUE,
+	'delete_stock'          => TRUE,
+	'manage_stocks'         => TRUE,
 
 ) ) );

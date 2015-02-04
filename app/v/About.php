@@ -31,7 +31,8 @@ class About_View extends Default_View {
 			<div id="project-requirements">
 				<h3>المتطلبات المادية</h3>
 				<ul>
-					<li>جهاز كمبيوتر، يعمل كمتسضيف للتطبيق (معالج: <span dir="ltr">Dual 2GHz+</span>، الذاكرة العشوائية: <span dir="ltr">2GB+</span>، المساحة التخزينية: <span dir="ltr">80GB</span>).</li>
+					<li>جهاز كمبيوتر، يعمل كمستضيف للتطبيق (معالج: <span dir="ltr">Dual 2GHz+</span>، الذاكرة العشوائية: <span dir="ltr">2GB+</span>، المساحة التخزينية: <span dir="ltr">80GB</span>).</li>
+					<li>ماسح ضوئي وطابعة، لسحب الفحوصات والمستندات الهامة وطباعتها.</li>
 					<li>موظفين، يقومون بعملية إدارة الموقع ومتابعته.</li>
 				</ul>
 				<h3>المتطلبات البرمجية</h3>
@@ -46,6 +47,13 @@ class About_View extends Default_View {
 
 				<h3>قاعدة بيانات المشروع</h3>
 				<p>قاعدة بيانات المشروع تحتوي على 9 جداول. إستخدمنا نظام MySQL نظرا لكفائته وسهولة إستخدامه مع تطبيقات الويب. وتم تصميمها بناءً على المعلومات التي تم جمعها من النزول الميداني والمناقشة مع المستفيدين من المشروع، النسخة الحالية من قاعدة البيانات قادرة على تخزين البيانات الأكثر أهمية، بالإضافة إلى إستخدامنا فكرة الـ <a href="http://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model">Open Schema</a> لجعل قاعدة البيانات مرنة، وقادرة على إستيعاب معظم التطويرات المستقبلية الممكنة بدون الحاجة إلى تغيير هيكلة قاعدة البيانات في كل مرة.</p>
+
+				<figure>
+					<a href="assets/img/db-summery.png" target="__blank">
+						<img src="assets/img/db-summery.png" alt="DB Summery" />
+					</a>
+					<figcaption>DB Summery</figcaption>
+				</figure>
 
 				<figure>
 					<a href="assets/img/db-eer.png" target="__blank">
@@ -64,6 +72,10 @@ class About_View extends Default_View {
 				<h3>جداول قاعدة بيانات</h3>
 
 				<table id="database-tables" class="data-table">
+
+					<thead>
+					</thead>
+
 					<tr>
 						<th>donor</th>
 						<td><p>جدول المتبرعين، يحتوي على بيانات المتطوعين المستعدين للتبرع بالدم.</p></td>
@@ -89,12 +101,12 @@ class About_View extends Default_View {
 						<td><p>جدول المديريات، يحتوي على بيانات المديريات لكل مدينة ويتم إستخدامه في فهرسة وترتيب المتبرعين بكفاءة عالية.</p></td>
 					</tr>
 					<tr>
-						<th>test_type</th>
-						<td><p>جدول أنواع الفحوصات الطبية مع عناوينها ورقم يشير إلى أهمية الفحص الطبي.</p></td>
+						<th>test</th>
+						<td><p>سجل للفحوصات الطبية للمتبرع، يستخدم لتأكيد حالة المتبرع الصحية ونوع فصيلة دمه وغيرها من الأسباب الطبية.</p></td>
 					</tr>
 					<tr>
-						<th>donor_test</th>
-						<td><p>سجل للفحوصات الطبية للمتبرع، يستخدم لتأكيد حالة المتبرع الصحية ونوع فصيلة دمه وغيرها من الأسباب الطبية.</p></td>
+						<th>test_type</th>
+						<td><p>جدول أنواع الفحوصات الطبية مع عناوينها ورقم يشير إلى أهمية الفحص الطبي.</p></td>
 					</tr>
 					<tr>
 						<th>donation</th>
@@ -104,8 +116,7 @@ class About_View extends Default_View {
 
 			</div>
 
-			<div>
-				<h3>أمثلة لجمل الإستعلامات <abbr>SQL</abbr></h3>
+			<div id="database-sql-statments">
 
 				<b>جملة إنشاء قاعدة البيانات:</b>
 				<pre class="code-snippet">
@@ -114,7 +125,7 @@ CREATE DATABASE `ebloodbank` CHARACTER SET utf8 COLLATE utf8_general_ci;
 </code>
 				</pre>
 
-				<b>جملة إنشاء مستخدم قاعدة البيانات:</b>
+				<b>جملة إنشاء المستخدم:</b>
 				<pre class="code-snippet">
 <code>
 CREATE USER 'ebb'@'localhost' IDENTIFIED BY 'EBB#Team';
@@ -122,7 +133,7 @@ GRANT ALL PRIVILEGES ON ebloodbank.* TO 'ebb'@'localhost';
 </code>
 				</pre>
 
-				<b>جمل إنشاء جداول قاعدة البيانات:</b>
+				<b>جمل إنشاء الجداول:</b>
 				<pre class="code-snippet">
 <code>
 CREATE  TABLE `city` (
@@ -198,18 +209,13 @@ CREATE  TABLE `user_meta` (
     ON UPDATE NO ACTION)
 CREATE INDEX `um_user_id_idx` ON `user_meta` (`user_id` ASC) ;
 
-CREATE  TABLE `test_type` (
-  `tt_id` INT NOT NULL AUTO_INCREMENT ,
-  `tt_title` VARCHAR(255) NOT NULL ,
-  `tt_priority` INT NOT NULL DEFAULT 10 ,
-  PRIMARY KEY (`tt_id`) )
-
-CREATE  TABLE `donor_test` (
+CREATE  TABLE `test` (
   `test_id` INT NOT NULL AUTO_INCREMENT ,
-  `test_time` DATETIME NOT NULL ,
+  `test_date` DATE NOT NULL ,
   `test_type_id` INT NOT NULL ,
   `test_donor_id` INT NOT NULL ,
   `test_document` BLOB NOT NULL ,
+  `test_rtime` DATETIME NOT NULL ,
   `test_status` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`test_id`) ,
   CONSTRAINT `dt_donor_id`
@@ -222,12 +228,18 @@ CREATE  TABLE `donor_test` (
     REFERENCES `test_type` (`tt_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-CREATE INDEX `dt_donor_id_idx` ON `donor_test` (`test_donor_id` ASC) ;
-CREATE INDEX `dt_type_id_idx` ON `donor_test` (`test_type_id` ASC) ;
+CREATE INDEX `dt_donor_id_idx` ON `test` (`test_donor_id` ASC) ;
+CREATE INDEX `dt_type_id_idx` ON `test` (`test_type_id` ASC) ;
+
+CREATE  TABLE `test_type` (
+  `tt_id` INT NOT NULL AUTO_INCREMENT ,
+  `tt_title` VARCHAR(255) NOT NULL ,
+  `tt_priority` INT NOT NULL DEFAULT 10 ,
+  PRIMARY KEY (`tt_id`) )
 
 CREATE  TABLE `donation` (
   `donat_id` INT NOT NULL AUTO_INCREMENT ,
-  `donat_time` DATETIME NOT NULL ,
+  `donat_date` DATE NULL ,
   `donat_purpose` VARCHAR(255) NULL ,
   `donat_donor_id` INT NOT NULL ,
   PRIMARY KEY (`donat_id`) ,
@@ -241,6 +253,18 @@ CREATE INDEX `donat_donor_id_idx` ON `donation` (`donat_donor_id` ASC) ;
 				</pre>
 
 			</div>
+
+			<div id="project-team">
+				<h3>فريق العمل</h3>
+				<ul>
+					<li><b>نشوان دعقان</b>: منسق الفريق ومطور تطبيق الويب وقاعدة البيانات.</li>
+					<li><b>رداد جميل</b>: مبرمج جمل الـ SQL والباحث عن الأخطاء.</li>
+					<li><b>معتصم الشميري</b>: مصمم مخططات قاعدة البيانات وسير العمليات.</li>
+					<li><b>محمد الشامي</b>: مساعد نشط في تصميم المخططات وكتابة جمل الـ  SQL.</li>
+					<li><b>محمد الأزغبي</b>: مساعد نشط في تصميم الواجهة وتوثيق المشروع.</li>
+				</ul>
+			</div>
+
 				<?php
 
 		$this->template_footer();
