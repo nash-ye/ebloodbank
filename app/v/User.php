@@ -8,28 +8,6 @@ namespace eBloodBank;
 class User_View extends Default_View {
 
 	/**
-	 * @return string
-	 * @since 0.2
-	 */
-	public function get_title() {
-
-		switch ( CURRENT_PAGE ) {
-
-			case 'user':
-			case 'view-user':
-				return 'عرض مستخدم';
-
-			case 'add-user':
-				return 'إضافة مستخدم';
-
-			case 'edit-user':
-				return 'تحرير مستخدم';
-
-		}
-
-	}
-
-	/**
 	 * @return void
 	 * @since 0.2
 	 */
@@ -67,6 +45,43 @@ class User_View extends Default_View {
 			</form><?php
 
 		$this->template_footer();
+
+	}
+
+	/**
+	 * @return string
+	 * @since 0.2
+	 */
+	public function get_title() {
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'user':
+			case 'view-user':
+				return 'عرض مستخدم';
+
+			case 'add-user':
+				return 'إضافة مستخدم';
+
+			case 'edit-user':
+				return 'تحرير مستخدم';
+
+		}
+
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_fa_icon() {
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'add-user':
+				return '<i class="fa fa-plus"></i>';
+
+		}
 
 	}
 

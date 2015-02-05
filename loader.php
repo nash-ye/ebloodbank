@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.5.5-alpha' );
+define( 'eBloodBank\VERSION', '0.5.6-alpha' );
 define( 'eBloodBank\DIR', dirname( __FILE__ ) );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
@@ -187,16 +187,16 @@ function class_loader( $class_name ) {
 			require 'app/v/FrontPage.php';
 			break;
 
-		case 'eBloodBank\SignIn_View':
-			require 'app/v/SignIn.php';
-			break;
-
 		case 'eBloodBank\Error401_View':
 			require 'app/v/Error401.php';
 			break;
 
 		case 'eBloodBank\Error404_View':
 			require 'app/v/Error404.php';
+			break;
+
+		case 'eBloodBank\Dashboard_View':
+			require 'app/v/Dashboard.php';
 			break;
 
 		case 'eBloodBank\About_View':
@@ -261,8 +261,8 @@ function class_loader( $class_name ) {
 			require 'app/c/FrontPage.php';
 			break;
 
-		case 'eBloodBank\SignIn_Controller':
-			require 'app/c/SignIn.php';
+		case 'eBloodBank\Dashboard_Controller':
+			require 'app/c/Dashboard.php';
 			break;
 
 		case 'eBloodBank\About_Controller':

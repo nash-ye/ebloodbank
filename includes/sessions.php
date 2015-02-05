@@ -105,11 +105,11 @@ final class Sessions {
 	public static function signout() {
 
 		if ( self::is_signed_in() ) {
-
 			$_SESSION = array();
-			session_destroy();
-
+			return session_destroy();
 		}
+
+		return TRUE;
 
 	}
 

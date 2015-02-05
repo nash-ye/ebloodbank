@@ -3,21 +3,13 @@
 namespace eBloodBank;
 
 /**
- * @since 0.4
+ * @since 0.5.6
  */
-class SignIn_View extends Default_View {
-
-	/**
-	 * @return string
-	 * @since 0.4
-	 */
-	public function get_title() {
-		return 'تسجيل الدخول';
-	}
+class Dashboard_View extends Default_View {
 
 	/**
 	 * @return void
-	 * @since 0.4
+	 * @since 0.5.6
 	 */
 	public function __invoke() {
 
@@ -45,6 +37,14 @@ class SignIn_View extends Default_View {
 
 		$this->template_footer();
 
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_title() {
+		return 'تسجيل الدخول';
 	}
 
 }

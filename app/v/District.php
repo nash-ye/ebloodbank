@@ -8,28 +8,6 @@ namespace eBloodBank;
 class District_View extends Default_View {
 
 	/**
-	 * @return string
-	 * @since 0.2
-	 */
-	public function get_title() {
-
-		switch ( CURRENT_PAGE ) {
-
-			case 'distr':
-			case 'view-distr':
-				return 'عرض مديرية';
-
-			case 'add-distr':
-				return 'إضافة مديرية';
-
-			case 'edit-distr':
-				return 'تحرير مديرية';
-
-		}
-
-	}
-
-	/**
 	 * @return void
 	 * @since 0.2
 	 */
@@ -74,6 +52,43 @@ class District_View extends Default_View {
 			</form><?php
 
 		$this->template_footer();
+
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_fa_icon() {
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'add-distr':
+				return '<i class="fa fa-plus"></i>';
+
+		}
+
+	}
+
+	/**
+	 * @return string
+	 * @since 0.2
+	 */
+	public function get_title() {
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'distr':
+			case 'view-distr':
+				return 'عرض مديرية';
+
+			case 'add-distr':
+				return 'إضافة مديرية';
+
+			case 'edit-distr':
+				return 'تحرير مديرية';
+
+		}
 
 	}
 

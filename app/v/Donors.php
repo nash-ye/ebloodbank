@@ -14,14 +14,6 @@ class Donors_View extends Default_View {
 	public $filter_args = arraY();
 
 	/**
-	 * @return string
-	 * @since 0.2
-	 */
-	public function get_title() {
-		return 'المتبرعين';
-	}
-
-	/**
 	 * @return void
 	 * @since 0.2
 	 */
@@ -105,6 +97,22 @@ class Donors_View extends Default_View {
 
 		$this->template_footer();
 
+	}
+
+	/**
+	 * @return string
+	 * @since 0.2
+	 */
+	public function get_title() {
+		return 'المتبرعين';
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_fa_icon() {
+		return '<i class="fa fa-table"></i>';
 	}
 
 }

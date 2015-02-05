@@ -155,10 +155,6 @@ ul.dropdown,
 #content {
     padding: 60px 0 40px 0;
 }
-#content img {
-    max-width: 100%;
-    height: auto;
-}
 .code-snippet {
     direction: ltr;
     text-align: left;
@@ -168,7 +164,9 @@ ul.dropdown,
     text-align: center;
 }
 #content figure img {
+    height: auto;
     padding: 5px;
+    max-width: 100%;
     background: #fff;
     border: 1px solid #ccc;
     -webkit-border-radius: 4px;
@@ -369,8 +367,8 @@ body#page-frontpage #page-header {
 
 #footer {
     height: 50px;
+    padding: 15px 0;
     background: #fff;
-    line-height: 50px;
 }
 #footer a {
     color: #d81e05;
@@ -382,4 +380,16 @@ body#page-frontpage #page-header {
 }
 .copyrights {
     text-align: center;
+}
+#secondary-nav {
+    text-align: center;
+}
+#secondary-nav ul {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+#secondary-nav li {
+    margin: 0 4px;
+    display: inline-block;
 }

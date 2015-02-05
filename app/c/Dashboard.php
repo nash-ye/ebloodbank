@@ -3,13 +3,13 @@
 namespace eBloodBank;
 
 /**
- * @since 0.4
+ * @since 0.5.6
  */
-class SignIn_Controller extends Controller {
+class Dashboard_Controller extends Controller {
 
 	/**
 	 * @return void
-	 * @since 0.4
+	 * @since 0.5.6
 	 */
 	public function process_request() {
 
@@ -45,11 +45,11 @@ class SignIn_Controller extends Controller {
 
 	/**
 	 * @return void
-	 * @since 0.4
+	 * @since 0.5.6
 	 */
 	public function output_response() {
 
-		$view = new SignIn_View();
+		$view = new Dashboard_View();
 		$view();
 
 	}

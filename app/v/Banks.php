@@ -8,14 +8,6 @@ namespace eBloodBank;
 class Banks_View extends Default_View {
 
 	/**
-	 * @return string
-	 * @since 0.5.4
-	 */
-	public function get_title() {
-		return 'بنوك الدم';
-	}
-
-	/**
 	 * @return void
 	 * @since 0.5.4
 	 */
@@ -95,6 +87,22 @@ class Banks_View extends Default_View {
 
 		$this->template_footer();
 
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.4
+	 */
+	public function get_title() {
+		return 'بنوك الدم';
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_fa_icon() {
+		return '<i class="fa fa-table"></i>';
 	}
 
 }

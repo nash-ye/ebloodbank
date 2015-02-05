@@ -29,6 +29,14 @@ class FrontPage_Controller extends Controller {
 
 		}
 
+		if ( isset( $_GET['action'] ) && 'signout' === $_GET['action'] ) {
+
+			if ( Sessions::signout() ) {
+				redirect( get_site_url() );
+			}
+
+		}
+
 	}
 
 	/**
@@ -93,12 +101,12 @@ class FrontPage_Controller extends Controller {
 				new Stocks_Controller();
 				break;
 
-			case 'signin':
-				new SignIn_Controller();
-				break;
-
 			case 'about':
 				new About_Controller();
+				break;
+
+			case 'dashboard':
+				new Dashboard_Controller();
 				break;
 
 			case 'frontpage':

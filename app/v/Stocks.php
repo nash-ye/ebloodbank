@@ -14,14 +14,6 @@ class Stocks_View extends Default_View {
 	public $filter_args = arraY();
 
 	/**
-	 * @return string
-	 * @since 0.5.4
-	 */
-	public function get_title() {
-		return 'مخزونات بنك الدم';
-	}
-
-	/**
 	 * @return void
 	 * @since 0.5.4
 	 */
@@ -38,7 +30,7 @@ class Stocks_View extends Default_View {
 
 			<?php if ( $can_add ) : ?>
 			<a href="<?php site_url( array( 'page' => 'add-stock', 'bank_id' => $bank_id ) ) ?>" class="add-link">
-				<button type="button">أضف مخزن دم جديد</button>
+				<button type="button">أضف مخزون دم جديد</button>
 			</a>
 			<?php endif; ?>
 
@@ -95,6 +87,22 @@ class Stocks_View extends Default_View {
 
 		$this->template_footer();
 
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.4
+	 */
+	public function get_title() {
+		return 'مخزونات بنك الدم';
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_fa_icon() {
+		return '<i class="fa fa-table"></i>';
 	}
 
 }

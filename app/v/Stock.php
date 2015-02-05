@@ -8,24 +8,6 @@ namespace eBloodBank;
 class Stock_View extends Default_View {
 
 	/**
-	 * @return string
-	 * @since 0.5.3
-	 */
-	public function get_title() {
-
-		switch ( CURRENT_PAGE ) {
-
-			case 'add-stock':
-				return 'إضافة مخزون';
-
-			case 'edit-stock':
-				return 'تحرير مخزون';
-
-		}
-
-	}
-
-	/**
 	 * @return void
 	 * @since 0.5.3
 	 */
@@ -75,6 +57,39 @@ class Stock_View extends Default_View {
 			</form><?php
 
 		$this->template_footer();
+
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.3
+	 */
+	public function get_title() {
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'add-stock':
+				return 'إضافة مخزون';
+
+			case 'edit-stock':
+				return 'تحرير مخزون';
+
+		}
+
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_fa_icon() {
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'add-stock':
+				return '<i class="fa fa-plus"></i>';
+
+		}
 
 	}
 

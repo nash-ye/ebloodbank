@@ -12,7 +12,7 @@ class About_View extends Default_View {
 	 * @since 0.5.2
 	 */
 	public function get_title() {
-		return 'حول المشروع';
+		return 'حول';
 	}
 
 	/**

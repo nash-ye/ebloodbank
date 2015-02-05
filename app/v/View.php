@@ -8,16 +8,28 @@ namespace eBloodBank;
 abstract class View {
 
 	/**
-	 * @return void
-	 * @since 0.1
+	 * @return string
+	 * @since 0.5.6
 	 */
-	abstract protected function template_header();
+	public function get_title() {}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_fa_icon() {}
 
 	/**
 	 * @return void
 	 * @since 0.1
 	 */
-	abstract protected function template_footer();
+	abstract public function template_header();
+
+	/**
+	 * @return void
+	 * @since 0.1
+	 */
+	abstract public function template_footer();
 
 }
 
@@ -30,7 +42,7 @@ class Default_View extends View {
 	 * @return void
 	 * @since 0.1
 	 */
-	protected function template_header() { ?>
+	public function template_header() { ?>
 		<!doctype html>
 		<html lang="ar" dir="rtl">
 			<head>
@@ -54,7 +66,10 @@ class Default_View extends View {
 							<nav id="primary-nav" role="navigation">
 
 								<ul class="dropdown">
-									<li><a href="<?php site_url() ?>">الرئيسية</a></li>
+									<li>
+										<i class="fa fa-home"></i>
+										<a href="<?php site_url() ?>">الرئيسية</a>
+									</li>
 									<li><a href="<?php site_url( array( 'page' => 'donors' ) ) ?>">المتبرعين</a></li>
 									<li><a href="<?php site_url( array( 'page' => 'banks' ) ) ?>">بنوك الدم</a></li>
 									<li>
@@ -64,17 +79,8 @@ class Default_View extends View {
 											<li><a href="<?php site_url( array( 'page' => 'distrs' ) ) ?>">المديريات</a></li>
 										</ul>
 									</li>
-									<li>
-										<a href="<?php site_url( array( 'page' => 'users' ) ) ?>">المستخدمين</a>
-										<ul>
-											<?php if ( Sessions::is_signed_in() ) : ?>
-												<li><a href="<?php site_url( array( 'page' => 'signin', 'action' => 'signout' ) ) ?>">تسجيل الخروج</a></li>
-											<?php else: ?>
-												<li><a href="<?php site_url( array( 'page' => 'signin' ) ) ?>">تسجيل الدخول</a></li>
-											<?php endif; ?>
-										</ul>
-									</li>
-									<li><a href="<?php site_url( array( 'page' => 'about' ) ) ?>">حول المشروع</a></li>
+									<li><a href="<?php site_url( array( 'page' => 'users' ) ) ?>">المستخدمين</a></li>
+									<li><a href="<?php site_url( array( 'page' => 'about' ) ) ?>">حول</a></li>
 								</ul>
 
 							</nav>
@@ -90,7 +96,7 @@ class Default_View extends View {
 							<div class="wrapper">
 
 								<header id="page-header">
-									<h1 id="page-title"><?php echo $this->get_title() ?></h1>
+									<h1 id="page-title"><?php printf( '%s &nbsp; %s', $this->get_fa_icon(), $this->get_title() ) ?></h1>
 								</header><?php
 
 	}
@@ -99,7 +105,7 @@ class Default_View extends View {
 	 * @return void
 	 * @since 0.1
 	 */
-	protected function template_footer() { ?>
+	public function template_footer() { ?>
 
 								</div>
 
@@ -110,7 +116,29 @@ class Default_View extends View {
 					<footer id="footer">
 
 						<div class="wrapper">
+
+							<nav id="secondary-nav" role="navigation">
+
+								<ul>
+									<li>
+										<i class="fa fa-home"></i>
+										<a href="<?php site_url() ?>">الرئيسية</a>
+									</li>
+									<li>
+										<i class="fa fa-dashboard"></i>
+										<a href="<?php site_url( array( 'page' => 'dashboard' ) ) ?>">لوحة التحكم</a>
+										<?php if ( Sessions::is_signed_in() ) : ?>
+										<a href="<?php site_url( array( 'action' => 'signout' ) ) ?>">
+											<span style="color:#333;">[تسجيل الخروج]</span>
+										</a>
+										<?php endif; ?>
+									</li>
+								</ul>
+
+							</nav>
+
 							<p class="copyrights">جميع الحقوق محفوظة</p>
+
 						</div>
 
 					</footer>

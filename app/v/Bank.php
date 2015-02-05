@@ -8,28 +8,6 @@ namespace eBloodBank;
 class Bank_View extends Default_View {
 
 	/**
-	 * @return string
-	 * @since 0.5.4
-	 */
-	public function get_title() {
-
-		switch ( CURRENT_PAGE ) {
-
-			case 'bank':
-			case 'view-bank':
-				return 'عرض بنك دم';
-
-			case 'add-bank':
-				return 'إضافة بنك دم';
-
-			case 'edit-bank':
-				return 'تحرير بنك دم';
-
-		}
-
-	}
-
-	/**
 	 * @return void
 	 * @since 0.5.4
 	 */
@@ -107,6 +85,43 @@ class Bank_View extends Default_View {
 			</form><?php
 
 		$this->template_footer();
+
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_fa_icon() {
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'add-bank':
+				return '<i class="fa fa-plus"></i>';
+
+		}
+
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.4
+	 */
+	public function get_title() {
+
+		switch ( CURRENT_PAGE ) {
+
+			case 'bank':
+			case 'view-bank':
+				return 'عرض بنك دم';
+
+			case 'add-bank':
+				return 'إضافة بنك دم';
+
+			case 'edit-bank':
+				return 'تحرير بنك دم';
+
+		}
 
 	}
 

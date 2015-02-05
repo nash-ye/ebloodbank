@@ -8,14 +8,6 @@ namespace eBloodBank;
 class Cites_View extends Default_View {
 
 	/**
-	 * @return string
-	 * @since 0.3
-	 */
-	public function get_title() {
-		return 'المدن';
-	}
-
-	/**
 	 * @return void
 	 * @since 0.3
 	 */
@@ -85,6 +77,22 @@ class Cites_View extends Default_View {
 
 		$this->template_footer();
 
+	}
+
+	/**
+	 * @return string
+	 * @since 0.3
+	 */
+	public function get_title() {
+		return 'المدن';
+	}
+
+	/**
+	 * @return string
+	 * @since 0.5.6
+	 */
+	public function get_fa_icon() {
+		return '<i class="fa fa-table"></i>';
 	}
 
 }
