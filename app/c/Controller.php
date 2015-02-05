@@ -8,7 +8,6 @@ namespace eBloodBank;
 abstract class Controller {
 
 	/**
-	 * @return void
 	 * @since 0.1
 	 */
 	public function __construct() {

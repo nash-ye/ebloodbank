@@ -33,7 +33,6 @@ class Role {
 	/*** Methods **************************************************************/
 
 	/**
-	 * @return void
 	 * @since 0.4.1
 	 */
 	public function __construct( $slug, $title, array $caps ) {
@@ -131,12 +130,12 @@ final class Roles {
 	 */
 	public static function add_role( Role $role ) {
 
-		if ( isset( self::$roles[ $role->slug ] ) ) {
-			return false;
+		if ( self::role_exists( $role->slug ) ) {
+			return FALSE;
 		}
 
 		self::$roles[ $role->slug ] = $role;
-		return true;
+		return TRUE;
 
 	}
 
@@ -146,12 +145,12 @@ final class Roles {
 	 */
 	public static function remove_role( $slug ) {
 
-		if ( ! isset( self::$roles[ $slug ] ) ) {
-			return false;
+		if ( ! self::role_exists( $slug ) ) {
+			return FALSE;
 		}
 
 		unset( self::$roles[ $slug ] );
-		return true;
+		return TRUE;
 
 	}
 

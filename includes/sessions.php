@@ -14,7 +14,6 @@ final class Sessions {
 	private static $current_user;
 
 	/**
-	 * @return void
 	 * @since 0.4
 	 */
 	private function __construct() {}
