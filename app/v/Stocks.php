@@ -29,20 +29,20 @@ class Stocks_View extends Default_View {
 		$this->template_header(); ?>
 
 			<?php if ( $can_add ) : ?>
-			<a href="<?php site_url( array( 'page' => 'add-stock', 'bank_id' => $bank_id ) ) ?>" class="add-link">
-				<button type="button">أضف مخزون دم جديد</button>
-			</a>
+			<a href="<?php site_url( array( 'page' => 'add-stock', 'bank_id' => $bank_id ) ) ?>" class="btn add-link">أضف مخزون دم جديد</a>
 			<?php endif; ?>
 
 			<table id="table-test-types" class="list-table">
 
 				<thead>
-					<th>#</th>
-					<th>فصيلة الدم</th>
-					<th>الكمية المتوفرة</th>
-					<?php if ( $can_manage ) : ?>
-					<th>الإجراءات</th>
-					<?php endif; ?>
+					<tr>
+						<th>#</th>
+						<th>فصيلة الدم</th>
+						<th>الكمية المتوفرة</th>
+						<?php if ( $can_manage ) : ?>
+						<th>الإجراءات</th>
+						<?php endif; ?>
+					</tr>
 				</thead>
 
 				<tbody>

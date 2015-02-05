@@ -4,7 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.5.7-alpha' );
+define( 'eBloodBank\VERSION', '0.5.8-alpha' );
 define( 'eBloodBank\DIR', dirname( __FILE__ ) );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {

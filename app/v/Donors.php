@@ -28,24 +28,24 @@ class Donors_View extends Default_View {
 		$this->template_header(); ?>
 
 			<?php if ( $can_add ) : ?>
-			<a href="<?php site_url( array( 'page' => 'add-donor' ) ) ?>" class="add-link">
-				<button type="button">أضف متبرع جديد</button>
-			</a>
+			<a href="<?php site_url( array( 'page' => 'add-donor' ) ) ?>" class="btn add-link">أضف متبرع جديد</a>
 			<?php endif; ?>
 
 			<table id="table-donors" class="list-table">
 
 				<thead>
-					<th>#</th>
-					<th>الاسم</th>
-					<th>الجنس</th>
-					<th>العمر</th>
-					<th>فصيلة الدم</th>
-					<th>المدينة/المديرية</th>
-					<th>رقم التلفون</th>
-					<?php if ( $can_manage ) : ?>
-					<th>الإجراءات</th>
-					<?php endif; ?>
+					<tr>
+						<th>#</th>
+						<th>الاسم</th>
+						<th>الجنس</th>
+						<th>العمر</th>
+						<th>فصيلة الدم</th>
+						<th>المدينة/المديرية</th>
+						<th>رقم التلفون</th>
+						<?php if ( $can_manage ) : ?>
+						<th>الإجراءات</th>
+						<?php endif; ?>
+					</tr>
 				</thead>
 
 				<tbody>

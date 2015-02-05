@@ -21,20 +21,20 @@ class Districts_View extends Default_View {
 		$this->template_header(); ?>
 
 			<?php if ( $can_add ) : ?>
-			<a href="<?php site_url( array( 'page' => 'add-distr' ) ) ?>" class="add-link">
-				<button type="button">أضف مديرية جديدة</button>
-			</a>
+			<a href="<?php site_url( array( 'page' => 'add-distr' ) ) ?>" class="btn add-link">أضف مديرية جديدة</a>
 			<?php endif; ?>
 
 			<table id="table-distrs" class="list-table">
 
 				<thead>
-					<th>#</th>
-					<th>الاسم</th>
-					<th>المدينة</th>
-					<?php if ( $can_manage ) : ?>
-					<th>الإجراءات</th>
-					<?php endif; ?>
+					<tr>
+						<th>#</th>
+						<th>الاسم</th>
+						<th>المدينة</th>
+						<?php if ( $can_manage ) : ?>
+						<th>الإجراءات</th>
+						<?php endif; ?>
+					</tr>
 				</thead>
 
 				<tbody>

@@ -21,19 +21,19 @@ class Cites_View extends Default_View {
 		$this->template_header(); ?>
 
 			<?php if ( $can_add ) : ?>
-			<a href="<?php site_url( array( 'page' => 'add-city' ) ) ?>" class="add-link">
-				<button type="button">أضف مدينة جديدة</button>
-			</a>
+			<a href="<?php site_url( array( 'page' => 'add-city' ) ) ?>" class="btn add-link">أضف مدينة جديدة</a>
 			<?php endif; ?>
 
 			<table id="table-cites" class="list-table">
 
 				<thead>
-					<th>#</th>
-					<th>الاسم</th>
-					<?php if ( $can_manage ) : ?>
-					<th>الإجراءات</th>
-					<?php endif; ?>
+					<tr>
+						<th>#</th>
+						<th>الاسم</th>
+						<?php if ( $can_manage ) : ?>
+						<th>الإجراءات</th>
+						<?php endif; ?>
+					</tr>
 				</thead>
 
 				<tbody>

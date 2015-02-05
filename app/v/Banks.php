@@ -21,22 +21,22 @@ class Banks_View extends Default_View {
 		$this->template_header(); ?>
 
 			<?php if ( $can_add ) : ?>
-			<a href="<?php site_url( array( 'page' => 'add-bank' ) ) ?>" class="add-link">
-				<button type="button">أضف بنك دم جديد</button>
-			</a>
+			<a href="<?php site_url( array( 'page' => 'add-bank' ) ) ?>" class="btn add-link">أضف بنك دم جديد</a>
 			<?php endif; ?>
 
 			<table id="table-banks" class="list-table">
 
 				<thead>
-					<th>#</th>
-					<th>الاسم</th>
-					<th>التلفون</th>
-					<th>البريد الإلكتروني</th>
-					<th>المدينة/المديرية</th>
-					<?php if ( $can_manage ) : ?>
-					<th>الإجراءات</th>
-					<?php endif; ?>
+					<tr>
+						<th>#</th>
+						<th>الاسم</th>
+						<th>التلفون</th>
+						<th>البريد الإلكتروني</th>
+						<th>المدينة/المديرية</th>
+						<?php if ( $can_manage ) : ?>
+						<th>الإجراءات</th>
+						<?php endif; ?>
+					</tr>
 				</thead>
 
 				<tbody>

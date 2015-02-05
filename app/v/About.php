@@ -49,21 +49,21 @@ class About_View extends Default_View {
 				<p>قاعدة بيانات المشروع تحتوي على 10 جداول. إستخدمنا نظام MySQL نظرا لكفائته وسهولة إستخدامه مع تطبيقات الويب. وتم تصميمها بناءً على المعلومات التي تم جمعها من النزول الميداني والمناقشة مع المستفيدين من المشروع، النسخة الحالية من قاعدة البيانات قادرة على تخزين البيانات الأكثر أهمية، بالإضافة إلى إستخدامنا فكرة الـ <a href="http://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model">Open Schema</a> لجعل قاعدة البيانات مرنة، وقادرة على إستيعاب معظم التطويرات المستقبلية الممكنة بدون الحاجة إلى تغيير هيكلة قاعدة البيانات في كل مرة.</p>
 
 				<figure>
-					<a href="assets/img/db-summery.png" target="__blank">
+					<a href="assets/img/db-summery.png" target="_blank">
 						<img src="assets/img/db-summery.png" alt="DB Summery" />
 					</a>
 					<figcaption>DB Summery</figcaption>
 				</figure>
 
 				<figure>
-					<a href="assets/img/db-eer.png" target="__blank">
+					<a href="assets/img/db-eer.png" target="_blank">
 						<img src="assets/img/db-eer.png" alt="EER Diagram" />
 					</a>
 					<figcaption>EER Diagram</figcaption>
 				</figure>
 
 				<figure>
-					<a href="assets/img/db-er.jpg" target="__blank">
+					<a href="assets/img/db-er.jpg" target="_blank">
 						<img src="assets/img/db-er.jpg" alt="ER Diagram" />
 					</a>
 					<figcaption>ER Diagram</figcaption>

@@ -70,7 +70,7 @@ class FrontPage_View extends Default_View {
 						<div>
 							<label for="distr_id">المديرية</label>
 							<select name="distr_id" id="distr_id">
-								<option value="-1"></option>
+								<option value="-1">الكل</option>
 								<?php foreach( Districts::fetch_all() as $distr ) : ?>
 									<option value="<?php $distr->display( 'distr_id', 'attr' ) ?>"><?php $distr->display( 'distr_name' ) ?></option>
 								<?php endforeach; ?>
@@ -120,7 +120,7 @@ class FrontPage_View extends Default_View {
 
 				<div id="block-3" class="column block">
 					<h3>سجل معنا كمتبرع دم!</h3>
-					<p>ماذا تنتظر؟ بنقرة واحدة يمكنك التسجيل معنا كمتبرع للدم!. لربما تنقذ حياة شخص ما.<br /><br /><a href="<?php site_url( array( 'page' => 'add-donor' ) ) ?>"><button type="button">التسجيل كمتبرع</button></a></p>
+					<p>ماذا تنتظر؟ بنقرة واحدة يمكنك التسجيل معنا كمتبرع للدم!. لربما تنقذ حياة شخص ما.<br /><br /><a href="<?php site_url( array( 'page' => 'add-donor' ) ) ?>" class="btn">التسجيل كمتبرع</a></p>
 				</div>
 
 			</div>

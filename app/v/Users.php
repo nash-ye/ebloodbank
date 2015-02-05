@@ -21,9 +21,7 @@ class Users_View extends Default_View {
 		$this->template_header(); ?>
 
 			<?php if ( $can_add ) : ?>
-			<a href="<?php site_url( array( 'page' => 'add-user' ) ) ?>" class="add-link">
-				<button type="button">أضف مستخدم جديد</button>
-			</a>
+			<a href="<?php site_url( array( 'page' => 'add-user' ) ) ?>" class="btn add-link">أضف مستخدم جديد</a>
 			<?php endif; ?>
 
 			<table id="table-users" class="list-table">
