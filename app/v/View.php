@@ -48,9 +48,13 @@ class Default_View extends View {
 			<head>
 				<meta charset="UTF-8">
 				<title><?php echo $this->get_title() ?></title>
+				<meta name="designer" content="Nashwan Doaqan" />
+
 				<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
 				<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
+
 				<?php if ( method_exists( $this, 'hook_head' ) ) { $this->hook_head(); } ?>
+
 			</head>
 
 			<body id="page-<?php echo CURRENT_PAGE ?>">

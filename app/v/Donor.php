@@ -33,7 +33,7 @@ class Donor_View extends Default_View {
 
 				<div>
 					<label for="donor_weight">الوزن</label>
-					<input type="number" name="donor_weight" id="donor_weight" />
+					<input type="number" name="donor_weight" id="donor_weight" required="required" />
 				</div>
 
 				<div>

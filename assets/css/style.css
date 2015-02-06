@@ -44,6 +44,18 @@ h6 {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+pre {
+    color: #666;
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.5em;
+    margin: 10px auto;
+    padding: 10px 15px;
+    background: #F7F7F7;
+    word-break: keep-all;
+    border: 1px solid #CCC;
+}
+
 .btn,
 button,
 input[type="reset"],

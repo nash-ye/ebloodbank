@@ -25,7 +25,7 @@ class About_View extends Default_View {
 
 			<div id="project-description">
 				<h3>وصف المشروع</h3>
-				<p>نظام بنك الدم الإلكتروني، الهدف منه هو تنظيم قاعدة بيانات حول المتطوعين المستعدين للتبرع بالدم حسب المدن والمديريات وتوفير واجهة بسيطة للبحث والإضافة والإدارة. المشروع يوفر جهد ووقت كبير يضيع من المحتاجين للمتبرعبين في البحث وخصوصاً عندما يكون المحتاج من فصيلة دم نادرة.</p>
+				<p>نظام بنك الدم الإلكتروني، الهدف منه هو تنظيم قاعدة بيانات حول المتطوعين المستعدين للتبرع بالدم حسب المدن والمديريات وتوفير واجهة بسيطة للبحث والإضافة والإدارة. المشروع يوفر جهد ووقت كبير يضيع من المحتاجين في البحث عن المتبرعين وخصوصاً عندما يكون المحتاج من فصيلة دم نادرة.</p>
 			</div>
 
 			<div id="project-requirements">
@@ -40,6 +40,7 @@ class About_View extends Default_View {
 					<li><span dir="ltr">PHP 5.4+</span></li>
 					<li><span dir="ltr">MySQL 5.6+</span></li>
 					<li><span dir="ltr">Modern Browser (Google Chrome, Mozilla Firefox...etc)</span></li>
+					<li><span dir="ltr">Network OS (Linux Ubuntu Server, Linux CentOS, Windows Server...etc)</span></li>
 				</ul>
 			</div>
 
@@ -67,6 +68,13 @@ class About_View extends Default_View {
 						<img src="assets/img/db-er.jpg" alt="ER Diagram" />
 					</a>
 					<figcaption>ER Diagram</figcaption>
+				</figure>
+
+				<figure>
+					<a href="assets/img/flowchart-add_donor.png" target="_blank">
+						<img src="assets/img/flowchart-add_donor.png" alt="Flowchart: Add Donor" />
+					</a>
+					<figcaption>Flowchart: Add Donor</figcaption>
 				</figure>
 
 				<h3>جداول قاعدة بيانات</h3>
@@ -127,22 +135,22 @@ class About_View extends Default_View {
 			<div id="database-sql-statments">
 
 				<b>جملة إنشاء قاعدة البيانات:</b>
-				<pre class="code-snippet">
+<pre class="code-snippet">
 <code>
 CREATE DATABASE `ebloodbank` CHARACTER SET utf8 COLLATE utf8_general_ci;
 </code>
-				</pre>
+</pre>
 
 				<b>جملة إنشاء المستخدم:</b>
-				<pre class="code-snippet">
+<pre class="code-snippet">
 <code>
 CREATE USER 'ebb'@'localhost' IDENTIFIED BY 'EBB#Team';
 GRANT ALL PRIVILEGES ON ebloodbank.* TO 'ebb'@'localhost';
 </code>
-				</pre>
+</pre>
 
 				<b>جمل إنشاء الجداول:</b>
-				<pre class="code-snippet">
+<pre class="code-snippet">
 <code>
 CREATE  TABLE `city` (
   `city_id` INT NOT NULL AUTO_INCREMENT ,
@@ -304,19 +312,130 @@ ENGINE = InnoDB;
 
 CREATE INDEX `stock_bank_id_idx` ON `stock` (`stock_bank_id` ASC) ;
 </code>
-				</pre>
+</pre>
+
+				<b>جمل إنشاء جداول العرض:</b>
+<pre class="code-snippet">
+<code>
+/* All donors who able to donate */
+CREATE VIEW able_donor AS SELECT * FROM donor WHERE donor_status = 'approved AND donor_weight >= 50 AND TIMESTAMPDIFF(YEAR, donor_birthdate, CURDATE()) BETWEEN 18 AND 68;
+
+/* All approved donors */
+CREATE VIEW approved_donor AS SELECT * FROM donor WHERE donor_status = 'approved';
+
+/* All pending donors */
+CREATE VIEW pending_donor AS SELECT * FROM donor WHERE donor_status = 'pending';
+
+/* All approved banks */
+CREATE VIEW approved_bank AS SELECT * FROM bank WHERE bank_status = 'approved';
+
+/* All pending banks */
+CREATE VIEW pending_bank AS SELECT * FROM bank WHERE bank_status = 'pending';
+
+/* All available banks */
+CREATE VIEW available_stock AS SELECT * FROM stock WHERE stock_status = 'available';
+
+/* All activated users */
+CREATE VIEW activated_user AS SELECT * FROM user WHERE user_status = 'activated';
+
+/* All administrators */
+CREATE VIEW administrator AS SELECT * FROM user WHERE user_role = 'administrator';
+
+/* All approved male donors */
+CREATE VIEW male_donor AS SELECT * FROM donor WHERE donor_status = 'approved' AND donor_gender = 'male';
+
+/* All approved female donors */
+CREATE VIEW male_donor AS SELECT * FROM donor WHERE donor_status = 'approved' AND donor_gender = 'female';
+</code>
+</pre>
+
+				<b>جمل الإستعلامات:</b>
+<pre class="code-snippet">
+<code>
+/* All donors who able to donate */
+SELECT * FROM donor WHERE donor_weight >= 50 AND TIMESTAMPDIFF(YEAR, donor_birthdate, CURDATE()) BETWEEN 18 AND 68;
+
+/* All approved banks with city and district names */
+SELECT bank.*, city_name, distr_name  FROM bank JOIN district ON(bank_distr_id = distr_id) JOIN city ON ( bank_city_id = city_id ) WHERE bank_status = 'approved';
+
+/* All approved donors with city and district names */
+SELECT donor.*, city_name, distr_name  FROM donor JOIN district ON(donor_distr_id = distr_id) JOIN city ON ( distr_city_id = city_id ) WHERE donor_status = 'approved';
+
+/* All approved donors with the last donation time */
+SELECT donor.*, MAX(donat_date) AS last_donat_time FROM donor LEFT OUTER JOIN donation ON( donat_donor_id = donor_id ) WHERE donor_status = 'approved';
+
+/* All approved donors who doesn't donate in the recent 3 months */
+SELECT donor.*, MAX(donat_date) as last_donat_time FROM donor LEFT OUTER JOIN donation ON( donat_donor_id = donor_id )  WHERE donor_status = 'approved' HAVING TIMESTAMPDIFF(DAY, last_donat_time, CURDATE()) > 90;
+
+/* All approved donor in a specified city (ID:1) */
+SELECT * FROM donor WHERE donor_status = 'approved' AND donor_distr_id IN( SELECT distr_id FROM district WHERE distr_city_id = 1 );
+
+/* All approved donors with specific blood group */
+SELECT * FROM donor WHERE donor_status = 'approved' AND donor_blood_group = '+O';
+
+/* All districts with city names */
+SELECT distr_name, city_name FROM district JOIN city ON( distr_city_id = city_id );
+
+/* The bank (ID:2) available stocks */
+SELECT * FROM stock WHERE stock_status = 'available' AND stock_bank_id = 2;
+
+/* The donor (ID:3) donations */
+SELECT * FROM donation WHERE donat_donor_id = 3;
+</code>
+</pre>
 
 			</div>
 
 			<div id="project-team">
 				<h3>فريق العمل</h3>
-				<ul>
-					<li><b>نشوان دعقان</b>: منسق الفريق ومطور تطبيق الويب وقاعدة البيانات.</li>
-					<li><b>رداد جميل</b>: مبرمج جمل الـ SQL والباحث عن الأخطاء.</li>
-					<li><b>معتصم الشميري</b>: مصمم مخططات قاعدة البيانات وسير العمليات.</li>
-					<li><b>محمد الشامي</b>: مساعد نشط في تصميم المخططات وكتابة جمل الـ  SQL.</li>
-					<li><b>محمد الأزغبي</b>: مساعد نشط في تصميم الواجهة وتوثيق المشروع.</li>
-				</ul>
+				<table class="list-table">
+					<thead>
+						<tr>
+							<th>الاسم</th>
+							<th>الرقم الأكاديمي</th>
+							<th>البريد الإلكتروني</th>
+							<th>دوره في المشروع</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>محمـد الأزعبي</td>
+							<td></td>
+							<td></td>
+							<td>مساعد في توثيق المشروع</td>
+						</tr>
+						<tr>
+							<td>رداد جميل الشلح</td>
+							<td></td>
+							<td>radadgameel@gmail.com</td>
+							<td>مساعد في برمجة الـSQL</td>
+						</tr>
+						<tr>
+							<td>محمـد الشامي</td>
+							<td>1309335</td>
+							<td>mohscience92@gmail.com</td>
+							<td>مساعد في تصميم الصفحات</td>
+						</tr>
+						<tr>
+							<td>وسيم العبيدي</td>
+							<td></td>
+							<td></td>
+							<td>مساعد في جمع المعلومات والنزول الميداني</td>
+						</tr>
+						<tr>
+							<td>معتصم الشميري</td>
+							<td>1301173</td>
+							<td>moatasim2014@gmail.com</td>
+							<td>مصمم مخططات قاعدة البيانات وسير العمليات</td>
+						</tr>
+						<tr>
+							<td>نشوان دعقان</td>
+							<td>1304767</td>
+							<td>nashwan.doaqan@gmail.com</td>
+							<td>مطور تطبيق الويب، مصمم قاعدة البيانات وموثق المشروع</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 
 				<?php
