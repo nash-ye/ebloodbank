@@ -4,7 +4,12 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define( 'eBloodBank\VERSION', '0.5.9-alpha' );
+if ( ! defined( 'DB_NAME' ) ) {
+	define( 'DB_NAME', 'ebloodbank' );
+	define( 'eBloodBank\CREATE_DB', TRUE );
+}
+
+define( 'eBloodBank\VERSION', '0.6-alpha' );
 define( 'eBloodBank\DIR', dirname( __FILE__ ) );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
@@ -36,11 +41,12 @@ date_default_timezone_set( 'UTC' );
 
 try {
 
-	$db = new \PDO( sprintf( 'mysql:host=%s;dbname=%s;charset=utf8', DB_HOST, DB_NAME ), DB_USER, DB_PASS );
+	$db = new \PDO( sprintf( 'mysql:host=%s;charset=utf8;', DB_HOST ), DB_USER, DB_PASS );
 	$db->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
+	$db->exec( sprintf( 'USE `%s`', DB_NAME ) );
 
 } catch ( \PDOException $ex ) {
-	die( 'Database Error!' );
+	die( 'Database Error, Please make sure you had setup the database.' );
 }
 
 /*** Load Includes ************************************************************/
