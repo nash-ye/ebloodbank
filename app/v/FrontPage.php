@@ -44,9 +44,9 @@ class FrontPage_View extends Default_View {
 
 			<div class="row">
 
-				<div id="wrapper-filter-donors" class="column">
+				<div id="wrapper-filter-donors-1" class="column">
 
-					<form id="form-filter-donors" action="<?php site_url() ?>" method="GET">
+					<form id="form-filter-donors-1" action="<?php site_url( array( 'page' => 'donors' ) ) ?>" method="POST">
 
 						<div>
 							<label for="blood_group">فصيلة الدم</label>
@@ -61,8 +61,8 @@ class FrontPage_View extends Default_View {
 						<div>
 							<label for="city_id">المدينة</label>
 							<select name="city_id" id="city_id">
-								<?php foreach( Cites::fetch_all() as $distr ) : ?>
-									<option value="<?php $distr->display( 'city_id', 'attr' ) ?>"><?php $distr->display( 'city_name' ) ?></option>
+								<?php foreach( Cites::fetch_all() as $city ) : ?>
+									<option value="<?php $city->display( 'city_id', 'attr' ) ?>"><?php $city->display( 'city_name' ) ?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>

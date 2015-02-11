@@ -31,6 +31,48 @@ class Donors_View extends Default_View {
 			<a href="<?php site_url( array( 'page' => 'add-donor' ) ) ?>" class="btn add-link">أضف متبرع جديد</a>
 			<?php endif; ?>
 
+			<form id="form-filter-donors-2" action="<?php site_url( array( 'page' => 'donors' ) ) ?>" method="POST">
+
+				<div>
+					<label for="name">الاسم</label>
+					<input type="text" name="name" id="name" value="<?php echo esc_attr( $this->filter_args['name'] ) ?>" placeholder="اكتب اسم المتبرع..." />
+				</div>
+
+				<div>
+					<label for="blood_group">فصيلة الدم</label>
+					<select name="blood_group" id="blood_group">
+						<option value="all">الكل</option>
+						<?php foreach( Donor::$blood_groups as $blood_group ) : ?>
+							<option<?php html_atts( array( 'selected' => ( $blood_group === $this->filter_args['blood_group'] ) ) ) ?>><?php echo $blood_group ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+
+				<div>
+					<label for="city_id">المدينة</label>
+					<select name="city_id" id="city_id">
+						<?php foreach( Cites::fetch_all() as $city ) : ?>
+							<option<?php html_atts( array( 'value' => $city->get_ID(), 'selected' => ( $city->get_ID() == $this->filter_args['city_id'] ) ) ) ?>><?php $city->display( 'city_name' ) ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+
+				<div>
+					<label for="distr_id">المديرية</label>
+					<select name="distr_id" id="distr_id">
+						<option value="-1">الكل</option>
+						<?php foreach( Districts::fetch_all() as $distr ) : ?>
+							<option<?php html_atts( array( 'value' => $distr->get_ID(), 'selected' => ( $distr->get_ID() == $this->filter_args['distr_id'] ) ) ) ?>><?php $distr->display( 'distr_name' ) ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+
+				<div>
+					<button type="submit">بحث</button>
+				</div>
+
+			</form>
+
 			<table id="table-donors" class="list-table">
 
 				<thead>

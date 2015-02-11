@@ -75,16 +75,20 @@ class Donors_Controller extends Controller {
 			$view->filter_args['status']  = 'approved';
 		}
 
-		if ( ! empty( $_GET['blood_group'] ) ) {
-			$view->filter_args['blood_group'] = $_GET['blood_group'];
+		if ( ! empty( $_POST['name'] ) ) {
+			$view->filter_args['name'] = strip_tags( $_POST['name'] );
 		}
 
-		if ( ! empty( $_GET['distr_id'] ) ) {
-			$view->filter_args['distr_id'] = (int) $_GET['distr_id'];
+		if ( ! empty( $_POST['distr_id'] ) ) {
+			$view->filter_args['distr_id'] = (int) $_POST['distr_id'];
 		}
 
-		if ( ! empty( $_GET['city_id'] ) ) {
-			$view->filter_args['city_id']  = (int) $_GET['city_id'];
+		if ( ! empty( $_POST['city_id'] ) ) {
+			$view->filter_args['city_id']  = (int) $_POST['city_id'];
+		}
+
+		if ( ! empty( $_POST['blood_group'] ) ) {
+			$view->filter_args['blood_group'] = strip_tags( $_POST['blood_group'] );
 		}
 
 		$view();

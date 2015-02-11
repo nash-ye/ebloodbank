@@ -369,9 +369,9 @@ body#page-frontpage #page-header {
             border-radius: 4px;
 }
 
-/* Filter Donors Form */
+/* Filter Donors Form (1) */
 
-#wrapper-filter-donors {
+#wrapper-filter-donors-1 {
     width: 140px;
     height: 220px;
     padding: 10px;
@@ -381,20 +381,38 @@ body#page-frontpage #page-header {
        -moz-border-radius: 4px;
             border-radius: 4px;
 }
-#form-filter-donors label {
+#form-filter-donors-1 label {
     color: #fff;
 }
-#form-filter-donors > div {
+#form-filter-donors-1 > div {
     margin: 0 0 10px 0;
 }
-#form-filter-donors select {
+#form-filter-donors-1 select {
     width: 100%;
     padding: 5px;
     display: block;
 }
-#form-filter-donors button {
+#form-filter-donors-1 button {
     width: 100%;
     padding: 5px;
+}
+
+/* Filter Donors Form (2) */
+
+#form-filter-donors-2 {
+    margin: 15px 0;
+    display: block;
+}
+#form-filter-donors-2 > div {
+    margin: 0 5px;
+    display: inline-block;
+}
+#form-filter-donors-2 select {
+    padding: 5px 10px;
+    display: inline-block;
+}
+#form-filter-donors-2 button {
+    padding: 5px 15px;
 }
 
 /* FrontPage Blocks */

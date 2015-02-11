@@ -104,6 +104,69 @@ function get_site_url( array $query = array() ) {
 /*** HTML Helpers *************************************************************/
 
 /**
+ * Output HTML attributes list.
+ *
+ * @return void
+ * @since 0.6.1
+ */
+function html_atts( array $atts, array $args = null ) {
+	echo get_html_atts( $atts, $args );
+}
+
+/**
+ * Convert an associative array to HTML attributes list.
+ *
+ * Convert an associative array of attributes and their values 'attribute => value' To
+ * an inline list of HTML attributes.
+ *
+ * @return string
+ * @since 0.6.1
+ */
+function get_html_atts( array $atts, array $args = null ) {
+
+	$output = '';
+
+	if ( empty( $atts ) ) {
+		return $output;
+	}
+
+	$args = array_merge( array(
+		'after' => '',
+		'before' => ' ',
+	), (array) $args );
+
+	foreach ( $atts as $key => $value ) {
+
+		$key = strtolower( $key );
+
+		 if ( is_bool( $value ) ) {
+
+			if ( $value === TRUE ) {
+				$value = $key;
+			} else {
+				continue;
+			}
+
+		 } elseif ( is_array( $value ) ) {
+
+			$value = array_filter( $value );
+			$value = implode( ' ', $value );
+
+		 }
+
+		$output .= $key . '="' . esc_attr( $value ) . '" ';
+
+	}
+
+	if ( ! empty( $output ) ) {
+		$output = $args['before'] . trim( $output ) . $args['after'];
+	}
+
+	return $output;
+
+}
+
+/**
  * @return string
  * @since 0.1
  */

@@ -54,6 +54,7 @@ final class Donors {
 			'distr_id'    => 0,
 			'city_id'     => 0,
 			'status'      => 'all',
+			'name'        => '',
 		), $args );
 
 		if ( empty( $args['status'] ) ) {
@@ -66,6 +67,13 @@ final class Donors {
 
 		$args['distr_id'] = (int) $args['distr_id'];
 		$args['city_id']  = (int) $args['city_id'];
+
+		if ( ! empty( $args['name'] ) ) {
+
+			$where_stmt[] = 'donor_name LIKE ?';
+			$params[] = '%' . $args['name'] . '%';
+
+		}
 
 		if ( 'all' !== $args['status'] ) {
 

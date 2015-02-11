@@ -4,12 +4,7 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-if ( ! defined( 'DB_NAME' ) ) {
-	define( 'DB_NAME', 'ebloodbank' );
-	define( 'eBloodBank\CREATE_DB', TRUE );
-}
-
-define( 'eBloodBank\VERSION', '0.6-alpha' );
+define( 'eBloodBank\VERSION', '0.6.1-alpha' );
 define( 'eBloodBank\DIR', dirname( __FILE__ ) );
 
 if ( ! defined( 'eBloodBank\DEBUG' ) ) {
@@ -52,6 +47,7 @@ try {
 /*** Load Includes ************************************************************/
 
 require 'includes/helpers.php';
+require 'includes/database.php';
 require 'includes/password.php';
 require 'includes/sessions.php';
 require 'includes/capabilities.php';
