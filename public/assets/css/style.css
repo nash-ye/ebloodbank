@@ -1,0 +1,254 @@
+body {
+    margin: 0;
+    color: #333;
+    height: 100%;
+    background-color: #fff;
+}
+
+pre {
+    color: #666;
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.5em;
+    margin: 10px auto;
+    padding: 10px 15px;
+    background: #F7F7F7;
+    word-break: keep-all;
+    border: 1px solid #CCC;
+}
+
+/**
+ * The Wrapper
+ * ----------------------------------------------------------------------------
+ */
+
+#wrapper {
+    width: 100%;
+}
+.wrapper {
+    height: 100%;
+    width: 960px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/**
+ * The Header
+ * ----------------------------------------------------------------------------
+ */
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+}
+
+/**
+ * The Content
+ * ----------------------------------------------------------------------------
+ */
+
+#container {
+    background: #f0f1e9;
+}
+#content {
+    padding: 60px 0 40px 0;
+}
+.code-snippet {
+    direction: ltr;
+    text-align: left;
+}
+#content figure {
+    margin: 25px 0;
+    text-align: center;
+}
+#content figure img {
+    height: auto;
+    padding: 5px;
+    max-width: 100%;
+    background: #fff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+#content figure img:hover {
+    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+}
+#content figure figcaption {
+    color: #4a4a4a;
+}
+
+/* Page Header */
+
+#page-header {
+    margin: 0 0 20px 0;
+    border-bottom: 2px solid #d81e05;
+}
+#page-title {
+    color: #333;
+    margin: 0px;
+    font-size: 18pt;
+}
+
+/* Data Table */
+
+.data-table {
+    width: 100%;
+    margin: 10px 0;
+    background: #fff;
+    border-collapse: collapse;
+    border: 2px solid #c7c8bb;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+.data-table:hover,
+.data-table:focus {
+    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+}
+.data-table th {
+    color: #fff;
+    padding: 5px 15px;
+    text-align: center;
+    font-weight: normal;
+    background: #d81e05;
+    border: 1px solid #c7c8bb;
+}
+.data-table tr {
+    background: #fff;
+}
+.data-table td {
+    color: #333;
+    padding: 5px;
+    text-align: left;
+    border: 1px solid #c7c8bb;
+}
+
+/* List Table */
+
+.list-table {
+    width: 100%;
+    margin: 10px 0;
+    background: #fff;
+    border-collapse: collapse;
+    border: 2px solid #c7c8bb;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+.list-table:hover,
+.list-table:focus {
+    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+            box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+}
+.list-table thead tr {
+    background: #d81e05;
+}
+.list-table thead th {
+    color: #fff;
+    padding: 5px;
+    text-align: left;
+    font-weight: normal;
+    border: 1px solid #c7c8bb;
+}
+.list-table tbody tr {
+    background: #fff;
+}
+.list-table tbody td {
+    color: #333;
+    padding: 5px;
+    text-align: left;
+    border: 1px solid #c7c8bb;
+}
+
+/* Filter Donors Form (1) */
+
+#wrapper-filter-donors-1 {
+    width: 140px;
+    padding: 10px;
+    margin: 0 10px;
+    background: #d81e05;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+#form-filter-donors-1 label {
+    color: #fff;
+}
+#form-filter-donors-1 > div {
+    margin: 0 0 10px 0;
+}
+#form-filter-donors-1 select {
+    width: 100%;
+    padding: 5px;
+    display: block;
+}
+#form-filter-donors-1 button {
+    width: 100%;
+    padding: 5px;
+}
+
+/* Filter Donors Form (2) */
+
+#form-filter-donors-2 {
+    margin: 15px 0;
+    display: block;
+}
+#form-filter-donors-2 > div {
+    margin: 0 5px;
+    display: inline-block;
+}
+#form-filter-donors-2 select {
+    padding: 5px 10px;
+    display: inline-block;
+}
+#form-filter-donors-2 button {
+    padding: 5px 15px;
+}
+
+/* FrontPage Blocks */
+
+#blocks {
+    margin: 20px 0 0 0;
+}
+.block {
+    width: 280px;
+    padding: 10px;
+    margin: 0 10px;
+    background: #fff;
+    min-height: 200px;
+    text-align: center;
+    border-bottom: 5px solid #d81e05;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+.block h3 {
+    color: #d81e05;
+}
+
+/**
+ * The Footer
+ * ----------------------------------------------------------------------------
+ */
+
+#footer {
+    height: 50px;
+    padding: 15px 0;
+    background: #fff;
+}
+#footer a {
+    color: #d81e05;
+    text-decoration: none;
+}
+#footer a:hover,
+#footer a:focus {
+    color: #000;
+}
+.copyrights {
+    text-align: center;
+}

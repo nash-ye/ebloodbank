@@ -1,5 +1,4 @@
 <?php
-
 namespace eBloodBank;
 
 /**
@@ -14,14 +13,13 @@ namespace eBloodBank;
  * @author Nashwan Doaqan<nashwan.doaqan@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt GPL
  * @copyright (c) 2015, Nashwan Doaqan
- * @version 0.6.1-alpha
+ * @version 1.0-alpha-1
  */
 
 /*** Core Bootstrap ***********************************************************/
 
-require __DIR__ . '/config.php';
-require __DIR__ . '/loader.php';
+require __DIR__ . '/app/bootstrap.php';
 
 /*** FrontPage Controller *****************************************************/
 
-new FrontPage_Controller();
+new Controllers\FrontPage();

@@ -1,0 +1,297 @@
+[
+    {
+        "name": "gettext/languages",
+        "version": "2.1.2",
+        "version_normalized": "2.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mlocati/cldr-to-gettext-plural-rules.git",
+            "reference": "c43ade7e3fb68bcf2379036513dce8d20553d9c8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mlocati/cldr-to-gettext-plural-rules/zipball/c43ade7e3fb68bcf2379036513dce8d20553d9c8",
+            "reference": "c43ade7e3fb68bcf2379036513dce8d20553d9c8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3"
+        },
+        "time": "2015-03-27 11:32:41",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Gettext\\Languages\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michele Locati",
+                "email": "mlocati@gmail.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "gettext languages with plural rules",
+        "homepage": "https://github.com/mlocati/cldr-to-gettext-plural-rules",
+        "keywords": [
+            "cldr",
+            "i18n",
+            "internationalization",
+            "l10n",
+            "language",
+            "languages",
+            "localization",
+            "php",
+            "plural",
+            "plural rules",
+            "plurals",
+            "translate",
+            "translations",
+            "unicode"
+        ]
+    },
+    {
+        "name": "gettext/gettext",
+        "version": "v3.4.2",
+        "version_normalized": "3.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/oscarotero/Gettext.git",
+            "reference": "6d8fae62ce7df8676a351dfa5728c8f87f20ef53"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/oscarotero/Gettext/zipball/6d8fae62ce7df8676a351dfa5728c8f87f20ef53",
+            "reference": "6d8fae62ce7df8676a351dfa5728c8f87f20ef53",
+            "shasum": ""
+        },
+        "require": {
+            "gettext/languages": "2.*",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "illuminate/view": "*",
+            "phpunit/phpunit": "~4.0",
+            "twig/extensions": "*",
+            "twig/twig": "*"
+        },
+        "suggest": {
+            "illuminate/view": "Is necessary if you want to use the Blade extractor",
+            "twig/extensions": "Is necessary if you want to use the Twig extractor",
+            "twig/twig": "Is necessary if you want to use the Twig extractor"
+        },
+        "time": "2015-04-28 17:50:01",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Gettext\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Oscar Otero",
+                "email": "oom@oscarotero.com",
+                "homepage": "http://oscarotero.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "PHP gettext manager",
+        "homepage": "https://github.com/oscarotero/Gettext",
+        "keywords": [
+            "JS",
+            "gettext",
+            "i18n",
+            "mo",
+            "po",
+            "translation"
+        ]
+    },
+    {
+        "name": "aura/router",
+        "version": "2.2.2",
+        "version_normalized": "2.2.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/auraphp/Aura.Router.git",
+            "reference": "936006dd8893182d5549178e7d0f984ff2d97839"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/auraphp/Aura.Router/zipball/936006dd8893182d5549178e7d0f984ff2d97839",
+            "reference": "936006dd8893182d5549178e7d0f984ff2d97839",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "aura/di": "~2.0"
+        },
+        "time": "2015-03-27 16:04:00",
+        "type": "library",
+        "extra": {
+            "aura": {
+                "type": "library",
+                "config": {
+                    "common": "Aura\\Router\\_Config\\Common"
+                }
+            },
+            "branch-alias": {
+                "dev-develop-2": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Aura\\Router\\": "src/",
+                "Aura\\Router\\_Config\\": "config/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Aura.Router Contributors",
+                "homepage": "https://github.com/auraphp/Aura.Router/contributors"
+            }
+        ],
+        "description": "A web router implementation; given a URI path and a copy of $_SERVER, it will extract path-info parameter values for a specific route.",
+        "homepage": "https://github.com/auraphp/Aura.Router",
+        "keywords": [
+            "route",
+            "router",
+            "routing"
+        ]
+    },
+    {
+        "name": "aura/html",
+        "version": "2.4.1",
+        "version_normalized": "2.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/auraphp/Aura.Html.git",
+            "reference": "7f575f35765af41091b85b23a92b168ae0c5765f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/auraphp/Aura.Html/zipball/7f575f35765af41091b85b23a92b168ae0c5765f",
+            "reference": "7f575f35765af41091b85b23a92b168ae0c5765f",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "aura/di": "~2.0"
+        },
+        "time": "2015-03-27 17:31:31",
+        "type": "library",
+        "extra": {
+            "aura": {
+                "type": "library",
+                "config": {
+                    "common": "Aura\\Html\\_Config\\Common"
+                }
+            },
+            "branch-alias": {
+                "dev-develop-2": "2.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Aura\\Html\\": "src/",
+                "Aura\\Html\\_Config\\": "config/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Aura.Html Contributors",
+                "homepage": "https://github.com/auraphp/Aura.Html/contributors"
+            }
+        ],
+        "description": "Provides HTML escapers and helpers, including form input helpers.",
+        "homepage": "https://github.com/auraphp/Aura.Html",
+        "keywords": [
+            "Escape",
+            "escaper",
+            "escapers",
+            "escaping",
+            "form",
+            "helper",
+            "helpers",
+            "html",
+            "input"
+        ]
+    },
+    {
+        "name": "aura/autoload",
+        "version": "2.0.3",
+        "version_normalized": "2.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/auraphp/Aura.Autoload.git",
+            "reference": "c2a8f5dde204bbed34e194394046f7516eff04c4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/auraphp/Aura.Autoload/zipball/c2a8f5dde204bbed34e194394046f7516eff04c4",
+            "reference": "c2a8f5dde204bbed34e194394046f7516eff04c4",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-03-27 19:34:08",
+        "type": "library",
+        "extra": {
+            "aura": {
+                "type": "library"
+            },
+            "branch-alias": {
+                "dev-develop-2": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Aura\\Autoload\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Aura.Autoload Contributors",
+                "homepage": "https://github.com/auraphp/Aura.Autoload/contributors"
+            }
+        ],
+        "description": "Provides a PSR-4 compliant autoloader implementation.",
+        "homepage": "https://github.com/auraphp/Aura.Autoload",
+        "keywords": [
+            "PSR-4",
+            "SPL autoloader",
+            "autoload",
+            "autoloader",
+            "class loader"
+        ]
+    }
+]
