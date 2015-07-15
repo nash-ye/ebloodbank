@@ -2,36 +2,38 @@
 /**
  * New\Edit User Form
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
+use eBloodBank\EntityManager;
 use eBloodBank\Models\User;
-use eBloodBank\Models\Users;
 use eBloodBank\Kernal\Roles;
 
-if (! isset($data['id'])) {
-	$user = new User();
+if (! isset($__userID)) {
+    $user = new User();
 } else {
-	$user = Users::fetchByID($data['id']);
+    $user = EntityManager::getUserRepository()->find($__userID);
 }
 ?>
 <form id="form-user" class="form-horizontal" method="POST">
 
 	<div class="form-group">
 		<div class="col-sm-2">
-			<label for="user_logon"><?php _e('Logon') ?></label>
+			<label for="user_logon"><?php _e('Username') ?></label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" name="user_logon" id="user_logon" class="form-control" value="<?php $user->display('user_logon') ?>" required />
+			<input type="text" name="user_logon" id="user_logon" class="form-control" value="<?php $user->display('user_logon', 'attr') ?>" required />
 		</div>
 	</div>
 
 	<div class="form-group">
 		<div class="col-sm-2">
-			<label for="user_pass"><?php _e('Password') ?></label>
+			<label for="user_pass"><?php _e('New Password') ?></label>
 		</div>
 		<div class="col-sm-4">
-			<input type="password" name="user_pass" id="user_pass" class="form-control" autocomplete="off" required />
+			<input type="password" name="user_pass_1" id="user_pass_1" class="form-control" value="" placeholder="<?php echo esc_attr(__('Type your new password')) ?>" autocomplete="off" />
+			&nbsp;
+			<input type="password" name="user_pass_2" id="user_pass_2" class="form-control" value="" placeholder="<?php echo esc_attr(__('Type your new password again')) ?>" autocomplete="off" />
 		</div>
 	</div>
 

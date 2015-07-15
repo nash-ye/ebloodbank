@@ -13,10 +13,10 @@ namespace eBloodBank;
  * @author Nashwan Doaqan<nashwan.doaqan@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt GPL
  * @copyright (c) 2015, Nashwan Doaqan
- * @version 1.0-alpha-1
+ * @version 1.0-alpha-2
  */
 
-/*** Core Bootstrap ***********************************************************/
+/*** App Bootstrap ************************************************************/
 
 require __DIR__ . '/app/bootstrap.php';
 

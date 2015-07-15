@@ -2,16 +2,16 @@
 /**
  * New\Edit City Form
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
+use eBloodBank\EntityManager;
 use eBloodBank\Models\City;
-use eBloodBank\Models\Cites;
 
-if (! isset($data['id'])) {
-	$city = new City();
+if (! isset($__cityID)) {
+    $city = new City();
 } else {
-	$city = Cites::fetchByID($data['id']);
+    $city = EntityManager::getCityRepository()->find($__cityID);
 }
 ?>
 <form id="form-city" class="form-horizontal" method="POST">

@@ -1,9 +1,9 @@
 <?php
 namespace eBloodBank\Controllers;
 
-use eBloodBank\Models;
+use eBloodBank\EntityManager;
+use eBloodBank\SessionManage;
 use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Sessions;
 use eBloodBank\Kernal\Controller;
 
 /**
@@ -21,13 +21,14 @@ class ManageUsers extends Controller
             if (isCurrentUserCan('delete_user')) {
                 $user_id = (int) $_GET['id'];
 
-                if (! empty($user_id) && $user_id !== Sessions::getCurrentUserID()) {
-                    $deleted = Models\Users::delete($user_id);
+                if (! empty($user_id) && $user_id !== SessionManage::getCurrentUserID()) {
 
-                    redirect(getSiteURL(array(
-                        'page' => 'manage-users',
-                        'flag-deleted' => $deleted,
-                    )));
+                    $em = EntityManager::getInstance();
+                    $em->remove($em->getUserReference($user_id));
+                    $em->flush();
+
+                    redirect(getPageURL('manage-users', array( 'flag-deleted' => true )));
+
                 }
             }
         }

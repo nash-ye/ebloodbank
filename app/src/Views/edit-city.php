@@ -2,7 +2,7 @@
 /**
  * Edit City
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
 use eBloodBank\Kernal\View;
@@ -11,7 +11,7 @@ $header = new View('header');
 $header(array( 'title' => __('Edit City') ));
 
 $form = new View('form-city');
-$form(array( 'id' => $data['id'] ));
+$form(array( 'cityID' => $data['id'] ));
 
 $footer = new View('footer');
 $footer();

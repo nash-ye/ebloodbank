@@ -1,10 +1,12 @@
 <?php
 namespace eBloodBank\Controllers;
 
-use eBloodBank\Models;
+use eBloodBank\EntityManager;
+use eBloodBank\SessionManage;
 use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Sessions;
+use eBloodBank\Kernal\Options;
 use eBloodBank\Kernal\Controller;
+use eBloodBank\Models\Donor;
 
 /**
  * @since 1.0
@@ -19,60 +21,63 @@ class NewDonor extends Controller
     {
         if (isset($_POST['action']) && 'submit_donor' === $_POST['action']) {
 
-            if (isCurrentUserCan('add_donor') || (! Sessions::isSignedIn() && isAnonymousCan('add_donor'))) {
-                $donor_data = array();
+            if (isCurrentUserCan('add_donor') || (! SessionManage::isSignedIn() && isAnonymousCan('add_donor'))) {
+                $donor = new Donor();
 
                 if (isset($_POST['donor_name'])) {
-                    $donor_data['donor_name'] = filter_var($_POST['donor_name'], FILTER_SANITIZE_STRING);
+                    $donor->set('donor_name', $_POST['donor_name'], true);
                 }
 
                 if (isset($_POST['donor_gender'])) {
-                    if (in_array($_POST['donor_gender'], array_keys(Models\Donor::$genders), true)) {
-                        $donor_data['donor_gender'] = $_POST['donor_gender'];
+                    if (in_array($_POST['donor_gender'], array_keys(Options::get_option('genders')), true)) {
+                        $donor->set('donor_gender', $_POST['donor_gender'], true);
                     }
                 }
 
                 if (isset($_POST['donor_weight'])) {
-                    $donor_data['donor_weight'] = filter_var($_POST['donor_weight'], FILTER_SANITIZE_NUMBER_FLOAT);
+                    $donor->set('donor_weight', $_POST['donor_weight'], true);
                 }
 
                 if (isset($_POST['donor_birthdate'])) {
-                    $donor_data['donor_birthdate'] = filter_var($_POST['donor_birthdate'], FILTER_SANITIZE_STRING);
+                    $donor->set('donor_birthdate', $_POST['donor_birthdate'], true);
                 }
 
                 if (isset($_POST['donor_blood_group'])) {
-                    if (in_array($_POST['donor_blood_group'], Models\Donor::$blood_groups, true)) {
-                        $donor_data['donor_blood_group'] = $_POST['donor_blood_group'];
+                    if (in_array($_POST['donor_blood_group'], Options::get_option('blood_groups'), true)) {
+                        $donor->set('donor_blood_group', $_POST['donor_blood_group'], true);
                     }
                 }
 
                 if (isset($_POST['donor_phone'])) {
-                    $donor_data['donor_phone'] = filter_var($_POST['donor_phone'], FILTER_SANITIZE_STRING);
+                    $donor->set('donor_phone', $_POST['donor_phone'], true);
                 }
 
                 if (isset($_POST['donor_email'])) {
-                    $donor_data['donor_email'] = filter_var($_POST['donor_email'], FILTER_SANITIZE_EMAIL);
+                    $donor->set('donor_email', $_POST['donor_email'], true);
                 }
 
                 if (isset($_POST['donor_address'])) {
-                    $donor_data['donor_address'] = filter_var($_POST['donor_address'], FILTER_SANITIZE_STRING);
+                    $donor->set('donor_address', $_POST['donor_address'], true);
                 }
 
                 if (isset($_POST['donor_distr_id'])) {
-                    $donor_data['donor_distr_id'] = (int) $_POST['donor_distr_id'];
+                    $donor->set('donor_distr_id', $_POST['donor_distr_id'], true);
                 }
 
                 if (isCurrentUserCan('approve_donor')) {
-                    $donor_data['donor_status'] = 'approved';
+                    $donor->set('donor_status', 'approved');
                 }
 
-                $donor_id = Models\Donors::insert($donor_data);
-                $submitted = isVaildID($donor_id);
+                $donor->set('donor_rtime', gmdate('Y-m-d H:i:s'));
 
-                redirect(getSiteURL(array(
-                    'page' => 'new-donor',
-                    'flag-submitted' => $submitted,
-                )));
+                $em = EntityManager::getInstance();
+                $em->persist($donor);
+                $em->flush();
+
+                $submitted = isVaildID($donor->get('donor_id'));
+
+                redirect(getPageURL('new-donor', array( 'flag-submitted' => $submitted )));
+
             }
         }
     }
@@ -83,7 +88,7 @@ class NewDonor extends Controller
      */
     public function outputResponse()
     {
-        if (isCurrentUserCan('add_donor') || (! Sessions::isSignedIn() && isAnonymousCan('add_donor'))) {
+        if (isCurrentUserCan('add_donor') || (! SessionManage::isSignedIn() && isAnonymousCan('add_donor'))) {
             $view = new View('new-donor');
         } else {
             $view = new View('error-401');

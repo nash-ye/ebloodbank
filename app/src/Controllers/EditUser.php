@@ -1,7 +1,7 @@
 <?php
 namespace eBloodBank\Controllers;
 
-use eBloodBank\Models;
+use eBloodBank\EntityManager;
 use eBloodBank\Kernal\View;
 use eBloodBank\Kernal\Controller;
 
@@ -10,11 +10,11 @@ use eBloodBank\Kernal\Controller;
  */
 class EditUser extends Controller
 {
-	/**
+    /**
      * @var int
      * @since 1.0
      */
-	protected $id = 0;
+    protected $id = 0;
 
     /**
      * @return void
@@ -22,36 +22,40 @@ class EditUser extends Controller
      */
     public function processRequest()
     {
-		$this->id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $this->id = (int) $_GET['id'];
 
-		if (! isVaildID($this->id)) {
-			die('Invaild user ID');
-		}
+        if (! isVaildID($this->id)) {
+            die('Invaild user ID');
+        }
 
         if (isset($_POST['action']) && 'submit_user' === $_POST['action']) {
             if (isCurrentUserCan('edit_user')) {
-                $user_data = array();
+
+                $em = EntityManager::getInstance();
+                $user = $em->getUserReference($this->id);
 
                 if (isset($_POST['user_logon'])) {
-                    $user_data['user_logon'] = filter_var($_POST['user_logon'], FILTER_SANITIZE_STRING);
+                    $user->set('user_logon', $_POST['user_logon'], true);
                 }
 
-                if (! empty($_POST['user_pass'])) {
-                    $user_data['user_pass'] = password_hash($_POST['user_pass'], PASSWORD_BCRYPT);
+                if (isset($_POST['user_pass_1'])) {
+                    if (isset($_POST['user_pass_2']) && $_POST['user_pass_1'] === $_POST['user_pass_2']) {
+                        $user->set('user_pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
+                    } else {
+                        // TODO: Display error "Please, Confirm your new password."
+                    }
                 }
 
                 if (isset($_POST['user_role'])) {
-                    $user_data['user_role'] = filter_var($_POST['user_role'], FILTER_SANITIZE_STRING);
+                    $user->set('user_role', $_POST['user_role'], true);
                 }
 
-                $user_id = Models\Users::update($this->id, $user_data);
-                $submitted = isVaildID($user_id);
+                $em->flush();
 
-                redirect(getSiteURL(array(
-                    'page' => 'edit-user',
-					'id' => $this->id,
-                    'flag-submitted' => $submitted,
-                )));
+                $submitted = isVaildID($user->get('user_id'));
+
+                redirect(getPageURL('edit-user', array( 'id' => $this->id, 'flag-submitted' => $submitted )));
+
             }
         }
     }
@@ -64,10 +68,10 @@ class EditUser extends Controller
     {
         if (isCurrentUserCan('edit_user')) {
             $view = new View('edit-user');
-			$view(array( 'id' => $this->id ));
+            $view(array( 'id' => $this->id ));
         } else {
             $view = new View('error-401');
-			$view();
+            $view();
         }
     }
 }

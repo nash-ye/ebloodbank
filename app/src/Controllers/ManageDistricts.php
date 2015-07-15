@@ -1,7 +1,7 @@
 <?php
 namespace eBloodBank\Controllers;
 
-use eBloodBank\Models;
+use eBloodBank\EntityManager;
 use eBloodBank\Kernal\View;
 use eBloodBank\Kernal\Controller;
 
@@ -19,12 +19,13 @@ class ManageDistricts extends Controller
         if (isset($_GET['action']) && 'delete_distr' === $_GET['action']) {
             if (isCurrentUserCan('delete_distr')) {
                 $distr_id = (int) $_GET['id'];
-                $deleted = Models\Districts::delete($distr_id);
 
-                redirect(getSiteURL(array(
-                    'page' => 'manage-distrs',
-                    'flag-deleted' => $deleted,
-                )));
+                $em = EntityManager::getInstance();
+                $em->remove($em->getDistrictReference($distr_id));
+                $em->flush();
+
+                redirect(getPageURL('manage-distrs', array( 'flag-deleted' => true )));
+
             }
         }
     }

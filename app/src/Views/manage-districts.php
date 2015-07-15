@@ -2,12 +2,11 @@
 /**
  * Manage Districts
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
+use eBloodBank\EntityManager;
 use eBloodBank\Kernal\View;
-use eBloodBank\Models\Cites;
-use eBloodBank\Models\Districts;
 
 $can_add    = isCurrentUserCan('add_distr');
 $can_edit   = isCurrentUserCan('edit_distr');
@@ -18,11 +17,12 @@ $header = new View('header');
 $header(array( 'title' => __('Districts') ));
 ?>
 
-	<?php if ($can_add) : ?>
+    <?php if ($can_add) : ?>
 	<div class="btn-block">
-		<a href="<?php echo getSiteURL(array( 'page' => 'new-distr' )) ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
+		<a href="<?php echo getPageURL('new-distr') ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
 	</div>
-	<?php endif; ?>
+    <?php
+endif; ?>
 
 	<table id="table-distrs" class="table table-bordered table-hover">
 
@@ -39,32 +39,27 @@ $header(array( 'title' => __('Districts') ));
 
 		<tbody>
 
-			<?php foreach (Districts::fetchAll() as $distr) : ?>
+            <?php foreach (EntityManager::getDistrictRepository()->findAll() as $distr) : ?>
 
-				<tr>
-					<td><?php $distr->display('distr_id') ?></td>
-					<td><?php $distr->display('distr_name') ?></td>
-					<td>
-						<?php
+            <tr>
+                <td><?php $distr->display('distr_id') ?></td>
+                <td><?php $distr->display('distr_name') ?></td>
+                <td>
+                    <?php EntityManager::getCityRepository()->find($distr->get('distr_city_id'))->display('city_name') ?>
+                </td>
+                <?php if ($can_manage) : ?>
+                <td>
+                    <?php if ($can_edit) : ?>
+                    <a href="<?php echo getPageURL('edit-distr', array( 'id' => $distr->get('distr_id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
+                    <?php endif; ?>
+                    <?php if ($can_delete) : ?>
+                    <a href="<?php echo getPageURL('manage-distrs', array( 'action' => 'delete_distr', 'id' => $distr->get('distr_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+                    <?php endif; ?>
+                </td>
+                <?php endif; ?>
+            </tr>
 
-							$city = Cites::fetchByID($distr->get('distr_city_id'));
-							$city->display('city_name');
-
-						?>
-					</td>
-					<?php if ($can_manage) : ?>
-					<td>
-						<?php if ($can_edit) : ?>
-						<a href="<?php echo getSiteURL(array( 'page' => 'edit-distr', 'id' => $distr->get('distr_id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
-						<?php endif; ?>
-						<?php if ($can_delete) : ?>
-						<a href="<?php echo getSiteURL(array( 'page' => 'manage-distrs', 'action' => 'delete_distr', 'id' => $distr->get('distr_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
-						<?php endif; ?>
-					</td>
-					<?php endif; ?>
-				</tr>
-
-			<?php endforeach; ?>
+            <?php endforeach; ?>
 
 		</tbody>
 

@@ -2,18 +2,17 @@
 /**
  * New\Edit Donor Form
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
+use eBloodBank\EntityManager;
+use eBloodBank\Kernal\Options;
 use eBloodBank\Models\Donor;
-use eBloodBank\Models\Donors;
-use eBloodBank\Models\Cites;
-use eBloodBank\Models\Districts;
 
-if (! isset($data['id'])) {
-	$donor = new Donor();
+if (! isset($__donorID)) {
+    $donor = new Donor();
 } else {
-	$donor = Donors::fetchByID($data['id']);
+    $donor = EntityManager::getDonorRepository()->find($__donorID);
 }
 ?>
 <form id="form-donor" class="form-horizontal" method="POST">
@@ -33,9 +32,9 @@ if (! isset($data['id'])) {
 		</div>
 		<div class="col-sm-4">
 			<select name="donor_gender" id="donor_gender" class="form-control">
-				<?php foreach (Donor::$genders as $key => $label) { ?>
+				<?php foreach (Options::get_option('genders') as $key => $label) : ?>
 				<option<?php html_atts(array( 'value' => $key, 'selected' => ($key === $donor->get('donor_gender')) )) ?>><?php echo $label ?></option>
-				<?php } ?>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>
@@ -64,8 +63,8 @@ if (! isset($data['id'])) {
 		</div>
 		<div class="col-sm-4">
 			<select name="donor_blood_group" id="donor_blood_group" class="form-control" required>
-				<?php foreach (Donor::$blood_groups as $blood_group) : ?>
-				<option<?php html_atts(array( 'selected' => ($blood_group === $donor->get('donor_blood_group')) )) ?>><?php echo $blood_group ?></option>
+				<?php foreach (Options::get_option('blood_groups') as $blood_group) : ?>
+                <option<?php html_atts(array( 'selected' => ($blood_group === $donor->get('donor_blood_group')) )) ?>><?php echo $blood_group ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -91,19 +90,17 @@ if (! isset($data['id'])) {
 
 	<div class="form-group">
 		<div class="col-sm-2">
-			<label for="donor_distr_id"><?php _e('City/District') ?></label>
+			<label for="donor_distr_id"><?php _e('City, District') ?></label>
 		</div>
 		<div class="col-sm-4">
 			<select name="donor_distr_id" id="donor_distr_id" class="form-control" required>
-
-				<?php foreach (Cites::fetchAll() as $city) { ?>
+				<?php foreach (EntityManager::getCityRepository()->findAll() as $city) : ?>
 					<optgroup label="<?php $city->display('city_name', 'attr') ?>">
-						<?php foreach (Districts::fetchByCityID($city->get('city_id')) as $distr) { ?>
-							<option<?php html_atts(array( 'value' => $distr->get('distr_id'), 'selected' => ($distr->get('distr_id') == $donor->get('donor_distr_id')) )) ?>><?php $distr->display('distr_name') ?></option>
-						<?php } ?>
+                        <?php foreach ($city->getChildDistricts() as $distr) : ?>
+                        <option<?php html_atts(array( 'value' => $distr->get('distr_id'), 'selected' => ($distr->get('distr_id') == $donor->get('donor_distr_id')) )) ?>><?php $distr->display('distr_name') ?></option>
+                        <?php endforeach; ?>
 					</optgroup>
-				<?php } ?>
-
+                <?php endforeach; ?>
 			</select>
 		</div>
 	</div>

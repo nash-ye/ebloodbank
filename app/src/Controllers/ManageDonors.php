@@ -1,7 +1,7 @@
 <?php
 namespace eBloodBank\Controllers;
 
-use eBloodBank\Models;
+use eBloodBank\EntityManager;
 use eBloodBank\Kernal\View;
 use eBloodBank\Kernal\Controller;
 
@@ -23,28 +23,32 @@ class ManageDonors extends Controller
                 die(-1);
             }
 
+            $em = EntityManager::getInstance();
+
             if ('delete_donor' === $_GET['action']) {
                 if (isCurrentUserCan('delete_donor')) {
-                    $deleted = Models\Donors::delete($donor_id);
 
-                    redirect(getSiteURL(array(
-                        'page' => 'donors',
-                        'flag-deleted' => $deleted,
-                    )));
+                    $em->remove($em->getDonorReference($donor_id));
+                    $em->flush();
+
+                    redirect(getPageURL('manage-donors', array( 'flag-deleted' => true )));
+
                 }
             } elseif ('approve_donor' === $_GET['action']) {
                 if (isCurrentUserCan('approve_donor')) {
-                    $donor = Models\Donors::fetchByID($donor_id);
+
+                    $donorRepository = EntityManager::getDonorRepository();
+                    $donor = $donorRepository->find($donor_id);
 
                     if (! empty($donor) && $donor->isPending()) {
-                        $approved = Models\Donors::update($donor_id, array(
-                            'donor_status' => 'approved',
-                        ));
 
-                        redirect(getSiteURL(array(
-                            'page' => 'manage-donors',
-                            'flag-approved' => $approved,
-                        )));
+                        $donor->set('donor_status', 'approved');
+
+                        $em->merge($donor);
+                        $em->flush();
+
+                        redirect(getPageURL('manage-donors', array( 'flag-deleted' => true )));
+
                     }
                 }
             }
@@ -57,31 +61,31 @@ class ManageDonors extends Controller
      */
     public function outputResponse()
     {
-		$filter_args = array();
+        $fetchingArgs = array();
         $view = new View('manage-donors');
 
         if (isCurrentUserCan('approve_donor')) {
-            $filter_args['status']  = 'all';
+            $fetchingArgs['status']  = 'all';
         } else {
-            $filter_args['status']  = 'approved';
+            $fetchingArgs['status']  = 'approved';
         }
 
         if (! empty($_POST['name'])) {
-            $filter_args['name'] = strip_tags($_POST['name']);
+            $fetchingArgs['name'] = strip_tags($_POST['name']);
         }
 
         if (! empty($_POST['distr_id'])) {
-            $filter_args['distr_id'] = (int) $_POST['distr_id'];
+            $fetchingArgs['distr_id'] = (int) $_POST['distr_id'];
         }
 
         if (! empty($_POST['city_id'])) {
-            $filter_args['city_id']  = (int) $_POST['city_id'];
+            $fetchingArgs['city_id']  = (int) $_POST['city_id'];
         }
 
         if (! empty($_POST['blood_group'])) {
-            $filter_args['blood_group'] = strip_tags($_POST['blood_group']);
+            $fetchingArgs['blood_group'] = strip_tags($_POST['blood_group']);
         }
 
-        $view(array( 'filter_args' => $filter_args ));
+        $view(array( 'fetchingArgs' => $fetchingArgs ));
     }
 }

@@ -5,33 +5,6 @@ body {
     background-color: #fff;
 }
 
-pre {
-    color: #666;
-    white-space: pre;
-    overflow-x: auto;
-    line-height: 1.5em;
-    margin: 10px auto;
-    padding: 10px 15px;
-    background: #F7F7F7;
-    word-break: keep-all;
-    border: 1px solid #CCC;
-}
-
-/**
- * The Wrapper
- * ----------------------------------------------------------------------------
- */
-
-#wrapper {
-    width: 100%;
-}
-.wrapper {
-    height: 100%;
-    width: 960px;
-    margin: 0 auto;
-    position: relative;
-}
-
 /**
  * The Header
  * ----------------------------------------------------------------------------
@@ -46,38 +19,6 @@ pre {
  * ----------------------------------------------------------------------------
  */
 
-#container {
-    background: #f0f1e9;
-}
-#content {
-    padding: 60px 0 40px 0;
-}
-.code-snippet {
-    direction: ltr;
-    text-align: left;
-}
-#content figure {
-    margin: 25px 0;
-    text-align: center;
-}
-#content figure img {
-    height: auto;
-    padding: 5px;
-    max-width: 100%;
-    background: #fff;
-    border: 1px solid #ccc;
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-}
-#content figure img:hover {
-    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-            box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-}
-#content figure figcaption {
-    color: #4a4a4a;
-}
 
 /* Page Header */
 
@@ -92,40 +33,6 @@ pre {
 }
 
 /* Data Table */
-
-.data-table {
-    width: 100%;
-    margin: 10px 0;
-    background: #fff;
-    border-collapse: collapse;
-    border: 2px solid #c7c8bb;
-    -webkit-border-radius: 4px;
-       -moz-border-radius: 4px;
-            border-radius: 4px;
-}
-.data-table:hover,
-.data-table:focus {
-    -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-       -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-            box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-}
-.data-table th {
-    color: #fff;
-    padding: 5px 15px;
-    text-align: center;
-    font-weight: normal;
-    background: #d81e05;
-    border: 1px solid #c7c8bb;
-}
-.data-table tr {
-    background: #fff;
-}
-.data-table td {
-    color: #333;
-    padding: 5px;
-    text-align: left;
-    border: 1px solid #c7c8bb;
-}
 
 /* List Table */
 

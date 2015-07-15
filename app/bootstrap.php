@@ -3,9 +3,9 @@ namespace eBloodBank;
 
 /*** Constants ****************************************************************/
 
-define('eBloodBank\VERSION', '1.0-alpha-1');
+define('eBloodBank\VERSION', '1.0-alpha-2');
 define('eBloodBank\CODENAME', 'eBloodBank');
-define('eBloodBank\ABSPATH', dirname(__DIR__));
+define('ABSPATH', dirname(__DIR__));
 
 /*** Configurations ***********************************************************/
 
@@ -17,8 +17,8 @@ if (file_exists(__DIR__ . '/config.php')) {
 
 /*** Error Reporting **********************************************************/
 
-if (! defined('eBloodBank\DEBUG_MODE') ) {
-	define('eBloodBank\DEBUG_MODE', false);
+if (! defined('DEBUG_MODE') ) {
+	define('DEBUG_MODE', false);
 } else {
 	if (DEBUG_MODE) {
 		error_reporting(E_ALL);
@@ -56,23 +56,13 @@ $loader->register();
 
 $loader->addPrefix('eBloodBank', ABSPATH . '/app/src/');
 
-/*** Database Connection ******************************************************/
-
-try {
-
-	$db = new \PDO(sprintf('mysql:host=%s;charset=utf8;', DB_HOST), DB_USER, DB_PASS);
-	$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-	$db->exec(sprintf('USE`%s`', DB_NAME));
-
-} catch ( \PDOException $ex ) {
-	die( 'Database Error, Please make sure you had setup the database.' );
-}
-
 /*** Sessions *****************************************************************/
 
 if ( session_status() !== PHP_SESSION_ACTIVE ) {
 	session_start();
 }
+
+/*** Roles ********************************************************************/
 
 Kernal\Roles::addRole( new Kernal\Role( 'administrator', __('Administrator'), array(
 
@@ -106,3 +96,22 @@ Kernal\Roles::addRole( new Kernal\Role( 'administrator', __('Administrator'), ar
 	'manage_distrs'         => true,
 
 ) ) );
+
+/*** Options *******************************************************************/
+
+
+Kernal\Options::set_option('genders', array(
+    'male'   => __('Male'),
+    'female' => __('Female'),
+));
+
+Kernal\Options::set_option('blood_groups', array(
+    'A+',
+    'A-',
+    'B+',
+    'B+',
+    'O+',
+    'O-',
+    'AB+',
+    'AB-'
+));

@@ -49,41 +49,41 @@ class Role
         foreach ($caps as $cap) {
             switch ($opt) {
 
-                case 'AND':
+            case 'AND':
 
-                    if (! $this->hasCap($cap)) {
-                        return false;
-                    }
+                if (! $this->hasCap($cap)) {
+                    return false;
+                }
 
-                    break;
+                break;
 
-                case 'OR':
+            case 'OR':
 
-                    if ($this->hasCap($cap)) {
-                        return true;
-                    }
+                if ($this->hasCap($cap)) {
+                    return true;
+                }
 
-                    break;
+                break;
 
-                case 'NOT':
+            case 'NOT':
 
-                    if ($this->hasCap($cap)) {
-                        return false;
-                    }
+                if ($this->hasCap($cap)) {
+                    return false;
+                }
 
-                    break;
+                break;
 
             }
         }
 
         switch ($opt) {
 
-            case 'AND':
-            case 'NOT':
-                return true;
+        case 'AND':
+        case 'NOT':
+            return true;
 
-            case 'OR':
-                return false;
+        case 'OR':
+            return false;
 
         }
     }

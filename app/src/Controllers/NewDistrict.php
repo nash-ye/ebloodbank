@@ -1,9 +1,10 @@
 <?php
 namespace eBloodBank\Controllers;
 
-use eBloodBank\Models;
+use eBloodBank\EntityManager;
 use eBloodBank\Kernal\View;
 use eBloodBank\Kernal\Controller;
+use eBloodBank\Models\District;
 
 /**
  * @since 1.0
@@ -18,23 +19,24 @@ class NewDistrict extends Controller
     {
         if (isset($_POST['action']) && 'submit_distr' === $_POST['action']) {
             if (isCurrentUserCan('add_distr')) {
-                $distr_data = array();
+                $distr = new District();
 
                 if (isset($_POST['distr_name'])) {
-                    $distr_data['distr_name'] = filter_input(INPUT_POST, 'distr_name', FILTER_SANITIZE_STRING);
+                    $distr->set('distr_name', $_POST['distr_name'], true);
                 }
 
                 if (isset($_POST['distr_city_id'])) {
-                    $distr_data['distr_city_id'] = (int) $_POST['distr_city_id'];
+                    $distr->set('distr_city_id', $_POST['distr_city_id'], true);
                 }
 
-                $distr_id = Models\Districts::insert($distr_data);
-                $submitted = isVaildID($distr_id);
+                $em = EntityManager::getInstance();
+                $em->persist($distr);
+                $em->flush();
 
-                redirect(getSiteURL(array(
-                    'page' => 'new-distr',
-                    'flag-submitted' => $submitted,
-                )));
+                $submitted = isVaildID($distr->get('distr_id'));
+
+                redirect(getPageURL('new-distr', array( 'flag-submitted' => $submitted )));
+
             }
         }
     }

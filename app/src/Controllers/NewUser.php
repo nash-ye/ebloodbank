@@ -1,9 +1,10 @@
 <?php
 namespace eBloodBank\Controllers;
 
-use eBloodBank\Models\Users;
+use eBloodBank\EntityManager;
 use eBloodBank\Kernal\View;
 use eBloodBank\Kernal\Controller;
+use eBloodBank\Models\User;
 
 /**
  * @since 1.0
@@ -17,29 +18,42 @@ class NewUser extends Controller
     public function processRequest()
     {
         if (isset($_POST['action']) && 'submit_user' === $_POST['action']) {
+
             if (isCurrentUserCan('add_user')) {
-                $user_data = array();
+
+                $user = new User();
 
                 if (isset($_POST['user_logon'])) {
-                    $user_data['user_logon'] = filter_var($_POST['user_logon'], FILTER_SANITIZE_STRING);
+                    $user->set('user_logon', $_POST['user_logon'], true);
                 }
 
-                if (! empty($_POST['user_pass'])) {
-                    $user_data['user_pass'] = password_hash($_POST['user_pass'], PASSWORD_BCRYPT);
+                if (isset($_POST['user_pass_1'])) {
+                    if (isset($_POST['user_pass_2']) && $_POST['user_pass_1'] === $_POST['user_pass_2']) {
+                        $user->set('user_pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
+                    } else {
+                        // TODO: Display error "Please, Confirm your new password."
+                    }
                 }
 
                 if (isset($_POST['user_role'])) {
-                    $user_data['user_role'] = filter_var($_POST['user_role'], FILTER_SANITIZE_STRING);
+                    $user->set('user_role', $_POST['user_role']);
                 }
 
-                $user_id = Users::insert($user_data);
-                $submitted = isVaildID($user_id);
+                $user->set('user_rtime', gmdate('Y-m-d H:i:s'));
+                $user->set('user_status', 'activated');
 
-                redirect(getSiteURL(array(
-                    'page' => 'new-user',
-                    'flag-submitted' => $submitted,
-                )));
+                $em = EntityManager::getInstance();
+                $em->persist($user);
+                $em->flush();
+
+                $submitted = isVaildID($user->get('user_id'));
+
+                redirect(getPageURL('new-user', array( 'flag-submitted' => $submitted )));
+
+            } else {
+                // TODO: Display error "Sorry, You don't have the right capabilities."
             }
+
         }
     }
 

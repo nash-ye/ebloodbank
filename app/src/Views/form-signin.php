@@ -2,15 +2,15 @@
 /**
  * Signin Form
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
 ?>
-<form id="form-signin" class="form-horizontal" action="<?php echo getSiteURL(array( 'page' => 'signin' )) ?>" method="POST">
+<form id="form-signin" class="form-horizontal" action="<?php echo getPageURL('signin') ?>" method="POST">
 
 	<div class="form-group">
 		<div class="col-sm-2">
-			<label for="user_logon"><?php _e('User Name') ?></label>
+			<label for="user_logon"><?php _e('Username') ?></label>
 		</div>
 		<div class="col-sm-4">
 			<input type="text" name="user_logon" id="user_logon" class="form-control" required />

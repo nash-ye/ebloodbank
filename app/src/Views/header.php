@@ -2,7 +2,7 @@
 /**
  * The Header
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
 ?>
@@ -10,7 +10,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title><?php echo $data['title'] ?></title>
+		<title><?php echo $__title ?></title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -32,24 +32,24 @@
 						<span class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="<?php echo getSiteURL() ?>">
-						<?php _e('eBloodBank') ?>
+                        <?php _e('eBloodBank') ?>
 					</a>
 				</div>
 				<div id="navbar-collapse" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="<?php echo getSiteURL() ?>"><?php _e('Home') ?></a></li>
-						<?php if (isCurrentUserCan('manage_donors')) : ?>
-						<li><a href="<?php echo getSiteURL(array( 'page' => 'manage-donors' )) ?>"><?php _e('Donors') ?></a></li>
-						<?php endif; ?>
-						<?php if (isCurrentUserCan('manage_cites')) : ?>
-						<li><a href="<?php echo getSiteURL(array( 'page' => 'manage-cites' )) ?>"><?php _e('Cities') ?></a></li>
-						<?php endif; ?>
-						<?php if (isCurrentUserCan('manage_distrs')) : ?>
-						<li><a href="<?php echo getSiteURL(array( 'page' => 'manage-distrs' )) ?>"><?php _e('Districts') ?></a></li>
-						<?php endif; ?>
-						<?php if (isCurrentUserCan('manage_users')) : ?>
-						<li><a href="<?php echo getSiteURL(array( 'page' => 'manage-users' )) ?>"><?php _e('Users') ?></a></li>
-						<?php endif; ?>
+                        <?php if (isCurrentUserCan('manage_donors')) : ?>
+                        <li><a href="<?php echo getPageURL('manage-donors') ?>"><?php _e('Donors') ?></a></li>
+                        <?php endif; ?>
+                        <?php if (isCurrentUserCan('manage_cites')) : ?>
+                        <li><a href="<?php echo getPageURL('manage-cites') ?>"><?php _e('Cities') ?></a></li>
+                        <?php endif; ?>
+                        <?php if (isCurrentUserCan('manage_distrs')) : ?>
+                        <li><a href="<?php echo getPageURL('manage-distrs') ?>"><?php _e('Districts') ?></a></li>
+                        <?php endif; ?>
+                        <?php if (isCurrentUserCan('manage_users')) : ?>
+                        <li><a href="<?php echo getPageURL('manage-users') ?>"><?php _e('Users') ?></a></li>
+                        <?php endif; ?>
 					</ul>
 				</div>
 				<!-- /.navbar-collapse -->

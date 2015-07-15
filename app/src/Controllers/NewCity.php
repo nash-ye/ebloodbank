@@ -1,9 +1,10 @@
 <?php
 namespace eBloodBank\Controllers;
 
+use eBloodBank\EntityManager;
 use eBloodBank\Kernal\Controller;
 use eBloodBank\Kernal\View;
-use eBloodBank\Models\Cites;
+use eBloodBank\Models\City;
 
 /**
  * @since 1.0
@@ -18,19 +19,20 @@ class NewCity extends Controller
     {
         if (isset($_POST['action']) && 'submit_city' === $_POST['action']) {
             if (isCurrentUserCan('add_city')) {
-                $city_data = array();
+                $city = new City();
 
                 if (isset($_POST['city_name'])) {
-                    $city_data['city_name'] = filter_var($_POST['city_name'], FILTER_SANITIZE_STRING);
+                    $city->set('city_name', $_POST['city_name'], true);
                 }
 
-                $city_id = Cites::insert($city_data);
-                $submitted = isVaildID($city_id);
+                $em = EntityManager::getInstance();
+                $em->persist($city);
+                $em->flush();
 
-                redirect(getSiteURL(array(
-                    'page' => 'new-city',
-                    'flag-submitted' => $submitted,
-                )));
+                $submitted = isVaildID($city->get('city_id'));
+
+                redirect(getPageURL('new-city', array( 'flag-submitted' => $submitted )));
+
             }
         }
     }

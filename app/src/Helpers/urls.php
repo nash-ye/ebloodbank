@@ -39,18 +39,28 @@ function getCurrentURL()
  * @return string
  * @since 1.0
  */
-function getSiteURL(array $query = array())
+function getSiteURL($path = '')
 {
     static $url = null;
 
     if (is_null($url)) {
         $root = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT']));
-        $url = str_replace($root, getBaseURL(), str_replace('\\', '/', eBloodBank\ABSPATH));
+        $url = str_replace($root, getBaseURL(), str_replace('\\', '/', ABSPATH));
     }
 
-    if (! empty($query)) {
-        return "{$url}/index.php?" . http_build_query($query);
+    if (! empty($path)) {
+        $url .= '/' . ltrim( $path, '/' );
     }
 
     return $url;
+}
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function getPageURL($page, array $query = array())
+{
+    $query = array_merge($query, array( 'page' => $page ));
+    return getSiteURL('/') . '?' . http_build_query($query);
 }

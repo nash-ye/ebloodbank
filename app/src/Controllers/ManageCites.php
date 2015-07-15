@@ -1,7 +1,7 @@
 <?php
 namespace eBloodBank\Controllers;
 
-use eBloodBank\Models;
+use eBloodBank\EntityManager;
 use eBloodBank\Kernal\View;
 use eBloodBank\Kernal\Controller;
 
@@ -18,13 +18,19 @@ class ManageCites extends Controller
     {
         if (isset($_GET['action']) && 'delete_city' === $_GET['action']) {
             if (isCurrentUserCan('delete_city')) {
-                $city_id = (int) $_GET['id'];
-                $deleted = Models\Cites::delete($city_id);
 
-                redirect(getSiteURL(array(
-                    'page' => 'manage-cites',
-                    'flag-deleted' => $deleted,
-                )));
+                $city_id = (int) $_GET['id'];
+
+                if (! isVaildID($city_id)) {
+                    die('Invaild city ID');
+                }
+
+                $em = EntityManager::getInstance();
+                $em->remove($em->getCityReference($city_id));
+                $em->flush();
+
+                redirect(getPageURL('manage-cites', array( 'flag-deleted' => true )));
+
             }
         }
     }

@@ -6,8 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Gettext\\Languages\\' => array($vendorDir . '/gettext/languages/src'),
     'Gettext\\' => array($vendorDir . '/gettext/gettext/src'),
+    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Aura\\Router\\_Config\\' => array($vendorDir . '/aura/router/config'),
     'Aura\\Router\\' => array($vendorDir . '/aura/router/src'),
     'Aura\\Html\\_Config\\' => array($vendorDir . '/aura/html/config'),

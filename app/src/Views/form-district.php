@@ -2,17 +2,16 @@
 /**
  * New\Edit District Form
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
-use eBloodBank\Models\Cites;
+use eBloodBank\EntityManager;
 use eBloodBank\Models\District;
-use eBloodBank\Models\Districts;
 
-if (! isset($data['id'])) {
-	$distr = new District();
+if (! isset($__districtID)) {
+    $distr = new District();
 } else {
-	$distr = Districts::fetchByID($data['id']);
+    $distr = EntityManager::getDistrictRepository()->find($__districtID);
 }
 ?>
 <form id="form-distr" class="form-horizontal" method="POST">
@@ -32,11 +31,9 @@ if (! isset($data['id'])) {
 		</div>
 		<div class="col-sm-4">
 			<select id="distr_city_id" name="distr_city_id" class="form-control">
-				<?php foreach (Cites::fetchAll() as $city) { ?>
-					<option<?php html_atts(array( 'value' => $city->getID(), 'selected' => ($city->getID() == $distr->get('distr_city_id')) )) ?>>
-						<?php $city->display('city_name') ?>
-					</option>
-				<?php } ?>
+				<?php foreach (EntityManager::getCityRepository()->findAll() as $city) : ?>
+                <option<?php html_atts(array( 'value' => $city->get('city_id'), 'selected' => ($city->get('city_id') == $distr->get('distr_city_id')) )) ?>><?php $city->display('city_name') ?></option>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>

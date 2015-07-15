@@ -1,8 +1,8 @@
 <?php
 namespace eBloodBank\Controllers;
 
+use eBloodBank\SessionManage;
 use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Sessions;
 use eBloodBank\Kernal\Controller;
 
 /**
@@ -18,19 +18,19 @@ class Signin extends Controller
     {
         if (isset($_REQUEST['action'])) {
             if ('signin' === $_REQUEST['action']) {
-                if (Sessions::isSignedIn()) {
+                if (SessionManage::isSignedIn()) {
                     die(-1);
                 }
 
                 if (isset($_POST['user_logon'], $_POST['user_pass'])) {
-                    $signed_in = Sessions::signIn($_POST['user_logon'], $_POST['user_pass']);
+                    $signed_in = SessionManage::signIn($_POST['user_logon'], $_POST['user_pass']);
 
                     if ($signed_in) {
                         redirect('index.php');
                     }
                 }
             } elseif ('signout' === $_REQUEST['action']) {
-                if (Sessions::signOut()) {
+                if (SessionManage::signOut()) {
                     redirect(URL);
                 }
             }
@@ -43,10 +43,9 @@ class Signin extends Controller
      */
     public function outputResponse()
     {
-		if (! Sessions::isSignedIn()) {
-			$view = new View('signin');
-			$view();
-		}
-
+        if (! SessionManage::isSignedIn()) {
+            $view = new View('signin');
+            $view();
+        }
     }
 }

@@ -2,7 +2,7 @@
 /**
  * New City
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
 use eBloodBank\Kernal\View;

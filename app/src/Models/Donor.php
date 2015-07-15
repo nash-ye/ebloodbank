@@ -2,202 +2,128 @@
 namespace eBloodBank\Models;
 
 use eBloodBank\Kernal\Model;
+use eBloodBank\Exceptions\InvaildProperty;
 
 /**
  * @since 1.0
+ *
+ * @Entity(repositoryClass="eBloodBank\Models\DonorRepository")
+ * @Table(name="donor")
  */
 class Donor extends Model
 {
     /**
-     * @var string
+     * @var int
      * @since 1.0
+     *
+     * @Id @Column(type="integer")
+     * @GeneratedValue
      */
-    const TABLE = 'donor';
+    protected $donor_id = 0;
 
     /**
      * @var string
      * @since 1.0
+     *
+     * @Column(type="string")
      */
-    const PK_ATTR = 'donor_id';
+    protected $donor_name;
 
     /**
      * @var string
      * @since 1.0
+     *
+     * @Column(type="string")
      */
-    const META_TABLE = 'donor_meta';
+    protected $donor_gender;
+
+    /**
+     * @var int
+     * @since 1.0
+     *
+     * @Column(type="integer")
+     */
+    protected $donor_weight = 0;
 
     /**
      * @var string
      * @since 1.0
+     *
+     * @Column(type="string")
      */
-    const META_FK_ATTR = 'donor_id';
+    protected $donor_birthdate;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string")
+     */
+    protected $donor_blood_group;
+
+    /**
+     * @var int
+     * @since 1.0
+     *
+     * @Column(type="integer")
+     * @ManyToOne(targetEntity="District")
+     */
+    protected $donor_distr_id = 0;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string")
+     */
+    protected $donor_address;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string")
+     */
+    protected $donor_phone;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string")
+     */
+    protected $donor_email;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string")
+     */
+    protected $donor_rtime;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string")
+     */
+    protected $donor_status = 'pending';
 
     /**
      * @var int
      * @since 1.0
      */
-    public $donor_id = 0;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public $donor_name;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public $donor_gender;
-
-    /**
-     * @var int
-     * @since 1.0
-     */
-    public $donor_weight = 0;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public $donor_birthdate;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public $donor_blood_group;
-
-    /**
-     * @var int
-     * @since 1.0
-     */
-    public $donor_distr_id = 0;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public $donor_address;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public $donor_phone;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public $donor_email;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public $donor_rtime;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public $donor_status = 'pending';
-
-    /**
-     * @var array
-     * @since 1.0
-     */
-    public static $genders = array(
-        'male'   => 'Male',
-        'female' => 'Female',
-    );
-
-    /**
-     * @var array
-     * @since 1.0
-     */
-    public static $blood_groups = array(
-        'O-',
-        'O+',
-        'A-',
-        'A+',
-        'B-',
-        'B+',
-        'AB-',
-        'AB+',
-    );
-
-
-    /**
-     * @var int
-     * @since 1.0
-     */
-    public function getAge()
+    public function calculateAge()
     {
         $current_date = new \DateTime(date('Y-m-d'));
         $birthdate = new \DateTime($this->get('donor_birthdate'));
 
         if ($birthdate > $current_date) {
-            return false;
+            return 0;
         }
 
         return (int) $current_date->diff($birthdate)->format('%y');
-    }
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public function getCityName()
-    {
-        try {
-            global $db;
-
-            $stmt = $db->prepare('SELECT city_name FROM city WHERE city_id IN( SELECT distr_city_id FROM district WHERE distr_id = ?)', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL));
-            $stmt->execute(array( (int) $this->get('donor_distr_id') ));
-
-            $city_name = $stmt->fetchColumn();
-            $stmt->closeCursor();
-
-            return $city_name;
-        } catch (\PDOException $ex) {
-            return false;
-        }
-    }
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public function getDistrictName()
-    {
-        try {
-            global $db;
-
-            $stmt = $db->prepare('SELECT distr_name FROM district WHERE distr_id = ?', array( \PDO::ATTR_CURSOR => \PDO::CURSOR_SCROLL));
-            $stmt->execute(array( (int) $this->get('donor_distr_id') ));
-
-            $distr_name = $stmt->fetchColumn();
-            $stmt->closeCursor();
-
-            return $distr_name;
-        } catch (\PDOException $ex) {
-            return false;
-        }
-    }
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    public function getGenderLabel()
-    {
-        $gender = $this->get('donor_gender');
-
-        if (isset(self::$genders[ $gender ])) {
-            return self::$genders[ $gender ];
-        }
     }
 
     /**
@@ -216,5 +142,67 @@ class Donor extends Model
     public function isPending()
     {
         return 'pending' === $this->get('donor_status');
+    }
+
+    /**
+     * @return mixed
+     * @since 1.0
+     */
+    public static function sanitize($key, $value)
+    {
+        switch ($key) {
+            case 'donor_id':
+            case 'donor_distr_id':
+                $value = (int) $value;
+                break;
+            case 'donor_weight':
+                $value = (float) $value;
+                break;
+            case 'donor_email':
+                $value = filter_var($value, FILTER_SANITIZE_EMAIL);
+                break;
+            case 'donor_name':
+            case 'donor_rtime':
+            case 'donor_phone':
+            case 'donor_gender':
+            case 'donor_status':
+            case 'donor_address':
+            case 'donor_birthdate':
+            case 'donor_blood_group':
+                $value = filter_var($value, FILTER_SANITIZE_STRING);
+                break;
+        }
+        return $value;
+    }
+
+    /**
+     * @return bool
+     * @since 1.0
+     */
+    public static function validate($key, $value)
+    {
+        switch ($key) {
+            case 'donor_id':
+                if (! isVaildID($value)) {
+                    throw new InvaildProperty(__('Invaild donor ID'), 'invaild_donor_id');
+                }
+                break;
+            case 'donor_name':
+                if (empty($value) || ! is_string($value)) {
+                    throw new InvaildProperty(__('Invaild donor name'), 'invaild_donor_name');
+                }
+                break;
+            case 'donor_gender':
+                if (! in_array($value, array( 'male', 'female' ))) {
+                    throw new InvaildProperty(__('Invaild donor gender'), 'invaild_donor_gender');
+                }
+                break;
+            case 'donor_weight':
+                if ($value < 0) {
+                    throw new InvaildProperty(__('Invaild donor weight'), 'invaild_donor_weight');
+                }
+                break;
+        }
+        return true;
     }
 }

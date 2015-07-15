@@ -4,7 +4,7 @@
  * Output HTML attributes list.
  *
  * @return void
- * @since 1.0
+ * @since  1.0
  */
 function html_atts(array $atts, array $args = null)
 {
@@ -18,7 +18,7 @@ function html_atts(array $atts, array $args = null)
  * an inline list of HTML attributes.
  *
  * @return string
- * @since 1.0
+ * @since  1.0
  */
 function get_html_atts(array $atts, array $args = null)
 {
@@ -28,10 +28,12 @@ function get_html_atts(array $atts, array $args = null)
         return $output;
     }
 
-    $args = array_merge(array(
+    $args = array_merge(
+        array(
         'after' => '',
         'before' => ' ',
-    ), (array) $args);
+        ), (array) $args
+    );
 
     foreach ($atts as $key => $value) {
         $key = strtolower($key);

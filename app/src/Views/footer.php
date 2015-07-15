@@ -2,7 +2,7 @@
 /**
  * The Footer
  *
- * @package eBloodBank
+ * @package    eBloodBank
  * @subpackage Views
  */
 ?>

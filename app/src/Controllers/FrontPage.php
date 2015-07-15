@@ -1,6 +1,7 @@
 <?php
 namespace eBloodBank\Controllers;
 
+use eBloodBank\SessionManage;
 use eBloodBank\Kernal\View;
 use eBloodBank\Kernal\Controller;
 
@@ -22,7 +23,7 @@ class FrontPage extends Controller
     public function processRequest()
     {
         if (isset($_GET['action']) && 'signout' === $_GET['action']) {
-            if (Sessions::signout()) {
+            if (SessionManage::signout()) {
                 redirect(getSiteURL());
             }
         }
@@ -34,74 +35,74 @@ class FrontPage extends Controller
      */
     public function outputResponse()
     {
-		if (! empty($_GET['page'])) {
+        if (! empty($_GET['page'])) {
 
-			switch ($_GET['page']) {
+            switch ($_GET['page']) {
 
-				case 'signin':
-					new Signin();
-					break;
+            case 'signin':
+                new Signin();
+                break;
 
-				case 'new-user':
-					new NewUser();
-					break;
+            case 'new-user':
+                new NewUser();
+                break;
 
-				case 'edit-user':
-					new EditUser();
-					break;
+            case 'edit-user':
+                new EditUser();
+                break;
 
-				case 'manage-users':
-					new ManageUsers();
-					break;
+            case 'manage-users':
+                new ManageUsers();
+                break;
 
-				case 'new-city':
-					new NewCity();
-					break;
+            case 'new-city':
+                new NewCity();
+                break;
 
-				case 'edit-city':
-					new EditCity();
-					break;
+            case 'edit-city':
+                new EditCity();
+                break;
 
-				case 'manage-cites':
-					new ManageCites();
-					break;
+            case 'manage-cites':
+                new ManageCites();
+                break;
 
-				case 'new-distr':
-					new NewDistrict();
-					break;
+            case 'new-distr':
+                new NewDistrict();
+                break;
 
-				case 'edit-distr':
-					new EditDistrict();
-					break;
+            case 'edit-distr':
+                new EditDistrict();
+                break;
 
-				case 'manage-distrs':
-					new ManageDistricts();
-					break;
+            case 'manage-distrs':
+                new ManageDistricts();
+                break;
 
-				case 'new-donor':
-					new NewDonor();
-					break;
+            case 'new-donor':
+                new NewDonor();
+                break;
 
-				case 'edit-donor':
-					new EditDonor();
-					break;
+            case 'edit-donor':
+                new EditDonor();
+                break;
 
-				case 'manage-donors':
-					new ManageDonors();
-					break;
+            case 'manage-donors':
+                new ManageDonors();
+                break;
 
-				default:
-					$view = new View('error-404');
-					$view();
-					break;
+            default:
+                $view = new View('error-404');
+                $view();
+                break;
 
-			}
+            }
 
-		} else {
+        } else {
 
-			$view = new View('frontpage');
-			$view();
+            $view = new View('frontpage');
+            $view();
 
-		}
+        }
     }
 }
