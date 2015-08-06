@@ -1,17 +1,21 @@
 <?php
-namespace eBloodBank\Models;
+namespace EBloodBank\Models;
 
-use eBloodBank\Kernal\Model;
-use eBloodBank\Exceptions\InvaildProperty;
+use EBloodBank\Kernal\Model;
+use EBloodBank\Kernal\Options;
+use EBloodBank\Traits\EntityMeta;
+use EBloodBank\Exceptions\InvaildProperty;
 
 /**
  * @since 1.0
  *
- * @Entity(repositoryClass="eBloodBank\Models\DonorRepository")
+ * @Entity(repositoryClass="EBloodBank\Models\DonorRepository")
  * @Table(name="donor")
  */
 class Donor extends Model
 {
+    use EntityMeta;
+
     /**
      * @var int
      * @since 1.0
@@ -130,9 +134,9 @@ class Donor extends Model
      * @var bool
      * @since 1.0
      */
-    public function isApproved()
+    public function isPublished()
     {
-        return 'approved' === $this->get('donor_status');
+        return 'published' === $this->get('donor_status');
     }
 
     /**
@@ -176,6 +180,7 @@ class Donor extends Model
     }
 
     /**
+     * @throws \EBloodBank\Exceptions\InvaildProperty
      * @return bool
      * @since 1.0
      */
@@ -184,22 +189,27 @@ class Donor extends Model
         switch ($key) {
             case 'donor_id':
                 if (! isVaildID($value)) {
-                    throw new InvaildProperty(__('Invaild donor ID'), 'invaild_donor_id');
+                    throw new InvaildProperty(__('Invaild donor ID.'), 'invaild_donor_id');
                 }
                 break;
             case 'donor_name':
                 if (empty($value) || ! is_string($value)) {
-                    throw new InvaildProperty(__('Invaild donor name'), 'invaild_donor_name');
+                    throw new InvaildProperty(__('Invaild donor name.'), 'invaild_donor_name');
                 }
                 break;
             case 'donor_gender':
-                if (! in_array($value, array( 'male', 'female' ))) {
-                    throw new InvaildProperty(__('Invaild donor gender'), 'invaild_donor_gender');
+                if (! array_key_exists($value, (array) Options::getOption('genders'))) {
+                    throw new InvaildProperty(__('Invaild donor gender.'), 'invaild_donor_gender');
                 }
                 break;
             case 'donor_weight':
                 if ($value < 0) {
-                    throw new InvaildProperty(__('Invaild donor weight'), 'invaild_donor_weight');
+                    throw new InvaildProperty(__('Invaild donor weight.'), 'invaild_donor_weight');
+                }
+                break;
+            case 'donor_blood_group':
+                if (! in_array($value, (array) Options::getOption('blood_groups'))) {
+                    throw new InvaildProperty(__('Invaild donor blood group.'), 'invaild_donor_blood_group');
                 }
                 break;
         }

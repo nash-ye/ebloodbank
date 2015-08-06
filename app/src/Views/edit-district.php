@@ -2,16 +2,16 @@
 /**
  * Edit District
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\Kernal\View;
+use EBloodBank\Kernal\View;
 
-$header = new View('header');
-$header(array( 'title' => __('Edit District') ));
+$header = new View('header', array( 'title' => __('Edit District') ));
+$header();
 
-$footer = new View('form-district');
-$footer(array( 'districtID' => $data['id'] ));
+$footer = new View('form-district', array( 'district' => $this->get('district') ));
+$footer();
 
 $footer = new View('footer');
 $footer();

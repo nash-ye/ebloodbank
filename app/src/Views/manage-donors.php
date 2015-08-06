@@ -2,12 +2,13 @@
 /**
  * Manage Donors
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Options;
+use EBloodBank\EntityManager;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Options;
+use EBloodBank\Kernal\Notices;
 
 $__fetchingArgs = array_merge(
     array(
@@ -16,10 +17,9 @@ $__fetchingArgs = array_merge(
     'blood_group' => 'all',
     'distr_id'    => -1,
     'city_id'     => -1,
-    ), $__fetchingArgs
+    ), (array) $this->get('fetchingArgs')
 );
 
-$can_add     = isCurrentUserCan('add_donor');
 $can_edit    = isCurrentUserCan('edit_donor');
 $can_delete  = isCurrentUserCan('delete_donor');
 $can_manage  = isCurrentUserCan('manage_donors');
@@ -29,15 +29,23 @@ $donorRepository    = EntityManager::getDonorRepository();
 $cityRepository     = EntityManager::getCityRepository();
 $districtRepository = EntityManager::getDistrictRepository();
 
-$header = new View('header');
-$header(array( 'title' => __('Donors') ));
+$header = new View('header', array( 'title' => __('Donors') ));
+$header();
 ?>
 
-    <?php if ($can_add) : ?>
 	<div class="btn-block">
-		<a href="<?php echo getPageURL('new-donor') ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
+
+        <?php if (isCurrentUserCan('view_donors')) : ?>
+		<a href="<?php echo getPageURL('view-donors') ?>" class="btn btn-default btn-manage"><?php _e('View') ?></a>
+        <?php endif; ?>
+
+        <?php if (isCurrentUserCan('add_donor')) : ?>
+		<a href="<?php echo getPageURL('new-donor') ?>" class="btn btn-primary btn-add-new"><?php _e('Add New') ?></a>
+        <?php endif; ?>
+
 	</div>
-    <?php endif; ?>
+
+    <?php Notices::displayNotices() ?>
 
 	<form class="form-inline" action="<?php echo getPageURL('manage-donors') ?>" method="POST">
 
@@ -53,7 +61,7 @@ $header(array( 'title' => __('Donors') ));
 				<?php _e('Blood Group') ?>
 				<select name="blood_group"  class="form-control">
 					<option value="all"><?php _e('All') ?></option>
-                    <?php foreach (Options::get_option('blood_groups') as $blood_group) : ?>
+                    <?php foreach (Options::getOption('blood_groups') as $blood_group) : ?>
 					<option<?php html_atts(array( 'selected' => ($blood_group === $__fetchingArgs['blood_group']) )) ?>><?php echo $blood_group ?></option>
                     <?php endforeach; ?>
 				</select>
@@ -116,7 +124,7 @@ $header(array( 'title' => __('Donors') ));
 					<td>
                         <?php
                             $donorGender = $donor->get('donor_gender');
-                            $genders = Options::get_option('genders');
+                            $genders = Options::getOption('genders');
                             if (isset($genders[$donorGender])) {
                                 echo $genders[$donorGender];
                             }

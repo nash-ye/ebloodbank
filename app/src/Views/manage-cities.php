@@ -1,29 +1,37 @@
 <?php
 /**
- * Manage Cites
+ * Manage Cities
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
+use EBloodBank\EntityManager;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Notices;
 
-$can_add    = isCurrentUserCan('add_city');
 $can_edit   = isCurrentUserCan('edit_city');
 $can_delete = isCurrentUserCan('delete_city');
-$can_manage = isCurrentUserCan('manage_cites');
+$can_manage = isCurrentUserCan('manage_cities');
 
-$header = new View('header');
-$header(array( 'title' => __('Cites') ));
+$header = new View('header', array( 'title' => __('Cities') ));
+$header();
 ?>
 
-    <?php if ($can_add) : ?>
 	<div class="btn-block">
-		<a href="<?php echo getPageURL('new-city') ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
-	</div>
-    <?php endif; ?>
 
-	<table id="table-cites" class="table table-bordered table-hover">
+        <?php if (isCurrentUserCan('view_cities')) : ?>
+		<a href="<?php echo getPageURL('view-cities') ?>" class="btn btn-default btn-manage"><?php _e('View') ?></a>
+        <?php endif; ?>
+
+        <?php if (isCurrentUserCan('add_city')) : ?>
+		<a href="<?php echo getPageURL('new-city') ?>" class="btn btn-primary btn-add-new"><?php _e('Add New') ?></a>
+        <?php endif; ?>
+
+	</div>
+
+    <?php Notices::displayNotices() ?>
+
+	<table id="table-cities" class="table table-bordered table-hover">
 
 		<thead>
 			<tr>
@@ -48,7 +56,7 @@ $header(array( 'title' => __('Cites') ));
                     <a href="<?php echo getPageURL('edit-city', array( 'id' => $city->get('city_id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
                     <?php endif; ?>
                     <?php if ($can_delete) : ?>
-                    <a href="<?php echo getPageURL('manage-cites', array( 'action' => 'delete_city', 'id' => $city->get('city_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+                    <a href="<?php echo getPageURL('manage-cities', array( 'action' => 'delete_city', 'id' => $city->get('city_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
                     <?php endif; ?>
                 </td>
                 <?php endif; ?>

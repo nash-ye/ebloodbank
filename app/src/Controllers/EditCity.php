@@ -1,9 +1,11 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
+use EBloodBank\Exceptions;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Kernal\Notices;
 
 /**
  * @since 1.0
@@ -11,39 +13,33 @@ use eBloodBank\Kernal\Controller;
 class EditCity extends Controller
 {
     /**
-     * @var int
-     * @since 1.0
-     */
-    protected $id = 0;
-
-    /**
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    protected function action_submit()
     {
-        $this->id = (int) $_GET['id'];
+        if (isCurrentUserCan('edit_city')) {
 
-        if (! isVaildID($this->id)) {
-            die('Invaild city ID');
-        }
+            try {
 
-        if (isset($_POST['action']) && 'submit_city' === $_POST['action']) {
-
-            if (isCurrentUserCan('edit_city')) {
-
-                $em = EntityManager::getInstance();
-                $city = $em->getCityReference($this->id);
+                $cityID = (int) $_GET['id'];
+                $city = EntityManager::getCityReference($cityID);
 
                 if (isset($_POST['city_name'])) {
                     $city->set('city_name', $_POST['city_name'], true);
                 }
 
-                $em->flush();
-                $submitted = isVaildID($city->get('city_id'));
+                EntityManager::getInstance()->flush();
 
-                redirect(getPageURL('edit-city', array( 'id' => $this->id, 'flag-submitted' => $submitted )));
+                redirect(
+                    getPageURL('edit-city', array(
+                        'id' => $cityID,
+                        'flag-submitted' => true
+                    ))
+                );
 
+            } catch (Exceptions\InvaildProperty $ex) {
+                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
 
         }
@@ -53,14 +49,27 @@ class EditCity extends Controller
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
+        if (! empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'submit_city':
+                    $this->action_submit();
+                    break;
+            }
+        }
+
         if (isCurrentUserCan('edit_city')) {
-            $view = new View('edit-city');
-            $view(array( 'id' => $this->id ));
+            $city = EntityManager::getCityRepository()->find((int) $_GET['id']);
+            if (! empty($city)) {
+                $view = new View('edit-city', array( 'city' => $city ));
+            } else {
+                $view = new View('error-404');
+            }
         } else {
             $view = new View('error-401');
-            $view();
         }
+
+        $view();
     }
 }

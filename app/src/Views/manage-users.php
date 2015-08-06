@@ -2,27 +2,37 @@
 /**
  * Manage Users
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\EntityManager;
-use eBloodBank\SessionManage;
-use eBloodBank\Kernal\View;
+use EBloodBank\EntityManager;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Notices;
 
-$can_add    = isCurrentUserCan('add_user');
-$can_edit   = isCurrentUserCan('edit_user');
-$can_delete = isCurrentUserCan('delete_user');
-$can_manage = isCurrentUserCan('manage_users');
+$can_edit    = isCurrentUserCan('edit_user');
+$can_delete  = isCurrentUserCan('delete_user');
+$can_manage  = isCurrentUserCan('manage_users');
+$can_approve = isCurrentUserCan('approve_user');
 
-$header = new View('header');
-$header(array( 'title' => __('Users') ));
+$users = EntityManager::getUserRepository()->findAll();
+
+$header = new View('header', array( 'title' => __('Users') ));
+$header();
 ?>
 
-    <?php if ($can_add) : ?>
 	<div class="btn-block">
-		<a href="<?php echo getPageURL('new-user') ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
+
+        <?php if (isCurrentUserCan('view_users')) : ?>
+		<a href="<?php echo getPageURL('view-users') ?>" class="btn btn-default btn-manage"><?php _e('View') ?></a>
+        <?php endif; ?>
+
+        <?php if (isCurrentUserCan('add_user')) : ?>
+		<a href="<?php echo getPageURL('new-user') ?>" class="btn btn-primary btn-add-new"><?php _e('Add New') ?></a>
+        <?php endif; ?>
+
 	</div>
-    <?php endif; ?>
+
+    <?php Notices::displayNotices() ?>
 
 	<table id="table-users" class="table table-bordered table-hover">
 
@@ -37,7 +47,7 @@ $header(array( 'title' => __('Users') ));
 
 		<tbody>
 
-            <?php foreach (EntityManager::getUserRepository()->findAll() as $user) : ?>
+            <?php foreach ($users as $user) : ?>
 
 			<tr>
 				<td><?php $user->display('user_id') ?></td>
@@ -53,8 +63,11 @@ $header(array( 'title' => __('Users') ));
                     <?php if ($can_edit) : ?>
                     <a href="<?php echo getPageURL('edit-user', array( 'id' => $user->get('user_id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
                     <?php endif; ?>
-                    <?php if ($can_delete && $user->get('user_id') !== SessionManage::getCurrentUserID()) : ?>
+                    <?php if ($can_delete && $user->get('user_id') !== getCurrentUserID()) : ?>
                     <a href="<?php echo getPageURL('manage-users', array( 'action' => 'delete_user', 'id' => $user->get('user_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+                    <?php endif; ?>
+                    <?php if ($can_approve && $user->isPending()) : ?>
+                    <a href="<?php echo getPageURL('manage-users', array( 'action' => 'approve_user', 'id' => $user->get('user_id') )) ?>" class="approve-link"><i class="fa fa-check"></i></a>
                     <?php endif; ?>
 				</td>
 				<?php endif; ?>

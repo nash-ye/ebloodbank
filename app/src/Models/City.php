@@ -1,14 +1,14 @@
 <?php
-namespace eBloodBank\Models;
+namespace EBloodBank\Models;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\Model;
-use eBloodBank\Exceptions\InvaildProperty;
+use EBloodBank\EntityManager;
+use EBloodBank\Kernal\Model;
+use EBloodBank\Exceptions\InvaildProperty;
 
 /**
  * @since 1.0
  *
- * @Entity(repositoryClass="eBloodBank\Models\CityRepository")
+ * @Entity(repositoryClass="EBloodBank\Models\CityRepository")
  * @Table(name="city")
  */
 class City extends Model
@@ -59,7 +59,7 @@ class City extends Model
     }
 
     /**
-     * @throws \eBloodBank\Exceptions\InvaildProperty
+     * @throws \EBloodBank\Exceptions\InvaildProperty
      * @return bool
      * @since 1.0
      */
@@ -68,12 +68,12 @@ class City extends Model
         switch ($key) {
             case 'city_id':
                 if (! isVaildID($value)) {
-                    throw new InvaildProperty(__('Invaild City ID'), 'invaild_city_id');
+                    throw new InvaildProperty(__('Invaild city ID.'), 'invaild_city_id');
                 }
                 break;
             case 'city_name':
                 if (empty($value) || ! is_string($value)) {
-                    throw new InvaildProperty(__('Invaild City name'), 'invaild_city_name');
+                    throw new InvaildProperty(__('Invaild city name.'), 'invaild_city_name');
                 }
                 break;
         }

@@ -1,5 +1,5 @@
 <?php
-namespace eBloodBank\Exceptions;
+namespace EBloodBank\Exceptions;
 
 /**
  * @since 1.0

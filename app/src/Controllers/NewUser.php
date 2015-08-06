@@ -1,10 +1,11 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Controller;
-use eBloodBank\Models\User;
+use EBloodBank\EntityManager;
+use EBloodBank\Exceptions;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Models\User;
 
 /**
  * @since 1.0
@@ -15,11 +16,11 @@ class NewUser extends Controller
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    protected function action_submit()
     {
-        if (isset($_POST['action']) && 'submit_user' === $_POST['action']) {
+        if (isCurrentUserCan('add_user')) {
 
-            if (isCurrentUserCan('add_user')) {
+            try {
 
                 $user = new User();
 
@@ -31,16 +32,21 @@ class NewUser extends Controller
                     if (isset($_POST['user_pass_2']) && $_POST['user_pass_1'] === $_POST['user_pass_2']) {
                         $user->set('user_pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
                     } else {
-                        // TODO: Display error "Please, Confirm your new password."
+                        Notices::addNotice('confirm_user_pass', __('Please confirm the new password.'), 'warning');
                     }
                 }
 
                 if (isset($_POST['user_role'])) {
-                    $user->set('user_role', $_POST['user_role']);
+                    $user->set('user_role', $_POST['user_role'], true);
+                }
+
+                if (isCurrentUserCan('approve_user')) {
+                    $user->set('user_status', 'activated');
+                } else {
+                    $user->set('user_status', 'pending');
                 }
 
                 $user->set('user_rtime', gmdate('Y-m-d H:i:s'));
-                $user->set('user_status', 'activated');
 
                 $em = EntityManager::getInstance();
                 $em->persist($user);
@@ -48,10 +54,14 @@ class NewUser extends Controller
 
                 $submitted = isVaildID($user->get('user_id'));
 
-                redirect(getPageURL('new-user', array( 'flag-submitted' => $submitted )));
+                redirect(
+                    getPageURL('new-user', array(
+                        'flag-submitted' => $submitted
+                    ))
+                );
 
-            } else {
-                // TODO: Display error "Sorry, You don't have the right capabilities."
+            } catch (Exceptions\InvaildProperty $ex) {
+                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
 
         }
@@ -61,12 +71,24 @@ class NewUser extends Controller
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
         if (isCurrentUserCan('add_user')) {
+
+            if (! empty($_POST['action'])) {
+                switch ($_POST['action']) {
+                    case 'submit_user':
+                        $this->action_submit();
+                        break;
+                }
+            }
+
             $view = new View('new-user');
+
         } else {
+
             $view = new View('error-401');
+
         }
 
         $view();

@@ -2,16 +2,16 @@
 /**
  * Edit Donor
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\Kernal\View;
+use EBloodBank\Kernal\View;
 
-$header = new View('header');
-$header(array( 'title' => __('Edit Donor') ));
+$header = new View('header', array( 'title' => __('Edit Donor') ));
+$header();
 
-$form = new View('form-donor');
-$form(array( 'donorID' => $data['id'] ));
+$form = new View('form-donor', array( 'donor' => $this->get('donor') ));
+$form();
 
 $footer = new View('footer');
 $footer();

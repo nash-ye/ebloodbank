@@ -1,5 +1,5 @@
 <?php
-namespace eBloodBank\Kernal;
+namespace EBloodBank\Kernal;
 
 /**
  * @since 1.0
@@ -9,14 +9,16 @@ class Options
     /**
      * @var array
      * @since 1.0
+     * @static
      */
-    protected static $options = array();
+    private static $options = array();
 
     /**
      * @return mixed
      * @since 1.0
+     * @static
      */
-    public static function get_option($key)
+    public static function getOption($key)
     {
         if (isset(self::$options[$key])) {
             return self::$options[$key];
@@ -24,11 +26,42 @@ class Options
     }
 
     /**
-     * @return mixed
+     * @return bool
      * @since 1.0
+     * @static
      */
-    public static function set_option($key, $value)
+    public static function addOption($key, $value)
     {
+        if (isset(self::$options[$key])) {
+            return false;
+        }
+
         self::$options[$key] = $value;
+        return true;
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     * @static
+     */
+    public static function updateOption($key, $value)
+    {
+        if (! isset(self::$options[$key])) {
+            return false;
+        }
+
+        self::$options[$key] = $value;
+        return true;
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     * @static
+     */
+    public static function deleteOption($key)
+    {
+        unset(self::$options[$key]);
     }
 }

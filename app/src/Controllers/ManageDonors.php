@@ -1,9 +1,10 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Kernal\Notices;
 
 /**
  * @since 1.0
@@ -14,43 +15,50 @@ class ManageDonors extends Controller
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    protected function action_delete()
     {
-        if (isset($_GET['action'])) {
-            $donor_id = (int) $_GET['id'];
-
-            if (empty($donor_id)) {
-                die(-1);
-            }
+        if (isCurrentUserCan('delete_donor')) {
 
             $em = EntityManager::getInstance();
 
-            if ('delete_donor' === $_GET['action']) {
-                if (isCurrentUserCan('delete_donor')) {
+            $donor_id = (int) $_GET['id'];
+            $donor = EntityManager::getDonorReference($donor_id);
 
-                    $em->remove($em->getDonorReference($donor_id));
-                    $em->flush();
+            $em->remove($donor);
+            $em->flush();
 
-                    redirect(getPageURL('manage-donors', array( 'flag-deleted' => true )));
+            redirect(
+                getPageURL('manage-donors', array(
+                    'flag-deleted' => true
+                ))
+            );
 
-                }
-            } elseif ('approve_donor' === $_GET['action']) {
-                if (isCurrentUserCan('approve_donor')) {
+        }
+    }
 
-                    $donorRepository = EntityManager::getDonorRepository();
-                    $donor = $donorRepository->find($donor_id);
+    /**
+     * @return void
+     * @since 1.0
+     */
+    protected function action_approve()
+    {
+        if (isCurrentUserCan('approve_donor')) {
 
-                    if (! empty($donor) && $donor->isPending()) {
+            $donor_id = (int) $_GET['id'];
+            $donor = EntityManager::getDonorReference($donor_id);
 
-                        $donor->set('donor_status', 'approved');
+            if (! empty($donor) && $donor->isPending()) {
 
-                        $em->merge($donor);
-                        $em->flush();
+                $donor->set('donor_status', 'published');
 
-                        redirect(getPageURL('manage-donors', array( 'flag-deleted' => true )));
+                EntityManager::getInstance()->flush();
 
-                    }
-                }
+                redirect(
+                    getPageURL('manage-donors', array(
+                        'flag-approved' => true
+                    ))
+                );
+
             }
         }
     }
@@ -59,15 +67,29 @@ class ManageDonors extends Controller
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
+        if (! empty($_GET['action'])) {
+            switch ($_GET['action']) {
+                case 'delete_donor':
+                    $this->action_delete();
+                    break;
+                case 'approve_donor':
+                    $this->action_approve();
+                    break;
+            }
+        }
+
+        if (isset($_GET['flag-deleted'])) {
+            Notices::addNotice('deleted-donor', __('The donor permanently deleted.'), 'success');
+        }
+
         $fetchingArgs = array();
-        $view = new View('manage-donors');
 
         if (isCurrentUserCan('approve_donor')) {
             $fetchingArgs['status']  = 'all';
         } else {
-            $fetchingArgs['status']  = 'approved';
+            $fetchingArgs['status']  = 'published';
         }
 
         if (! empty($_POST['name'])) {
@@ -86,6 +108,7 @@ class ManageDonors extends Controller
             $fetchingArgs['blood_group'] = strip_tags($_POST['blood_group']);
         }
 
-        $view(array( 'fetchingArgs' => $fetchingArgs ));
+        $view = new View('manage-donors', array( 'fetchingArgs' => $fetchingArgs ));
+        $view();
     }
 }

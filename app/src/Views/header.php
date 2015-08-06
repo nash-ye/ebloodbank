@@ -2,7 +2,7 @@
 /**
  * The Header
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
 ?>
@@ -10,7 +10,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title><?php echo $__title ?></title>
+		<title><?php echo $this->get('title') ?></title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -37,18 +37,27 @@
 				</div>
 				<div id="navbar-collapse" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="<?php echo getSiteURL() ?>"><?php _e('Home') ?></a></li>
-                        <?php if (isCurrentUserCan('manage_donors')) : ?>
-                        <li><a href="<?php echo getPageURL('manage-donors') ?>"><?php _e('Donors') ?></a></li>
+						<li><a href="<?php echo getSiteURL('/') ?>"><?php _e('Home') ?></a></li>
+                        <?php if (isCurrentUserCan('view_donors')) : ?>
+                        <li><a href="<?php echo getPageURL('view-donors') ?>"><?php _e('Donors') ?></a></li>
                         <?php endif; ?>
-                        <?php if (isCurrentUserCan('manage_cites')) : ?>
-                        <li><a href="<?php echo getPageURL('manage-cites') ?>"><?php _e('Cities') ?></a></li>
+                        <?php if (isCurrentUserCan('view_cities')) : ?>
+                        <li><a href="<?php echo getPageURL('view-cities') ?>"><?php _e('Cities') ?></a></li>
                         <?php endif; ?>
-                        <?php if (isCurrentUserCan('manage_distrs')) : ?>
-                        <li><a href="<?php echo getPageURL('manage-distrs') ?>"><?php _e('Districts') ?></a></li>
+                        <?php if (isCurrentUserCan('view_districts')) : ?>
+                        <li><a href="<?php echo getPageURL('view-districts') ?>"><?php _e('Districts') ?></a></li>
                         <?php endif; ?>
-                        <?php if (isCurrentUserCan('manage_users')) : ?>
-                        <li><a href="<?php echo getPageURL('manage-users') ?>"><?php _e('Users') ?></a></li>
+                        <?php if (isCurrentUserCan('view_users')) : ?>
+                        <li><a href="<?php echo getPageURL('view-users') ?>"><?php _e('Users') ?></a></li>
+                        <?php endif; ?>
+					</ul>
+					<ul class="nav navbar-nav pull-right">
+                        <?php if (isUserLoggedIn()) : ?>
+                        <li><a href="<?php echo getPageURL('edit-user', array( 'id' => getCurrentUserID() )) ?>"><?php printf(__('Hello, <b>%s</b>!'), getCurrentUser()->get('user_logon')) ?></a></li>
+                        <li><a href="<?php echo getPageURL('login', array( 'action' => 'logout' )) ?>"><?php _e('Logout') ?></a></li>
+                        <?php else: ?>
+                        <li><a href="<?php echo getPageURL('login') ?>"><?php _e('Anonymous, Login?') ?></a></li>
+                        <li><a href="<?php echo getPageURL('signup') ?>"><?php _e('Sign up') ?></a></li>
                         <?php endif; ?>
 					</ul>
 				</div>
@@ -59,3 +68,8 @@
 
 		<!-- Page Content -->
 		<div class="container">
+
+            <header>
+                <h1><?php echo $this->get('title') ?></h1>
+            </header>
+

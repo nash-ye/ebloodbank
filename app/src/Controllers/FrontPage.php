@@ -1,9 +1,8 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\SessionManage;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Controller;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
 
 /**
  * @since 1.0
@@ -11,91 +10,101 @@ use eBloodBank\Kernal\Controller;
 class FrontPage extends Controller
 {
     /**
-     * @var string
-     * @since 1.0
-     */
-    protected $page;
-
-    /**
      * @return void
      * @since 1.0
      */
-    public function processRequest()
-    {
-        if (isset($_GET['action']) && 'signout' === $_GET['action']) {
-            if (SessionManage::signout()) {
-                redirect(getSiteURL());
-            }
-        }
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function outputResponse()
+    public function __invoke()
     {
         if (! empty($_GET['page'])) {
 
             switch ($_GET['page']) {
 
-            case 'signin':
-                new Signin();
-                break;
+                case 'login':
+                    $controller = new Login();
+                    break;
 
-            case 'new-user':
-                new NewUser();
-                break;
+                case 'signup':
+                    $controller = new Signup();
+                    break;
 
-            case 'edit-user':
-                new EditUser();
-                break;
 
-            case 'manage-users':
-                new ManageUsers();
-                break;
+                case 'new-user':
+                    $controller = new NewUser();
+                    break;
 
-            case 'new-city':
-                new NewCity();
-                break;
+                case 'edit-user':
+                    $controller = new EditUser();
+                    break;
 
-            case 'edit-city':
-                new EditCity();
-                break;
+                case 'view-users':
+                    $controller = new ViewUsers();
+                    break;
 
-            case 'manage-cites':
-                new ManageCites();
-                break;
+                case 'manage-users':
+                    $controller = new ManageUsers();
+                    break;
 
-            case 'new-distr':
-                new NewDistrict();
-                break;
 
-            case 'edit-distr':
-                new EditDistrict();
-                break;
+                case 'new-city':
+                    $controller = new NewCity();
+                    break;
 
-            case 'manage-distrs':
-                new ManageDistricts();
-                break;
+                case 'edit-city':
+                    $controller = new EditCity();
+                    break;
 
-            case 'new-donor':
-                new NewDonor();
-                break;
+                case 'view-cities':
+                    $controller = new ViewCities();
+                    break;
 
-            case 'edit-donor':
-                new EditDonor();
-                break;
+                case 'manage-cities':
+                    $controller = new ManageCities();
+                    break;
 
-            case 'manage-donors':
-                new ManageDonors();
-                break;
 
-            default:
-                $view = new View('error-404');
-                $view();
-                break;
+                case 'new-district':
+                    $controller = new NewDistrict();
+                    break;
 
+                case 'edit-district':
+                    $controller = new EditDistrict();
+                    break;
+
+                case 'view-districts':
+                    $controller = new ViewDistricts();
+                    break;
+
+                case 'manage-districts':
+                    $controller = new ManageDistricts();
+                    break;
+
+
+                case 'new-donor':
+                    $controller = new NewDonor();
+                    break;
+
+                case 'edit-donor':
+                    $controller = new EditDonor();
+                    break;
+
+                case 'view-donors':
+                    $controller = new ViewDonors();
+                    break;
+
+                case 'manage-donors':
+                    $controller = new ManageDonors();
+                    break;
+
+
+                default:
+                    $view = new View('error-404');
+                    $view();
+                    break;
+
+            }
+
+            if (isset($controller)) {
+                $controller();
             }
 
         } else {

@@ -2,13 +2,13 @@
 /**
  * New City
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\Kernal\View;
+use EBloodBank\Kernal\View;
 
-$header = new View('header');
-$header(array( 'title' => __('New User') ));
+$header = new View('header', array( 'title' => __('New User') ));
+$header();
 
 $form = new View('form-user');
 $form();

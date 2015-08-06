@@ -1,10 +1,11 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Controller;
-use eBloodBank\Models\District;
+use EBloodBank\EntityManager;
+use EBloodBank\Exceptions;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Models\District;
 
 /**
  * @since 1.0
@@ -15,10 +16,12 @@ class NewDistrict extends Controller
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    protected function action_submit()
     {
-        if (isset($_POST['action']) && 'submit_distr' === $_POST['action']) {
-            if (isCurrentUserCan('add_distr')) {
+        if (isCurrentUserCan('add_district')) {
+
+            try {
+
                 $distr = new District();
 
                 if (isset($_POST['distr_name'])) {
@@ -35,9 +38,16 @@ class NewDistrict extends Controller
 
                 $submitted = isVaildID($distr->get('distr_id'));
 
-                redirect(getPageURL('new-distr', array( 'flag-submitted' => $submitted )));
+                redirect(
+                    getPageURL('new-district', array(
+                        'flag-submitted' => $submitted
+                    ))
+                );
 
+            } catch (Exceptions\InvaildProperty $ex) {
+                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
+
         }
     }
 
@@ -45,9 +55,17 @@ class NewDistrict extends Controller
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
-        if (isCurrentUserCan('add_distr')) {
+        if (! empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'submit_district':
+                    $this->action_submit();
+                    break;
+            }
+        }
+
+        if (isCurrentUserCan('add_district')) {
             $view = new View('new-district');
         } else {
             $view = new View('error-401');

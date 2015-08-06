@@ -2,16 +2,16 @@
 /**
  * Edit City
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\Kernal\View;
+use EBloodBank\Kernal\View;
 
-$header = new View('header');
-$header(array( 'title' => __('Edit User') ));
+$header = new View('header', array( 'title' => __('Edit User') ));
+$header();
 
-$form = new View('form-user');
-$form(array( 'userID' => $data['id'] ));
+$form = new View('form-user', array( 'user' => $this->get('user') ));
+$form();
 
 $footer = new View('footer');
 $footer();

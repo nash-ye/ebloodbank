@@ -42,14 +42,13 @@ function getCurrentURL()
 function getSiteURL($path = '')
 {
     static $url = null;
-
     if (is_null($url)) {
         $root = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT']));
         $url = str_replace($root, getBaseURL(), str_replace('\\', '/', ABSPATH));
     }
 
     if (! empty($path)) {
-        $url .= '/' . ltrim( $path, '/' );
+        return $url . '/' . ltrim( $path, '/' );
     }
 
     return $url;
@@ -61,6 +60,6 @@ function getSiteURL($path = '')
  */
 function getPageURL($page, array $query = array())
 {
-    $query = array_merge($query, array( 'page' => $page ));
+    $query = array_merge(array( 'page' => $page ), $query);
     return getSiteURL('/') . '?' . http_build_query($query);
 }

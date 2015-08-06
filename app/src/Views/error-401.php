@@ -2,15 +2,15 @@
 /**
  * Error 401
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\Kernal\View;
+use EBloodBank\Kernal\View;
 
 header('HTTP/1.1 401 Unauthorized');
 
-$header = new View('header');
-$header(array( 'title' => __('Error: Unauthorized') ));
+$header = new View('header', array( 'title' => __('Error: Unauthorized') ));
+$header();
 ?>
 
 	<div class="error-msg error-404-msg">

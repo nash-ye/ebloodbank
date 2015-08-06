@@ -1,10 +1,11 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Controller;
-use eBloodBank\Kernal\Options;
+use EBloodBank\EntityManager;
+use EBloodBank\Exceptions;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Kernal\Notices;
 
 /**
  * @since 1.0
@@ -12,38 +13,24 @@ use eBloodBank\Kernal\Options;
 class EditDonor extends Controller
 {
     /**
-     * @var int
-     * @since 1.0
-     */
-    protected $id = 0;
-
-    /**
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    protected function action_submit()
     {
-        $this->id = (int) $_GET['id'];
+        if (isCurrentUserCan('edit_donor')) {
 
-        if (! isVaildID($this->id)) {
-            die('Invaild donor ID');
-        }
+            try {
 
-        if (isset($_POST['action']) && 'submit_donor' === $_POST['action']) {
-
-            if (isCurrentUserCan('edit_donor')) {
-
-                $em = EntityManager::getInstance();
-                $donor = $em->getDonorReference($this->id);
+                $donorID = (int) $_GET['id'];
+                $donor = EntityManager::getDonorReference($donorID);
 
                 if (isset($_POST['donor_name'])) {
                     $donor->set('donor_name', $_POST['donor_name'], true);
                 }
 
                 if (isset($_POST['donor_gender'])) {
-                    if (in_array($_POST['donor_gender'], array_keys(Options::get_option('genders')), true)) {
-                        $donor->set('donor_gender', $_POST['donor_gender'], true);
-                    }
+                    $donor->set('donor_gender', $_POST['donor_gender'], true);
                 }
 
                 if (isset($_POST['donor_weight'])) {
@@ -55,9 +42,7 @@ class EditDonor extends Controller
                 }
 
                 if (isset($_POST['donor_blood_group'])) {
-                    if (in_array($_POST['donor_blood_group'], Options::get_option('blood_groups'), true)) {
-                        $donor->set('donor_blood_group', $_POST['donor_blood_group'], true);
-                    }
+                    $donor->set('donor_blood_group', $_POST['donor_blood_group'], true);
                 }
 
                 if (isset($_POST['donor_phone'])) {
@@ -76,16 +61,19 @@ class EditDonor extends Controller
                     $donor->set('donor_distr_id', (int) $_POST['donor_distr_id']);
                 }
 
-                if (isCurrentUserCan('approve_donor')) {
-                    $donor->set('donor_status', 'approved');
-                }
+                EntityManager::getInstance()->flush();
 
-                $em->flush();
-                $submitted = isVaildID($donor->get('donor_id'));
+                redirect(
+                    getPageURL('edit-donor', array(
+                        'id' => $donorID,
+                        'flag-submitted' => true
+                    ))
+                );
 
-                redirect(getPageURL('edit-donor', array( 'id' => $this->id, 'flag-submitted' => $submitted )));
-
+            } catch (Exceptions\InvaildProperty $ex) {
+                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
+
         }
     }
 
@@ -93,14 +81,27 @@ class EditDonor extends Controller
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
+        if (! empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'submit_donor':
+                    $this->action_submit();
+                    break;
+            }
+        }
+
         if (isCurrentUserCan('edit_donor')) {
-            $view = new View('edit-donor');
-            $view(array( 'id' => $this->id ));
+            $donor = EntityManager::getDonorRepository()->find((int) $_GET['id']);
+            if (! empty($donor)) {
+                $view = new View('edit-donor', array( 'donor' => $donor ));
+            } else {
+                $view = new View('error-404');
+            }
         } else {
             $view = new View('error-401');
-            $view();
         }
+
+        $view();
     }
 }

@@ -2,19 +2,21 @@
 /**
  * New\Edit Donor Form
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\Options;
-use eBloodBank\Models\Donor;
+use EBloodBank\EntityManager;
+use EBloodBank\Kernal\Options;
+use EBloodBank\Models\Donor;
+use EBloodBank\Kernal\Notices;
 
-if (! isset($__donorID)) {
+if (! $this->isExists('donor')) {
     $donor = new Donor();
-} else {
-    $donor = EntityManager::getDonorRepository()->find($__donorID);
 }
 ?>
+
+<?php Notices::displayNotices() ?>
+
 <form id="form-donor" class="form-horizontal" method="POST">
 
 	<div class="form-group">
@@ -32,7 +34,7 @@ if (! isset($__donorID)) {
 		</div>
 		<div class="col-sm-4">
 			<select name="donor_gender" id="donor_gender" class="form-control">
-				<?php foreach (Options::get_option('genders') as $key => $label) : ?>
+				<?php foreach (Options::getOption('genders') as $key => $label) : ?>
 				<option<?php html_atts(array( 'value' => $key, 'selected' => ($key === $donor->get('donor_gender')) )) ?>><?php echo $label ?></option>
 				<?php endforeach; ?>
 			</select>
@@ -63,7 +65,7 @@ if (! isset($__donorID)) {
 		</div>
 		<div class="col-sm-4">
 			<select name="donor_blood_group" id="donor_blood_group" class="form-control" required>
-				<?php foreach (Options::get_option('blood_groups') as $blood_group) : ?>
+				<?php foreach (Options::getOption('blood_groups') as $blood_group) : ?>
                 <option<?php html_atts(array( 'selected' => ($blood_group === $donor->get('donor_blood_group')) )) ?>><?php echo $blood_group ?></option>
 				<?php endforeach; ?>
 			</select>

@@ -1,10 +1,12 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\Controller;
-use eBloodBank\Kernal\View;
-use eBloodBank\Models\City;
+use EBloodBank\EntityManager;
+use EBloodBank\Exceptions;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Notices;
+use EBloodBank\Models\City;
 
 /**
  * @since 1.0
@@ -15,10 +17,12 @@ class NewCity extends Controller
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    protected function action_submit()
     {
-        if (isset($_POST['action']) && 'submit_city' === $_POST['action']) {
-            if (isCurrentUserCan('add_city')) {
+        if (isCurrentUserCan('add_city')) {
+
+            try {
+
                 $city = new City();
 
                 if (isset($_POST['city_name'])) {
@@ -31,9 +35,16 @@ class NewCity extends Controller
 
                 $submitted = isVaildID($city->get('city_id'));
 
-                redirect(getPageURL('new-city', array( 'flag-submitted' => $submitted )));
+                redirect(
+                    getPageURL('new-city', array(
+                        'flag-submitted' => $submitted
+                    ))
+                );
 
+            } catch (Exceptions\InvaildProperty $ex) {
+                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
+
         }
     }
 
@@ -41,8 +52,16 @@ class NewCity extends Controller
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
+        if (! empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'submit_city':
+                    $this->action_submit();
+                    break;
+            }
+        }
+
         if (isCurrentUserCan('add_city')) {
             $view = new View('new-city');
         } else {

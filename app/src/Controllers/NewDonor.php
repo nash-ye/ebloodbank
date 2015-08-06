@@ -1,12 +1,11 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\SessionManage;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Options;
-use eBloodBank\Kernal\Controller;
-use eBloodBank\Models\Donor;
+use EBloodBank\EntityManager;
+use EBloodBank\Exceptions;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Models\Donor;
 
 /**
  * @since 1.0
@@ -17,11 +16,12 @@ class NewDonor extends Controller
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    protected function action_submit()
     {
-        if (isset($_POST['action']) && 'submit_donor' === $_POST['action']) {
+        if (isCurrentUserCan('add_donor')) {
 
-            if (isCurrentUserCan('add_donor') || (! SessionManage::isSignedIn() && isAnonymousCan('add_donor'))) {
+            try {
+
                 $donor = new Donor();
 
                 if (isset($_POST['donor_name'])) {
@@ -29,9 +29,7 @@ class NewDonor extends Controller
                 }
 
                 if (isset($_POST['donor_gender'])) {
-                    if (in_array($_POST['donor_gender'], array_keys(Options::get_option('genders')), true)) {
-                        $donor->set('donor_gender', $_POST['donor_gender'], true);
-                    }
+                    $donor->set('donor_gender', $_POST['donor_gender'], true);
                 }
 
                 if (isset($_POST['donor_weight'])) {
@@ -43,9 +41,7 @@ class NewDonor extends Controller
                 }
 
                 if (isset($_POST['donor_blood_group'])) {
-                    if (in_array($_POST['donor_blood_group'], Options::get_option('blood_groups'), true)) {
-                        $donor->set('donor_blood_group', $_POST['donor_blood_group'], true);
-                    }
+                    $donor->set('donor_blood_group', $_POST['donor_blood_group'], true);
                 }
 
                 if (isset($_POST['donor_phone'])) {
@@ -65,7 +61,9 @@ class NewDonor extends Controller
                 }
 
                 if (isCurrentUserCan('approve_donor')) {
-                    $donor->set('donor_status', 'approved');
+                    $donor->set('donor_status', 'published');
+                } else {
+                    $donor->set('donor_status', 'pending');
                 }
 
                 $donor->set('donor_rtime', gmdate('Y-m-d H:i:s'));
@@ -76,9 +74,16 @@ class NewDonor extends Controller
 
                 $submitted = isVaildID($donor->get('donor_id'));
 
-                redirect(getPageURL('new-donor', array( 'flag-submitted' => $submitted )));
+                redirect(
+                    getPageURL('new-donor', array(
+                        'flag-submitted' => $submitted
+                    ))
+                );
 
+            } catch (Exceptions\InvaildProperty $ex) {
+                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
+
         }
     }
 
@@ -86,12 +91,24 @@ class NewDonor extends Controller
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
-        if (isCurrentUserCan('add_donor') || (! SessionManage::isSignedIn() && isAnonymousCan('add_donor'))) {
+        if (isCurrentUserCan('add_donor')) {
+
+            if (! empty($_POST['action'])) {
+                switch ($_POST['action']) {
+                    case 'submit_donor':
+                        $this->action_submit();
+                        break;
+                }
+            }
+
             $view = new View('new-donor');
+
         } else {
+
             $view = new View('error-401');
+
         }
 
         $view();

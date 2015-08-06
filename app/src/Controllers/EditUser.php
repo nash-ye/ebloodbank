@@ -1,9 +1,11 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
+use EBloodBank\Exceptions;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Kernal\Notices;
 
 /**
  * @since 1.0
@@ -11,28 +13,17 @@ use eBloodBank\Kernal\Controller;
 class EditUser extends Controller
 {
     /**
-     * @var int
-     * @since 1.0
-     */
-    protected $id = 0;
-
-    /**
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    protected function action_submit()
     {
-        $this->id = (int) $_GET['id'];
+        if (isCurrentUserCan('edit_user')) {
 
-        if (! isVaildID($this->id)) {
-            die('Invaild user ID');
-        }
+            try {
 
-        if (isset($_POST['action']) && 'submit_user' === $_POST['action']) {
-            if (isCurrentUserCan('edit_user')) {
-
-                $em = EntityManager::getInstance();
-                $user = $em->getUserReference($this->id);
+                $userID = (int) $_GET['id'];
+                $user = EntityManager::getUserReference($userID);
 
                 if (isset($_POST['user_logon'])) {
                     $user->set('user_logon', $_POST['user_logon'], true);
@@ -42,7 +33,7 @@ class EditUser extends Controller
                     if (isset($_POST['user_pass_2']) && $_POST['user_pass_1'] === $_POST['user_pass_2']) {
                         $user->set('user_pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
                     } else {
-                        // TODO: Display error "Please, Confirm your new password."
+                        Notices::addNotice('confirm_user_pass', __('Please confirm the new password.'), 'warning');
                     }
                 }
 
@@ -50,13 +41,19 @@ class EditUser extends Controller
                     $user->set('user_role', $_POST['user_role'], true);
                 }
 
-                $em->flush();
+                EntityManager::getInstance()->flush();
 
-                $submitted = isVaildID($user->get('user_id'));
+                redirect(
+                    getPageURL('edit-user', array(
+                        'id' => $userID,
+                        'flag-submitted' => true
+                    ))
+                );
 
-                redirect(getPageURL('edit-user', array( 'id' => $this->id, 'flag-submitted' => $submitted )));
-
+            } catch (Exceptions\InvaildProperty $ex) {
+                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
+
         }
     }
 
@@ -64,14 +61,27 @@ class EditUser extends Controller
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
+        if (! empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'submit_user':
+                    $this->action_submit();
+                    break;
+            }
+        }
+
         if (isCurrentUserCan('edit_user')) {
-            $view = new View('edit-user');
-            $view(array( 'id' => $this->id ));
+            $user = EntityManager::getUserRepository()->find((int) $_GET['id']);
+            if (! empty($user)) {
+                $view = new View('edit-user', array( 'user' => $user ));
+            } else {
+                $view = new View('error-404');
+            }
         } else {
             $view = new View('error-401');
-            $view();
         }
+
+        $view();
     }
 }

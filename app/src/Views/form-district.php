@@ -2,26 +2,28 @@
 /**
  * New\Edit District Form
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\EntityManager;
-use eBloodBank\Models\District;
+use EBloodBank\EntityManager;
+use EBloodBank\Models\District;
+use EBloodBank\Kernal\Notices;
 
-if (! isset($__districtID)) {
-    $distr = new District();
-} else {
-    $distr = EntityManager::getDistrictRepository()->find($__districtID);
+if (! $this->isExists('district')) {
+    $district = new District();
 }
 ?>
-<form id="form-distr" class="form-horizontal" method="POST">
+
+<?php Notices::displayNotices() ?>
+
+<form id="form-district" class="form-horizontal" method="POST">
 
 	<div class="form-group">
 		<div class="col-sm-2">
 			<label for="distr_name"><?php _e('Name') ?></label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" name="distr_name" id="distr_name" class="form-control" value="<?php $distr->display('distr_name', 'attr') ?>" required />
+			<input type="text" name="distr_name" id="distr_name" class="form-control" value="<?php $district->display('distr_name', 'attr') ?>" required />
 		</div>
 	</div>
 
@@ -32,7 +34,7 @@ if (! isset($__districtID)) {
 		<div class="col-sm-4">
 			<select id="distr_city_id" name="distr_city_id" class="form-control">
 				<?php foreach (EntityManager::getCityRepository()->findAll() as $city) : ?>
-                <option<?php html_atts(array( 'value' => $city->get('city_id'), 'selected' => ($city->get('city_id') == $distr->get('distr_city_id')) )) ?>><?php $city->display('city_name') ?></option>
+                <option<?php html_atts(array( 'value' => $city->get('city_id'), 'selected' => ($city->get('city_id') == $district->get('distr_city_id')) )) ?>><?php $city->display('city_name') ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -44,6 +46,6 @@ if (! isset($__districtID)) {
 		</div>
 	</div>
 
-	<input type="hidden" name="action" value="submit_distr" />
+	<input type="hidden" name="action" value="submit_district" />
 
 </form>

@@ -2,15 +2,15 @@
 /**
  * Error 404
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\Kernal\View;
+use EBloodBank\Kernal\View;
 
 header('HTTP/1.0 404 Not Found');
 
-$header = new View('header');
-$header(array( 'title' => __('Error: Not Found') ));
+$header = new View('header', array( 'title' => __('Error: Not Found') ));
+$header();
 ?>
 
 	<div class="error-msg error-404-msg">

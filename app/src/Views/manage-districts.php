@@ -2,29 +2,36 @@
 /**
  * Manage Districts
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
+use EBloodBank\EntityManager;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Notices;
 
-$can_add    = isCurrentUserCan('add_distr');
-$can_edit   = isCurrentUserCan('edit_distr');
-$can_delete = isCurrentUserCan('delete_distr');
-$can_manage = isCurrentUserCan('manage_distrs');
+$can_edit   = isCurrentUserCan('edit_district');
+$can_delete = isCurrentUserCan('delete_district');
+$can_manage = isCurrentUserCan('manage_districts');
 
-$header = new View('header');
-$header(array( 'title' => __('Districts') ));
+$header = new View('header', array( 'title' => __('Districts') ));
+$header();
 ?>
 
-    <?php if ($can_add) : ?>
 	<div class="btn-block">
-		<a href="<?php echo getPageURL('new-distr') ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
-	</div>
-    <?php
-endif; ?>
 
-	<table id="table-distrs" class="table table-bordered table-hover">
+        <?php if (isCurrentUserCan('view_districts')) : ?>
+		<a href="<?php echo getPageURL('view-districts') ?>" class="btn btn-default btn-manage"><?php _e('View') ?></a>
+        <?php endif; ?>
+
+        <?php if (isCurrentUserCan('add_district')) : ?>
+		<a href="<?php echo getPageURL('new-district') ?>" class="btn btn-primary btn-add-new"><?php _e('Add New') ?></a>
+        <?php endif; ?>
+
+	</div>
+
+    <?php Notices::displayNotices() ?>
+
+	<table id="table-districts" class="table table-bordered table-hover">
 
 		<thead>
 			<tr>
@@ -50,10 +57,10 @@ endif; ?>
                 <?php if ($can_manage) : ?>
                 <td>
                     <?php if ($can_edit) : ?>
-                    <a href="<?php echo getPageURL('edit-distr', array( 'id' => $distr->get('distr_id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
+                    <a href="<?php echo getPageURL('edit-district', array( 'id' => $distr->get('distr_id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
                     <?php endif; ?>
                     <?php if ($can_delete) : ?>
-                    <a href="<?php echo getPageURL('manage-distrs', array( 'action' => 'delete_distr', 'id' => $distr->get('distr_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+                    <a href="<?php echo getPageURL('manage-districts', array( 'action' => 'delete_district', 'id' => $distr->get('distr_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
                     <?php endif; ?>
                 </td>
                 <?php endif; ?>

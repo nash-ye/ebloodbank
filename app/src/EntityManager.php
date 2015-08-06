@@ -1,5 +1,5 @@
 <?php
-namespace eBloodBank;
+namespace EBloodBank;
 
 use Doctrine\ORM;
 
@@ -8,7 +8,6 @@ use Doctrine\ORM;
  */
 class EntityManager
 {
-
     /**
      * @since 1.0
      */
@@ -19,6 +18,7 @@ class EntityManager
     /**
      * @return \Doctrine\ORM\EntityManager
      * @since 1.0
+     * @static
      */
     public static function getInstance()
     {
@@ -46,74 +46,82 @@ class EntityManager
     }
 
     /**
-     * @return \eBloodBank\Models\CityRepository
+     * @return \EBloodBank\Models\CityRepository
      * @since 1.0
+     * @static
      */
     public static function getCityRepository()
     {
-        return self::getInstance()->getRepository('eBloodBank\Models\City');
+        return self::getInstance()->getRepository('EBloodBank\Models\City');
     }
 
     /**
-     * @return \eBloodBank\Models\DistrictRepository
+     * @return \EBloodBank\Models\DistrictRepository
      * @since 1.0
+     * @static
      */
     public static function getDistrictRepository()
     {
-        return self::getInstance()->getRepository('eBloodBank\Models\District');
+        return self::getInstance()->getRepository('EBloodBank\Models\District');
     }
 
     /**
-     * @return \eBloodBank\Models\DonorRepository
+     * @return \EBloodBank\Models\DonorRepository
      * @since 1.0
+     * @static
      */
     public static function getDonorRepository()
     {
-        return self::getInstance()->getRepository('eBloodBank\Models\Donor');
+        return self::getInstance()->getRepository('EBloodBank\Models\Donor');
     }
 
     /**
-     * @return \eBloodBank\Models\CityRepository
+     * @return \EBloodBank\Models\CityRepository
      * @since 1.0
+     * @static
      */
     public static function getUserRepository()
     {
-        return self::getInstance()->getRepository('eBloodBank\Models\User');
+        return self::getInstance()->getRepository('EBloodBank\Models\User');
     }
 
     /**
-     * @return \eBloodBank\Models\City
+     * @return \EBloodBank\Models\City
      * @since 1.0
+     * @static
      */
     public static function getCityReference($id)
     {
-        return self::getInstance()->getReference('eBloodBank\Models\User', $id);
+        return self::getInstance()->getReference('EBloodBank\Models\City', $id);
     }
 
     /**
-     * @return \eBloodBank\Models\District
+     * @return \EBloodBank\Models\District
      * @since 1.0
+     * @static
      */
     public static function getDistrictReference($id)
     {
-        return self::getInstance()->getReference('eBloodBank\Models\District', $id);
+        return self::getInstance()->getReference('EBloodBank\Models\District', $id);
     }
 
     /**
-     * @return \eBloodBank\Models\Donor
+     * @return \EBloodBank\Models\Donor
      * @since 1.0
+     * @static
      */
     public static function getDonorReference($id)
     {
-        return self::getInstance()->getReference('eBloodBank\Models\Donor', $id);
+        return self::getInstance()->getReference('EBloodBank\Models\Donor', $id);
     }
 
     /**
-     * @return \eBloodBank\Models\User
+     * @return \EBloodBank\Models\User
      * @since 1.0
+     * @static
      */
     public static function getUserReference($id)
     {
-        return self::getInstance()->getReference('eBloodBank\Models\User', $id);
+        return self::getInstance()->getReference('EBloodBank\Models\User', $id);
     }
 }

@@ -1,12 +1,16 @@
 <?php
 /**
- * Signin Form
+ * Login Form
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
+use EBloodBank\Kernal\Notices;
 ?>
-<form id="form-signin" class="form-horizontal" action="<?php echo getPageURL('signin') ?>" method="POST">
+
+<?php Notices::displayNotices() ?>
+
+<form id="form-login" class="form-horizontal" action="<?php echo getPageURL('login') ?>" method="POST">
 
 	<div class="form-group">
 		<div class="col-sm-2">
@@ -28,10 +32,10 @@
 
 	<div class="form-group">
 		<div class="col-sm-6">
-			<button type="submit" class="btn btn-primary"><?php _e('Signin') ?></button>
+			<button type="submit" class="btn btn-primary"><?php _e('Login') ?></button>
 		</div>
 	</div>
 
-	<input type="hidden" name="action" value="signin" />
+	<input type="hidden" name="action" value="login" />
 
 </form>

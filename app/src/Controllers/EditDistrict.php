@@ -1,9 +1,11 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
+use EBloodBank\Exceptions;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Kernal\Notices;
 
 /**
  * @since 1.0
@@ -11,28 +13,17 @@ use eBloodBank\Kernal\Controller;
 class EditDistrict extends Controller
 {
     /**
-     * @var int
-     * @since 1.0
-     */
-    protected $id = 0;
-
-    /**
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    protected function action_submit()
     {
-        $this->id = (int) $_GET['id'];
+        if (isCurrentUserCan('edit_district')) {
 
-        if (! isVaildID($this->id)) {
-            die('Invaild district ID');
-        }
+            try {
 
-        if (isset($_POST['action']) && 'submit_distr' === $_POST['action']) {
-            if (isCurrentUserCan('edit_distr')) {
-
-                $em = EntityManager::getInstance();
-                $distr = $em->getDistrictReference($this->id);
+                $distrID = (int) $_GET['id'];
+                $distr = EntityManager::getDistrictReference($distrID);
 
                 if (isset($_POST['distr_name'])) {
                     $distr->set('distr_name', $_POST['distr_name'], true);
@@ -42,27 +33,48 @@ class EditDistrict extends Controller
                     $distr->set('distr_city_id', $_POST['distr_city_id'], true);
                 }
 
-                $em->flush();
-                $submitted = isVaildID($distr->get('distr_id'));
+                EntityManager::getInstance()->flush();
 
-                redirect(getPageURL('edit-distr', array( 'id' => $this->id, 'flag-submitted' => $submitted )));
+                redirect(
+                    getPageURL('edit-district', array(
+                        'id' => $distrID,
+                        'flag-submitted' => true
+                    ))
+                );
 
+            } catch (Exceptions\InvaildProperty $ex) {
+                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
+
         }
+
     }
 
     /**
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
-        if (isCurrentUserCan('edit_distr')) {
-            $view = new View('edit-district');
-            $view(array( 'id' => $this->id ));
+        if (! empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'submit_district':
+                    $this->action_submit();
+                    break;
+            }
+        }
+
+        if (isCurrentUserCan('edit_district')) {
+            $district = EntityManager::getDistrictRepository()->find((int) $_GET['id']);
+            if (! empty($district)) {
+                $view = new View('edit-district', array( 'district' => $district ));
+            } else {
+                $view = new View('error-404');
+            }
         } else {
             $view = new View('error-401');
-            $view();
         }
+
+        $view();
     }
 }

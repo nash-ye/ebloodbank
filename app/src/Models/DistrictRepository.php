@@ -1,5 +1,5 @@
 <?php
-namespace eBloodBank\Models;
+namespace EBloodBank\Models;
 
 use Doctrine\ORM\EntityRepository;
 

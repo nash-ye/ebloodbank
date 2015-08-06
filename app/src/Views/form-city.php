@@ -2,18 +2,19 @@
 /**
  * New\Edit City Form
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\EntityManager;
-use eBloodBank\Models\City;
+use EBloodBank\Models\City;
+use EBloodBank\Kernal\Notices;
 
-if (! isset($__cityID)) {
+if (! $this->isExists('city')) {
     $city = new City();
-} else {
-    $city = EntityManager::getCityRepository()->find($__cityID);
 }
 ?>
+
+<?php Notices::displayNotices() ?>
+
 <form id="form-city" class="form-horizontal" method="POST">
 
 	<div class="form-group">

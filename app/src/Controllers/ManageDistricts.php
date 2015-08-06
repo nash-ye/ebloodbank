@@ -1,9 +1,10 @@
 <?php
-namespace eBloodBank\Controllers;
+namespace EBloodBank\Controllers;
 
-use eBloodBank\EntityManager;
-use eBloodBank\Kernal\View;
-use eBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
+use EBloodBank\Kernal\View;
+use EBloodBank\Kernal\Controller;
+use EBloodBank\Kernal\Notices;
 
 /**
  * @since 1.0
@@ -14,19 +15,24 @@ class ManageDistricts extends Controller
      * @return void
      * @since 1.0
      */
-    public function processRequest()
+    public function action_delete()
     {
-        if (isset($_GET['action']) && 'delete_distr' === $_GET['action']) {
-            if (isCurrentUserCan('delete_distr')) {
-                $distr_id = (int) $_GET['id'];
+        if (isCurrentUserCan('delete_district')) {
 
-                $em = EntityManager::getInstance();
-                $em->remove($em->getDistrictReference($distr_id));
-                $em->flush();
+            $em = EntityManager::getInstance();
 
-                redirect(getPageURL('manage-distrs', array( 'flag-deleted' => true )));
+            $distr_id = (int) $_GET['id'];
+            $district = EntityManager::getDistrictReference($distr_id);
 
-            }
+            $em->remove($district);
+            $em->flush();
+
+            redirect(
+                getPageURL('manage-districts', array(
+                    'flag-deleted' => true
+                ))
+            );
+
         }
     }
 
@@ -34,8 +40,20 @@ class ManageDistricts extends Controller
      * @return void
      * @since 1.0
      */
-    public function outputResponse()
+    public function __invoke()
     {
+        if (! empty($_GET['action'])) {
+            switch ($_GET['action']) {
+                case 'delete_district':
+                    $this->action_delete();
+                    break;
+            }
+        }
+
+        if (isset($_GET['flag-deleted'])) {
+            Notices::addNotice('deleted-district', __('The district permanently deleted.'), 'success');
+        }
+
         $view = new View('manage-districts');
         $view();
     }

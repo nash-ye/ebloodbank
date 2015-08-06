@@ -1,18 +1,21 @@
 <?php
-namespace eBloodBank\Models;
+namespace EBloodBank\Models;
 
-use eBloodBank\Kernal\Model;
-use eBloodBank\Kernal\Roles;
-use eBloodBank\Exceptions\InvaildProperty;
+use EBloodBank\Kernal\Model;
+use EBloodBank\Kernal\Roles;
+use EBloodBank\Traits\EntityMeta;
+use EBloodBank\Exceptions\InvaildProperty;
 
 /**
  * @since 1.0
  *
- * @Entity(repositoryClass="eBloodBank\Models\UserRepository")
+ * @Entity(repositoryClass="EBloodBank\Models\UserRepository")
  * @Table(name="user")
  */
 class User extends Model
 {
+    use EntityMeta;
+
     /**
      * @var int
      * @since 1.0
@@ -60,7 +63,7 @@ class User extends Model
      *
      * @Column(type="string")
      */
-    protected $user_status = 'activated';
+    protected $user_status = 'pending';
 
     /**
      * @return Role
@@ -87,18 +90,21 @@ class User extends Model
     }
 
     /**
-     * @return bool
+     * @var bool
      * @since 1.0
      */
-    public function hasCap($cap)
+    public function isActivated()
     {
-        $role = $this->getRole();
+        return 'activated' === $this->get('user_status');
+    }
 
-        if (empty($role)) {
-            return false;
-        }
-
-        return $role->hasCap($cap);
+    /**
+     * @var bool
+     * @since 1.0
+     */
+    public function isPending()
+    {
+        return 'pending' === $this->get('user_status');
     }
 
     /**
@@ -120,6 +126,7 @@ class User extends Model
     }
 
     /**
+     * @throws \EBloodBank\Exceptions\InvaildProperty
      * @return bool
      * @since 1.0
      */

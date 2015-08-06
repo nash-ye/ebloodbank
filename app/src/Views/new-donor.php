@@ -2,13 +2,13 @@
 /**
  * New Donor
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\Kernal\View;
+use EBloodBank\Kernal\View;
 
-$header = new View('header');
-$header(array( 'title' => __('New Donor') ));
+$header = new View('header', array( 'title' => __('New Donor') ));
+$header();
 
 $form = new View('form-donor');
 $form();

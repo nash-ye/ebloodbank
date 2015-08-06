@@ -1,5 +1,5 @@
 <?php
-namespace eBloodBank\Kernal;
+namespace EBloodBank\Kernal;
 
 /**
  * @since 1.0
@@ -9,12 +9,14 @@ class Roles
     /**
      * @var Role[]
      * @since 1.0
+     * @static
      */
     private static $roles = array();
 
     /**
      * @return bool
      * @since 1.0
+     * @static
      */
     public static function addRole(Role $role)
     {
@@ -22,17 +24,18 @@ class Roles
             return false;
         }
 
-        self::$roles[ $role->slug ] = $role;
+        self::$roles[$role->slug] = $role;
         return true;
     }
 
     /**
      * @return bool
      * @since 1.0
+     * @static
      */
     public static function removeRole($slug)
     {
-        if (! self::isExists($slug)) {
+        if (! $slug || ! self::isExists($slug)) {
             return false;
         }
 
@@ -43,26 +46,29 @@ class Roles
     /**
      * @return bool
      * @since 1.0
+     * @static
      */
     public static function isExists($slug)
     {
-        return isset(self::$roles[ $slug ]);
+        return isset(self::$roles[$slug]);
     }
 
     /**
      * @return Role
      * @since 1.0
+     * @static
      */
     public static function getRole($slug)
     {
         if (self::isExists($slug)) {
-            return self::$roles[ $slug ];
+            return self::$roles[$slug];
         }
     }
 
     /**
      * @return Role[]
      * @since 1.0
+     * @static
      */
     public static function getRoles()
     {

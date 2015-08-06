@@ -1,5 +1,5 @@
 <?php
-namespace eBloodBank\Kernal;
+namespace EBloodBank\Kernal;
 
 /**
  * @since 1.0
@@ -14,20 +14,6 @@ abstract class Model
     {
         if (property_exists($this, $key)) {
             return $this->$key;
-        }
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function set($key, $value, $sanitize = false)
-    {
-        if (property_exists($this, $key)) {
-            if ($sanitize) {
-                $value = static::sanitize($key, $value);
-            }
-            $this->$key = $value;
         }
     }
 
@@ -71,5 +57,21 @@ abstract class Model
     static public function validate($key, $value)
     {
         return true;
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function set($key, $value, $sanitize = false, $validate = true)
+    {
+        if (property_exists($this, $key)) {
+            if ($sanitize) {
+                $value = static::sanitize($key, $value);
+            }
+            if (! $validate || static::validate($key, $value)) {
+                $this->$key = $value;
+            }
+        }
     }
 }

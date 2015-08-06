@@ -1,8 +1,8 @@
 <?php
-use eBloodBank\Kernal\View;
+use EBloodBank\Kernal\View;
 
-$header = new View('header');
-$header(array( 'title' => __('Home') ));
+$header = new View('header', array( 'title' => __('Home') ));
+$header();
 ?>
 
 <?php

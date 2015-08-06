@@ -1,14 +1,14 @@
 <?php
-namespace eBloodBank\Models;
+namespace EBloodBank\Models;
 
-use eBloodBank\Kernal\Model;
-use eBloodBank\EntityManager;
-use eBloodBank\Exceptions\InvaildProperty;
+use EBloodBank\Kernal\Model;
+use EBloodBank\EntityManager;
+use EBloodBank\Exceptions\InvaildProperty;
 
 /**
  * @since 1.0
  *
- * @Entity(repositoryClass="eBloodBank\Models\DistrictRepository")
+ * @Entity(repositoryClass="EBloodBank\Models\DistrictRepository")
  * @Table(name="district")
  */
 class District extends Model
@@ -35,7 +35,7 @@ class District extends Model
      * @since 1.0
      *
      * @Column(type="integer")
-     * @ManyToOne(targetEntity="eBloodBank\Models\City")
+     * @ManyToOne(targetEntity="EBloodBank\Models\City")
      */
     protected $distr_city_id = 0;
 
@@ -68,6 +68,7 @@ class District extends Model
     }
 
     /**
+     * @throws \EBloodBank\Exceptions\InvaildProperty
      * @return bool
      * @since 1.0
      */
@@ -76,17 +77,17 @@ class District extends Model
         switch ($key) {
             case 'distr_id':
                 if (! isVaildID($value)) {
-                    throw new InvaildProperty(__('Invaild district ID'), 'invaild_distr_id');
+                    throw new InvaildProperty(__('Invaild district ID.'), 'invaild_distr_id');
                 }
                 break;
             case 'distr_name':
                 if (empty($value) || ! is_string($value)) {
-                    throw new InvaildProperty(__('Invaild district name'), 'invaild_distr_name');
+                    throw new InvaildProperty(__('Invaild district name.'), 'invaild_distr_name');
                 }
                 break;
             case 'distr_city_id':
                 if (! isVaildID($value)) {
-                    throw new InvaildProperty(__('Invaild district city ID'), 'invaild_distr_city_id');
+                    throw new InvaildProperty(__('Invaild district city ID.'), 'invaild_distr_city_id');
                 }
                 break;
         }

@@ -2,19 +2,20 @@
 /**
  * New\Edit User Form
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  */
-use eBloodBank\EntityManager;
-use eBloodBank\Models\User;
-use eBloodBank\Kernal\Roles;
+use EBloodBank\Models\User;
+use EBloodBank\Kernal\Roles;
+use EBloodBank\Kernal\Notices;
 
-if (! isset($__userID)) {
+if (! $this->isExists('user')) {
     $user = new User();
-} else {
-    $user = EntityManager::getUserRepository()->find($__userID);
 }
 ?>
+
+<?php Notices::displayNotices() ?>
+
 <form id="form-user" class="form-horizontal" method="POST">
 
 	<div class="form-group">

@@ -1,5 +1,5 @@
 <?php
-namespace eBloodBank\Kernal;
+namespace EBloodBank\Kernal;
 
 /**
  * @since 1.0
@@ -47,53 +47,46 @@ class Role
         $opt = strtoupper($opt);
 
         foreach ($caps as $cap) {
+
             switch ($opt) {
 
-            case 'AND':
+                case 'AND':
 
-                if (! $this->hasCap($cap)) {
-                    return false;
-                }
+                    if (empty($this->caps[$cap])) {
+                        return false;
+                    }
 
-                break;
+                    break;
 
-            case 'OR':
+                case 'OR':
 
-                if ($this->hasCap($cap)) {
-                    return true;
-                }
+                    if (! empty($this->caps[$cap])) {
+                        return true;
+                    }
 
-                break;
+                    break;
 
-            case 'NOT':
+                case 'NOT':
 
-                if ($this->hasCap($cap)) {
-                    return false;
-                }
+                    if (! empty($this->caps[$cap])) {
+                        return false;
+                    }
 
-                break;
+                    break;
 
             }
+
         }
 
         switch ($opt) {
 
-        case 'AND':
-        case 'NOT':
-            return true;
+            case 'AND':
+            case 'NOT':
+                return true;
 
-        case 'OR':
-            return false;
+            case 'OR':
+                return false;
 
         }
-    }
-
-    /**
-     * @return bool
-     * @since 1.0
-     */
-    public function hasCap($cap)
-    {
-        return (! empty($this->caps[ $cap ]));
     }
 }

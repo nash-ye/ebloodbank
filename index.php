@@ -1,5 +1,5 @@
 <?php
-namespace eBloodBank;
+namespace EBloodBank;
 
 /**
  * eBloodBank Project | Because Life Is Worth Living.
@@ -13,7 +13,7 @@ namespace eBloodBank;
  * @author Nashwan Doaqan<nashwan.doaqan@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt GPL
  * @copyright (c) 2015, Nashwan Doaqan
- * @version 1.0-alpha-2
+ * @version 1.0-alpha-3
  */
 
 /*** App Bootstrap ************************************************************/
@@ -22,4 +22,5 @@ require __DIR__ . '/app/bootstrap.php';
 
 /*** FrontPage Controller *****************************************************/
 
-new Controllers\FrontPage();
+$controller = new Controllers\FrontPage();
+$controller();
