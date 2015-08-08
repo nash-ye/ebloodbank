@@ -1,11 +1,17 @@
 <?php
+/**
+ * New User Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
 use EBloodBank\Exceptions;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
 use EBloodBank\Models\User;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -25,34 +31,34 @@ class NewUser extends Controller
                 $user = new User();
 
                 if (isset($_POST['user_logon'])) {
-                    $user->set('user_logon', $_POST['user_logon'], true);
+                    $user->set('logon', $_POST['user_logon'], true);
                 }
 
                 if (isset($_POST['user_pass_1'])) {
                     if (isset($_POST['user_pass_2']) && $_POST['user_pass_1'] === $_POST['user_pass_2']) {
-                        $user->set('user_pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
+                        $user->set('pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
                     } else {
-                        Notices::addNotice('confirm_user_pass', __('Please confirm the new password.'), 'warning');
+                        Notices::addNotice('confirm_user_pass', __('Please confirm the password.'), 'warning');
                     }
                 }
 
                 if (isset($_POST['user_role'])) {
-                    $user->set('user_role', $_POST['user_role'], true);
+                    $user->set('role', $_POST['user_role'], true);
                 }
 
                 if (isCurrentUserCan('approve_user')) {
-                    $user->set('user_status', 'activated');
+                    $user->set('status', 'activated');
                 } else {
-                    $user->set('user_status', 'pending');
+                    $user->set('status', 'pending');
                 }
 
-                $user->set('user_rtime', gmdate('Y-m-d H:i:s'));
+                $user->set('rtime', gmdate('Y-m-d H:i:s'));
 
                 $em = EntityManager::getInstance();
                 $em->persist($user);
                 $em->flush();
 
-                $submitted = isVaildID($user->get('user_id'));
+                $submitted = isVaildID($user->get('id'));
 
                 redirect(
                     getPageURL('new-user', array(
@@ -73,22 +79,18 @@ class NewUser extends Controller
      */
     public function __invoke()
     {
-        if (isCurrentUserCan('add_user')) {
-
-            if (! empty($_POST['action'])) {
-                switch ($_POST['action']) {
-                    case 'submit_user':
-                        $this->action_submit();
-                        break;
-                }
+        if (! empty($_POST['action'])) {
+            switch ($_POST['action']) {
+                case 'submit_user':
+                    $this->action_submit();
+                    break;
             }
+        }
 
+        if (isCurrentUserCan('add_user')) {
             $view = new View('new-user');
-
         } else {
-
             $view = new View('error-401');
-
         }
 
         $view();

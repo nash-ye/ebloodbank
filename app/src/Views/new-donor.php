@@ -5,7 +5,7 @@
  * @package    EBloodBank
  * @subpackage Views
  */
-use EBloodBank\Kernal\View;
+namespace EBloodBank\Views;
 
 $header = new View('header', array( 'title' => __('New Donor') ));
 $header();

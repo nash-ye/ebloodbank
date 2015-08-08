@@ -2,11 +2,14 @@
 /**
  * New\Edit City Form
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
-use EBloodBank\Models\City;
+namespace EBloodBank\Views;
+
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Models\City;
 
 if (! $this->isExists('city')) {
     $city = new City();
@@ -22,7 +25,7 @@ if (! $this->isExists('city')) {
 			<label for="city_name"><?php _e('Name') ?></label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" name="city_name" id="city_name" class="form-control" value="<?php $city->display('city_name', 'attr') ?>" required />
+			<input type="text" name="city_name" id="city_name" class="form-control" value="<?php $city->display('name', 'attr') ?>" required />
 		</div>
 	</div>
 

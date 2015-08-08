@@ -1,12 +1,14 @@
 <?php
 /**
- * Manage Cities
+ * Manage Cities Page
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
+namespace EBloodBank\Views;
+
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
 use EBloodBank\Kernal\Notices;
 
 $can_edit   = isCurrentUserCan('edit_city');
@@ -48,15 +50,15 @@ $header();
             <?php foreach (EntityManager::getCityRepository()->findAll() as $city) : ?>
 
             <tr>
-                <td><?php $city->display('city_id') ?></td>
-                <td><?php $city->display('city_name') ?></td>
+                <td><?php $city->display('id') ?></td>
+                <td><?php $city->display('name') ?></td>
                 <?php if ($can_manage) : ?>
                 <td>
                     <?php if ($can_edit) : ?>
-                    <a href="<?php echo getPageURL('edit-city', array( 'id' => $city->get('city_id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
+                    <a href="<?php echo getPageURL('edit-city', array( 'id' => $city->get('id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
                     <?php endif; ?>
                     <?php if ($can_delete) : ?>
-                    <a href="<?php echo getPageURL('manage-cities', array( 'action' => 'delete_city', 'id' => $city->get('city_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+                    <a href="<?php echo getPageURL('manage-cities', array( 'action' => 'delete_city', 'id' => $city->get('id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
                     <?php endif; ?>
                 </td>
                 <?php endif; ?>

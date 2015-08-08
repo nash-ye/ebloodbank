@@ -1,4 +1,10 @@
 <?php
+/**
+ * Entity Manager
+ *
+ * @package EBloodBank
+ * @since 1.0
+ */
 namespace EBloodBank;
 
 use Doctrine\ORM;

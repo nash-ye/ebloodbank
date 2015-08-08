@@ -1,12 +1,14 @@
 <?php
 /**
- * Manage Cities
+ * View Cities Page
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
+namespace EBloodBank\Views;
+
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
 use EBloodBank\Kernal\Notices;
 
 $header = new View('header', array( 'title' => __('Cities') ));
@@ -41,8 +43,8 @@ $header();
             <?php foreach (EntityManager::getCityRepository()->findAll() as $city) : ?>
 
             <tr>
-                <td><?php $city->display('city_id') ?></td>
-                <td><?php $city->display('city_name') ?></td>
+                <td><?php $city->display('id') ?></td>
+                <td><?php $city->display('name') ?></td>
             </tr>
 
             <?php endforeach; ?>

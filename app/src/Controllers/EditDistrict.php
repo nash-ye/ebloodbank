@@ -1,11 +1,17 @@
 <?php
+/**
+ * Edit District Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
 use EBloodBank\Exceptions;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -22,22 +28,28 @@ class EditDistrict extends Controller
 
             try {
 
-                $distrID = (int) $_GET['id'];
-                $distr = EntityManager::getDistrictReference($distrID);
+                $districtID = (int) $_GET['id'];
+
+                if (! isVaildID($districtID)) {
+                    die(__('Invalid district ID'));
+                }
+
+                $district = EntityManager::getDistrictReference($districtID);
 
                 if (isset($_POST['distr_name'])) {
-                    $distr->set('distr_name', $_POST['distr_name'], true);
+                    $district->set('name', $_POST['distr_name'], true);
                 }
 
                 if (isset($_POST['distr_city_id'])) {
-                    $distr->set('distr_city_id', $_POST['distr_city_id'], true);
+                    $district->set('city', $_POST['distr_city_id'], true);
                 }
 
-                EntityManager::getInstance()->flush();
+                $em = EntityManager::getInstance();
+                $em->flush();
 
                 redirect(
                     getPageURL('edit-district', array(
-                        'id' => $distrID,
+                        'id' => $districtID,
                         'flag-submitted' => true
                     ))
                 );
@@ -65,7 +77,9 @@ class EditDistrict extends Controller
         }
 
         if (isCurrentUserCan('edit_district')) {
-            $district = EntityManager::getDistrictRepository()->find((int) $_GET['id']);
+            $districtID = (int) $_GET['id'];
+            $districtRepository = EntityManager::getDistrictRepository();
+            $district = $districtRepository->find($districtID);
             if (! empty($district)) {
                 $view = new View('edit-district', array( 'district' => $district ));
             } else {

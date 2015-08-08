@@ -1,11 +1,18 @@
 <?php
+/**
+ * New District Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
 use EBloodBank\Exceptions;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
+use EBloodBank\Kernal\Notices;
 use EBloodBank\Models\District;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -25,18 +32,18 @@ class NewDistrict extends Controller
                 $distr = new District();
 
                 if (isset($_POST['distr_name'])) {
-                    $distr->set('distr_name', $_POST['distr_name'], true);
+                    $distr->set('name', $_POST['distr_name'], true);
                 }
 
                 if (isset($_POST['distr_city_id'])) {
-                    $distr->set('distr_city_id', $_POST['distr_city_id'], true);
+                    $distr->set('city', $_POST['distr_city_id'], true);
                 }
 
                 $em = EntityManager::getInstance();
                 $em->persist($distr);
                 $em->flush();
 
-                $submitted = isVaildID($distr->get('distr_id'));
+                $submitted = isVaildID($distr->get('id'));
 
                 redirect(
                     getPageURL('new-district', array(

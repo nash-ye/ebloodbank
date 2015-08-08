@@ -1,8 +1,14 @@
 <?php
+/**
+ * View Donors Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0

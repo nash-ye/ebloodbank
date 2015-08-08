@@ -1,10 +1,16 @@
 <?php
+/**
+ * Manage Cities Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -19,11 +25,10 @@ class ManageCities extends Controller
     {
         if (isCurrentUserCan('delete_city')) {
 
+            $cityID = (int) $_GET['id'];
+            $city = EntityManager::getCityReference($cityID);
+
             $em = EntityManager::getInstance();
-
-            $city_id = (int) $_GET['id'];
-            $city = EntityManager::getCityReference($city_id);
-
             $em->remove($city);
             $em->flush();
 
@@ -50,11 +55,15 @@ class ManageCities extends Controller
             }
         }
 
-        if (isset($_GET['flag-deleted'])) {
-            Notices::addNotice('deleted-city', __('The city permanently deleted.'), 'success');
+        if (isCurrentUserCan('manage_cities')) {
+            if (isset($_GET['flag-deleted']) && $_GET['flag-deleted']) {
+                Notices::addNotice('city_deleted', __('The city permanently deleted.'), 'success');
+            }
+            $view = new View('manage-cities');
+        } else {
+            $view = new View('error-401');
         }
 
-        $view = new View('manage-cities');
         $view();
     }
 }

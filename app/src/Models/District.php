@@ -1,7 +1,13 @@
 <?php
+/**
+ * District Model
+ *
+ * @package EBloodBank
+ * @subpackage Models
+ * @since 1.0
+ */
 namespace EBloodBank\Models;
 
-use EBloodBank\Kernal\Model;
 use EBloodBank\EntityManager;
 use EBloodBank\Exceptions\InvaildProperty;
 
@@ -17,37 +23,36 @@ class District extends Model
      * @var int
      * @since 1.0
      *
-     * @Id @Column(type="integer")
+     * @Id
      * @GeneratedValue
+     * @Column(type="integer", name="distr_id")
      */
-    protected $distr_id = 0;
+    protected $id = 0;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="distr_name")
      */
-    protected $distr_name;
+    protected $name;
 
     /**
-     * @var int
+     * @var City
      * @since 1.0
      *
-     * @Column(type="integer")
      * @ManyToOne(targetEntity="EBloodBank\Models\City")
+     * @JoinColumn(name="distr_city_id", referencedColumnName="city_id")
      */
-    protected $distr_city_id = 0;
+    protected $city;
 
     /**
-     * @return City
+     * @var Donor[]
      * @since 1.0
+     *
+     * @OneToMany(targetEntity="EBloodBank\Models\Donor", mappedBy="district")
      */
-    public function getParentCity()
-    {
-        $cityRepository = EntityManager::getCityRepository();
-        return $cityRepository->find((int) $this->get('distr_city_id'));
-    }
+    protected $donors = array();
 
     /**
      * @return mixed
@@ -56,12 +61,16 @@ class District extends Model
     public static function sanitize($key, $value)
     {
         switch ($key) {
-            case 'distr_id':
-            case 'distr_city_id':
+            case 'id':
                 $value = (int) $value;
                 break;
-            case 'distr_name':
+            case 'name':
                 $value = filter_var($value, FILTER_SANITIZE_STRING);
+                break;
+            case 'city':
+                if (is_numeric($value)) {
+                    $value = EntityManager::getCityRepository()->find($value);
+                }
                 break;
         }
         return $value;
@@ -75,19 +84,19 @@ class District extends Model
     public static function validate($key, $value)
     {
         switch ($key) {
-            case 'distr_id':
+            case 'id':
                 if (! isVaildID($value)) {
                     throw new InvaildProperty(__('Invaild district ID.'), 'invaild_distr_id');
                 }
                 break;
-            case 'distr_name':
+            case 'name':
                 if (empty($value) || ! is_string($value)) {
                     throw new InvaildProperty(__('Invaild district name.'), 'invaild_distr_name');
                 }
                 break;
-            case 'distr_city_id':
-                if (! isVaildID($value)) {
-                    throw new InvaildProperty(__('Invaild district city ID.'), 'invaild_distr_city_id');
+            case 'city':
+                if (! $value instanceof City || ! isVaildID($value->get('id'))) {
+                    throw new InvaildProperty(__('Invaild district city object.'), 'invaild_distr_city');
                 }
                 break;
         }

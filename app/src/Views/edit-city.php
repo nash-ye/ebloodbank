@@ -1,11 +1,12 @@
 <?php
 /**
- * Edit City
+ * Edit City Page
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
-use EBloodBank\Kernal\View;
+namespace EBloodBank\Views;
 
 $header = new View('header', array( 'title' => __('Edit City') ));
 $header();

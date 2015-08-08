@@ -1,12 +1,14 @@
 <?php
 /**
- * Manage Districts
+ * View Districts Page
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
+namespace EBloodBank\Views;
+
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
 use EBloodBank\Kernal\Notices;
 
 $header = new View('header', array( 'title' => __('Districts') ));
@@ -42,10 +44,10 @@ $header();
             <?php foreach (EntityManager::getDistrictRepository()->findAll() as $distr) : ?>
 
             <tr>
-                <td><?php $distr->display('distr_id') ?></td>
-                <td><?php $distr->display('distr_name') ?></td>
+                <td><?php $distr->display('id') ?></td>
+                <td><?php $distr->display('name') ?></td>
                 <td>
-                    <?php EntityManager::getCityRepository()->find($distr->get('distr_city_id'))->display('city_name') ?>
+                    <?php $distr->get('city')->display('name') ?>
                 </td>
             </tr>
 

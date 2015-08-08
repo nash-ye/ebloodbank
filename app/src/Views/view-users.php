@@ -1,12 +1,14 @@
 <?php
 /**
- * Manage Users
+ * View Users Page
  *
  * @package    EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
+namespace EBloodBank\Views;
+
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
 use EBloodBank\Kernal\Notices;
 
 $users = EntityManager::getUserRepository()->findAll();
@@ -42,12 +44,12 @@ $header();
             <?php foreach ($users as $user) : ?>
 
 			<tr>
-				<td><?php $user->display('user_id') ?></td>
-				<td><?php $user->display('user_logon') ?></td>
+				<td><?php $user->display('id') ?></td>
+				<td><?php $user->display('logon') ?></td>
 				<td>
                 <?php
-                    $user_role = $user->getRole();
-                    echo ($user_role) ? $user_role->title : $user->get('user_role');
+                    $userRole = $user->getRole();
+                    echo ($userRole) ? $userRole->title : $user->get('role');
                 ?>
 				</td>
 			</tr>

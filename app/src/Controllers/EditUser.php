@@ -1,11 +1,17 @@
 <?php
+/**
+ * Edit User Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
 use EBloodBank\Exceptions;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -23,25 +29,31 @@ class EditUser extends Controller
             try {
 
                 $userID = (int) $_GET['id'];
+
+                if (! isVaildID($userID)) {
+                    die(__('Invalid user ID'));
+                }
+
                 $user = EntityManager::getUserReference($userID);
 
                 if (isset($_POST['user_logon'])) {
-                    $user->set('user_logon', $_POST['user_logon'], true);
+                    $user->set('logon', $_POST['user_logon'], true);
                 }
 
                 if (isset($_POST['user_pass_1'])) {
                     if (isset($_POST['user_pass_2']) && $_POST['user_pass_1'] === $_POST['user_pass_2']) {
-                        $user->set('user_pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
+                        $user->set('pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
                     } else {
-                        Notices::addNotice('confirm_user_pass', __('Please confirm the new password.'), 'warning');
+                        Notices::addNotice('confirm_user_pass', __('Please confirm the password.'), 'warning');
                     }
                 }
 
-                if (isset($_POST['user_role'])) {
-                    $user->set('user_role', $_POST['user_role'], true);
+                if (isset($_POST['user_role']) && $userID != getCurrentUserID()) {
+                    $user->set('role', $_POST['user_role'], true);
                 }
 
-                EntityManager::getInstance()->flush();
+                $em = EntityManager::getInstance();
+                $em->flush();
 
                 redirect(
                     getPageURL('edit-user', array(
@@ -72,7 +84,8 @@ class EditUser extends Controller
         }
 
         if (isCurrentUserCan('edit_user')) {
-            $user = EntityManager::getUserRepository()->find((int) $_GET['id']);
+            $userID = (int) $_GET['id'];
+            $user = EntityManager::getUserRepository()->find($userID);
             if (! empty($user)) {
                 $view = new View('edit-user', array( 'user' => $user ));
             } else {

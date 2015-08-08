@@ -1,8 +1,17 @@
 <?php
-namespace EBloodBank\Kernal;
+/**
+ * Base Model
+ *
+ * @package EBloodBank
+ * @subpackage Models
+ * @since 1.0
+ */
+namespace EBloodBank\Models;
 
 /**
  * @since 1.0
+ *
+ * @MappedSuperclass
  */
 abstract class Model
 {

@@ -1,10 +1,16 @@
 <?php
+/**
+ * Manage Donors Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -19,11 +25,10 @@ class ManageDonors extends Controller
     {
         if (isCurrentUserCan('delete_donor')) {
 
+            $donorID = (int) $_GET['id'];
+            $donor = EntityManager::getDonorReference($donorID);
+
             $em = EntityManager::getInstance();
-
-            $donor_id = (int) $_GET['id'];
-            $donor = EntityManager::getDonorReference($donor_id);
-
             $em->remove($donor);
             $em->flush();
 
@@ -44,14 +49,15 @@ class ManageDonors extends Controller
     {
         if (isCurrentUserCan('approve_donor')) {
 
-            $donor_id = (int) $_GET['id'];
-            $donor = EntityManager::getDonorReference($donor_id);
+            $donorID = (int) $_GET['id'];
+            $donor = EntityManager::getDonorReference($donorID);
 
             if (! empty($donor) && $donor->isPending()) {
 
-                $donor->set('donor_status', 'published');
+                $donor->set('status', 'published');
 
-                EntityManager::getInstance()->flush();
+                $em = EntityManager::getInstance();
+                $em->flush();
 
                 redirect(
                     getPageURL('manage-donors', array(
@@ -80,35 +86,15 @@ class ManageDonors extends Controller
             }
         }
 
-        if (isset($_GET['flag-deleted'])) {
-            Notices::addNotice('deleted-donor', __('The donor permanently deleted.'), 'success');
-        }
-
-        $fetchingArgs = array();
-
-        if (isCurrentUserCan('approve_donor')) {
-            $fetchingArgs['status']  = 'all';
+        if (isCurrentUserCan('manage_donors')) {
+            if (isset($_GET['flag-deleted']) && $_GET['flag-deleted']) {
+                Notices::addNotice('donor_deleted', __('The donor permanently deleted.'), 'success');
+            }
+            $view = new View('manage-donors');
         } else {
-            $fetchingArgs['status']  = 'published';
+            $view = new View('error-401');
         }
 
-        if (! empty($_POST['name'])) {
-            $fetchingArgs['name'] = strip_tags($_POST['name']);
-        }
-
-        if (! empty($_POST['distr_id'])) {
-            $fetchingArgs['distr_id'] = (int) $_POST['distr_id'];
-        }
-
-        if (! empty($_POST['city_id'])) {
-            $fetchingArgs['city_id']  = (int) $_POST['city_id'];
-        }
-
-        if (! empty($_POST['blood_group'])) {
-            $fetchingArgs['blood_group'] = strip_tags($_POST['blood_group']);
-        }
-
-        $view = new View('manage-donors', array( 'fetchingArgs' => $fetchingArgs ));
         $view();
     }
 }

@@ -1,11 +1,12 @@
 <?php
 /**
- * New District
+ * New District Page
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
-use EBloodBank\Kernal\View;
+namespace EBloodBank\Views;
 
 $header = new View('header', array( 'title' => __('New District') ));
 $header();

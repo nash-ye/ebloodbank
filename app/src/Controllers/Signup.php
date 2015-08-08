@@ -1,11 +1,17 @@
 <?php
+/**
+ * Sign-up Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
 use EBloodBank\Exceptions;
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
 use EBloodBank\Models\User;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -23,26 +29,26 @@ class Signup extends Controller
             $user = new User();
 
             if (isset($_POST['user_logon'])) {
-                $user->set('user_logon', $_POST['user_logon'], true);
+                $user->set('logon', $_POST['user_logon'], true);
             }
 
             if (isset($_POST['user_pass_1'])) {
                 if (isset($_POST['user_pass_2']) && $_POST['user_pass_1'] === $_POST['user_pass_2']) {
-                    $user->set('user_pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
+                    $user->set('pass', password_hash($_POST['user_pass_1'], PASSWORD_BCRYPT));
                 } else {
-                    Notices::addNotice('confirm_user_pass', __('Please confirm your new password.'), 'warning');
+                    Notices::addNotice('confirm_user_pass', __('Please confirm your password.'), 'warning');
                 }
             }
 
-            $user->set('user_role', 'default');
-            $user->set('user_rtime', gmdate('Y-m-d H:i:s'));
-            $user->set('user_status', 'pending');
+            $user->set('role', 'default');
+            $user->set('rtime', gmdate('Y-m-d H:i:s'));
+            $user->set('status', 'pending');
 
             $em = EntityManager::getInstance();
             $em->persist($user);
             $em->flush();
 
-            $submitted = isVaildID($user->get('user_id'));
+            $submitted = isVaildID($user->get('id'));
 
             redirect(
                 getPageURL('login', array(

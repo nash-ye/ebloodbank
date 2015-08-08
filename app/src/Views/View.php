@@ -1,5 +1,12 @@
 <?php
-namespace EBloodBank\Kernal;
+/**
+ * Base View
+ *
+ * @package EBloodBank
+ * @subpackage Views
+ * @since 1.0
+ */
+namespace EBloodBank\Views;
 
 /**
  * @since 1.0
@@ -11,12 +18,6 @@ class View
      * @since 1.0
      */
     protected $name;
-
-    /**
-     * @var string
-     * @since 1.0
-     */
-    protected $path;
 
     /**
      * @var array
@@ -32,22 +33,6 @@ class View
     {
         $this->name = $name;
         $this->data = $data;
-
-        if (! empty($this->name)) {
-            $views_path = ABSPATH . '/app/src/Views';
-            $this->path = $views_path . '/' . $this->name . '.php';
-        }
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function get($key)
-    {
-        if ($this->isExists($key)) {
-            return $this->data[$key];
-        }
     }
 
     /**
@@ -60,7 +45,7 @@ class View
     }
 
     /**
-     * @return void
+     * @return bool
      * @since 1.0
      */
     public function isExists($key)
@@ -69,14 +54,43 @@ class View
     }
 
     /**
+     * @return mixed
+     * @since 1.0
+     */
+    public function get($key)
+    {
+        if ($this->isExists($key)) {
+            return $this->data[$key];
+        }
+    }
+
+    /**
+     * @return string
+     * @since 1.0
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     * @since 1.0
+     */
+    public function getPath()
+    {
+        return __DIR__ . '/' . $this->getName() . '.php';
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
     public function __invoke()
     {
-        extract($this->data, EXTR_REFS);
-        if (file_exists($this->path)) {
-            include $this->path;
+        if (is_readable($this->getPath())) {
+            extract($this->data, EXTR_REFS);
+            include $this->getPath();
         }
     }
 }

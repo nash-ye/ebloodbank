@@ -2,9 +2,11 @@
 /**
  * The Header
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
+namespace EBloodBank\Views;
 ?>
 <!doctype html>
 <html lang="en">
@@ -53,7 +55,7 @@
 					</ul>
 					<ul class="nav navbar-nav pull-right">
                         <?php if (isUserLoggedIn()) : ?>
-                        <li><a href="<?php echo getPageURL('edit-user', array( 'id' => getCurrentUserID() )) ?>"><?php printf(__('Hello, <b>%s</b>!'), getCurrentUser()->get('user_logon')) ?></a></li>
+                        <li><a href="<?php echo getPageURL('edit-user', array( 'id' => getCurrentUserID() )) ?>"><?php printf(__('Hello, <b>%s</b>!'), getCurrentUser()->get('logon')) ?></a></li>
                         <li><a href="<?php echo getPageURL('login', array( 'action' => 'logout' )) ?>"><?php _e('Logout') ?></a></li>
                         <?php else: ?>
                         <li><a href="<?php echo getPageURL('login') ?>"><?php _e('Anonymous, Login?') ?></a></li>

@@ -1,12 +1,14 @@
 <?php
 /**
- * Manage Users
+ * Manage Users Page
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
+namespace EBloodBank\Views;
+
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
 use EBloodBank\Kernal\Notices;
 
 $can_edit    = isCurrentUserCan('edit_user');
@@ -50,24 +52,24 @@ $header();
             <?php foreach ($users as $user) : ?>
 
 			<tr>
-				<td><?php $user->display('user_id') ?></td>
-				<td><?php $user->display('user_logon') ?></td>
+				<td><?php $user->display('id') ?></td>
+				<td><?php $user->display('logon') ?></td>
 				<td>
                 <?php
-                    $user_role = $user->getRole();
-                    echo ($user_role) ? $user_role->title : $user->get('user_role');
+                    $userRole = $user->getRole();
+                    echo ($userRole) ? $userRole->title : $user->get('role');
                 ?>
 				</td>
 				<?php if ($can_manage) : ?>
 				<td>
                     <?php if ($can_edit) : ?>
-                    <a href="<?php echo getPageURL('edit-user', array( 'id' => $user->get('user_id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
+                    <a href="<?php echo getPageURL('edit-user', array( 'id' => $user->get('id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
                     <?php endif; ?>
-                    <?php if ($can_delete && $user->get('user_id') !== getCurrentUserID()) : ?>
-                    <a href="<?php echo getPageURL('manage-users', array( 'action' => 'delete_user', 'id' => $user->get('user_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+                    <?php if ($can_delete && $user->get('id') !== getCurrentUserID()) : ?>
+                    <a href="<?php echo getPageURL('manage-users', array( 'action' => 'delete_user', 'id' => $user->get('id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
                     <?php endif; ?>
                     <?php if ($can_approve && $user->isPending()) : ?>
-                    <a href="<?php echo getPageURL('manage-users', array( 'action' => 'approve_user', 'id' => $user->get('user_id') )) ?>" class="approve-link"><i class="fa fa-check"></i></a>
+                    <a href="<?php echo getPageURL('manage-users', array( 'action' => 'approve_user', 'id' => $user->get('id') )) ?>" class="approve-link"><i class="fa fa-check"></i></a>
                     <?php endif; ?>
 				</td>
 				<?php endif; ?>

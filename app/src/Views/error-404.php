@@ -1,11 +1,12 @@
 <?php
 /**
- * Error 404
+ * Error 404 Page
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
-use EBloodBank\Kernal\View;
+namespace EBloodBank\Views;
 
 header('HTTP/1.0 404 Not Found');
 

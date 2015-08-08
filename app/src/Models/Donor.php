@@ -1,7 +1,14 @@
 <?php
+/**
+ * Donor Model
+ *
+ * @package EBloodBank
+ * @subpackage Models
+ * @since 1.0
+ */
 namespace EBloodBank\Models;
 
-use EBloodBank\Kernal\Model;
+use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Options;
 use EBloodBank\Traits\EntityMeta;
 use EBloodBank\Exceptions\InvaildProperty;
@@ -20,99 +27,118 @@ class Donor extends Model
      * @var int
      * @since 1.0
      *
-     * @Id @Column(type="integer")
+     * @Id
      * @GeneratedValue
+     * @Column(type="integer", name="donor_id")
      */
-    protected $donor_id = 0;
+    protected $id = 0;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="donor_name")
      */
-    protected $donor_name;
+    protected $name;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="donor_gender")
      */
-    protected $donor_gender;
+    protected $gender;
 
     /**
-     * @var int
+     * @var float
      * @since 1.0
      *
-     * @Column(type="integer")
+     * @Column(type="integer", name="donor_weight")
      */
-    protected $donor_weight = 0;
-
-    /**
-     * @var string
-     * @since 1.0
-     *
-     * @Column(type="string")
-     */
-    protected $donor_birthdate;
+    protected $weight = 0;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="donor_birthdate")
      */
-    protected $donor_blood_group;
-
-    /**
-     * @var int
-     * @since 1.0
-     *
-     * @Column(type="integer")
-     * @ManyToOne(targetEntity="District")
-     */
-    protected $donor_distr_id = 0;
+    protected $birthdate;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="donor_blood_group")
      */
-    protected $donor_address;
+    protected $blood_group;
+
+    /**
+     * @var District
+     * @since 1.0
+     *
+     * @ManyToOne(targetEntity="EBloodBank\Models\District")
+     * @JoinColumn(name="donor_distr_id", referencedColumnName="distr_id")
+     */
+    protected $district;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="donor_address")
      */
-    protected $donor_phone;
+    protected $address;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="donor_phone")
      */
-    protected $donor_email;
+    protected $phone;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="donor_email")
      */
-    protected $donor_rtime;
+    protected $email;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="donor_rtime")
      */
-    protected $donor_status = 'pending';
+    protected $rtime;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string", name="donor_status")
+     */
+    protected $status = 'pending';
+
+    /**
+     * @var bool
+     * @since 1.0
+     */
+    public function isPending()
+    {
+        return 'pending' === $this->get('status');
+    }
+
+    /**
+     * @var bool
+     * @since 1.0
+     */
+    public function isPublished()
+    {
+        return 'published' === $this->get('status');
+    }
 
     /**
      * @var int
@@ -121,7 +147,7 @@ class Donor extends Model
     public function calculateAge()
     {
         $current_date = new \DateTime(date('Y-m-d'));
-        $birthdate = new \DateTime($this->get('donor_birthdate'));
+        $birthdate = new \DateTime($this->get('birthdate'));
 
         if ($birthdate > $current_date) {
             return 0;
@@ -131,49 +157,35 @@ class Donor extends Model
     }
 
     /**
-     * @var bool
-     * @since 1.0
-     */
-    public function isPublished()
-    {
-        return 'published' === $this->get('donor_status');
-    }
-
-    /**
-     * @var bool
-     * @since 1.0
-     */
-    public function isPending()
-    {
-        return 'pending' === $this->get('donor_status');
-    }
-
-    /**
      * @return mixed
      * @since 1.0
      */
     public static function sanitize($key, $value)
     {
         switch ($key) {
-            case 'donor_id':
-            case 'donor_distr_id':
+            case 'id':
                 $value = (int) $value;
                 break;
-            case 'donor_weight':
+            case 'weight':
                 $value = (float) $value;
                 break;
-            case 'donor_email':
+            case 'email':
                 $value = filter_var($value, FILTER_SANITIZE_EMAIL);
                 break;
-            case 'donor_name':
-            case 'donor_rtime':
-            case 'donor_phone':
-            case 'donor_gender':
-            case 'donor_status':
-            case 'donor_address':
-            case 'donor_birthdate':
-            case 'donor_blood_group':
+            case 'name':
+            case 'rtime':
+            case 'phone':
+            case 'gender':
+            case 'status':
+            case 'address':
+            case 'birthdate':
+            case 'blood_group':
                 $value = filter_var($value, FILTER_SANITIZE_STRING);
+                break;
+            case 'district':
+                if (is_numeric($value)) {
+                    $value = EntityManager::getDistrictRepository()->find($value);
+                }
                 break;
         }
         return $value;
@@ -187,29 +199,34 @@ class Donor extends Model
     public static function validate($key, $value)
     {
         switch ($key) {
-            case 'donor_id':
+            case 'id':
                 if (! isVaildID($value)) {
                     throw new InvaildProperty(__('Invaild donor ID.'), 'invaild_donor_id');
                 }
                 break;
-            case 'donor_name':
+            case 'name':
                 if (empty($value) || ! is_string($value)) {
                     throw new InvaildProperty(__('Invaild donor name.'), 'invaild_donor_name');
                 }
                 break;
-            case 'donor_gender':
+            case 'gender':
                 if (! array_key_exists($value, (array) Options::getOption('genders'))) {
                     throw new InvaildProperty(__('Invaild donor gender.'), 'invaild_donor_gender');
                 }
                 break;
-            case 'donor_weight':
+            case 'weight':
                 if ($value < 0) {
                     throw new InvaildProperty(__('Invaild donor weight.'), 'invaild_donor_weight');
                 }
                 break;
-            case 'donor_blood_group':
+            case 'blood_group':
                 if (! in_array($value, (array) Options::getOption('blood_groups'))) {
                     throw new InvaildProperty(__('Invaild donor blood group.'), 'invaild_donor_blood_group');
+                }
+                break;
+            case 'district':
+                if (! $value instanceof District || ! isVaildID($value->get('id'))) {
+                    throw new InvaildProperty(__('Invaild donor district object.'), 'invaild_donor_district');
                 }
                 break;
         }

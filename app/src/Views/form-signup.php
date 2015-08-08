@@ -1,10 +1,13 @@
 <?php
 /**
- * Sign up Form
+ * Sign-up Form
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
+namespace EBloodBank\Views;
+
 use EBloodBank\Kernal\Notices;
 ?>
 

@@ -1,10 +1,16 @@
 <?php
+/**
+ * Log-in Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -29,28 +35,24 @@ class Login extends Controller
         }
 
         if (empty($user_name) || empty($user_pass)) {
-            Notices::addNotice('error_login', __('Please enter your login details.'), 'warning');
+            Notices::addNotice('empty_login_details', __('Please enter your login details.'), 'warning');
             return;
         }
 
         $userRepository = EntityManager::getUserRepository();
-        $user = $userRepository->findOneBy(array( 'user_logon' => $user_name ));
+        $user = $userRepository->findOneBy(array( 'logon' => $user_name, 'status' => 'any' ));
 
-        if (empty($user) || ! password_verify($user_pass, $user->get('user_pass'))) {
-            Notices::addNotice('invalid_combo', __('Invalid username or e-mail.'), 'warning');
+        if (empty($user) || ! password_verify($user_pass, $user->get('pass'))) {
+            Notices::addNotice('wrong_login_details', __('No match for username and/or password.'), 'warning');
             return;
         }
 
         if ($user->isPending()) {
-            Notices::addNotice('check_email', __('Check your e-mail for the confirmation link.'), 'warning');
+            Notices::addNotice('account_pending_moderation', __('Your account is pending moderation.'), 'warning');
             return;
         }
 
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-
-        $_SESSION['user_id'] = (int) $user->get('user_id');
+        $_SESSION['user_id'] = (int) $user->get('id');
 
         session_regenerate_id(true);
 

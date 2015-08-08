@@ -1,11 +1,12 @@
 <?php
 /**
- * Error 401
+ * Error 401 Page
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
-use EBloodBank\Kernal\View;
+namespace EBloodBank\Views;
 
 header('HTTP/1.1 401 Unauthorized');
 

@@ -1,11 +1,17 @@
 <?php
+/**
+ * Edit City Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
 use EBloodBank\Exceptions;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -23,13 +29,19 @@ class EditCity extends Controller
             try {
 
                 $cityID = (int) $_GET['id'];
+
+                if (! isVaildID($cityID)) {
+                    die(__('Invalid city ID'));
+                }
+
                 $city = EntityManager::getCityReference($cityID);
 
                 if (isset($_POST['city_name'])) {
-                    $city->set('city_name', $_POST['city_name'], true);
+                    $city->set('name', $_POST['city_name'], true);
                 }
 
-                EntityManager::getInstance()->flush();
+                $em = EntityManager::getInstance();
+                $em->flush();
 
                 redirect(
                     getPageURL('edit-city', array(
@@ -60,7 +72,8 @@ class EditCity extends Controller
         }
 
         if (isCurrentUserCan('edit_city')) {
-            $city = EntityManager::getCityRepository()->find((int) $_GET['id']);
+            $cityID = (int) $_GET['id'];
+            $city = EntityManager::getCityRepository()->find($cityID);
             if (! empty($city)) {
                 $view = new View('edit-city', array( 'city' => $city ));
             } else {

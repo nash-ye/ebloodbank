@@ -1,10 +1,16 @@
 <?php
+/**
+ * Manage Districts Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -19,11 +25,10 @@ class ManageDistricts extends Controller
     {
         if (isCurrentUserCan('delete_district')) {
 
+            $districtID = (int) $_GET['id'];
+            $district = EntityManager::getDistrictReference($districtID);
+
             $em = EntityManager::getInstance();
-
-            $distr_id = (int) $_GET['id'];
-            $district = EntityManager::getDistrictReference($distr_id);
-
             $em->remove($district);
             $em->flush();
 
@@ -50,11 +55,15 @@ class ManageDistricts extends Controller
             }
         }
 
-        if (isset($_GET['flag-deleted'])) {
-            Notices::addNotice('deleted-district', __('The district permanently deleted.'), 'success');
+        if (isCurrentUserCan('manage_districts')) {
+            if (isset($_GET['flag-deleted']) && $_GET['flag-deleted']) {
+                Notices::addNotice('district_deleted', __('The district permanently deleted.'), 'success');
+            }
+            $view = new View('manage-districts');
+        } else {
+            $view = new View('error-401');
         }
 
-        $view = new View('manage-districts');
         $view();
     }
 }

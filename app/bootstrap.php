@@ -4,7 +4,7 @@ namespace EBloodBank;
 /*** Constants ****************************************************************/
 
 const CODENAME = 'EBloodBank';
-const VERSION = '1.0-alpha-3';
+const VERSION = '1.0-alpha-4';
 
 /*** Configurations ***********************************************************/
 
@@ -60,7 +60,7 @@ $loader->register();
 
 $loader->addPrefix('EBloodBank', ABSPATH . '/app/src/');
 
-/*** Sessions *****************************************************************/
+/*** Session ******************************************************************/
 
 if ( session_status() !== PHP_SESSION_ACTIVE ) {
 	session_start();

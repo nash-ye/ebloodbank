@@ -1,7 +1,13 @@
 <?php
+/**
+ * User Model
+ *
+ * @package EBloodBank
+ * @subpackage Models
+ * @since 1.0
+ */
 namespace EBloodBank\Models;
 
-use EBloodBank\Kernal\Model;
 use EBloodBank\Kernal\Roles;
 use EBloodBank\Traits\EntityMeta;
 use EBloodBank\Exceptions\InvaildProperty;
@@ -20,50 +26,51 @@ class User extends Model
      * @var int
      * @since 1.0
      *
-     * @Id @Column(type="integer")
+     * @Id
      * @GeneratedValue
+     * @Column(type="integer", name="user_id")
      */
-    protected $user_id = 0;
+    protected $id = 0;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="user_logon")
      */
-    protected $user_logon;
+    protected $logon;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="user_pass")
      */
-    protected $user_pass;
+    protected $pass;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="user_rtime")
      */
-    protected $user_rtime;
+    protected $rtime;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="user_role")
      */
-    protected $user_role = 'default';
+    protected $role = 'default';
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="user_status")
      */
-    protected $user_status = 'pending';
+    protected $status = 'pending';
 
     /**
      * @return Role
@@ -71,7 +78,7 @@ class User extends Model
      */
     public function getRole()
     {
-        return Roles::getRole($this->get('user_role'));
+        return Roles::getRole($this->get('role'));
     }
 
     /**
@@ -95,7 +102,7 @@ class User extends Model
      */
     public function isActivated()
     {
-        return 'activated' === $this->get('user_status');
+        return 'activated' === $this->get('status');
     }
 
     /**
@@ -104,7 +111,7 @@ class User extends Model
      */
     public function isPending()
     {
-        return 'pending' === $this->get('user_status');
+        return 'pending' === $this->get('status');
     }
 
     /**
@@ -114,11 +121,11 @@ class User extends Model
     public static function sanitize($key, $value)
     {
         switch ($key) {
-            case 'user_id':
+            case 'id':
                 $value = (int) $value;
                 break;
-            case 'user_logon':
-            case 'user_role':
+            case 'logon':
+            case 'role':
                 $value = filter_var($value, FILTER_SANITIZE_STRING);
                 break;
         }
@@ -133,17 +140,17 @@ class User extends Model
     public static function validate($key, $value)
     {
         switch ($key) {
-            case 'user_id':
+            case 'id':
                 if (! isVaildID($value)) {
                     throw new InvaildProperty(__('Invaild user ID'), 'invaild_user_id');
                 }
                 break;
-            case 'user_logon':
+            case 'logon':
                 if (empty($value) || ! is_string($value)) {
                     throw new InvaildProperty(__('Invaild user name'), 'invaild_user_name');
                 }
                 break;
-            case 'user_role':
+            case 'role':
                 if (! Roles::isExists($value)) {
                     throw new InvaildProperty(__('Invaild user role'), 'invaild_user_role');
                 }

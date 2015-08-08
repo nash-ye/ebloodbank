@@ -1,24 +1,22 @@
 <?php
 /**
- * Manage Donors
+ * Manage Donors Page
  *
- * @package    EBloodBank
+ * @package EBloodBank
  * @subpackage Views
+ * @since 1.0
  */
+namespace EBloodBank\Views;
+
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
 use EBloodBank\Kernal\Options;
 use EBloodBank\Kernal\Notices;
 
-$__fetchingArgs = array_merge(
-    array(
-    'name'        => '',
-    'status'      => 'all',
-    'blood_group' => 'all',
-    'distr_id'    => -1,
+$donorsCriteria = array_merge( array(
+    'blood_group' => 'any',
+    'district'    => -1,
     'city_id'     => -1,
-    ), (array) $this->get('fetchingArgs')
-);
+), (array) $this->get('donorsCriteria') );
 
 $can_edit    = isCurrentUserCan('edit_donor');
 $can_delete  = isCurrentUserCan('delete_donor');
@@ -28,6 +26,8 @@ $can_approve = isCurrentUserCan('approve_donor');
 $donorRepository    = EntityManager::getDonorRepository();
 $cityRepository     = EntityManager::getCityRepository();
 $districtRepository = EntityManager::getDistrictRepository();
+
+$donors = $donorRepository->findBy($donorsCriteria);
 
 $header = new View('header', array( 'title' => __('Donors') ));
 $header();
@@ -52,7 +52,7 @@ $header();
 		<div class="form-group">
 			<label>
 				<?php _e('Name') ?>
-				<input type="text" name="name"  class="form-control" value="<?php echo esc_attr($__fetchingArgs['name']) ?>" />
+				<input type="text" name="name"  class="form-control" value="<?php echo esc_attr('') ?>" />
 			</label>
 		</div>
 
@@ -62,7 +62,7 @@ $header();
 				<select name="blood_group"  class="form-control">
 					<option value="all"><?php _e('All') ?></option>
                     <?php foreach (Options::getOption('blood_groups') as $blood_group) : ?>
-					<option<?php html_atts(array( 'selected' => ($blood_group === $__fetchingArgs['blood_group']) )) ?>><?php echo $blood_group ?></option>
+					<option<?php html_atts(array( 'selected' => ($blood_group === $donorsCriteria['blood_group']) )) ?>><?php echo $blood_group ?></option>
                     <?php endforeach; ?>
 				</select>
 			</label>
@@ -73,7 +73,7 @@ $header();
 				<?php _e('City') ?>
 				<select name="city_id"  class="form-control">
                     <?php foreach ($cityRepository->findAll() as $city) : ?>
-					<option<?php html_atts(array( 'value' => $city->get('distr_id'), 'selected' => ($city->get('city_id') == $__fetchingArgs['city_id']) )) ?>><?php $city->display('city_name') ?></option>
+					<option<?php html_atts(array( 'value' => $city->get('id'), 'selected' => ($city->get('id') == $donorsCriteria['city_id']) )) ?>><?php $city->display('name') ?></option>
                     <?php endforeach; ?>
 				</select>
 			</label>
@@ -85,7 +85,7 @@ $header();
 				<select name="distr_id"  class="form-control">
 					<option value="all"><?php _e('All') ?></option>
                     <?php foreach ($districtRepository->findAll() as $distr) : ?>
-					<option<?php html_atts(array( 'value' => $distr->get('distr_id'), 'selected' => ($distr->get('distr_id') == $__fetchingArgs['distr_id']) )) ?>><?php $distr->display('distr_name') ?></option>
+					<option<?php html_atts(array( 'value' => $distr->get('id'), 'selected' => ($distr->get('id') == $donorsCriteria['district']) )) ?>><?php $distr->display('name') ?></option>
                     <?php endforeach; ?>
 				</select>
 			</label>
@@ -116,14 +116,14 @@ $header();
 
 		<tbody>
 
-            <?php foreach ($donorRepository->findBy(array()) as $donor) : ?>
+            <?php foreach ($donors as $donor) : ?>
 
 				<tr>
-					<td><?php $donor->display('donor_id') ?></td>
-					<td><?php $donor->display('donor_name') ?></td>
+					<td><?php $donor->display('id') ?></td>
+					<td><?php $donor->display('name') ?></td>
 					<td>
                         <?php
-                            $donorGender = $donor->get('donor_gender');
+                            $donorGender = $donor->get('gender');
                             $genders = Options::getOption('genders');
                             if (isset($genders[$donorGender])) {
                                 echo $genders[$donorGender];
@@ -131,25 +131,25 @@ $header();
                         ?>
                     </td>
 					<td><?php echo $donor->calculateAge() ?></td>
-					<td><?php $donor->display('donor_blood_group') ?></td>
+					<td><?php $donor->display('blood_group') ?></td>
 					<td>
                         <?php
-                            $district = $districtRepository->find($donor->get('donor_distr_id'));
-                            $city = $district->getParentCity();
-                            printf('%s, %s', $city->get('city_name'), $district->get('distr_name'));
+                            $district = $donor->get('district');
+                            $city = $district->get('city');
+                            printf('%s, %s', $city->get('name'), $district->get('name'));
                         ?>
                     </td>
-					<td><?php $donor->display('donor_phone') ?></td>
+					<td><?php $donor->display('phone') ?></td>
                     <?php if ($can_manage) : ?>
 					<td>
                         <?php if ($can_edit) : ?>
-						<a href="<?php echo getPageURL('edit-donor', array( 'id' => $donor->get('donor_id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
+						<a href="<?php echo getPageURL('edit-donor', array( 'id' => $donor->get('id') )) ?>" class="edit-link"><i class="fa fa-pencil"></i></a>
                         <?php endif; ?>
                         <?php if ($can_delete) : ?>
-						<a href="<?php echo getPageURL('manage-donors', array( 'action' => 'delete_donor', 'id' => $donor->get('donor_id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
+						<a href="<?php echo getPageURL('manage-donors', array( 'action' => 'delete_donor', 'id' => $donor->get('id') )) ?>" class="delete-link"><i class="fa fa-trash"></i></a>
                         <?php endif; ?>
                         <?php if ($can_approve && $donor->isPending()) : ?>
-						<a href="<?php echo getPageURL('manage-donors', array( 'action' => 'approve_donor', 'id' => $donor->get('donor_id') )) ?>" class="approve-link"><i class="fa fa-check"></i></a>
+						<a href="<?php echo getPageURL('manage-donors', array( 'action' => 'approve_donor', 'id' => $donor->get('id') )) ?>" class="approve-link"><i class="fa fa-check"></i></a>
                         <?php endif; ?>
 					</td>
                     <?php endif; ?>

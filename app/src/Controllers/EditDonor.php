@@ -1,11 +1,17 @@
 <?php
+/**
+ * Edit Donor Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
 use EBloodBank\Exceptions;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
+use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -23,45 +29,51 @@ class EditDonor extends Controller
             try {
 
                 $donorID = (int) $_GET['id'];
+
+                if (! isVaildID($donorID)) {
+                    die(__('Invalid donor ID'));
+                }
+
                 $donor = EntityManager::getDonorReference($donorID);
 
                 if (isset($_POST['donor_name'])) {
-                    $donor->set('donor_name', $_POST['donor_name'], true);
+                    $donor->set('name', $_POST['donor_name'], true);
                 }
 
                 if (isset($_POST['donor_gender'])) {
-                    $donor->set('donor_gender', $_POST['donor_gender'], true);
+                    $donor->set('gender', $_POST['donor_gender'], true);
                 }
 
                 if (isset($_POST['donor_weight'])) {
-                    $donor->set('donor_weight', $_POST['donor_weight'], true);
+                    $donor->set('weight', $_POST['donor_weight'], true);
                 }
 
                 if (isset($_POST['donor_birthdate'])) {
-                    $donor->set('donor_birthdate', $_POST['donor_birthdate'], true);
+                    $donor->set('birthdate', $_POST['donor_birthdate'], true);
                 }
 
                 if (isset($_POST['donor_blood_group'])) {
-                    $donor->set('donor_blood_group', $_POST['donor_blood_group'], true);
+                    $donor->set('blood_group', $_POST['donor_blood_group'], true);
                 }
 
                 if (isset($_POST['donor_phone'])) {
-                    $donor->set('donor_phone', $_POST['donor_phone'], true);
+                    $donor->set('phone', $_POST['donor_phone'], true);
                 }
 
                 if (isset($_POST['donor_email'])) {
-                    $donor->set('donor_email', $_POST['donor_email'], true);
+                    $donor->set('email', $_POST['donor_email'], true);
                 }
 
                 if (isset($_POST['donor_address'])) {
-                    $donor->set('donor_address', $_POST['donor_address'], true);
+                    $donor->set('address', $_POST['donor_address'], true);
                 }
 
                 if (isset($_POST['donor_distr_id'])) {
-                    $donor->set('donor_distr_id', (int) $_POST['donor_distr_id']);
+                    $donor->set('district', $_POST['donor_distr_id'], true);
                 }
 
-                EntityManager::getInstance()->flush();
+                $em = EntityManager::getInstance();
+                $em->flush();
 
                 redirect(
                     getPageURL('edit-donor', array(
@@ -92,7 +104,8 @@ class EditDonor extends Controller
         }
 
         if (isCurrentUserCan('edit_donor')) {
-            $donor = EntityManager::getDonorRepository()->find((int) $_GET['id']);
+            $donorID = (int) $_GET['id'];
+            $donor = EntityManager::getDonorRepository()->find($donorID);
             if (! empty($donor)) {
                 $view = new View('edit-donor', array( 'donor' => $donor ));
             } else {

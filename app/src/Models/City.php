@@ -1,8 +1,13 @@
 <?php
+/**
+ * City Model
+ *
+ * @package EBloodBank
+ * @subpackage Models
+ * @since 1.0
+ */
 namespace EBloodBank\Models;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Model;
 use EBloodBank\Exceptions\InvaildProperty;
 
 /**
@@ -17,29 +22,27 @@ class City extends Model
      * @var int
      * @since 1.0
      *
-     * @Id @Column(type="integer")
+     * @Id
      * @GeneratedValue
+     * @Column(type="integer", name="city_id")
      */
-    protected $city_id = 0;
+    protected $id = 0;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string")
+     * @Column(type="string", name="city_name")
      */
-    protected $city_name;
+    protected $name;
 
     /**
-     * @return District[]
+     * @var District[]
      * @since 1.0
+     *
+     * @OneToMany(targetEntity="EBloodBank\Models\District", mappedBy="city")
      */
-    public function getChildDistricts($orderBy = null, $limit = null, $offset = null)
-    {
-        $cityID = (int) $this->get('city_id');
-        $districtRepository = EntityManager::getDistrictRepository();
-        return $districtRepository->findByCityID($cityID, $orderBy, $limit, $offset);
-    }
+    protected $districts = array();
 
     /**
      * @return mixed
@@ -48,10 +51,10 @@ class City extends Model
     public static function sanitize($key, $value)
     {
         switch ($key) {
-            case 'city_id':
+            case 'id':
                 $value = (int) $value;
                 break;
-            case 'city_name':
+            case 'name':
                 $value = filter_var($value, FILTER_SANITIZE_STRING);
                 break;
         }
@@ -66,12 +69,12 @@ class City extends Model
     public static function validate($key, $value)
     {
         switch ($key) {
-            case 'city_id':
+            case 'id':
                 if (! isVaildID($value)) {
                     throw new InvaildProperty(__('Invaild city ID.'), 'invaild_city_id');
                 }
                 break;
-            case 'city_name':
+            case 'name':
                 if (empty($value) || ! is_string($value)) {
                     throw new InvaildProperty(__('Invaild city name.'), 'invaild_city_name');
                 }

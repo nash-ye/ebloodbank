@@ -1,10 +1,16 @@
 <?php
+/**
+ * Manage Users Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\View;
-use EBloodBank\Kernal\Controller;
 use EBloodBank\Kernal\Notices;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -19,11 +25,11 @@ class ManageUsers extends Controller
     {
         if (isCurrentUserCan('delete_user')) {
 
-            $user_id = (int) $_GET['id'];
+            $userID = (int) $_GET['id'];
 
-            if (! empty($user_id) && $user_id !== getCurrentUserID()) {
+            if (! empty($userID) && $userID != getCurrentUserID()) {
 
-                $user = EntityManager::getUserReference($user_id);
+                $user = EntityManager::getUserReference($userID);
 
                 $em = EntityManager::getInstance();
                 $em->remove($user);
@@ -48,14 +54,15 @@ class ManageUsers extends Controller
     {
         if (isCurrentUserCan('approve_user')) {
 
-            $user_id = (int) $_GET['id'];
-            $user = EntityManager::getUserReference($user_id);
+            $userID = (int) $_GET['id'];
+            $user = EntityManager::getUserReference($userID);
 
             if (! empty($user) && $user->isPending()) {
 
-                $user->set('user_status', 'activated');
+                $user->set('status', 'activated');
 
-                EntityManager::getInstance()->flush();
+                $em = EntityManager::getInstance();
+                $em->flush();
 
                 redirect(
                     getPageURL('manage-users', array(
@@ -73,25 +80,22 @@ class ManageUsers extends Controller
      */
     public function __invoke()
     {
+        if (! empty($_GET['action'])) {
+            switch ($_GET['action']) {
+                case 'delete_user':
+                    $this->action_delete();
+                    break;
+                case 'approve_user':
+                    $this->action_approve();
+                    break;
+            }
+        }
+
         if (isCurrentUserCan('manage_users')) {
-
-            if (! empty($_GET['action'])) {
-                switch ($_GET['action']) {
-                    case 'delete_user':
-                        $this->action_delete();
-                        break;
-                    case 'approve_user':
-                        $this->action_approve();
-                        break;
-                }
+            if (isset($_GET['flag-deleted']) && $_GET['flag-deleted']) {
+                Notices::addNotice('user_deleted', __('The user permanently deleted.'), 'success');
             }
-
-            if (isset($_GET['flag-deleted'])) {
-                Notices::addNotice('deleted-user', __('The user permanently deleted.'), 'success');
-            }
-
             $view = new View('manage-users');
-
         } else {
             $view = new View('error-401');
         }

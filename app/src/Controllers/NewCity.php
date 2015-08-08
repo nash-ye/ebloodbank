@@ -1,12 +1,18 @@
 <?php
+/**
+ * New City Controller
+ *
+ * @package EBloodBank
+ * @subpackage Controllers
+ * @since 1.0
+ */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
 use EBloodBank\Exceptions;
-use EBloodBank\Kernal\Controller;
-use EBloodBank\Kernal\View;
+use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Notices;
 use EBloodBank\Models\City;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0
@@ -26,14 +32,14 @@ class NewCity extends Controller
                 $city = new City();
 
                 if (isset($_POST['city_name'])) {
-                    $city->set('city_name', $_POST['city_name'], true);
+                    $city->set('name', $_POST['city_name'], true);
                 }
 
                 $em = EntityManager::getInstance();
                 $em->persist($city);
                 $em->flush();
 
-                $submitted = isVaildID($city->get('city_id'));
+                $submitted = isVaildID($city->get('id'));
 
                 redirect(
                     getPageURL('new-city', array(
