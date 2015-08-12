@@ -10,7 +10,7 @@ namespace EBloodBank\Models;
 
 use EBloodBank\Kernal\Roles;
 use EBloodBank\Traits\EntityMeta;
-use EBloodBank\Exceptions\InvaildProperty;
+use EBloodBank\Exceptions\InvaildArgument;
 
 /**
  * @since 1.0
@@ -18,7 +18,7 @@ use EBloodBank\Exceptions\InvaildProperty;
  * @Entity(repositoryClass="EBloodBank\Models\UserRepository")
  * @Table(name="user")
  */
-class User extends Model
+class User extends Entity
 {
     use EntityMeta;
 
@@ -126,14 +126,14 @@ class User extends Model
                 break;
             case 'logon':
             case 'role':
-                $value = filter_var($value, FILTER_SANITIZE_STRING);
+                $value = trim(filter_var($value, FILTER_SANITIZE_STRING));
                 break;
         }
         return $value;
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvaildProperty
+     * @throws \EBloodBank\Exceptions\InvaildArgument
      * @return bool
      * @since 1.0
      */
@@ -142,17 +142,22 @@ class User extends Model
         switch ($key) {
             case 'id':
                 if (! isVaildID($value)) {
-                    throw new InvaildProperty(__('Invaild user ID'), 'invaild_user_id');
+                    throw new InvaildArgument(__('Invaild user ID'), 'invaild_user_id');
                 }
                 break;
             case 'logon':
-                if (empty($value) || ! is_string($value)) {
-                    throw new InvaildProperty(__('Invaild user name'), 'invaild_user_name');
+                if (! is_string($value) || empty($value)) {
+                    throw new InvaildArgument(__('Invaild user name'), 'invaild_user_name');
+                }
+                break;
+            case 'pass':
+                if (! is_string($value) || empty($value)) {
+                    throw new InvaildArgument(__('Invaild user password'), 'invaild_user_pass');
                 }
                 break;
             case 'role':
-                if (! Roles::isExists($value)) {
-                    throw new InvaildProperty(__('Invaild user role'), 'invaild_user_role');
+                if (! is_string($value) || ! Roles::isExists($value)) {
+                    throw new InvaildArgument(__('Invaild user role'), 'invaild_user_role');
                 }
                 break;
         }

@@ -1,9 +1,8 @@
 {
     "require": {
-        "gettext/gettext": "^3.4",
         "aura/router": "^2.2",
-        "aura/html": "^2.4",
         "aura/autoload": "^2.0",
+        "gettext/gettext": "^3.4",
         "doctrine/orm": "^2.5"
     }
 }

@@ -76,3 +76,12 @@ function esc_html($data, $encoding = 'UTF-8')
 {
     return htmlspecialchars($data, ENT_HTML5, $encoding);
 }
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function esc_url($url, $encoding = 'UTF-8')
+{
+    return esc_attr($url, $encoding);
+}

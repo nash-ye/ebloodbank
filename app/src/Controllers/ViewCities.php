@@ -22,9 +22,10 @@ class ViewCities extends Controller
     public function __invoke()
     {
         if (isCurrentUserCan('view_cities')) {
-            $view = new View('view-cities');
+            $view = View::instance('view-cities');
+            $view->set('page', filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT));
         } else {
-            $view = new View('error-401');
+            $view = View::instance('error-401');
         }
         $view();
     }

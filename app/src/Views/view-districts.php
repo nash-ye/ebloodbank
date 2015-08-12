@@ -9,22 +9,22 @@
 namespace EBloodBank\Views;
 
 use EBloodBank\EntityManager;
+use EBloodBank\Kernal\Options;
 use EBloodBank\Kernal\Notices;
 
-$header = new View('header', array( 'title' => __('Districts') ));
-$header();
+$limit = Options::getOption('entities_per_page');
+$pageNumber = max((int) $this->get('page'), 1);
+$offset = ($pageNumber - 1) * $limit;
+
+$districtRepository = EntityManager::getDistrictRepository();
+$districts = $districtRepository->findBy(array(), array(), $limit, $offset);
+
+View::display('header', array( 'title' => __('Districts') ));
 ?>
 
 	<div class="btn-block">
-
-        <?php if (isCurrentUserCan('manage_districts')) : ?>
-		<a href="<?php echo getPageURL('manage-districts') ?>" class="btn btn-primary btn-manage"><?php _e('Manage') ?></a>
-        <?php endif; ?>
-
-        <?php if (isCurrentUserCan('add_district')) : ?>
-		<a href="<?php echo getPageURL('new-district') ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
-        <?php endif; ?>
-
+        <?php echo getEditDistrictsLink(array('content' => __('Edit'), 'atts' => array( 'class' => 'btn btn-primary btn-edit btn-edit-districts' ))) ?>
+        <?php echo getAddDistrictLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-district' ))) ?>
 	</div>
 
     <?php Notices::displayNotices() ?>
@@ -41,13 +41,13 @@ $header();
 
 		<tbody>
 
-            <?php foreach (EntityManager::getDistrictRepository()->findAll() as $distr) : ?>
+            <?php foreach ($districts as $district) : ?>
 
             <tr>
-                <td><?php $distr->display('id') ?></td>
-                <td><?php $distr->display('name') ?></td>
+                <td><?php $district->display('id') ?></td>
+                <td><?php $district->display('name') ?></td>
                 <td>
-                    <?php $distr->get('city')->display('name') ?>
+                    <?php $district->get('city')->display('name') ?>
                 </td>
             </tr>
 
@@ -57,6 +57,16 @@ $header();
 
 	</table>
 
+    <?php
+
+        paginationLinks(array(
+            'total' => (int) ceil($districtRepository->countAll() / $limit),
+            'page_url' => addQueryArgs(getDistrictsURL(), array( 'page' => '%#%' )),
+            'base_url' => getDistrictsURL(),
+            'current' => $pageNumber,
+        ))
+
+    ?>
+
 <?php
-$footer = new View('footer');
-$footer();
+View::display('footer');

@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank\Exceptions;
 use EBloodBank\EntityManager;
+use EBloodBank\RouterManager;
 use EBloodBank\Kernal\Notices;
 use EBloodBank\Views\View;
 
@@ -22,13 +23,36 @@ class EditDistrict extends Controller
      * @return void
      * @since 1.0
      */
-    protected function action_submit()
+    protected function doActions()
+    {
+        switch (filter_input(INPUT_POST, 'action')) {
+            case 'submit_district':
+                $this->doSubmitAction();
+                break;
+        }
+    }
+
+    /**
+     * @return int
+     * @since 1.0
+     */
+    protected function getDistrictID()
+    {
+        $route = RouterManager::getMatchedRoute();
+        return (int) $route->params['id'];
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    protected function doSubmitAction()
     {
         if (isCurrentUserCan('edit_district')) {
 
             try {
 
-                $districtID = (int) $_GET['id'];
+                $districtID = $this->getDistrictID();
 
                 if (! isVaildID($districtID)) {
                     die(__('Invalid district ID'));
@@ -36,25 +60,23 @@ class EditDistrict extends Controller
 
                 $district = EntityManager::getDistrictReference($districtID);
 
-                if (isset($_POST['distr_name'])) {
-                    $district->set('name', $_POST['distr_name'], true);
-                }
+                // Set the district name.
+                $district->set('name', filter_input(INPUT_POST, 'distr_name'), true);
 
-                if (isset($_POST['distr_city_id'])) {
-                    $district->set('city', $_POST['distr_city_id'], true);
-                }
+                // Set the district city ID.
+                $district->set('city', filter_input(INPUT_POST, 'distr_city_id'), true);
 
                 $em = EntityManager::getInstance();
                 $em->flush();
 
                 redirect(
-                    getPageURL('edit-district', array(
-                        'id' => $districtID,
-                        'flag-submitted' => true
-                    ))
+                    addQueryArgs(
+                        getEditDistrictURL($districtID),
+                        array('flag-submitted' => true)
+                    )
                 );
 
-            } catch (Exceptions\InvaildProperty $ex) {
+            } catch (Exceptions\InvaildArgument $ex) {
                 Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
 
@@ -68,27 +90,19 @@ class EditDistrict extends Controller
      */
     public function __invoke()
     {
-        if (! empty($_POST['action'])) {
-            switch ($_POST['action']) {
-                case 'submit_district':
-                    $this->action_submit();
-                    break;
-            }
-        }
-
         if (isCurrentUserCan('edit_district')) {
-            $districtID = (int) $_GET['id'];
+            $this->doActions();
+            $districtID = $this->getDistrictID();
             $districtRepository = EntityManager::getDistrictRepository();
             $district = $districtRepository->find($districtID);
             if (! empty($district)) {
-                $view = new View('edit-district', array( 'district' => $district ));
+                $view = View::instance('edit-district', array( 'district' => $district ));
             } else {
-                $view = new View('error-404');
+                $view = View::instance('error-404');
             }
         } else {
-            $view = new View('error-401');
+            $view = View::instance('error-401');
         }
-
         $view();
     }
 }

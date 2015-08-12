@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "677e71d371d21924a8b258ce703645b8",
+    "hash": "17792a3e22f8465cb13070f7605fc2f6",
     "packages": [
         {
             "name": "aura/autoload",
@@ -57,69 +57,6 @@
                 "class loader"
             ],
             "time": "2015-03-27 19:34:08"
-        },
-        {
-            "name": "aura/html",
-            "version": "2.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/auraphp/Aura.Html.git",
-                "reference": "7f575f35765af41091b85b23a92b168ae0c5765f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/auraphp/Aura.Html/zipball/7f575f35765af41091b85b23a92b168ae0c5765f",
-                "reference": "7f575f35765af41091b85b23a92b168ae0c5765f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "aura/di": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "aura": {
-                    "type": "library",
-                    "config": {
-                        "common": "Aura\\Html\\_Config\\Common"
-                    }
-                },
-                "branch-alias": {
-                    "dev-develop-2": "2.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Aura\\Html\\": "src/",
-                    "Aura\\Html\\_Config\\": "config/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Aura.Html Contributors",
-                    "homepage": "https://github.com/auraphp/Aura.Html/contributors"
-                }
-            ],
-            "description": "Provides HTML escapers and helpers, including form input helpers.",
-            "homepage": "https://github.com/auraphp/Aura.Html",
-            "keywords": [
-                "Escape",
-                "escaper",
-                "escapers",
-                "escaping",
-                "form",
-                "helper",
-                "helpers",
-                "html",
-                "input"
-            ],
-            "time": "2015-03-27 17:31:31"
         },
         {
             "name": "aura/router",

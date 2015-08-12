@@ -12,7 +12,5 @@ return array(
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Aura\\Router\\_Config\\' => array($vendorDir . '/aura/router/config'),
     'Aura\\Router\\' => array($vendorDir . '/aura/router/src'),
-    'Aura\\Html\\_Config\\' => array($vendorDir . '/aura/html/config'),
-    'Aura\\Html\\' => array($vendorDir . '/aura/html/src'),
     'Aura\\Autoload\\' => array($vendorDir . '/aura/autoload/src'),
 );

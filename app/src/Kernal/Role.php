@@ -29,9 +29,9 @@ class Role
      */
     public function __construct($slug, $title, array $caps)
     {
-        $this->slug    = $slug;
-        $this->title   = $title;
-        $this->caps    = $caps;
+        $this->slug  = $slug;
+        $this->title = $title;
+        $this->caps  = $caps;
     }
 
     /**

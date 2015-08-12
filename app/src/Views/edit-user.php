@@ -8,11 +8,8 @@
  */
 namespace EBloodBank\Views;
 
-$header = new View('header', array( 'title' => __('Edit User') ));
-$header();
+View::display('header', array( 'title' => __('Edit User') ));
 
-$form = new View('form-user', array( 'user' => $this->get('user') ));
-$form();
+View::display('form-user', array( 'user' => $this->get('user') ));
 
-$footer = new View('footer');
-$footer();
+View::display('footer');

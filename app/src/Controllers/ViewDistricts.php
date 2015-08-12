@@ -22,9 +22,10 @@ class ViewDistricts extends Controller
     public function __invoke()
     {
         if (isCurrentUserCan('view_districts')) {
-            $view = new View('view-districts');
+            $view = View::instance('view-districts');
+            $view->set('page', filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT));
         } else {
-            $view = new View('error-401');
+            $view = View::instance('error-401');
         }
         $view();
     }

@@ -9,24 +9,22 @@
 namespace EBloodBank\Views;
 
 use EBloodBank\EntityManager;
+use EBloodBank\Kernal\Options;
 use EBloodBank\Kernal\Notices;
 
-$users = EntityManager::getUserRepository()->findAll();
+$limit = Options::getOption('entities_per_page');
+$pageNumber = max((int) $this->get('page'), 1);
+$offset = ($pageNumber - 1) * $limit;
 
-$header = new View('header', array( 'title' => __('Users') ));
-$header();
+$userRepository = EntityManager::getUserRepository();
+$users = $userRepository->findBy(array(), array(), $limit, $offset);
+
+View::display('header', array( 'title' => __('Users') ));
 ?>
 
 	<div class="btn-block">
-
-        <?php if (isCurrentUserCan('manage_users')) : ?>
-		<a href="<?php echo getPageURL('manage-users') ?>" class="btn btn-primary btn-manage"><?php _e('Manage') ?></a>
-        <?php endif; ?>
-
-        <?php if (isCurrentUserCan('add_user')) : ?>
-		<a href="<?php echo getPageURL('new-user') ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
-        <?php endif; ?>
-
+        <?php echo getEditUsersLink(array('content' => __('Edit'), 'atts' => array( 'class' => 'btn btn-primary btn-edit btn-edit-users' ))) ?>
+        <?php echo getAddUserLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-user' ))) ?>
 	</div>
 
     <?php Notices::displayNotices() ?>
@@ -60,6 +58,16 @@ $header();
 
 	</table>
 
+    <?php
+
+        paginationLinks(array(
+            'total' => (int) ceil($userRepository->countAll() / $limit),
+            'page_url' => addQueryArgs(getUsersURL(), array( 'page' => '%#%' )),
+            'base_url' => getUsersURL(),
+            'current' => $pageNumber,
+        ))
+
+    ?>
+
 <?php
-$footer = new View('footer');
-$footer();
+View::display('footer');

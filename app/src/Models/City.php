@@ -8,7 +8,7 @@
  */
 namespace EBloodBank\Models;
 
-use EBloodBank\Exceptions\InvaildProperty;
+use EBloodBank\Exceptions\InvaildArgument;
 
 /**
  * @since 1.0
@@ -16,7 +16,7 @@ use EBloodBank\Exceptions\InvaildProperty;
  * @Entity(repositoryClass="EBloodBank\Models\CityRepository")
  * @Table(name="city")
  */
-class City extends Model
+class City extends Entity
 {
     /**
      * @var int
@@ -55,14 +55,14 @@ class City extends Model
                 $value = (int) $value;
                 break;
             case 'name':
-                $value = filter_var($value, FILTER_SANITIZE_STRING);
+                $value = trim(filter_var($value, FILTER_SANITIZE_STRING));
                 break;
         }
         return $value;
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvaildProperty
+     * @throws \EBloodBank\Exceptions\InvaildArgument
      * @return bool
      * @since 1.0
      */
@@ -71,12 +71,12 @@ class City extends Model
         switch ($key) {
             case 'id':
                 if (! isVaildID($value)) {
-                    throw new InvaildProperty(__('Invaild city ID.'), 'invaild_city_id');
+                    throw new InvaildArgument(__('Invaild city ID.'), 'invaild_city_id');
                 }
                 break;
             case 'name':
-                if (empty($value) || ! is_string($value)) {
-                    throw new InvaildProperty(__('Invaild city name.'), 'invaild_city_name');
+                if (! is_string($value) || empty($value)) {
+                    throw new InvaildArgument(__('Invaild city name.'), 'invaild_city_name');
                 }
                 break;
         }

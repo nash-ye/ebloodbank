@@ -32,7 +32,7 @@ class EntityManager
 
         if (is_null($em)) {
 
-            $paths = array(ABSPATH . '/app/src/Models/');
+            $paths = array(EBB_DIR . '/app/src/Models/');
             $config = ORM\Tools\Setup::createConfiguration(DEBUG_MODE);
             $driverImpl = $config->newDefaultAnnotationDriver($paths);
             $config->setMetadataDriverImpl($driverImpl);

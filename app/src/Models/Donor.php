@@ -11,7 +11,7 @@ namespace EBloodBank\Models;
 use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Options;
 use EBloodBank\Traits\EntityMeta;
-use EBloodBank\Exceptions\InvaildProperty;
+use EBloodBank\Exceptions\InvaildArgument;
 
 /**
  * @since 1.0
@@ -19,7 +19,7 @@ use EBloodBank\Exceptions\InvaildProperty;
  * @Entity(repositoryClass="EBloodBank\Models\DonorRepository")
  * @Table(name="donor")
  */
-class Donor extends Model
+class Donor extends Entity
 {
     use EntityMeta;
 
@@ -146,14 +146,14 @@ class Donor extends Model
      */
     public function calculateAge()
     {
-        $current_date = new \DateTime(date('Y-m-d'));
+        $currentDate = new \DateTime(date('Y-m-d'));
         $birthdate = new \DateTime($this->get('birthdate'));
 
-        if ($birthdate > $current_date) {
+        if ($birthdate > $currentDate) {
             return 0;
         }
 
-        return (int) $current_date->diff($birthdate)->format('%y');
+        return (int) $currentDate->diff($birthdate)->format('%y');
     }
 
     /**
@@ -180,7 +180,7 @@ class Donor extends Model
             case 'address':
             case 'birthdate':
             case 'blood_group':
-                $value = filter_var($value, FILTER_SANITIZE_STRING);
+                $value = trim(filter_var($value, FILTER_SANITIZE_STRING));
                 break;
             case 'district':
                 if (is_numeric($value)) {
@@ -192,7 +192,7 @@ class Donor extends Model
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvaildProperty
+     * @throws \EBloodBank\Exceptions\InvaildArgument
      * @return bool
      * @since 1.0
      */
@@ -201,32 +201,33 @@ class Donor extends Model
         switch ($key) {
             case 'id':
                 if (! isVaildID($value)) {
-                    throw new InvaildProperty(__('Invaild donor ID.'), 'invaild_donor_id');
+                    throw new InvaildArgument(__('Invaild donor ID.'), 'invaild_donor_id');
                 }
                 break;
             case 'name':
-                if (empty($value) || ! is_string($value)) {
-                    throw new InvaildProperty(__('Invaild donor name.'), 'invaild_donor_name');
+                if (! is_string($value) || empty($value)) {
+                    throw new InvaildArgument(__('Invaild donor name.'), 'invaild_donor_name');
                 }
                 break;
             case 'gender':
                 if (! array_key_exists($value, (array) Options::getOption('genders'))) {
-                    throw new InvaildProperty(__('Invaild donor gender.'), 'invaild_donor_gender');
+                    throw new InvaildArgument(__('Invaild donor gender.'), 'invaild_donor_gender');
                 }
                 break;
             case 'weight':
-                if ($value < 0) {
-                    throw new InvaildProperty(__('Invaild donor weight.'), 'invaild_donor_weight');
+                if (! is_float($value)) {
+                    // TODO: Check Min and Max weight.
+                    throw new InvaildArgument(__('Invaild donor weight.'), 'invaild_donor_weight');
                 }
                 break;
             case 'blood_group':
                 if (! in_array($value, (array) Options::getOption('blood_groups'))) {
-                    throw new InvaildProperty(__('Invaild donor blood group.'), 'invaild_donor_blood_group');
+                    throw new InvaildArgument(__('Invaild donor blood group.'), 'invaild_donor_blood_group');
                 }
                 break;
             case 'district':
                 if (! $value instanceof District || ! isVaildID($value->get('id'))) {
-                    throw new InvaildProperty(__('Invaild donor district object.'), 'invaild_donor_district');
+                    throw new InvaildArgument(__('Invaild donor district object.'), 'invaild_donor_district');
                 }
                 break;
         }

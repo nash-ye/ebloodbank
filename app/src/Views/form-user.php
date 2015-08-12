@@ -32,12 +32,12 @@ if (! $this->isExists('user')) {
 
 	<div class="form-group">
 		<div class="col-sm-2">
-			<label for="user_pass"><?php _e('New Password') ?></label>
+            <label for="user_pass"><?php $user->isExists() ? _e('New Password') : _e('Password') ?></label>
 		</div>
 		<div class="col-sm-4">
-			<input type="password" name="user_pass_1" id="user_pass_1" class="form-control" value="" placeholder="<?php echo esc_attr(__('Type your password')) ?>" autocomplete="off" />
+			<input type="password" name="user_pass_1" id="user_pass_1" class="form-control" value="" placeholder="<?php echo esc_attr(__('Type the password')) ?>" autocomplete="off" />
 			&nbsp;
-			<input type="password" name="user_pass_2" id="user_pass_2" class="form-control" value="" placeholder="<?php echo esc_attr(__('Type your password again')) ?>" autocomplete="off" />
+			<input type="password" name="user_pass_2" id="user_pass_2" class="form-control" value="" placeholder="<?php echo esc_attr(__('Type the password again')) ?>" autocomplete="off" />
 		</div>
 	</div>
 

@@ -13,7 +13,7 @@ use EBloodBank\Kernal\Notices;
 
 <?php Notices::displayNotices() ?>
 
-<form id="form-login" class="form-horizontal" action="<?php echo getPageURL('login') ?>" method="POST">
+<form id="form-login" class="form-horizontal" action="<?php echo esc_url(getLoginURL()) ?>" method="POST">
 
 	<div class="form-group">
 		<div class="col-sm-2">

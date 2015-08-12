@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank\Exceptions;
 use EBloodBank\EntityManager;
+use EBloodBank\RouterManager;
 use EBloodBank\Kernal\Notices;
 use EBloodBank\Views\View;
 
@@ -22,13 +23,36 @@ class EditCity extends Controller
      * @return void
      * @since 1.0
      */
-    protected function action_submit()
+    protected function doActions()
+    {
+        switch (filter_input(INPUT_POST, 'action')) {
+            case 'submit_city':
+                $this->doSubmitAction();
+                break;
+        }
+    }
+
+    /**
+     * @return int
+     * @since 1.0
+     */
+    protected function getCityID()
+    {
+        $route = RouterManager::getMatchedRoute();
+        return (int) $route->params['id'];
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    protected function doSubmitAction()
     {
         if (isCurrentUserCan('edit_city')) {
 
             try {
 
-                $cityID = (int) $_GET['id'];
+                $cityID = $this->getCityID();
 
                 if (! isVaildID($cityID)) {
                     die(__('Invalid city ID'));
@@ -36,21 +60,20 @@ class EditCity extends Controller
 
                 $city = EntityManager::getCityReference($cityID);
 
-                if (isset($_POST['city_name'])) {
-                    $city->set('name', $_POST['city_name'], true);
-                }
+                // Set the city name.
+                $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
 
                 $em = EntityManager::getInstance();
                 $em->flush();
 
                 redirect(
-                    getPageURL('edit-city', array(
-                        'id' => $cityID,
-                        'flag-submitted' => true
-                    ))
+                    addQueryArgs(
+                        getEditCityURL($cityID),
+                        array('flag-submitted' => true)
+                    )
                 );
 
-            } catch (Exceptions\InvaildProperty $ex) {
+            } catch (Exceptions\InvaildArgument $ex) {
                 Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
 
@@ -63,26 +86,18 @@ class EditCity extends Controller
      */
     public function __invoke()
     {
-        if (! empty($_POST['action'])) {
-            switch ($_POST['action']) {
-                case 'submit_city':
-                    $this->action_submit();
-                    break;
-            }
-        }
-
         if (isCurrentUserCan('edit_city')) {
-            $cityID = (int) $_GET['id'];
+            $this->doActions();
+            $cityID = $this->getCityID();
             $city = EntityManager::getCityRepository()->find($cityID);
             if (! empty($city)) {
-                $view = new View('edit-city', array( 'city' => $city ));
+                $view = View::instance('edit-city', array( 'city' => $city ));
             } else {
-                $view = new View('error-404');
+                $view = View::instance('error-404');
             }
         } else {
-            $view = new View('error-401');
+            $view = View::instance('error-401');
         }
-
         $view();
     }
 }

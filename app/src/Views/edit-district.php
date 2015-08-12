@@ -8,11 +8,8 @@
  */
 namespace EBloodBank\Views;
 
-$header = new View('header', array( 'title' => __('Edit District') ));
-$header();
+View::display('header', array( 'title' => __('Edit District') ));
 
-$footer = new View('form-district', array( 'district' => $this->get('district') ));
-$footer();
+View::display('form-district', array( 'district' => $this->get('district') ));
 
-$footer = new View('footer');
-$footer();
+View::display('footer');

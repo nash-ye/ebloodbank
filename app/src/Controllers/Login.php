@@ -21,28 +21,47 @@ class Login extends Controller
      * @return void
      * @since 1.0
      */
-    protected function action_login()
+    protected function doActions()
     {
-        $user_name = '';
-        $user_pass  = '';
-
-        if (! empty($_POST['user_logon'])) {
-            $user_name = $_POST['user_logon'];
+        switch (filter_input(INPUT_REQUEST, 'action')) {
+            case 'login':
+                $this->doLoginAction();
+                break;
+            case 'logout':
+                $this->doLogoutAction();
+                break;
         }
+    }
 
-        if (! empty($_POST['user_pass'])) {
-            $user_pass = $_POST['user_pass'];
+    /**
+     * @return void
+     * @since 1.0
+     */
+    protected function addNotices()
+    {
+        if (filter_has_var(INPUT_GET, 'flag-loggedout')) {
+            Notices::addNotice('loggedout', __('You are now logged out.'), 'message');
         }
+    }
 
-        if (empty($user_name) || empty($user_pass)) {
+    /**
+     * @return void
+     * @since 1.0
+     */
+    protected function doLoginAction()
+    {
+        $userName = filter_input(INPUT_POST, 'user_logon');
+        $userPass  = filter_input(INPUT_POST, 'user_pass');
+
+        if (empty($userName) || empty($userPass)) {
             Notices::addNotice('empty_login_details', __('Please enter your login details.'), 'warning');
             return;
         }
 
         $userRepository = EntityManager::getUserRepository();
-        $user = $userRepository->findOneBy(array( 'logon' => $user_name, 'status' => 'any' ));
+        $user = $userRepository->findOneBy(array( 'logon' => $userName, 'status' => 'any' ));
 
-        if (empty($user) || ! password_verify($user_pass, $user->get('pass'))) {
+        if (empty($user) || ! password_verify($userPass, $user->get('pass'))) {
             Notices::addNotice('wrong_login_details', __('No match for username and/or password.'), 'warning');
             return;
         }
@@ -63,15 +82,16 @@ class Login extends Controller
      * @return void
      * @since 1.0
      */
-    protected function action_logout()
+    protected function doLogoutAction()
     {
         if (isUserLoggedIn()) {
             session_destroy();
             $_SESSION = array();
             redirect(
-                getPageURL('login', array(
-                    'flag-loggedout' => true,
-                ))
+                addQueryArgs(
+                    getLoginURL(),
+                    array('flag-loggedout' => true)
+                )
             );
         }
     }
@@ -82,22 +102,9 @@ class Login extends Controller
      */
     public function __invoke()
     {
-        if (! empty($_REQUEST['action'])) {
-            switch ($_REQUEST['action']) {
-                case 'login':
-                    $this->action_login();
-                    break;
-                case 'logout':
-                    $this->action_logout();
-                    break;
-            }
-        }
-
-        if (isset($_GET['flag-loggedout']) && $_GET['flag-loggedout']) {
-            Notices::addNotice('loggedout', __('You are now logged out.'), 'message');
-        }
-
-        $view = new View('login');
+        $this->doActions();
+        $this->addNotices();
+        $view = View::instance('login');
         $view();
     }
 }

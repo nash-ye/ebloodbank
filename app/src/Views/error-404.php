@@ -10,8 +10,7 @@ namespace EBloodBank\Views;
 
 header('HTTP/1.0 404 Not Found');
 
-$header = new View('header', array( 'title' => __('Error: Not Found') ));
-$header();
+View::display('header', array( 'title' => __('Error: Not Found') ));
 ?>
 
 	<div class="error-msg error-404-msg">
@@ -19,5 +18,4 @@ $header();
 	</div>
 
 <?php
-$footer = new View('footer');
-$footer();
+View::display('footer');

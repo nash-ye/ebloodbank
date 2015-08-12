@@ -12,85 +12,30 @@ use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Options;
 use EBloodBank\Kernal\Notices;
 
-$donorsCriteria = array_merge( array(
+$criteria = array_merge( array(
     'blood_group' => 'any',
     'district'    => -1,
     'city_id'     => -1,
 ), (array) $this->get('donorsCriteria') );
 
-$donorRepository    = EntityManager::getDonorRepository();
-$cityRepository     = EntityManager::getCityRepository();
-$districtRepository = EntityManager::getDistrictRepository();
+$limit = Options::getOption('entities_per_page');
+$pageNumber = max((int) $this->get('page'), 1);
+$offset = ($pageNumber - 1) * $limit;
 
-$donors = $donorRepository->findBy($donorsCriteria);
+$donorRepository = EntityManager::getDonorRepository();
+$donors = $donorRepository->findBy($criteria, array(), $limit, $offset);
 
-$header = new View('header', array( 'title' => __('Donors') ));
-$header();
+View::display('header', array( 'title' => __('Donors') ));
 ?>
 
 	<div class="btn-block">
-
-        <?php if (isCurrentUserCan('manage_donors')) : ?>
-		<a href="<?php echo getPageURL('manage-donors') ?>" class="btn btn-primary btn-manage"><?php _e('Manage') ?></a>
-        <?php endif; ?>
-
-        <?php if (isCurrentUserCan('add_donor')) : ?>
-		<a href="<?php echo getPageURL('new-donor') ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
-        <?php endif; ?>
-
+        <?php echo getEditDonorsLink(array('content' => __('Edit'), 'atts' => array( 'class' => 'btn btn-primary btn-edit btn-edit-donors' ))) ?>
+        <?php echo getAddDonorLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-donor' ))) ?>
 	</div>
 
     <?php Notices::displayNotices() ?>
 
-	<form class="form-inline" action="<?php echo getPageURL('manage-donors') ?>" method="POST">
-
-		<div class="form-group">
-			<label>
-				<?php _e('Name') ?>
-				<input type="text" name="name"  class="form-control" value="<?php echo esc_attr('') ?>" />
-			</label>
-		</div>
-
-		<div class="form-group">
-			<label>
-				<?php _e('Blood Group') ?>
-				<select name="blood_group"  class="form-control">
-					<option value="all"><?php _e('All') ?></option>
-                    <?php foreach (Options::getOption('blood_groups') as $blood_group) : ?>
-					<option<?php html_atts(array( 'selected' => ($blood_group === $donorsCriteria['blood_group']) )) ?>><?php echo $blood_group ?></option>
-                    <?php endforeach; ?>
-				</select>
-			</label>
-		</div>
-
-		<div class="form-group">
-			<label>
-				<?php _e('City') ?>
-				<select name="city_id"  class="form-control">
-                    <?php foreach ($cityRepository->findAll() as $city) : ?>
-					<option<?php html_atts(array( 'value' => $city->get('id'), 'selected' => ($city->get('id') == $donorsCriteria['city_id']) )) ?>><?php $city->display('name') ?></option>
-                    <?php endforeach; ?>
-				</select>
-			</label>
-		</div>
-
-		<div class="form-group">
-			<label>
-				<?php _e('District') ?>
-				<select name="distr_id"  class="form-control">
-					<option value="all"><?php _e('All') ?></option>
-                    <?php foreach ($districtRepository->findAll() as $distr) : ?>
-					<option<?php html_atts(array( 'value' => $distr->get('id'), 'selected' => ($distr->get('id') == $donorsCriteria['district']) )) ?>><?php $distr->display('name') ?></option>
-                    <?php endforeach; ?>
-				</select>
-			</label>
-		</div>
-
-		<div class="form-group">
-			<button type="submit" class="btn btn-default"><?php _e('Search') ?></button>
-		</div>
-
-	</form>
+    <?php View::display('form-search') ?>
 
 	<table id="table-donors" class="table table-bordered table-hover">
 
@@ -140,6 +85,16 @@ $header();
 
 	</table>
 
+    <?php
+
+        paginationLinks(array(
+            'total' => (int) ceil($donorRepository->countAll() / $limit),
+            'page_url' => addQueryArgs(getDonorsURL(), array( 'page' => '%#%' )),
+            'base_url' => getDonorsURL(),
+            'current' => $pageNumber,
+        ))
+
+    ?>
+
 <?php
-$footer = new View('footer');
-$footer();
+View::display('footer');

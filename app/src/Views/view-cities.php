@@ -9,22 +9,22 @@
 namespace EBloodBank\Views;
 
 use EBloodBank\EntityManager;
+use EBloodBank\Kernal\Options;
 use EBloodBank\Kernal\Notices;
 
-$header = new View('header', array( 'title' => __('Cities') ));
-$header();
+$limit = Options::getOption('entities_per_page');
+$pageNumber = max((int) $this->get('page'), 1);
+$offset = ($pageNumber - 1) * $limit;
+
+$cityRepository = EntityManager::getCityRepository();
+$cities = $cityRepository->findBy(array(), array(), $limit, $offset);
+
+View::display('header', array( 'title' => __('Cities') ));
 ?>
 
 	<div class="btn-block">
-
-        <?php if (isCurrentUserCan('manage_cities')) : ?>
-		<a href="<?php echo getPageURL('manage-cities') ?>" class="btn btn-primary btn-manage"><?php _e('Manage') ?></a>
-        <?php endif; ?>
-
-        <?php if (isCurrentUserCan('add_city')) : ?>
-		<a href="<?php echo getPageURL('new-city') ?>" class="btn btn-default btn-add-new"><?php _e('Add New') ?></a>
-        <?php endif; ?>
-
+        <?php echo getEditCitiesLink(array('content' => __('Edit'), 'atts' => array( 'class' => 'btn btn-primary btn-edit btn-edit-cities' ))) ?>
+        <?php echo getAddCityLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-city' ))) ?>
 	</div>
 
     <?php Notices::displayNotices() ?>
@@ -40,7 +40,7 @@ $header();
 
 		<tbody>
 
-            <?php foreach (EntityManager::getCityRepository()->findAll() as $city) : ?>
+            <?php foreach ($cities as $city) : ?>
 
             <tr>
                 <td><?php $city->display('id') ?></td>
@@ -53,6 +53,16 @@ $header();
 
 	</table>
 
+    <?php
+
+        paginationLinks(array(
+            'total' => (int) ceil($cityRepository->countAll() / $limit),
+            'page_url' => addQueryArgs(getCitiesURL(), array( 'page' => '%#%' )),
+            'base_url' => getCitiesURL(),
+            'current' => $pageNumber,
+        ))
+
+    ?>
+
 <?php
-$footer = new View('footer');
-$footer();
+View::display('footer');

@@ -9,7 +9,6 @@
 namespace EBloodBank\Models;
 
 use EBloodBank\EntityManager;
-use Doctrine\ORM\EntityRepository;
 
 /**
 * @since 1.0

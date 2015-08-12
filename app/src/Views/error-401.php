@@ -10,8 +10,7 @@ namespace EBloodBank\Views;
 
 header('HTTP/1.1 401 Unauthorized');
 
-$header = new View('header', array( 'title' => __('Error: Unauthorized') ));
-$header();
+View::display('header', array( 'title' => __('Error: Unauthorized') ));
 ?>
 
 	<div class="error-msg error-404-msg">
@@ -19,5 +18,4 @@ $header();
 	</div>
 
 <?php
-$footer = new View('footer');
-$footer();
+View::display('footer');

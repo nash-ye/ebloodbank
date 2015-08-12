@@ -8,11 +8,8 @@
  */
 namespace EBloodBank\Views;
 
-$header = new View('header', array( 'title' => __('Sign up') ));
-$header();
+View::display('header', array( 'title' => __('Sign up') ));
 
-$form = new View('form-signup');
-$form();
+View::display('form-signup');
 
-$footer = new View('footer');
-$footer();
+View::display('footer');

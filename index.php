@@ -13,12 +13,15 @@ namespace EBloodBank;
  * @author Nashwan Doaqan<nashwan.doaqan@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt GPL
  * @copyright (c) 2015, Nashwan Doaqan
- * @version 1.0-alpha-4
+ * @version 1.0-alpha-5
  */
 
 /*** App Bootstrap ************************************************************/
 
-require __DIR__ . '/app/bootstrap.php';
+define('EBB_DIR', dirname(__FILE__));
+//define('EBB_URL', '');
+
+require EBB_DIR . '/app/bootstrap.php';
 
 /*** FrontPage Controller *****************************************************/
 

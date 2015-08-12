@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank\Exceptions;
 use EBloodBank\EntityManager;
+use EBloodBank\RouterManager;
 use EBloodBank\Kernal\Notices;
 use EBloodBank\Views\View;
 
@@ -22,13 +23,36 @@ class EditDonor extends Controller
      * @return void
      * @since 1.0
      */
-    protected function action_submit()
+    protected function doActions()
+    {
+        switch (filter_input(INPUT_POST, 'action')) {
+            case 'submit_donor':
+                $this->doSubmitAction();
+                break;
+        }
+    }
+
+    /**
+     * @return int
+     * @since 1.0
+     */
+    protected function getDonorID()
+    {
+        $route = RouterManager::getMatchedRoute();
+        return (int) $route->params['id'];
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    protected function doSubmitAction()
     {
         if (isCurrentUserCan('edit_donor')) {
 
             try {
 
-                $donorID = (int) $_GET['id'];
+                $donorID = $this->getDonorID();
 
                 if (! isVaildID($donorID)) {
                     die(__('Invalid donor ID'));
@@ -36,53 +60,44 @@ class EditDonor extends Controller
 
                 $donor = EntityManager::getDonorReference($donorID);
 
-                if (isset($_POST['donor_name'])) {
-                    $donor->set('name', $_POST['donor_name'], true);
-                }
+                // Set the donor name.
+                $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
 
-                if (isset($_POST['donor_gender'])) {
-                    $donor->set('gender', $_POST['donor_gender'], true);
-                }
+                // Set the donor gender.
+                $donor->set('gender', filter_input(INPUT_POST, 'donor_gender'), true);
 
-                if (isset($_POST['donor_weight'])) {
-                    $donor->set('weight', $_POST['donor_weight'], true);
-                }
+                // Set the donor weight.
+                $donor->set('weight', filter_input(INPUT_POST, 'donor_weight'), true);
 
-                if (isset($_POST['donor_birthdate'])) {
-                    $donor->set('birthdate', $_POST['donor_birthdate'], true);
-                }
+                // Set the donor birthdate.
+                $donor->set('birthdate', filter_input(INPUT_POST, 'donor_birthdate'), true);
 
-                if (isset($_POST['donor_blood_group'])) {
-                    $donor->set('blood_group', $_POST['donor_blood_group'], true);
-                }
+                // Set the donor blood group.
+                $donor->set('blood_group', filter_input(INPUT_POST, 'donor_blood_group'), true);
 
-                if (isset($_POST['donor_phone'])) {
-                    $donor->set('phone', $_POST['donor_phone'], true);
-                }
+                // Set the donor phone number.
+                $donor->set('phone', filter_input(INPUT_POST, 'donor_phone'), true);
 
-                if (isset($_POST['donor_email'])) {
-                    $donor->set('email', $_POST['donor_email'], true);
-                }
+                // Set the donor email address.
+                $donor->set('email', filter_input(INPUT_POST, 'donor_email'), true);
 
-                if (isset($_POST['donor_address'])) {
-                    $donor->set('address', $_POST['donor_address'], true);
-                }
+                // Set the donor address.
+                $donor->set('address', filter_input(INPUT_POST, 'donor_address'), true);
 
-                if (isset($_POST['donor_distr_id'])) {
-                    $donor->set('district', $_POST['donor_distr_id'], true);
-                }
+                // Set the donor district ID.
+                $donor->set('district', filter_input(INPUT_POST, 'donor_distr_id'), true);
 
                 $em = EntityManager::getInstance();
                 $em->flush();
 
                 redirect(
-                    getPageURL('edit-donor', array(
-                        'id' => $donorID,
-                        'flag-submitted' => true
-                    ))
+                    addQueryArgs(
+                        getEditDonorURL($donorID),
+                        array('flag-submitted' => true)
+                    )
                 );
 
-            } catch (Exceptions\InvaildProperty $ex) {
+            } catch (Exceptions\InvaildArgument $ex) {
                 Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
 
@@ -95,26 +110,18 @@ class EditDonor extends Controller
      */
     public function __invoke()
     {
-        if (! empty($_POST['action'])) {
-            switch ($_POST['action']) {
-                case 'submit_donor':
-                    $this->action_submit();
-                    break;
-            }
-        }
-
         if (isCurrentUserCan('edit_donor')) {
-            $donorID = (int) $_GET['id'];
+            $this->doActions();
+            $donorID = $this->getDonorID();
             $donor = EntityManager::getDonorRepository()->find($donorID);
             if (! empty($donor)) {
-                $view = new View('edit-donor', array( 'donor' => $donor ));
+                $view = View::instance('edit-donor', array( 'donor' => $donor ));
             } else {
-                $view = new View('error-404');
+                $view = View::instance('error-404');
             }
         } else {
-            $view = new View('error-401');
+            $view = View::instance('error-401');
         }
-
         $view();
     }
 }

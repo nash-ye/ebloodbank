@@ -21,8 +21,8 @@ namespace EBloodBank\Views;
 		</div>
 		<!-- /.container -->
 
-		<script src="public/assets/js/jquery.js"></script>
-		<script src="public/assets/js/bootstrap.min.js"></script>
+        <script src="<?php echo esc_url(getSiteURl('/public/assets/js/jquery.js')) ?>"></script>
+		<script src="<?php echo esc_url(getSiteURl('/public/assets/js/bootstrap.min.js')) ?>"></script>
 
 	</body>
 

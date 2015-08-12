@@ -26,10 +26,32 @@ class View
     protected $data;
 
     /**
+     * @return View
+     * @since 1.0
+     * @static
+     */
+    public static function instance($name, array $data = array())
+    {
+        $view = new self($name, $data);
+        return $view;
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     * @static
+     */
+    public static function display($name, array $data = array())
+    {
+        $view = static::instance($name, $data);
+        $view();
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
-    public function __construct($name, array $data = array())
+    protected function __construct($name, array $data = array())
     {
         $this->name = $name;
         $this->data = $data;

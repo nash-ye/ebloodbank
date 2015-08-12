@@ -9,7 +9,7 @@
 namespace EBloodBank\Models;
 
 use EBloodBank\EntityManager;
-use EBloodBank\Exceptions\InvaildProperty;
+use EBloodBank\Exceptions\InvaildArgument;
 
 /**
  * @since 1.0
@@ -17,7 +17,7 @@ use EBloodBank\Exceptions\InvaildProperty;
  * @Entity(repositoryClass="EBloodBank\Models\DistrictRepository")
  * @Table(name="district")
  */
-class District extends Model
+class District extends Entity
 {
     /**
      * @var int
@@ -65,7 +65,7 @@ class District extends Model
                 $value = (int) $value;
                 break;
             case 'name':
-                $value = filter_var($value, FILTER_SANITIZE_STRING);
+                $value = trim(filter_var($value, FILTER_SANITIZE_STRING));
                 break;
             case 'city':
                 if (is_numeric($value)) {
@@ -77,7 +77,7 @@ class District extends Model
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvaildProperty
+     * @throws \EBloodBank\Exceptions\InvaildArgument
      * @return bool
      * @since 1.0
      */
@@ -86,17 +86,17 @@ class District extends Model
         switch ($key) {
             case 'id':
                 if (! isVaildID($value)) {
-                    throw new InvaildProperty(__('Invaild district ID.'), 'invaild_distr_id');
+                    throw new InvaildArgument(__('Invaild district ID.'), 'invaild_distr_id');
                 }
                 break;
             case 'name':
-                if (empty($value) || ! is_string($value)) {
-                    throw new InvaildProperty(__('Invaild district name.'), 'invaild_distr_name');
+                if (! is_string($value) || empty($value)) {
+                    throw new InvaildArgument(__('Invaild district name.'), 'invaild_distr_name');
                 }
                 break;
             case 'city':
                 if (! $value instanceof City || ! isVaildID($value->get('id'))) {
-                    throw new InvaildProperty(__('Invaild district city object.'), 'invaild_distr_city');
+                    throw new InvaildArgument(__('Invaild district city object.'), 'invaild_distr_city');
                 }
                 break;
         }

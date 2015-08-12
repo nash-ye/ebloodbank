@@ -16,9 +16,9 @@ namespace EBloodBank\Views;
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="public/assets/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="public/assets/css/font-awesome.min.css" />
-		<link rel="stylesheet" href="public/assets/css/style.css" />
+        <link rel="stylesheet" href="<?php echo esc_url(getSiteURL('public/assets/css/bootstrap.min.css')) ?>" />
+		<link rel="stylesheet" href="<?php echo esc_url(getSiteURL('public/assets/css/font-awesome.min.css')) ?>" />
+		<link rel="stylesheet" href="<?php echo esc_url(getSiteURL('public/assets/css/style.css')) ?>" />
 	</head>
 
 	<body>
@@ -40,26 +40,18 @@ namespace EBloodBank\Views;
 				<div id="navbar-collapse" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="<?php echo getSiteURL('/') ?>"><?php _e('Home') ?></a></li>
-                        <?php if (isCurrentUserCan('view_donors')) : ?>
-                        <li><a href="<?php echo getPageURL('view-donors') ?>"><?php _e('Donors') ?></a></li>
-                        <?php endif; ?>
-                        <?php if (isCurrentUserCan('view_cities')) : ?>
-                        <li><a href="<?php echo getPageURL('view-cities') ?>"><?php _e('Cities') ?></a></li>
-                        <?php endif; ?>
-                        <?php if (isCurrentUserCan('view_districts')) : ?>
-                        <li><a href="<?php echo getPageURL('view-districts') ?>"><?php _e('Districts') ?></a></li>
-                        <?php endif; ?>
-                        <?php if (isCurrentUserCan('view_users')) : ?>
-                        <li><a href="<?php echo getPageURL('view-users') ?>"><?php _e('Users') ?></a></li>
-                        <?php endif; ?>
+                        <?php echo getDonorsLink(array( 'content' => __('Donors'), 'before' => '<li>', 'after' => '</li>' )) ?>
+                        <?php echo getCitiesLink(array( 'content' => __('Cities'), 'before' => '<li>', 'after' => '</li>' )) ?>
+                        <?php echo getDistrictsLink(array( 'content' => __('Districts'), 'before' => '<li>', 'after' => '</li>' )) ?>
+                        <?php echo getUsersLink(array( 'content' => __('Users'), 'before' => '<li>', 'after' => '</li>' )) ?>
 					</ul>
 					<ul class="nav navbar-nav pull-right">
                         <?php if (isUserLoggedIn()) : ?>
-                        <li><a href="<?php echo getPageURL('edit-user', array( 'id' => getCurrentUserID() )) ?>"><?php printf(__('Hello, <b>%s</b>!'), getCurrentUser()->get('logon')) ?></a></li>
-                        <li><a href="<?php echo getPageURL('login', array( 'action' => 'logout' )) ?>"><?php _e('Logout') ?></a></li>
+                        <li><a href="<?php echo getEditUserURL(getCurrentUserID()) ?>"><?php printf(__('Hello, <b>%s</b>!'), getCurrentUser()->get('logon')) ?></a></li>
+                        <li><a href="<?php echo esc_url(getLogoutURL()) ?>"><?php _e('Logout') ?></a></li>
                         <?php else: ?>
-                        <li><a href="<?php echo getPageURL('login') ?>"><?php _e('Anonymous, Login?') ?></a></li>
-                        <li><a href="<?php echo getPageURL('signup') ?>"><?php _e('Sign up') ?></a></li>
+                        <li><a href="<?php echo esc_url(getLoginURL()) ?>"><?php _e('Anonymous, Login?') ?></a></li>
+                        <li><a href="<?php echo esc_url(getSignupURL()) ?>"><?php _e('Sign up') ?></a></li>
                         <?php endif; ?>
 					</ul>
 				</div>
