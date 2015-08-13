@@ -26,11 +26,8 @@ class Signup extends Controller
     protected function doActions()
     {
         switch (filter_input(INPUT_POST, 'action')) {
-            case 'delete_user':
-                $this->doDeleteAction();
-                break;
-            case 'approve_user':
-                $this->doApproveAction();
+            case 'signup':
+                $this->doSignupAction();
                 break;
         }
     }

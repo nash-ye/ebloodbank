@@ -33,13 +33,13 @@ namespace EBloodBank\Views;
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="<?php echo getSiteURL() ?>">
+                    <a class="navbar-brand" href="<?php echo esc_url(getHomeURL()) ?>">
                         <?php _e('eBloodBank') ?>
 					</a>
 				</div>
 				<div id="navbar-collapse" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="<?php echo getSiteURL('/') ?>"><?php _e('Home') ?></a></li>
+						<li><a href="<?php echo esc_url(getHomeURL()) ?>"><?php _e('Home') ?></a></li>
                         <?php echo getDonorsLink(array( 'content' => __('Donors'), 'before' => '<li>', 'after' => '</li>' )) ?>
                         <?php echo getCitiesLink(array( 'content' => __('Cities'), 'before' => '<li>', 'after' => '</li>' )) ?>
                         <?php echo getDistrictsLink(array( 'content' => __('Districts'), 'before' => '<li>', 'after' => '</li>' )) ?>
@@ -47,7 +47,7 @@ namespace EBloodBank\Views;
 					</ul>
 					<ul class="nav navbar-nav pull-right">
                         <?php if (isUserLoggedIn()) : ?>
-                        <li><a href="<?php echo getEditUserURL(getCurrentUserID()) ?>"><?php printf(__('Hello, <b>%s</b>!'), getCurrentUser()->get('logon')) ?></a></li>
+                        <li><a href="<?php echo esc_url(getEditUserURL(getCurrentUserID())) ?>"><?php printf(__('Hello, <b>%s</b>!'), getCurrentUser()->get('logon')) ?></a></li>
                         <li><a href="<?php echo esc_url(getLogoutURL()) ?>"><?php _e('Logout') ?></a></li>
                         <?php else: ?>
                         <li><a href="<?php echo esc_url(getLoginURL()) ?>"><?php _e('Anonymous, Login?') ?></a></li>

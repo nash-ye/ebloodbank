@@ -10,7 +10,6 @@ namespace EBloodBank\Views;
 
 use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Options;
-use EBloodBank\Kernal\Notices;
 use EBloodBank\Models\Donor;
 
 if (! $this->isExists('donor')) {
@@ -18,7 +17,7 @@ if (! $this->isExists('donor')) {
 }
 ?>
 
-<?php Notices::displayNotices() ?>
+<?php View::display('notices') ?>
 
 <form id="form-donor" class="form-horizontal" method="POST">
 

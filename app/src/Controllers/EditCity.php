@@ -36,10 +36,18 @@ class EditCity extends Controller
      * @return int
      * @since 1.0
      */
-    protected function getCityID()
+    protected function getTargetID()
     {
+        $targetID = 0;
         $route = RouterManager::getMatchedRoute();
-        return (int) $route->params['id'];
+
+        if ($route && isset($route->params['id'])) {
+            if (isVaildID($route->params['id'])) {
+                $targetID = (int) $route->params['id'];
+            }
+        }
+
+        return $targetID;
     }
 
     /**
@@ -52,12 +60,7 @@ class EditCity extends Controller
 
             try {
 
-                $cityID = $this->getCityID();
-
-                if (! isVaildID($cityID)) {
-                    die(__('Invalid city ID'));
-                }
-
+                $cityID = $this->getTargetID();
                 $city = EntityManager::getCityReference($cityID);
 
                 // Set the city name.
@@ -86,10 +89,16 @@ class EditCity extends Controller
      */
     public function __invoke()
     {
+        $cityID = $this->getTargetID();
+
+        if (! $cityID) {
+            redirect(getHomeURL());
+        }
+
         if (isCurrentUserCan('edit_city')) {
             $this->doActions();
-            $cityID = $this->getCityID();
-            $city = EntityManager::getCityRepository()->find($cityID);
+            $cityRepository = EntityManager::getCityRepository();
+            $city = $cityRepository->find($cityID);
             if (! empty($city)) {
                 $view = View::instance('edit-city', array( 'city' => $city ));
             } else {

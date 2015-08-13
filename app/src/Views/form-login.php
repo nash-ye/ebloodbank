@@ -11,7 +11,7 @@ namespace EBloodBank\Views;
 use EBloodBank\Kernal\Notices;
 ?>
 
-<?php Notices::displayNotices() ?>
+<?php View::display('notices') ?>
 
 <form id="form-login" class="form-horizontal" action="<?php echo esc_url(getLoginURL()) ?>" method="POST">
 

@@ -19,6 +19,27 @@ class RouterFactory
 {
     /**
      *
+     * A basepath to all routes.
+     *
+     * @var string
+     *
+     */
+    protected $basepath;
+
+    /**
+     *
+     * Constructor.
+     *
+     * @param string $basepath A basepath to to all routes.
+     *
+     */
+    public function __construct($basepath = null)
+    {
+        $this->basepath = $basepath;
+    }
+
+    /**
+     *
      * Returns a new Router instance.
      *
      * @return Router
@@ -28,7 +49,8 @@ class RouterFactory
     {
         return new Router(
             new RouteCollection(new RouteFactory),
-            new Generator
+            new Generator,
+            $this->basepath
         );
     }
 }

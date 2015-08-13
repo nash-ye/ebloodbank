@@ -4,7 +4,7 @@
  * @return string
  * @since 1.0
  */
-function __($text) 
+function __($text)
 {
     return $text;
 }
@@ -13,7 +13,16 @@ function __($text)
  * @return void
  * @since 1.0
  */
-function _e($text) 
+function _e($text)
 {
     echo __($text);
+}
+
+/**
+ * @return void
+ * @since 1.0
+ */
+function _n($text)
+{
+    return $text;
 }

@@ -36,10 +36,18 @@ class EditDonor extends Controller
      * @return int
      * @since 1.0
      */
-    protected function getDonorID()
+    protected function getTargetID()
     {
+        $targetID = 0;
         $route = RouterManager::getMatchedRoute();
-        return (int) $route->params['id'];
+
+        if ($route && isset($route->params['id'])) {
+            if (isVaildID($route->params['id'])) {
+                $targetID = (int) $route->params['id'];
+            }
+        }
+
+        return $targetID;
     }
 
     /**
@@ -52,12 +60,7 @@ class EditDonor extends Controller
 
             try {
 
-                $donorID = $this->getDonorID();
-
-                if (! isVaildID($donorID)) {
-                    die(__('Invalid donor ID'));
-                }
-
+                $donorID = $this->getTargetID();
                 $donor = EntityManager::getDonorReference($donorID);
 
                 // Set the donor name.
@@ -110,10 +113,16 @@ class EditDonor extends Controller
      */
     public function __invoke()
     {
+        $donorID = $this->getTargetID();
+
+        if (! $donorID) {
+            redirect(getHomeURL());
+        }
+
         if (isCurrentUserCan('edit_donor')) {
             $this->doActions();
-            $donorID = $this->getDonorID();
-            $donor = EntityManager::getDonorRepository()->find($donorID);
+            $donorRepository = EntityManager::getDonorRepository();
+            $donor = $donorRepository->find($donorID);
             if (! empty($donor)) {
                 $view = View::instance('edit-donor', array( 'donor' => $donor ));
             } else {

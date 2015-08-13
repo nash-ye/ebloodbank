@@ -7,11 +7,9 @@
  * @since 1.0
  */
 namespace EBloodBank\Views;
-
-use EBloodBank\Kernal\Notices;
 ?>
 
-<?php Notices::displayNotices() ?>
+<?php View::display('notices') ?>
 
 <form id="form-signup" class="form-horizontal" method="POST">
 

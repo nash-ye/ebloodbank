@@ -10,7 +10,6 @@ namespace EBloodBank\Views;
 
 use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Options;
-use EBloodBank\Kernal\Notices;
 
 $limit = Options::getOption('entities_per_page');
 $pageNumber = max((int) $this->get('page'), 1);
@@ -27,7 +26,7 @@ View::display('header', array( 'title' => __('Districts') ));
         <?php echo getAddDistrictLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-primary btn-add btn-add-district' ))) ?>
 	</div>
 
-    <?php Notices::displayNotices() ?>
+    <?php View::display('notices') ?>
 
 	<table id="table-districts" class="table table-bordered table-hover">
 
@@ -64,7 +63,7 @@ View::display('header', array( 'title' => __('Districts') ));
 
     <?php
 
-        paginationLinks(array(
+        echo getPagination(array(
             'total' => (int) ceil($districtRepository->countAll() / $limit),
             'page_url' => addQueryArgs(getEditDistrictsURL(), array( 'page' => '%#%' )),
             'base_url' => getEditDistrictsURL(),

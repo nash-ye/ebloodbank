@@ -23,13 +23,10 @@ class Login extends Controller
      */
     protected function doActions()
     {
-        switch (filter_input(INPUT_REQUEST, 'action')) {
-            case 'login':
-                $this->doLoginAction();
-                break;
-            case 'logout':
-                $this->doLogoutAction();
-                break;
+        if ('login' === filter_input(INPUT_POST, 'action')) {
+            $this->doLoginAction();
+        } elseif ('logout' === filter_input(INPUT_GET, 'action')) {
+            $this->doLogoutAction();
         }
     }
 
@@ -75,7 +72,7 @@ class Login extends Controller
 
         session_regenerate_id(true);
 
-        redirect(getSiteURL('/'));
+        redirect(getHomeURL());
     }
 
     /**
@@ -85,8 +82,11 @@ class Login extends Controller
     protected function doLogoutAction()
     {
         if (isUserLoggedIn()) {
-            session_destroy();
             $_SESSION = array();
+            if (session_destroy()) {
+                session_start();
+            }
+            session_regenerate_id(true);
             redirect(
                 addQueryArgs(
                     getLoginURL(),

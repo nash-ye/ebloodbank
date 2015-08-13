@@ -1068,42 +1068,20 @@ function getDeleteDistrictLink(array $args)
 /*** General Template Tags ****************************************************/
 
 /**
- * @return void
+ * @return array
  * @since 1.0
  */
-function paginationLinks(array $args)
+function getPagination(array $args)
 {
-    $args = array_merge(array(
-        'before' => '<nav class="pagination">',
-        'after' => '</nav>',
-        'type' => 'plain',
-    ), $args);
-
-	if ('array' === $args['type'] ) {
-        $args['type'] = 'plain';
-	}
-
-    $links = getPaginationLinks($args);
-
-    if (! empty($links)) {
-        echo $args['before'] . $links . $args['after'];
-    }
-}
-
-/**
- * @return string|array
- * @since 1.0
- */
-function getPaginationLinks(array $args)
-{
-    $links = array();
+    $output = '';
 
     $args = array_merge(array(
         'total' => 1,
         'current' => 1,
         'base_url' => '',
         'page_url' => '',
-        'type' => 'plain',
+        'before' => '<nav class="pagination">',
+        'after' => '</nav>',
     ), $args);
 
 	$args['total'] = (int) $args['total'];
@@ -1116,22 +1094,22 @@ function getPaginationLinks(array $args)
 
         for ($n = 1; $n <= $args['total']; $n++) {
             if ($n === $args['current']) {
-                $links[] = '<span class="page-numbers current">' . number_format($n) . '</span>';
+                $output .= '<span class="page-numbers current">' . number_format($n) . '</span>';
             } else {
                 if (1 === $n) {
                     $url = $args['base_url'];
                 } else {
                     $url = str_replace('%#%', $n, urldecode($args['page_url']));
                 }
-                $links[] = '<a class="page-numbers" href="' . esc_url($url) . '">' . number_format($n) . '</a>';
+                $output .= '<a class="page-numbers" href="' . esc_url($url) . '">' . number_format($n) . '</a>';
             }
         }
 
 	}
 
-    if ('plain' === $args['type']) {
-        $links = implode("\n", $links);
+    if (! empty($output)) {
+        $output = $args['before'] . $output . $args['after'];
     }
 
-    return $links;
+    return $output;
 }

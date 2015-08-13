@@ -1,6 +1,6 @@
 {
     "require": {
-        "aura/router": "^2.2",
+        "aura/router": "^2.3",
         "aura/autoload": "^2.0",
         "gettext/gettext": "^3.4",
         "doctrine/orm": "^2.5"

@@ -10,7 +10,6 @@ namespace EBloodBank\Views;
 
 use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Options;
-use EBloodBank\Kernal\Notices;
 
 $limit = Options::getOption('entities_per_page');
 $pageNumber = max((int) $this->get('page'), 1);
@@ -27,7 +26,7 @@ View::display('header', array( 'title' => __('Users') ));
         <?php echo getAddUserLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-user' ))) ?>
 	</div>
 
-    <?php Notices::displayNotices() ?>
+    <?php View::display('notices') ?>
 
 	<table id="table-users" class="table table-bordered table-hover">
 
@@ -60,7 +59,7 @@ View::display('header', array( 'title' => __('Users') ));
 
     <?php
 
-        paginationLinks(array(
+        echo getPagination(array(
             'total' => (int) ceil($userRepository->countAll() / $limit),
             'page_url' => addQueryArgs(getUsersURL(), array( 'page' => '%#%' )),
             'base_url' => getUsersURL(),

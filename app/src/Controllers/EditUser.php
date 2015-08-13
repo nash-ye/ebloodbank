@@ -36,10 +36,18 @@ class EditUser extends Controller
      * @return int
      * @since 1.0
      */
-    protected function getUserID()
+    protected function getTargetID()
     {
+        $targetID = 0;
         $route = RouterManager::getMatchedRoute();
-        return (int) $route->params['id'];
+
+        if ($route && isset($route->params['id'])) {
+            if (isVaildID($route->params['id'])) {
+                $targetID = (int) $route->params['id'];
+            }
+        }
+
+        return $targetID;
     }
 
     /**
@@ -48,15 +56,11 @@ class EditUser extends Controller
      */
     protected function doSubmitAction()
     {
-        if (isCurrentUserCan('edit_user')) {
+        $userID = $this->getTargetID();
+
+        if (isCurrentUserCan('edit_user') || getCurrentUserID() === $userID) {
 
             try {
-
-                $userID = $this->getUserID();
-
-                if (! isVaildID($userID)) {
-                    die(__('Invalid user ID'));
-                }
 
                 $user = EntityManager::getUserReference($userID);
 
@@ -109,10 +113,16 @@ class EditUser extends Controller
      */
     public function __invoke()
     {
-        if (isCurrentUserCan('edit_user')) {
+        $userID = $this->getTargetID();
+
+        if (! $userID) {
+            redirect(getHomeURL());
+        }
+
+        if (isCurrentUserCan('edit_user') || getCurrentUserID() === $userID) {
             $this->doActions();
-            $userID = $this->getUserID();
-            $user = EntityManager::getUserRepository()->find($userID);
+            $userRepository = EntityManager::getUserRepository();
+            $user = $userRepository->find($userID);
             if (! empty($user)) {
                 $view = View::instance('edit-user', array( 'user' => $user ));
             } else {

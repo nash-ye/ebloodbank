@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Views;
 
-header('HTTP/1.1 401 Unauthorized');
-
 View::display('header', array( 'title' => __('Error: Unauthorized') ));
 ?>
 

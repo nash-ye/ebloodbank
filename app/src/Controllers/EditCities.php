@@ -37,7 +37,8 @@ class EditCities extends Controller
     protected function addNotices()
     {
         if (filter_has_var(INPUT_GET, 'flag-deleted')) {
-            Notices::addNotice('deleted', __('The city permanently deleted.'), 'success');
+            $deleted = (int) filter_input(INPUT_GET, 'flag-deleted', FILTER_SANITIZE_NUMBER_INT);
+            Notices::addNotice('deleted', sprintf(_n('%s city permanently deleted.', '%s cities permanently deleted.', $deleted), $deleted), 'success');
         }
     }
 
@@ -59,7 +60,7 @@ class EditCities extends Controller
             redirect(
                 addQueryArgs(
                     getEditCitiesURL(),
-                    array('flag-deleted' => true)
+                    array('flag-deleted' => 1)
                 )
             );
 

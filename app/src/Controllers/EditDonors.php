@@ -39,8 +39,13 @@ class EditDonors extends Controller
      */
     protected function addNotices()
     {
+        if (filter_has_var(INPUT_GET, 'flag-approved')) {
+            $approved = (int) filter_input(INPUT_GET, 'flag-approved', FILTER_SANITIZE_NUMBER_INT);
+            Notices::addNotice('approved', sprintf(_n('%s donor approved.', '%s donors approved.', $approved), $approved), 'success');
+        }
         if (filter_has_var(INPUT_GET, 'flag-deleted')) {
-            Notices::addNotice('deleted', __('The donor permanently deleted.'), 'success');
+            $deleted = (int) filter_input(INPUT_GET, 'flag-deleted', FILTER_SANITIZE_NUMBER_INT);
+            Notices::addNotice('deleted', sprintf(_n('%s donor permanently deleted.', '%s donors permanently deleted.', $deleted), $deleted), 'success');
         }
     }
 
@@ -62,7 +67,7 @@ class EditDonors extends Controller
             redirect(
                 addQueryArgs(
                     getEditDonorsURL(),
-                    array('flag-deleted' => true)
+                    array('flag-deleted' => 1)
                 )
             );
 
@@ -90,7 +95,7 @@ class EditDonors extends Controller
                 redirect(
                     addQueryArgs(
                         getEditDonorsURL(),
-                        array('flag-approved' => true)
+                        array('flag-approved' => 1)
                     )
                 );
 

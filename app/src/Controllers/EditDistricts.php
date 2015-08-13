@@ -37,7 +37,8 @@ class EditDistricts extends Controller
     protected function addNotices()
     {
         if (filter_has_var(INPUT_GET, 'flag-deleted')) {
-            Notices::addNotice('deleted', __('The district permanently deleted.'), 'success');
+            $deleted = (int) filter_input(INPUT_GET, 'flag-deleted', FILTER_SANITIZE_NUMBER_INT);
+            Notices::addNotice('deleted', sprintf(_n('%s district permanently deleted.', '%s districts permanently deleted.', $deleted), $deleted), 'success');
         }
     }
 
@@ -59,7 +60,7 @@ class EditDistricts extends Controller
             redirect(
                 addQueryArgs(
                     getEditDistrictsURL(),
-                    array('flag-deleted' => true)
+                    array('flag-deleted' => 1)
                 )
             );
 

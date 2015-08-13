@@ -104,24 +104,4 @@ class Notices
 
         return true;
     }
-
-    /**
-     * @return void
-     * @since 1.0
-     * @static
-     */
-    public static function displayNotices()
-    {
-        if (self::hasNotices()) { ?>
-            <div class="notices">
-                <ul>
-                    <?php foreach (self::getNotices() as $notice) : ?>
-                    <li class="notice notice-<?php echo $notice->code ?> notice-type-<?php echo $notice->type ?>">
-                        <p><?php echo $notice->msg ?></p>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div><?php
-        }
-    }
 }

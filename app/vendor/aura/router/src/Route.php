@@ -238,16 +238,18 @@ class Route extends AbstractSpec
      * @param array $server A copy of $_SERVER so that this Route can check
      * against the server values.
      *
+     * @param string $basepath A basepath to prefix to the route path.
+     *
      * @return bool
      *
      */
-    public function isMatch($path, array $server)
+    public function isMatch($path, array $server, $basepath = null)
     {
         $this->debug = array();
         $this->params = array();
         $this->score = 0;
         $this->failed = null;
-        if ($this->isFullMatch($path, $server)) {
+        if ($this->isFullMatch($path, $server, $basepath)) {
             $this->setParams();
             return true;
         }
@@ -263,14 +265,16 @@ class Route extends AbstractSpec
      * @param array $server A copy of $_SERVER so that this Route can check
      * against the server values.
      *
+     * @param string $basepath A basepath to prefix to the route path.
+     *
      * @return bool
      *
      */
-    protected function isFullMatch($path, array $server)
+    protected function isFullMatch($path, array $server, $basepath = null)
     {
         return $this->isRoutableMatch()
             && $this->isSecureMatch($server)
-            && $this->isRegexMatch($path)
+            && $this->isRegexMatch($path, $basepath)
             && $this->isMethodMatch($server)
             && $this->isAcceptMatch($server)
             && $this->isServerMatch($server)
@@ -391,13 +395,15 @@ class Route extends AbstractSpec
      *
      * @param string $path The path to match against.
      *
+     * @param string $basepath A basepath to prefix to the route path.
+     *
      * @return bool True on a match, false if not.
      *
      */
-    protected function isRegexMatch($path)
+    protected function isRegexMatch($path, $basepath = null)
     {
         $regex = clone $this->regex;
-        $match = $regex->match($this, $path);
+        $match = $regex->match($this, $path, $basepath);
         if (! $match) {
             return $this->fail(self::FAILED_REGEX);
         }

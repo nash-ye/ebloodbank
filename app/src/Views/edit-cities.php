@@ -10,7 +10,6 @@ namespace EBloodBank\Views;
 
 use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Options;
-use EBloodBank\Kernal\Notices;
 
 $limit = Options::getOption('entities_per_page');
 $pageNumber = max((int) $this->get('page'), 1);
@@ -27,7 +26,7 @@ View::display('header', array( 'title' => __('Cities') ));
         <?php echo getAddCityLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-primary btn-add btn-add-city' ))) ?>
 	</div>
 
-    <?php Notices::displayNotices() ?>
+    <?php View::display('notices') ?>
 
 	<table id="table-cities" class="table table-bordered table-hover">
 
@@ -60,7 +59,7 @@ View::display('header', array( 'title' => __('Cities') ));
 
     <?php
 
-        paginationLinks(array(
+        echo getPagination(array(
             'total' => (int) ceil($cityRepository->countAll() / $limit),
             'page_url' => addQueryArgs(getEditCitiesURL(), array( 'page' => '%#%' )),
             'base_url' => getEditCitiesURL(),

@@ -10,7 +10,6 @@ namespace EBloodBank\Views;
 
 use EBloodBank\EntityManager;
 use EBloodBank\Kernal\Options;
-use EBloodBank\Kernal\Notices;
 
 $criteria = array_merge( array(
     'blood_group' => 'any',
@@ -33,7 +32,7 @@ View::display('header', array( 'title' => __('Donors') ));
         <?php echo getAddDonorLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-donor' ))) ?>
 	</div>
 
-    <?php Notices::displayNotices() ?>
+    <?php View::display('notices') ?>
 
     <?php View::display('form-search') ?>
 
@@ -87,7 +86,7 @@ View::display('header', array( 'title' => __('Donors') ));
 
     <?php
 
-        paginationLinks(array(
+        echo getPagination(array(
             'total' => (int) ceil($donorRepository->countAll() / $limit),
             'page_url' => addQueryArgs(getDonorsURL(), array( 'page' => '%#%' )),
             'base_url' => getDonorsURL(),

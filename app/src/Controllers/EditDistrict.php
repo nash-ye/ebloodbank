@@ -36,10 +36,18 @@ class EditDistrict extends Controller
      * @return int
      * @since 1.0
      */
-    protected function getDistrictID()
+    protected function getTargetID()
     {
+        $targetID = 0;
         $route = RouterManager::getMatchedRoute();
-        return (int) $route->params['id'];
+
+        if ($route && isset($route->params['id'])) {
+            if (isVaildID($route->params['id'])) {
+                $targetID = (int) $route->params['id'];
+            }
+        }
+
+        return $targetID;
     }
 
     /**
@@ -52,12 +60,7 @@ class EditDistrict extends Controller
 
             try {
 
-                $districtID = $this->getDistrictID();
-
-                if (! isVaildID($districtID)) {
-                    die(__('Invalid district ID'));
-                }
-
+                $districtID = $this->getTargetID();
                 $district = EntityManager::getDistrictReference($districtID);
 
                 // Set the district name.
@@ -90,9 +93,14 @@ class EditDistrict extends Controller
      */
     public function __invoke()
     {
+        $districtID = $this->getTargetID();
+
+        if (! $districtID) {
+            redirect(getHomeURL());
+        }
+
         if (isCurrentUserCan('edit_district')) {
             $this->doActions();
-            $districtID = $this->getDistrictID();
             $districtRepository = EntityManager::getDistrictRepository();
             $district = $districtRepository->find($districtID);
             if (! empty($district)) {

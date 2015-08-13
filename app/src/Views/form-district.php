@@ -9,7 +9,6 @@
 namespace EBloodBank\Views;
 
 use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Notices;
 use EBloodBank\Models\District;
 
 if (! $this->isExists('district')) {
@@ -17,7 +16,7 @@ if (! $this->isExists('district')) {
 }
 ?>
 
-<?php Notices::displayNotices() ?>
+<?php View::display('notices') ?>
 
 <form id="form-district" class="form-horizontal" method="POST">
 

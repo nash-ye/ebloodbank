@@ -16,6 +16,14 @@ use Aura\Router\Exception;
  *
  * @package Aura.Router
  *
+ * @method Route add() add($name, $path, $action = null) Adds a route
+ * @method Route addGet() addGet($name, $path, $action = null)  Adds a GET route
+ * @method Route addDelete() addDelete($name, $path, $action = null) Adds a DELETE route
+ * @method Route addHead() addHead($name, $path, $action = null)  Adds a HEAD route
+ * @method Route addOptions() addOptions($name, $path, $action = null)  Adds a OPTIONS route
+ * @method Route addPatch() addPatch($name, $path, $action = null)  Adds a PATCH route
+ * @method Route addPut() addPut($name, $path, $action = null)  Adds a PUT route
+ * @method Route setRouteCallable() setRouteCallable($callable) Sets the callable for modifying a newly-added route before it is returned.
  */
 class Router
 {
@@ -66,17 +74,32 @@ class Router
 
     /**
      *
+     * A basepath to all routes.
+     *
+     * @var string
+     *
+     */
+    protected $basepath;
+
+    /**
+     *
      * Constructor.
      *
      * @param RouteCollection $routes A route collection object.
      *
      * @param Generator $generator A URL path generator.
      *
+     * @param string $basepath A basepath to to all routes.
+     *
      */
-    public function __construct(RouteCollection $routes, Generator $generator)
-    {
+    public function __construct(
+        RouteCollection $routes,
+        Generator $generator,
+        $basepath = null
+    ) {
         $this->routes = $routes;
         $this->generator = $generator;
+        $this->basepath = rtrim($basepath, '/');
     }
 
     /**
@@ -116,7 +139,7 @@ class Router
 
             $this->debug[] = $route;
 
-            $match = $route->isMatch($path, $server);
+            $match = $route->isMatch($path, $server, $this->basepath);
             if ($match) {
                 $this->matched_route = $route;
                 return $route;
@@ -179,7 +202,7 @@ class Router
     public function generate($name, $data = array())
     {
         $route = $this->getRouteForGenerate($name);
-        return $this->generator->generate($route, $data);
+        return $this->basepath . $this->generator->generate($route, $data);
     }
 
     /**
@@ -200,7 +223,7 @@ class Router
     public function generateRaw($name, $data = array())
     {
         $route = $this->getRouteForGenerate($name);
-        return $this->generator->generateRaw($route, $data);
+        return $this->basepath . $this->generator->generateRaw($route, $data);
     }
 
     /**

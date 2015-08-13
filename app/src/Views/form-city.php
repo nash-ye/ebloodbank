@@ -8,7 +8,6 @@
  */
 namespace EBloodBank\Views;
 
-use EBloodBank\Kernal\Notices;
 use EBloodBank\Models\City;
 
 if (! $this->isExists('city')) {
@@ -16,7 +15,7 @@ if (! $this->isExists('city')) {
 }
 ?>
 
-<?php Notices::displayNotices() ?>
+<?php View::display('notices') ?>
 
 <form id="form-city" class="form-horizontal" method="POST">
 

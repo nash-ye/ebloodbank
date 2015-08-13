@@ -31,22 +31,11 @@ class RouterManager
         static $router;
 
         if (is_null($router)) {
-            $routerFactory = new RouterFactory;
+            $routerFactory = new RouterFactory(getHomeURL('relative'));
             $router = $routerFactory->newInstance();
         }
 
         return $router;
-    }
-
-    /**
-     * @since 1.0
-     * @static
-     */
-    public static function matchWithCurrentRequest()
-    {
-        $requestPath = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-        $requestPath = substr($requestPath, strlen(getSiteURL('', 'relative')));
-        return self::getInstance()->match($requestPath, $_SERVER);
     }
 
     /**

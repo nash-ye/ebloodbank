@@ -9,6 +9,7 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank\RouterManager;
+use EBloodBank\Views\View;
 
 /**
  * @since 1.0

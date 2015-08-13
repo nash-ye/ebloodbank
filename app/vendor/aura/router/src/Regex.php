@@ -52,13 +52,15 @@ class Regex
      *
      * @param string $path The requested URL path.
      *
+     * @param string $basepath A basepath to prefix to the route path.
+     *
      * @return bool
      *
      */
-    public function match(Route $route, $path)
+    public function match(Route $route, $path, $basepath = null)
     {
         $this->route = $route;
-        $this->regex = $this->route->path;
+        $this->regex = $basepath . $this->route->path;
         $this->setRegexOptionalParams();
         $this->setRegexParams();
         $this->setRegexWildcard();

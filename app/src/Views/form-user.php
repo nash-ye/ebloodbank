@@ -10,14 +10,13 @@ namespace EBloodBank\Views;
 
 use EBloodBank\Models\User;
 use EBloodBank\Kernal\Roles;
-use EBloodBank\Kernal\Notices;
 
 if (! $this->isExists('user')) {
     $user = new User();
 }
 ?>
 
-<?php Notices::displayNotices() ?>
+<?php View::display('notices') ?>
 
 <form id="form-user" class="form-horizontal" method="POST">
 
