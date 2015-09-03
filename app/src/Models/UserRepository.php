@@ -50,7 +50,7 @@ class UserRepository extends EntityRepository
     protected function parseCriteria(array $criteria)
     {
         if (! isset($criteria['status'])) {
-            if (! isCurrentUserCan('approve_user')) {
+            if (! isCurrentUserCan('activate_user')) {
                 $criteria['status'] = 'activated';
             }
         } elseif ('any' === $criteria['status']) {

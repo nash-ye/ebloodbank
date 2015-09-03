@@ -8,23 +8,15 @@
  */
 namespace EBloodBank\Views;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Options;
-
-$limit = Options::getOption('entities_per_page');
-$pageNumber = max((int) $this->get('page'), 1);
-$offset = ($pageNumber - 1) * $limit;
-
-$districtRepository = EntityManager::getDistrictRepository();
-$districts = $districtRepository->findBy(array(), array(), $limit, $offset);
-
 View::display('header', array( 'title' => __('Districts') ));
 ?>
 
-	<div class="btn-block">
-        <?php echo getEditDistrictsLink(array('content' => __('Edit'), 'atts' => array( 'class' => 'btn btn-primary btn-edit btn-edit-districts' ))) ?>
-        <?php echo getAddDistrictLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-district' ))) ?>
-	</div>
+    <div class="btn-toolbar">
+        <div class="btn-group" role="group">
+            <?php echo getEditDistrictsLink(array('content' => __('Edit'), 'atts' => array( 'class' => 'btn btn-primary btn-edit btn-edit-districts' ))) ?>
+            <?php echo getAddDistrictLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-district' ))) ?>
+        </div>
+    </div>
 
     <?php View::display('notices') ?>
 
@@ -40,14 +32,12 @@ View::display('header', array( 'title' => __('Districts') ));
 
 		<tbody>
 
-            <?php foreach ($districts as $district) : ?>
+            <?php foreach ($this->get('districts') as $district) : ?>
 
             <tr>
                 <td><?php $district->display('id') ?></td>
                 <td><?php $district->display('name') ?></td>
-                <td>
-                    <?php $district->get('city')->display('name') ?>
-                </td>
+                <td><?php $district->get('city')->display('name') ?></td>
             </tr>
 
             <?php endforeach; ?>
@@ -59,10 +49,10 @@ View::display('header', array( 'title' => __('Districts') ));
     <?php
 
         echo getPagination(array(
-            'total' => (int) ceil($districtRepository->countAll() / $limit),
-            'page_url' => addQueryArgs(getDistrictsURL(), array( 'page' => '%#%' )),
+            'total'    => $this->get('pagination.total'),
+            'current'  => $this->get('pagination.current'),
             'base_url' => getDistrictsURL(),
-            'current' => $pageNumber,
+            'page_url' => addQueryArgs(getDistrictsURL(), array( 'page' => '%#%' )),
         ))
 
     ?>

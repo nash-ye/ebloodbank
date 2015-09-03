@@ -8,10 +8,9 @@
  */
 namespace EBloodBank\Models;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Options;
+use EBloodBank\Options;
 use EBloodBank\Traits\EntityMeta;
-use EBloodBank\Exceptions\InvaildArgument;
+use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -50,14 +49,6 @@ class Donor extends Entity
     protected $gender;
 
     /**
-     * @var float
-     * @since 1.0
-     *
-     * @Column(type="integer", name="donor_weight")
-     */
-    protected $weight = 0;
-
-    /**
      * @var string
      * @since 1.0
      *
@@ -78,7 +69,7 @@ class Donor extends Entity
      * @since 1.0
      *
      * @ManyToOne(targetEntity="EBloodBank\Models\District")
-     * @JoinColumn(name="donor_distr_id", referencedColumnName="distr_id")
+     * @JoinColumn(name="donor_district_id", referencedColumnName="district_id")
      */
     protected $district;
 
@@ -86,33 +77,17 @@ class Donor extends Entity
      * @var string
      * @since 1.0
      *
-     * @Column(type="string", name="donor_address")
+     * @Column(type="string", name="donor_created_at")
      */
-    protected $address;
+    protected $created_at;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string", name="donor_phone")
+     * @Column(type="integer", name="donor_created_by")
      */
-    protected $phone;
-
-    /**
-     * @var string
-     * @since 1.0
-     *
-     * @Column(type="string", name="donor_email")
-     */
-    protected $email;
-
-    /**
-     * @var string
-     * @since 1.0
-     *
-     * @Column(type="string", name="donor_rtime")
-     */
-    protected $rtime;
+    protected $created_by;
 
     /**
      * @var string
@@ -120,7 +95,7 @@ class Donor extends Entity
      *
      * @Column(type="string", name="donor_status")
      */
-    protected $status = 'pending';
+    protected $status;
 
     /**
      * @var bool
@@ -135,9 +110,9 @@ class Donor extends Entity
      * @var bool
      * @since 1.0
      */
-    public function isPublished()
+    public function isApproved()
     {
-        return 'published' === $this->get('status');
+        return 'approved' === $this->get('status');
     }
 
     /**
@@ -164,27 +139,29 @@ class Donor extends Entity
     {
         switch ($key) {
             case 'id':
-                $value = (int) $value;
+            case 'created_by':
+                $value = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
                 break;
-            case 'weight':
-                $value = (float) $value;
+            case 'weight': // Meta value.
+                $value = filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT);
                 break;
-            case 'email':
+            case 'email': // Meta value.
                 $value = filter_var($value, FILTER_SANITIZE_EMAIL);
                 break;
             case 'name':
-            case 'rtime':
-            case 'phone':
+            case 'phone': // Meta value.
             case 'gender':
             case 'status':
-            case 'address':
+            case 'address': // Meta value.
             case 'birthdate':
             case 'blood_group':
-                $value = trim(filter_var($value, FILTER_SANITIZE_STRING));
+            case 'created_at':
+                $value = trim($value);
                 break;
             case 'district':
-                if (is_numeric($value)) {
-                    $value = EntityManager::getDistrictRepository()->find($value);
+                if (isValidID($value)) {
+                    $em = main()->getEntityManager();
+                    $value = $em->find('Entities:District', $value);
                 }
                 break;
         }
@@ -192,7 +169,7 @@ class Donor extends Entity
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvaildArgument
+     * @throws \EBloodBank\Exceptions\InvalidArgument
      * @return bool
      * @since 1.0
      */
@@ -200,34 +177,53 @@ class Donor extends Entity
     {
         switch ($key) {
             case 'id':
-                if (! isVaildID($value)) {
-                    throw new InvaildArgument(__('Invaild donor ID.'), 'invaild_donor_id');
+                if (! isValidID($value)) {
+                    throw new InvalidArgument(__('Invalid donor ID.'), 'Invalid_donor_id');
                 }
                 break;
             case 'name':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvaildArgument(__('Invaild donor name.'), 'invaild_donor_name');
+                    throw new InvalidArgument(__('Invalid donor name.'), 'Invalid_donor_name');
                 }
                 break;
             case 'gender':
                 if (! array_key_exists($value, (array) Options::getOption('genders'))) {
-                    throw new InvaildArgument(__('Invaild donor gender.'), 'invaild_donor_gender');
+                    throw new InvalidArgument(__('Invalid donor gender.'), 'Invalid_donor_gender');
                 }
                 break;
-            case 'weight':
-                if (! is_float($value)) {
-                    // TODO: Check Min and Max weight.
-                    throw new InvaildArgument(__('Invaild donor weight.'), 'invaild_donor_weight');
-                }
+            case 'birthdate':
+                // TODO: Checks the validity of DATETIME.
                 break;
             case 'blood_group':
                 if (! in_array($value, (array) Options::getOption('blood_groups'))) {
-                    throw new InvaildArgument(__('Invaild donor blood group.'), 'invaild_donor_blood_group');
+                    throw new InvalidArgument(__('Invalid donor blood group.'), 'Invalid_donor_blood_group');
                 }
                 break;
             case 'district':
-                if (! $value instanceof District || ! isVaildID($value->get('id'))) {
-                    throw new InvaildArgument(__('Invaild donor district object.'), 'invaild_donor_district');
+                if (! $value instanceof District || ! $value->isExists()) {
+                    throw new InvalidArgument(__('Invalid donor district.'), 'Invalid_donor_district');
+                }
+                break;
+            case 'created_at':
+                // TODO: Checks the validity of DATETIME.
+                break;
+            case 'created_by':
+                if (! isValidID($value)) {
+                    throw new InvalidArgument(__('Invalid donor user.'), 'Invalid_donor_user');
+                }
+                break;
+
+            /* Donor Meta */
+
+            case 'email':
+                if (! isValidEmail($value)) {
+                    throw new InvalidArgument(__('Invalid donor email.'), 'Invalid_donor_email');
+                }
+                break;
+            case 'weight':
+                if (! isValidFloat($value)) {
+                    // TODO: Check Min and Max weight.
+                    throw new InvalidArgument(__('Invalid donor weight.'), 'Invalid_donor_weight');
                 }
                 break;
         }

@@ -8,7 +8,6 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\RouterManager;
 use EBloodBank\Views\View;
 
 /**
@@ -22,7 +21,7 @@ class FrontPage extends Controller
      */
     public function __invoke()
     {
-        $route = RouterManager::getMatchedRoute();
+        $route = main()->getRouter()->getMatchedRoute();
 
         $pageName = $route ? $route->name : '';
 
@@ -98,7 +97,7 @@ class FrontPage extends Controller
 
 
             default:
-                $controller = View::instance('error-404');
+                $controller = View::forge('error-404');
                 break;
 
         }

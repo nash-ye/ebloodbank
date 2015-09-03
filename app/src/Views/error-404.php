@@ -8,7 +8,7 @@
  */
 namespace EBloodBank\Views;
 
-header('HTTP/1.0 404 Not Found');
+http_response_code(404); // Set the HTTP response status.
 
 View::display('header', array( 'title' => __('Error: Not Found') ));
 ?>

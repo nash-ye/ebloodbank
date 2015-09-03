@@ -8,9 +8,9 @@
  */
 namespace EBloodBank\Models;
 
-use EBloodBank\Kernal\Roles;
+use EBloodBank\Roles;
 use EBloodBank\Traits\EntityMeta;
-use EBloodBank\Exceptions\InvaildArgument;
+use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -36,9 +36,17 @@ class User extends Entity
      * @var string
      * @since 1.0
      *
-     * @Column(type="string", name="user_logon")
+     * @Column(type="string", name="user_name")
      */
-    protected $logon;
+    protected $name;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string", name="user_email")
+     */
+    protected $email;
 
     /**
      * @var string
@@ -52,17 +60,17 @@ class User extends Entity
      * @var string
      * @since 1.0
      *
-     * @Column(type="string", name="user_rtime")
+     * @Column(type="string", name="user_role")
      */
-    protected $rtime;
+    protected $role;
 
     /**
      * @var string
      * @since 1.0
      *
-     * @Column(type="string", name="user_role")
+     * @Column(type="string", name="user_created_at")
      */
-    protected $role = 'default';
+    protected $created_at;
 
     /**
      * @var string
@@ -70,7 +78,7 @@ class User extends Entity
      *
      * @Column(type="string", name="user_status")
      */
-    protected $status = 'pending';
+    protected $status;
 
     /**
      * @return Role
@@ -100,18 +108,18 @@ class User extends Entity
      * @var bool
      * @since 1.0
      */
-    public function isActivated()
+    public function isPending()
     {
-        return 'activated' === $this->get('status');
+        return 'pending' === $this->get('status');
     }
 
     /**
      * @var bool
      * @since 1.0
      */
-    public function isPending()
+    public function isActivated()
     {
-        return 'pending' === $this->get('status');
+        return 'activated' === $this->get('status');
     }
 
     /**
@@ -122,18 +130,22 @@ class User extends Entity
     {
         switch ($key) {
             case 'id':
-                $value = (int) $value;
+                $value = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
                 break;
-            case 'logon':
+            case 'email':
+                $value = filter_var($value, FILTER_SANITIZE_EMAIL);
+                break;
+            case 'name':
             case 'role':
-                $value = trim(filter_var($value, FILTER_SANITIZE_STRING));
+            case 'created_at':
+                $value = trim($value);
                 break;
         }
         return $value;
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvaildArgument
+     * @throws \EBloodBank\Exceptions\InvalidArgument
      * @return bool
      * @since 1.0
      */
@@ -141,24 +153,32 @@ class User extends Entity
     {
         switch ($key) {
             case 'id':
-                if (! isVaildID($value)) {
-                    throw new InvaildArgument(__('Invaild user ID'), 'invaild_user_id');
+                if (! isValidID($value)) {
+                    throw new InvalidArgument(__('Invalid user ID.'), 'Invalid_user_id');
                 }
                 break;
-            case 'logon':
+            case 'name':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvaildArgument(__('Invaild user name'), 'invaild_user_name');
+                    throw new InvalidArgument(__('Invalid user name.'), 'Invalid_user_name');
+                }
+                break;
+            case 'email':
+                if (! isValidEmail($value)) {
+                    throw new InvalidArgument(__('Invalid user email.'), 'Invalid_user_email');
                 }
                 break;
             case 'pass':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvaildArgument(__('Invaild user password'), 'invaild_user_pass');
+                    throw new InvalidArgument(__('Invalid user password.'), 'Invalid_user_pass');
                 }
                 break;
             case 'role':
                 if (! is_string($value) || ! Roles::isExists($value)) {
-                    throw new InvaildArgument(__('Invaild user role'), 'invaild_user_role');
+                    throw new InvalidArgument(__('Invalid user role.'), 'Invalid_user_role');
                 }
+                break;
+            case 'created_at':
+                // TODO: Checks the validity of DATETIME.
                 break;
         }
         return true;

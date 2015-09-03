@@ -8,23 +8,15 @@
  */
 namespace EBloodBank\Views;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Options;
-
-$limit = Options::getOption('entities_per_page');
-$pageNumber = max((int) $this->get('page'), 1);
-$offset = ($pageNumber - 1) * $limit;
-
-$userRepository = EntityManager::getUserRepository();
-$users = $userRepository->findBy(array(), array(), $limit, $offset);
-
-View::display('header', array( 'title' => __('Users') ));
+View::display('header', array( 'title' => __('Edit Users') ));
 ?>
 
-	<div class="btn-block">
-        <?php echo getUsersLink(array('content' => __('View'), 'atts' => array( 'class' => 'btn btn-default btn-view btn-view-users' ))) ?>
-        <?php echo getAddUserLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-primary btn-add btn-add-user' ))) ?>
-	</div>
+    <div class="btn-toolbar">
+        <div class="btn-group" role="group">
+            <?php echo getUsersLink(array('content' => __('View'), 'atts' => array( 'class' => 'btn btn-default btn-view btn-view-users' ))) ?>
+            <?php echo getAddUserLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-primary btn-add btn-add-user' ))) ?>
+        </div>
+    </div>
 
     <?php View::display('notices') ?>
 
@@ -32,18 +24,20 @@ View::display('header', array( 'title' => __('Users') ));
 
 		<thead>
 			<th>#</th>
-			<th><?php _e('Logon') ?></th>
+			<th><?php _e('Name') ?></th>
+			<th><?php _e('E-mail') ?></th>
 			<th><?php _e('Role') ?></th>
             <th><?php _e('Actions') ?></th>
 		</thead>
 
 		<tbody>
 
-            <?php foreach ($users as $user) : ?>
+            <?php foreach ($this->get('users') as $user) : ?>
 
 			<tr>
 				<td><?php $user->display('id') ?></td>
-				<td><?php $user->display('logon') ?></td>
+				<td><?php $user->display('name') ?></td>
+				<td><?php $user->display('email') ?></td>
 				<td>
                 <?php
                     $userRole = $user->getRole();
@@ -51,9 +45,9 @@ View::display('header', array( 'title' => __('Users') ));
                 ?>
 				</td>
 				<td>
-                    <?php echo getEditUserLink(array('id' => $user->get('id'), 'content' => '<i class="fa fa-pencil"></i>')) ?>
-                    <?php echo getDeleteUserLink(array('id' => $user->get('id'), 'content' => '<i class="fa fa-trash"></i>')) ?>
-                    <?php echo getApproveUserLink(array('id' => $user->get('id'), 'content' => '<i class="fa fa-check"></i>')) ?>
+                    <?php echo getEditUserLink(array('id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>')) ?>
+                    <?php echo getDeleteUserLink(array('id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>')) ?>
+                    <?php echo getActivateUserLink(array('id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-ok"></i>')) ?>
 				</td>
 			</tr>
 
@@ -66,10 +60,10 @@ View::display('header', array( 'title' => __('Users') ));
     <?php
 
         echo getPagination(array(
-            'total' => (int) ceil($userRepository->countAll() / $limit),
-            'page_url' => addQueryArgs(getEditUsersURL(), array( 'page' => '%#%' )),
+            'total'    => $this->get('pagination.total'),
+            'current'  => $this->get('pagination.current'),
             'base_url' => getEditUsersURL(),
-            'current' => $pageNumber,
+            'page_url' => addQueryArgs(getEditUsersURL(), array( 'page' => '%#%' )),
         ))
 
     ?>

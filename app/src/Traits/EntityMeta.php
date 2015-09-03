@@ -1,8 +1,6 @@
 <?php
 namespace EBloodBank\Traits;
 
-use EBloodBank\EntityManager;
-
 /**
  * @since 1.0
  */
@@ -26,8 +24,8 @@ trait EntityMeta
             $metaValue = array();
         }
 
-        $em = EntityManager::getInstance();
-        $db = $em->getConnection();
+        $db = main()->getDBConnection();
+        $em = main()->getEntityManager();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
@@ -36,7 +34,7 @@ trait EntityMeta
 
         $eID = parent::get($eIDFieldName);
 
-        if (! isVaildID($eID)) {
+        if (! isValidID($eID)) {
             return $metaValue;
         }
 
@@ -84,8 +82,8 @@ trait EntityMeta
      */
     public function addMeta($metaKey, $metaValue)
     {
-        $em = EntityManager::getInstance();
-        $db = $em->getConnection();
+        $db = main()->getDBConnection();
+        $em = main()->getEntityManager();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
@@ -94,7 +92,7 @@ trait EntityMeta
 
         $eID = parent::get($eIDFieldName);
 
-        if (! isVaildID($eID)) {
+        if (! isValidID($eID)) {
             return false;
         }
 
@@ -116,8 +114,8 @@ trait EntityMeta
      */
     public function updateMeta($metaKey, $metaValue, $prevMetaValue = null)
     {
-        $em = EntityManager::getInstance();
-        $db = $em->getConnection();
+        $db = main()->getDBConnection();
+        $em = main()->getEntityManager();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
@@ -126,7 +124,7 @@ trait EntityMeta
 
         $eID = parent::get($eIDFieldName);
 
-        if (! isVaildID($eID)) {
+        if (! isValidID($eID)) {
             return false;
         }
 
@@ -154,8 +152,8 @@ trait EntityMeta
      */
     public function deleteMeta($metaKey, $metaValue = null)
     {
-        $em = EntityManager::getInstance();
-        $db = $em->getConnection();
+        $db = main()->getDBConnection();
+        $em = main()->getEntityManager();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
@@ -164,7 +162,7 @@ trait EntityMeta
 
         $eID = parent::get($eIDFieldName);
 
-        if (! isVaildID($eID)) {
+        if (! isValidID($eID)) {
             return false;
         }
 

@@ -8,7 +8,7 @@
  */
 namespace EBloodBank\Models;
 
-use EBloodBank\Exceptions\InvaildArgument;
+use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -37,6 +37,22 @@ class City extends Entity
     protected $name;
 
     /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string", name="city_created_at")
+     */
+    protected $created_at;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="integer", name="city_created_by")
+     */
+    protected $created_by;
+
+    /**
      * @var District[]
      * @since 1.0
      *
@@ -52,17 +68,19 @@ class City extends Entity
     {
         switch ($key) {
             case 'id':
-                $value = (int) $value;
+            case 'created_by':
+                $value = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
                 break;
             case 'name':
-                $value = trim(filter_var($value, FILTER_SANITIZE_STRING));
+            case 'created_at':
+                $value = trim($value);
                 break;
         }
         return $value;
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvaildArgument
+     * @throws \EBloodBank\Exceptions\InvalidArgument
      * @return bool
      * @since 1.0
      */
@@ -70,13 +88,21 @@ class City extends Entity
     {
         switch ($key) {
             case 'id':
-                if (! isVaildID($value)) {
-                    throw new InvaildArgument(__('Invaild city ID.'), 'invaild_city_id');
+                if (! isValidID($value)) {
+                    throw new InvalidArgument(__('Invalid city ID.'), 'Invalid_city_id');
                 }
                 break;
             case 'name':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvaildArgument(__('Invaild city name.'), 'invaild_city_name');
+                    throw new InvalidArgument(__('Invalid city name.'), 'Invalid_city_name');
+                }
+                break;
+            case 'created_at':
+                // TODO: Checks the validity of DATETIME.
+                break;
+            case 'created_by':
+                if (! isValidID($value)) {
+                    throw new InvalidArgument(__('Invalid city user.'), 'Invalid_city_user');
                 }
                 break;
         }

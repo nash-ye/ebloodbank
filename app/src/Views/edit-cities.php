@@ -8,23 +8,15 @@
  */
 namespace EBloodBank\Views;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Options;
-
-$limit = Options::getOption('entities_per_page');
-$pageNumber = max((int) $this->get('page'), 1);
-$offset = ($pageNumber - 1) * $limit;
-
-$cityRepository = EntityManager::getCityRepository();
-$cities = $cityRepository->findBy(array(), array(), $limit, $offset);
-
-View::display('header', array( 'title' => __('Cities') ));
+View::display('header', array( 'title' => __('Edit Cities') ));
 ?>
 
-	<div class="btn-block">
-        <?php echo getCitiesLink(array('content' => __('View'), 'atts' => array( 'class' => 'btn btn-default btn-view btn-view-cities' ))) ?>
-        <?php echo getAddCityLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-primary btn-add btn-add-city' ))) ?>
-	</div>
+    <div class="btn-toolbar">
+        <div class="btn-group" role="group">
+            <?php echo getCitiesLink(array('content' => __('View'), 'atts' => array( 'class' => 'btn btn-default btn-view btn-view-cities' ))) ?>
+            <?php echo getAddCityLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-primary btn-add btn-add-city' ))) ?>
+        </div>
+    </div>
 
     <?php View::display('notices') ?>
 
@@ -40,14 +32,14 @@ View::display('header', array( 'title' => __('Cities') ));
 
 		<tbody>
 
-            <?php foreach ($cities as $city) : ?>
+            <?php foreach ($this->get('cities') as $city) : ?>
 
             <tr>
                 <td><?php $city->display('id') ?></td>
                 <td><?php $city->display('name') ?></td>
                 <td>
-                    <?php echo getEditCityLink(array('id' => $city->get('id'), 'content' => '<i class="fa fa-pencil"></i>')) ?>
-                    <?php echo getDeleteCityLink(array('id' => $city->get('id'), 'content' => '<i class="fa fa-trash"></i>')) ?>
+                    <?php echo getEditCityLink(array('id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>')) ?>
+                    <?php echo getDeleteCityLink(array('id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>')) ?>
                 </td>
             </tr>
 
@@ -60,10 +52,10 @@ View::display('header', array( 'title' => __('Cities') ));
     <?php
 
         echo getPagination(array(
-            'total' => (int) ceil($cityRepository->countAll() / $limit),
-            'page_url' => addQueryArgs(getEditCitiesURL(), array( 'page' => '%#%' )),
+            'total'    => $this->get('pagination.total'),
+            'current'  => $this->get('pagination.current'),
             'base_url' => getEditCitiesURL(),
-            'current' => $pageNumber,
+            'page_url' => addQueryArgs(getEditCitiesURL(), array( 'page' => '%#%' )),
         ))
 
     ?>

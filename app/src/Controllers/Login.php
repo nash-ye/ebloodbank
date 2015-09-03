@@ -8,8 +8,7 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Notices;
+use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
@@ -21,12 +20,31 @@ class Login extends Controller
      * @return void
      * @since 1.0
      */
+    public function __invoke()
+    {
+        $this->doActions();
+        $this->addNotices();
+        $view = View::forge('login');
+        $view();
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
     protected function doActions()
     {
-        if ('login' === filter_input(INPUT_POST, 'action')) {
-            $this->doLoginAction();
-        } elseif ('logout' === filter_input(INPUT_GET, 'action')) {
-            $this->doLogoutAction();
+        switch (filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
+            case 'GET':
+                if ('logout' === filter_input(INPUT_GET, 'action')) {
+                    $this->doLogoutAction();
+                }
+                break;
+            case 'POST':
+                if ('login' === filter_input(INPUT_POST, 'action')) {
+                    $this->doLoginAction();
+                }
+                break;
         }
     }
 
@@ -37,7 +55,7 @@ class Login extends Controller
     protected function addNotices()
     {
         if (filter_has_var(INPUT_GET, 'flag-loggedout')) {
-            Notices::addNotice('loggedout', __('You are now logged out.'), 'message');
+            Notices::addNotice('loggedout', __('You are now logged out.'), 'info');
         }
     }
 
@@ -47,19 +65,20 @@ class Login extends Controller
      */
     protected function doLoginAction()
     {
-        $userName = filter_input(INPUT_POST, 'user_logon');
+        $userEmail = filter_input(INPUT_POST, 'user_email');
         $userPass  = filter_input(INPUT_POST, 'user_pass');
 
-        if (empty($userName) || empty($userPass)) {
+        if (empty($userEmail) || empty($userPass)) {
             Notices::addNotice('empty_login_details', __('Please enter your login details.'), 'warning');
             return;
         }
 
-        $userRepository = EntityManager::getUserRepository();
-        $user = $userRepository->findOneBy(array( 'logon' => $userName, 'status' => 'any' ));
+        $em = main()->getEntityManager();
+        $userRepository = $em->getRepository('Entities:User');
+        $user = $userRepository->findOneBy(array( 'email' => $userEmail, 'status' => 'any' ));
 
         if (empty($user) || ! password_verify($userPass, $user->get('pass'))) {
-            Notices::addNotice('wrong_login_details', __('No match for username and/or password.'), 'warning');
+            Notices::addNotice('wrong_login_details', __('No match for user e-mail and/or password.'), 'warning');
             return;
         }
 
@@ -94,17 +113,5 @@ class Login extends Controller
                 )
             );
         }
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function __invoke()
-    {
-        $this->doActions();
-        $this->addNotices();
-        $view = View::instance('login');
-        $view();
     }
 }

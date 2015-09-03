@@ -7,20 +7,18 @@
  * @since 1.0
  */
 namespace EBloodBank\Views;
-
-use EBloodBank\Kernal\Notices;
 ?>
 
 <?php View::display('notices') ?>
 
-<form id="form-login" class="form-horizontal" action="<?php echo esc_url(getLoginURL()) ?>" method="POST">
+<form id="form-login" class="form-horizontal" action="<?php echo escURL(getLoginURL()) ?>" method="POST">
 
 	<div class="form-group">
 		<div class="col-sm-2">
-			<label for="user_logon"><?php _e('Username') ?></label>
+			<label for="user_email"><?php _e('E-mail') ?></label>
 		</div>
 		<div class="col-sm-4">
-			<input type="text" name="user_logon" id="user_logon" class="form-control" required />
+			<input type="email" name="user_email" id="user_email" class="form-control" required />
 		</div>
 	</div>
 
@@ -35,7 +33,7 @@ use EBloodBank\Kernal\Notices;
 
 	<div class="form-group">
 		<div class="col-sm-6">
-			<button type="submit" class="btn btn-primary"><?php _e('Login') ?></button>
+			<button type="submit" class="btn btn-primary"><?php _e('Log In') ?></button>
 		</div>
 	</div>
 

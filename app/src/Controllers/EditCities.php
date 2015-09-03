@@ -8,15 +8,34 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Notices;
+use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
  * @since 1.0
  */
-class EditCities extends Controller
+class EditCities extends ViewCities
 {
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __invoke()
+    {
+        if (isCurrentUserCan('edit_cities')) {
+            $this->doActions();
+            $this->addNotices();
+            $view = View::forge('edit-cities', array(
+                'cities' => $this->getQueriedCities(),
+                'pagination.total' => $this->getPagesTotal(),
+                'pagination.current' => $this->getCurrentPage(),
+            ));
+        } else {
+            $view = View::forge('error-403');
+        }
+        $view();
+    }
+
     /**
      * @return void
      * @since 1.0
@@ -24,7 +43,7 @@ class EditCities extends Controller
     protected function doActions()
     {
         switch (filter_input(INPUT_GET, 'action')) {
-            case 'delete_city':
+            case 'delete':
                 $this->doDeleteAction();
                 break;
         }
@@ -50,10 +69,14 @@ class EditCities extends Controller
     {
         if (isCurrentUserCan('delete_city')) {
 
-            $cityID = (int) $_GET['id'];
-            $city = EntityManager::getCityReference($cityID);
+            $cityID = filter_input(INPUT_GET, 'id');
 
-            $em = EntityManager::getInstance();
+            if (! isValidID($cityID)) {
+                return;
+            }
+
+            $em = main()->getEntityManager();
+            $city = $em->getReference('Entities:City', $cityID);
             $em->remove($city);
             $em->flush();
 
@@ -65,22 +88,5 @@ class EditCities extends Controller
             );
 
         }
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function __invoke()
-    {
-        if (isCurrentUserCan('edit_cities')) {
-            $this->doActions();
-            $this->addNotices();
-            $view = View::instance('edit-cities');
-            $view->set('page', filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT));
-        } else {
-            $view = View::instance('error-401');
-        }
-        $view();
     }
 }

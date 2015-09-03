@@ -9,9 +9,12 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.0-alpha-6');
+define('EBB_VERSION', '1.0-alpha-7');
 
 define('EBB_MIN_PHP_VERSION', '5.4');
+define('EBB_MIN_MYSQL_VERSION', '5.6');
+
+define('EBB_APP_DIR', dirname(__FILE__));
 
 /*** Requirements **************************************************************/
 
@@ -27,30 +30,32 @@ if (version_compare(PHP_VERSION, EBB_MIN_PHP_VERSION, '<')) {
 
 }
 
+foreach (array('filter', 'session', 'PDO', 'pdo_mysql') as $extension) {
+
+    if (! extension_loaded($extension)) {
+
+        die(
+            sprintf(
+                'eBloodBank requires the PHP extension %s.',
+                $extension
+            )
+        );
+
+    }
+
+}
+
 /*** User Configurations ******************************************************/
 
-if (file_exists(EBB_DIR . '/app/config.php')) {
-	require_once EBB_DIR . '/app/config.php';
+if (file_exists(EBB_APP_DIR . '/config.php')) {
+	require_once EBB_APP_DIR . '/config.php';
 } else {
 	die('Error: The configuration file is not exist.');
 }
 
-/*** Default Configurations ***************************************************/
-
-if (! defined('DEBUG_MODE') ) {
-	define('DEBUG_MODE', false);
-}
-
-if (! ini_get('date.timezone')) {
-	date_default_timezone_set('UTC');
-}
-
-ini_set('filter.default', 'unsafe_raw');
-ini_set('filter.default_flags', '');
-
 /*** Error Reporting **********************************************************/
 
-if (DEBUG_MODE) {
+if (defined('EBB_DEV_MODE') && EBB_DEV_MODE) {
     error_reporting(E_ALL);
 } else {
     error_reporting(
@@ -60,25 +65,37 @@ if (DEBUG_MODE) {
         );
 }
 
+/*** Default Configurations ***************************************************/
+
+if (! defined('EBB_DEV_MODE')) {
+	define('EBB_DEV_MODE', false);
+}
+
+if (! ini_get('date.timezone')) {
+	date_default_timezone_set('UTC');
+}
+
+ini_set('filter.default', 'unsafe_raw');
+ini_set('filter.default_flags', '');
+
 /*** App Helpers **************************************************************/
 
-require EBB_DIR . '/app/src/Helpers/uri.php';
-require EBB_DIR . '/app/src/Helpers/l10n.php';
-require EBB_DIR . '/app/src/Helpers/html.php';
-require EBB_DIR . '/app/src/Helpers/general.php';
-require EBB_DIR . '/app/src/Helpers/session.php';
-require EBB_DIR . '/app/src/Helpers/template.php';
+require EBB_APP_DIR . '/src/uri.php';
+require EBB_APP_DIR . '/src/l10n.php';
+require EBB_APP_DIR . '/src/http.php';
+require EBB_APP_DIR . '/src/html.php';
+require EBB_APP_DIR . '/src/context.php';
+require EBB_APP_DIR . '/src/session.php';
+require EBB_APP_DIR . '/src/formatting.php';
+require EBB_APP_DIR . '/src/validation.php';
+require EBB_APP_DIR . '/src/template-links.php';
 
 /*** App Packages *************************************************************/
 
-require EBB_DIR . '/app/vendor/autoload.php';
+require EBB_APP_DIR . '/vendor/autoload.php';
 
 /*** App Autoloader ***********************************************************/
 
 $loader = new Aura\Autoload\Loader;
 $loader->register(); // Register the autoloader.
-$loader->addPrefix('EBloodBank', EBB_DIR . '/app/src');
-
-/*** App Settings *************************************************************/
-
-require EBB_DIR . '/app/settings.php';
+$loader->addPrefix('EBloodBank', EBB_APP_DIR . '/src');

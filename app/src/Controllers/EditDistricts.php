@@ -8,15 +8,34 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Notices;
+use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
  * @since 1.0
  */
-class EditDistricts extends Controller
+class EditDistricts extends ViewDistricts
 {
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __invoke()
+    {
+        if (isCurrentUserCan('edit_districts')) {
+            $this->doActions();
+            $this->addNotices();
+            $view = View::forge('edit-districts', array(
+                'districts' => $this->getQueriedDistricts(),
+                'pagination.total' => $this->getPagesTotal(),
+                'pagination.current' => $this->getCurrentPage(),
+            ));
+        } else {
+            $view = View::forge('error-403');
+        }
+        $view();
+    }
+
     /**
      * @return void
      * @since 1.0
@@ -24,7 +43,7 @@ class EditDistricts extends Controller
     protected function doActions()
     {
         switch (filter_input(INPUT_GET, 'action')) {
-            case 'delete_district':
+            case 'delete':
                 $this->doDeleteAction();
                 break;
         }
@@ -50,10 +69,14 @@ class EditDistricts extends Controller
     {
         if (isCurrentUserCan('delete_district')) {
 
-            $districtID = (int) $_GET['id'];
-            $district = EntityManager::getDistrictReference($districtID);
+            $districtID = filter_input(INPUT_GET, 'id');
 
-            $em = EntityManager::getInstance();
+            if (! isValidID($districtID)) {
+                return;
+            }
+
+            $em = main()->getEntityManager();
+            $district = $em->getReference('Entities:District', $districtID);
             $em->remove($district);
             $em->flush();
 
@@ -65,22 +88,5 @@ class EditDistricts extends Controller
             );
 
         }
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function __invoke()
-    {
-        if (isCurrentUserCan('edit_districts')) {
-            $this->doActions();
-            $this->addNotices();
-            $view = View::instance('edit-districts');
-            $view->set('page', filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT));
-        } else {
-            $view = View::instance('error-401');
-        }
-        $view();
     }
 }

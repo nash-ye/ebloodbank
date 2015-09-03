@@ -8,16 +8,14 @@
  */
 namespace EBloodBank\Views;
 
-use EBloodBank\Kernal\Notices;
+use EBloodBank\Notices;
 
 if (Notices::hasNotices()) { ?>
-    <div class="notices">
-        <ul>
-            <?php foreach (Notices::getNotices() as $notice) : ?>
-            <li class="notice notice-<?php echo $notice->code ?> notice-type-<?php echo $notice->type ?>">
-                <p><?php echo $notice->msg ?></p>
-            </li>
-            <?php endforeach; ?>
-        </ul>
+    <div class="alerts">
+        <?php foreach (Notices::getNotices() as $notice) : ?>
+        <div class="alert alert-<?php echo $notice->type ?> alert-code-<?php echo $notice->code ?>" role="alert">
+            <p><?php echo escHTML($notice->msg) ?></p>
+        </div>
+        <?php endforeach; ?>
     </div><?php
 }

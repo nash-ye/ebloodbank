@@ -8,11 +8,10 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\Exceptions;
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Notices;
+use EBloodBank\Notices;
 use EBloodBank\Models\City;
 use EBloodBank\Views\View;
+use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -23,12 +22,39 @@ class AddCity extends Controller
      * @return void
      * @since 1.0
      */
+    public function __invoke()
+    {
+        if (isCurrentUserCan('add_city')) {
+            $this->doActions();
+            $this->addNotices();
+            $view = View::forge('add-city');
+        } else {
+            $view = View::forge('error-403');
+        }
+        $view();
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
     protected function doActions()
     {
         switch (filter_input(INPUT_POST, 'action')) {
             case 'submit_city':
                 $this->doSubmitAction();
                 break;
+        }
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    protected function addNotices()
+    {
+        if (filter_has_var(INPUT_GET, 'flag-added')) {
+            Notices::addNotice('added', __('City added.'), 'success');
         }
     }
 
@@ -47,38 +73,29 @@ class AddCity extends Controller
                 // Set the city name.
                 $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
 
-                $em = EntityManager::getInstance();
+                // Set the creation date.
+                $city->set('created_at', gmdate('Y-m-d H:i:s'));
+
+                // Set the creator ID.
+                $city->set('created_by', getCurrentUserID());
+
+                $em = main()->getEntityManager();
                 $em->persist($city);
                 $em->flush();
 
-                $submitted = isVaildID($city->get('id'));
+                $added = isValidID($city->get('id'));
 
                 redirect(
                     addQueryArgs(
                         getAddCityURL(),
-                        array('flag-submitted' => $submitted)
+                        array('flag-added' => $added)
                     )
                 );
 
-            } catch (Exceptions\InvaildArgument $ex) {
+            } catch (InvalidArgument $ex) {
                 Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
 
         }
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function __invoke()
-    {
-        if (isCurrentUserCan('add_city')) {
-            $this->doActions();
-            $view = View::instance('add-city');
-        } else {
-            $view = View::instance('error-401');
-        }
-        $view();
     }
 }

@@ -13,7 +13,7 @@ namespace EBloodBank\Views;
 			<footer>
 				<div class="row">
 					<div class="col-lg-12">
-						<p>Copyright &copy; eBloodBank 2015</p>
+                        <p class="copyrights">Copyright &copy; eBloodBank 2015</p>
 					</div>
 				</div>
 			</footer>
@@ -21,8 +21,8 @@ namespace EBloodBank\Views;
 		</div>
 		<!-- /.container -->
 
-        <script src="<?php echo esc_url(getSiteURl('/public/assets/js/jquery.js')) ?>"></script>
-		<script src="<?php echo esc_url(getSiteURl('/public/assets/js/bootstrap.min.js')) ?>"></script>
+        <script src="<?php echo escURL(getSiteURl('/public/jquery/jquery.min.js')) ?>"></script>
+		<script src="<?php echo escURL(getSiteURl('/public/bootstrap/js/bootstrap.min.js')) ?>"></script>
 
 	</body>
 

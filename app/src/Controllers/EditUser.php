@@ -8,17 +8,39 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\Exceptions;
-use EBloodBank\EntityManager;
-use EBloodBank\RouterManager;
-use EBloodBank\Kernal\Notices;
+use EBloodBank\Notices;
 use EBloodBank\Views\View;
+use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
  */
 class EditUser extends Controller
 {
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __invoke()
+    {
+        $userID = $this->getQueriedUserID();
+        if (isCurrentUserCan('edit_user') || getCurrentUserID() === $userID) {
+            $user = $this->getQueriedUser();
+            if (! empty($user)) {
+                $this->doActions();
+                $this->addNotices();
+                $view = View::forge('edit-user', array(
+                    'user' => $user,
+                ));
+            } else {
+                $view = View::forge('error-404');
+            }
+        } else {
+            $view = View::forge('error-403');
+        }
+        $view();
+    }
+
     /**
      * @return void
      * @since 1.0
@@ -33,21 +55,14 @@ class EditUser extends Controller
     }
 
     /**
-     * @return int
+     * @return void
      * @since 1.0
      */
-    protected function getTargetID()
+    protected function addNotices()
     {
-        $targetID = 0;
-        $route = RouterManager::getMatchedRoute();
-
-        if ($route && isset($route->params['id'])) {
-            if (isVaildID($route->params['id'])) {
-                $targetID = (int) $route->params['id'];
-            }
+        if (filter_has_var(INPUT_GET, 'flag-updated')) {
+            Notices::addNotice('updated', __('User updated.'), 'success');
         }
-
-        return $targetID;
     }
 
     /**
@@ -56,28 +71,30 @@ class EditUser extends Controller
      */
     protected function doSubmitAction()
     {
-        $userID = $this->getTargetID();
-
+        $userID = $this->getQueriedUserID();
         if (isCurrentUserCan('edit_user') || getCurrentUserID() === $userID) {
 
             try {
 
-                $user = EntityManager::getUserReference($userID);
+                $user = $this->getQueriedUser();
 
-                // Set the user logon.
-                $user->set('logon', filter_input(INPUT_POST, 'user_logon'), true);
+                // Set the user name.
+                $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
+
+                // Set the user email.
+                $user->set('email', filter_input(INPUT_POST, 'user_email'), true);
 
                 $userPass1 = filter_input(INPUT_POST, 'user_pass_1', FILTER_UNSAFE_RAW);
                 $userPass2 = filter_input(INPUT_POST, 'user_pass_2', FILTER_UNSAFE_RAW);
 
                 if (! empty($userPass1) xor ! empty($userPass2)) {
-                    throw new Exceptions\InvaildArgument(__('Please enter the password twice.'), 'user_pass');
+                    throw new InvalidArgument(__('Please enter the password twice.'), 'user_pass');
                 }
 
                 if (! empty($userPass1) && ! empty($userPass2)) {
 
                     if ($userPass1 !== $userPass2) {
-                        throw new Exceptions\InvaildArgument(__('Please enter the same password.'), 'user_pass');
+                        throw new InvalidArgument(__('Please enter the same password.'), 'user_pass');
                     }
 
                     // Set the user password.
@@ -90,17 +107,17 @@ class EditUser extends Controller
                     $user->set('role', filter_input(INPUT_POST, 'user_role'), true);
                 }
 
-                $em = EntityManager::getInstance();
-                $em->flush();
+                $em = main()->getEntityManager();
+                $em->flush($user);
 
                 redirect(
                     addQueryArgs(
                         getEditUserURL($userID),
-                        array('flag-submitted' => true)
+                        array('flag-updated' => true)
                     )
                 );
 
-            } catch (Exceptions\InvaildArgument $ex) {
+            } catch (InvalidArgument $ex) {
                 Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
 
@@ -108,29 +125,33 @@ class EditUser extends Controller
     }
 
     /**
-     * @return void
+     * @return \EBloodBank\Models\User
      * @since 1.0
      */
-    public function __invoke()
+    protected function getQueriedUser()
     {
-        $userID = $this->getTargetID();
+        $route = main()->getRouter()->getMatchedRoute();
 
-        if (! $userID) {
-            redirect(getHomeURL());
+        if (empty($route)) {
+            return;
         }
 
-        if (isCurrentUserCan('edit_user') || getCurrentUserID() === $userID) {
-            $this->doActions();
-            $userRepository = EntityManager::getUserRepository();
-            $user = $userRepository->find($userID);
-            if (! empty($user)) {
-                $view = View::instance('edit-user', array( 'user' => $user ));
-            } else {
-                $view = View::instance('error-404');
-            }
-        } else {
-            $view = View::instance('error-401');
+        if (! isset($route->params['id']) || ! isValidID($route->params['id'])) {
+            return;
         }
-        $view();
+
+        $userRepository = main()->getEntityManager()->getRepository('Entities:User');
+        $user = $userRepository->find((int) $route->params['id']);
+
+        return $user;
+    }
+
+    /**
+     * @return int
+     * @since 1.0
+     */
+    protected function getQueriedUserID()
+    {
+        return ($user = $this->getQueriedUser()) ? (int) $user->get('id') : 0;
     }
 }

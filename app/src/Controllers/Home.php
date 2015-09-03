@@ -21,7 +21,7 @@ class Home extends Controller
      */
     public function __invoke()
     {
-        $view = View::instance('home');
+        $view = View::forge('home');
         $view();
     }
 }

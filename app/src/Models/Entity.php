@@ -45,11 +45,11 @@ abstract class Entity
         switch ($format) {
 
             case 'attr':
-                echo esc_attr($this->get($key));
+                echo escAttr($this->get($key));
                 break;
 
             case 'html':
-                echo esc_html($this->get($key));
+                echo escHTML($this->get($key));
                 break;
 
             default:

@@ -8,6 +8,7 @@
  */
 namespace EBloodBank\Controllers;
 
+use EBloodBank\Options;
 use EBloodBank\Views\View;
 
 /**
@@ -22,11 +23,82 @@ class ViewDonors extends Controller
     public function __invoke()
     {
         if (isCurrentUserCan('view_donors')) {
-            $view = View::instance('view-donors');
-            $view->set('page', filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT));
+            $view = View::forge('view-donors', array(
+                'donors' => $this->getQueriedDonors(),
+                'pagination.total' => $this->getPagesTotal(),
+                'pagination.current' => $this->getCurrentPage(),
+            ));
         } else {
-            $view = View::instance('error-401');
+            $view = View::forge('error-403');
         }
         $view();
+    }
+
+    /**
+     * @return int
+     * @since 1.0
+     */
+    public function getPagesTotal()
+    {
+        $limit = (int) Options::getOption('entities_per_page');
+        $total = (int) ceil($this->countAllDonors() / $limit);
+        return $total;
+    }
+
+    /**
+     * @return int
+     * @since 1.0
+     */
+    public function getCurrentPage()
+    {
+        return max((int) filter_input(INPUT_GET, 'page'), 1);
+    }
+
+    /**
+     * @return \EBloodBank\Models\Donor[]
+     * @since 1.0
+     */
+    public function getAllDonors()
+    {
+        $em = main()->getEntityManager();
+        $donorRepository = $em->getRepository('Entities:Donor');
+
+        return $donorRepository->findAll();
+    }
+
+    /**
+     * @return int
+     * @since 1.0
+     */
+    public function countAllDonors()
+    {
+        $em = main()->getEntityManager();
+        $donorRepository = $em->getRepository('Entities:Donor');
+
+        return $donorRepository->countAll();
+    }
+
+    /**
+     * @return \EBloodBank\Models\Donor[]
+     * @since 1.0
+     */
+    public function getQueriedDonors()
+    {
+        $em = main()->getEntityManager();
+        $donorRepository = $em->getRepository('Entities:Donor');
+
+        $limit = (int) Options::getOption('entities_per_page');
+        $offset = ($this->getCurrentPage() - 1) * $limit;
+
+        return $donorRepository->findBy(array(), array(), $limit, $offset);
+    }
+
+    /**
+     * @return int
+     * @since 1.0
+     */
+    public function countQueriedDonors()
+    {
+        return count($this->getQueriedDonors());
     }
 }

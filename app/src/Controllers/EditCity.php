@@ -8,17 +8,38 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\Exceptions;
-use EBloodBank\EntityManager;
-use EBloodBank\RouterManager;
-use EBloodBank\Kernal\Notices;
+use EBloodBank\Notices;
 use EBloodBank\Views\View;
+use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
  */
 class EditCity extends Controller
 {
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __invoke()
+    {
+        if (isCurrentUserCan('edit_city')) {
+            $city = $this->getQueriedCity();
+            if (! empty($city)) {
+                $this->doActions();
+                $this->addNotices();
+                $view = View::forge('edit-city', array(
+                    'city' => $city,
+                ));
+            } else {
+                $view = View::forge('error-404');
+            }
+        } else {
+            $view = View::forge('error-403');
+        }
+        $view();
+    }
+
     /**
      * @return void
      * @since 1.0
@@ -33,21 +54,14 @@ class EditCity extends Controller
     }
 
     /**
-     * @return int
+     * @return void
      * @since 1.0
      */
-    protected function getTargetID()
+    protected function addNotices()
     {
-        $targetID = 0;
-        $route = RouterManager::getMatchedRoute();
-
-        if ($route && isset($route->params['id'])) {
-            if (isVaildID($route->params['id'])) {
-                $targetID = (int) $route->params['id'];
-            }
+        if (filter_has_var(INPUT_GET, 'flag-updated')) {
+            Notices::addNotice('submitted', __('City updated.'), 'success');
         }
-
-        return $targetID;
     }
 
     /**
@@ -60,23 +74,23 @@ class EditCity extends Controller
 
             try {
 
-                $cityID = $this->getTargetID();
-                $city = EntityManager::getCityReference($cityID);
+                $city = $this->getQueriedCity();
+                $cityID = $this->getQueriedCityID();
 
                 // Set the city name.
                 $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
 
-                $em = EntityManager::getInstance();
-                $em->flush();
+                $em = main()->getEntityManager();
+                $em->flush($city);
 
                 redirect(
                     addQueryArgs(
                         getEditCityURL($cityID),
-                        array('flag-submitted' => true)
+                        array('flag-updated' => true)
                     )
                 );
 
-            } catch (Exceptions\InvaildArgument $ex) {
+            } catch (InvalidArgument $ex) {
                 Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
 
@@ -84,29 +98,33 @@ class EditCity extends Controller
     }
 
     /**
-     * @return void
+     * @return \EBloodBank\Models\City
      * @since 1.0
      */
-    public function __invoke()
+    protected function getQueriedCity()
     {
-        $cityID = $this->getTargetID();
+        $route = main()->getRouter()->getMatchedRoute();
 
-        if (! $cityID) {
-            redirect(getHomeURL());
+        if (empty($route)) {
+            return;
         }
 
-        if (isCurrentUserCan('edit_city')) {
-            $this->doActions();
-            $cityRepository = EntityManager::getCityRepository();
-            $city = $cityRepository->find($cityID);
-            if (! empty($city)) {
-                $view = View::instance('edit-city', array( 'city' => $city ));
-            } else {
-                $view = View::instance('error-404');
-            }
-        } else {
-            $view = View::instance('error-401');
+        if (! isset($route->params['id']) || ! isValidID($route->params['id'])) {
+            return;
         }
-        $view();
+
+        $cityRepository = main()->getEntityManager()->getRepository('Entities:City');
+        $city = $cityRepository->find((int) $route->params['id']);
+
+        return $city;
+    }
+
+    /**
+     * @return int
+     * @since 1.0
+     */
+    protected function getQueriedCityID()
+    {
+        return ($city = $this->getQueriedCity()) ? (int) $city->get('id') : 0;
     }
 }

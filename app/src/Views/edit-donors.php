@@ -8,33 +8,19 @@
  */
 namespace EBloodBank\Views;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Options;
+use EBloodBank\Options;
 
-$criteria = array_merge( array(
-    'blood_group' => 'any',
-    'district'    => -1,
-    'city_id'     => -1,
-), (array) $this->get('donorsCriteria') );
-
-$limit = Options::getOption('entities_per_page');
-$pageNumber = max((int) $this->get('page'), 1);
-$offset = ($pageNumber - 1) * $limit;
-
-$donorRepository = EntityManager::getDonorRepository();
-$donors = $donorRepository->findBy($criteria, array(), $limit, $offset);
-
-View::display('header', array( 'title' => __('Donors') ));
+View::display('header', array( 'title' => __('Edit Donors') ));
 ?>
 
-	<div class="btn-block">
-        <?php echo getDonorsLink(array('content' => __('View'), 'atts' => array( 'class' => 'btn btn-default btn-view btn-view-donors' ))) ?>
-        <?php echo getAddDonorLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-primary btn-add btn-add-donor' ))) ?>
-	</div>
+    <div class="btn-toolbar">
+        <div class="btn-group" role="group">
+            <?php echo getDonorsLink(array('content' => __('View'), 'atts' => array( 'class' => 'btn btn-default btn-view btn-view-donors' ))) ?>
+            <?php echo getAddDonorLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-primary btn-add btn-add-donor' ))) ?>
+        </div>
+    </div>
 
     <?php View::display('notices') ?>
-
-    <?php View::display('form-search') ?>
 
 	<table id="table-donors" class="table table-bordered table-hover">
 
@@ -53,7 +39,7 @@ View::display('header', array( 'title' => __('Donors') ));
 
 		<tbody>
 
-            <?php foreach ($donors as $donor) : ?>
+            <?php foreach ($this->get('donors') as $donor) : ?>
 
 				<tr>
 					<td><?php $donor->display('id') ?></td>
@@ -76,11 +62,11 @@ View::display('header', array( 'title' => __('Donors') ));
                             printf('%s, %s', $city->get('name'), $district->get('name'));
                         ?>
                     </td>
-					<td><?php $donor->display('phone') ?></td>
+					<td><?php echo escHTML($donor->getMeta('phone')) ?></td>
 					<td>
-                        <?php echo getEditDonorLink(array('id' => $donor->get('id'), 'content' => '<i class="fa fa-pencil"></i>')) ?>
-                        <?php echo getDeleteDonorLink(array('id' => $donor->get('id'), 'content' => '<i class="fa fa-trash"></i>')) ?>
-                        <?php echo getApproveDonorLink(array('id' => $donor->get('id'), 'content' => '<i class="fa fa-check"></i>')) ?>
+                        <?php echo getEditDonorLink(array('id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>')) ?>
+                        <?php echo getDeleteDonorLink(array('id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>')) ?>
+                        <?php echo getApproveDonorLink(array('id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-ok"></i>')) ?>
 					</td>
 				</tr>
 
@@ -93,10 +79,10 @@ View::display('header', array( 'title' => __('Donors') ));
     <?php
 
         echo getPagination(array(
-            'total' => (int) ceil($donorRepository->countAll() / $limit),
+            'total'    => $this->get('pagination.total'),
+            'current'  => $this->get('pagination.current'),
+            'base_url' => getEditDonorsURL(),
             'page_url' => addQueryArgs(getEditDonorsURL(), array( 'page' => '%#%' )),
-            'base_url' => getEditUsersURL(),
-            'current' => $pageNumber,
         ))
 
     ?>

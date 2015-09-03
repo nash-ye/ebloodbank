@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Models;
 
-use EBloodBank\EntityManager;
-
 /**
 * @since 1.0
 */
@@ -66,10 +64,10 @@ class DonorRepository extends EntityRepository
 
         if (isset($criteria['city_id'])) {
             $cityID = (int) $criteria['city_id'];
-            if (isVaildID($cityID)) {
+            if (isValidID($cityID)) {
                 $districtsIDs = array();
-                $cityRepository = EntityManager::getCityRepository();
-                $city = $cityRepository->find($cityID);
+                $em = main()->getEntityManager();
+                $city = $em->find('Entities:City', $cityID);
                 if (! empty($city)) {
                     foreach ($city->get('districts') as $district) {
                         $districtsIDs[] = (int) $district->get('id');
@@ -82,7 +80,7 @@ class DonorRepository extends EntityRepository
 
         if (! isset($criteria['status'])) {
             if (! isCurrentUserCan('approve_donor')) {
-                $criteria['status'] = 'published';
+                $criteria['status'] = 'approved';
             }
         } elseif ('any' === $criteria['status']) {
             unset($criteria['status']);

@@ -8,23 +8,15 @@
  */
 namespace EBloodBank\Views;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Options;
-
-$limit = Options::getOption('entities_per_page');
-$pageNumber = max((int) $this->get('page'), 1);
-$offset = ($pageNumber - 1) * $limit;
-
-$cityRepository = EntityManager::getCityRepository();
-$cities = $cityRepository->findBy(array(), array(), $limit, $offset);
-
 View::display('header', array( 'title' => __('Cities') ));
 ?>
 
-	<div class="btn-block">
-        <?php echo getEditCitiesLink(array('content' => __('Edit'), 'atts' => array( 'class' => 'btn btn-primary btn-edit btn-edit-cities' ))) ?>
-        <?php echo getAddCityLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-city' ))) ?>
-	</div>
+    <div class="btn-toolbar">
+        <div class="btn-group" role="group">
+            <?php echo getEditCitiesLink(array('content' => __('Edit'), 'atts' => array( 'class' => 'btn btn-primary btn-edit btn-edit-cities' ))) ?>
+            <?php echo getAddCityLink(array('content' => __('Add New'), 'atts' => array( 'class' => 'btn btn-default btn-add btn-add-city' ))) ?>
+        </div>
+    </div>
 
     <?php View::display('notices') ?>
 
@@ -39,7 +31,7 @@ View::display('header', array( 'title' => __('Cities') ));
 
 		<tbody>
 
-            <?php foreach ($cities as $city) : ?>
+            <?php foreach ($this->get('cities') as $city) : ?>
 
             <tr>
                 <td><?php $city->display('id') ?></td>
@@ -55,10 +47,10 @@ View::display('header', array( 'title' => __('Cities') ));
     <?php
 
         echo getPagination(array(
-            'total' => (int) ceil($cityRepository->countAll() / $limit),
-            'page_url' => addQueryArgs(getCitiesURL(), array( 'page' => '%#%' )),
+            'total'    => $this->get('pagination.total'),
+            'current'  => $this->get('pagination.current'),
             'base_url' => getCitiesURL(),
-            'current' => $pageNumber,
+            'page_url' => addQueryArgs(getCitiesURL(), array( 'page' => '%#%' )),
         ))
 
     ?>

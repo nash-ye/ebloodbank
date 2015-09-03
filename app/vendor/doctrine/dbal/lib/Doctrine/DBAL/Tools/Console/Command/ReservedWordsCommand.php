@@ -116,7 +116,7 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /* @var $conn \Doctrine\DBAL\Connection */
-        $conn = $this->getHelper('db')->getConnection();
+        $conn = $this->getHelper('db')->getDBConnection();
 
         $keywordLists = (array) $input->getOption('list');
         if ( ! $keywordLists) {

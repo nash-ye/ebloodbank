@@ -4,7 +4,7 @@ namespace EBloodBank\Exceptions;
 /**
  * @since 1.0
  */
-class InvaildArgument extends \Exception
+class InvalidArgument extends \Exception
 {
 	/**
 	 * @var string

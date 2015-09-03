@@ -30,9 +30,9 @@ class View
      * @since 1.0
      * @static
      */
-    public static function instance($name, array $data = array())
+    public static function forge($name, array $data = array())
     {
-        $view = new self($name, $data);
+        $view = new static($name, $data);
         return $view;
     }
 
@@ -43,7 +43,7 @@ class View
      */
     public static function display($name, array $data = array())
     {
-        $view = static::instance($name, $data);
+        $view = static::forge($name, $data);
         $view();
     }
 

@@ -8,15 +8,34 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Notices;
+use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
  * @since 1.0
  */
-class EditDonors extends Controller
+class EditDonors extends ViewDonors
 {
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __invoke()
+    {
+        if (isCurrentUserCan('edit_donors')) {
+            $this->doActions();
+            $this->addNotices();
+            $view = View::forge('edit-donors', array(
+                'donors' => $this->getQueriedDonors(),
+                'pagination.total' => $this->getPagesTotal(),
+                'pagination.current' => $this->getCurrentPage(),
+            ));
+        } else {
+            $view = View::forge('error-403');
+        }
+        $view();
+    }
+
     /**
      * @return void
      * @since 1.0
@@ -24,10 +43,10 @@ class EditDonors extends Controller
     protected function doActions()
     {
         switch (filter_input(INPUT_GET, 'action')) {
-            case 'delete_donor':
+            case 'delete':
                 $this->doDeleteAction();
                 break;
-            case 'approve_donor':
+            case 'approve':
                 $this->doApproveAction();
                 break;
         }
@@ -57,10 +76,14 @@ class EditDonors extends Controller
     {
         if (isCurrentUserCan('delete_donor')) {
 
-            $donorID = (int) $_GET['id'];
-            $donor = EntityManager::getDonorReference($donorID);
+            $donorID = filter_input(INPUT_GET, 'id');
 
-            $em = EntityManager::getInstance();
+            if (! isValidID($donorID)) {
+                return;
+            }
+
+            $em = main()->getEntityManager();
+            $donor = $em->getReference('Entities:Donor', $donorID);
             $em->remove($donor);
             $em->flush();
 
@@ -82,41 +105,31 @@ class EditDonors extends Controller
     {
         if (isCurrentUserCan('approve_donor')) {
 
-            $donorID = (int) $_GET['id'];
-            $donor = EntityManager::getDonorReference($donorID);
+            $donorID = filter_input(INPUT_GET, 'id');
 
-            if (! empty($donor) && $donor->isPending()) {
-
-                $donor->set('status', 'published');
-
-                $em = EntityManager::getInstance();
-                $em->flush();
-
-                redirect(
-                    addQueryArgs(
-                        getEditDonorsURL(),
-                        array('flag-approved' => 1)
-                    )
-                );
-
+            if (! isValidID($donorID)) {
+                return;
             }
-        }
-    }
 
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function __invoke()
-    {
-        if (isCurrentUserCan('edit_donors')) {
-            $this->doActions();
-            $this->addNotices();
-            $view = View::instance('edit-donors');
-            $view->set('page', filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT));
-        } else {
-            $view = View::instance('error-401');
+            $em = main()->getEntityManager();
+
+            $donor = $em->getReference('Entities:Donor', $donorID);
+
+            if (! $donor->isPending()) {
+                return;
+            }
+
+            $donor->set('status', 'approved');
+
+            $em->flush();
+
+            redirect(
+                addQueryArgs(
+                    getEditDonorsURL(),
+                    array('flag-approved' => 1)
+                )
+            );
+
         }
-        $view();
     }
 }

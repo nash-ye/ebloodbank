@@ -8,8 +8,7 @@
  */
 namespace EBloodBank\Models;
 
-use EBloodBank\EntityManager;
-use EBloodBank\Exceptions\InvaildArgument;
+use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -25,7 +24,7 @@ class District extends Entity
      *
      * @Id
      * @GeneratedValue
-     * @Column(type="integer", name="distr_id")
+     * @Column(type="integer", name="district_id")
      */
     protected $id = 0;
 
@@ -33,7 +32,7 @@ class District extends Entity
      * @var string
      * @since 1.0
      *
-     * @Column(type="string", name="distr_name")
+     * @Column(type="string", name="district_name")
      */
     protected $name;
 
@@ -42,9 +41,25 @@ class District extends Entity
      * @since 1.0
      *
      * @ManyToOne(targetEntity="EBloodBank\Models\City")
-     * @JoinColumn(name="distr_city_id", referencedColumnName="city_id")
+     * @JoinColumn(name="district_city_id", referencedColumnName="city_id")
      */
     protected $city;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string", name="district_created_at")
+     */
+    protected $created_at;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="integer", name="district_created_by")
+     */
+    protected $created_by;
 
     /**
      * @var Donor[]
@@ -62,14 +77,17 @@ class District extends Entity
     {
         switch ($key) {
             case 'id':
-                $value = (int) $value;
+            case 'created_by':
+                $value = filter_var($value, FILTER_SANITIZE_NUMBER_INT);
                 break;
             case 'name':
-                $value = trim(filter_var($value, FILTER_SANITIZE_STRING));
+            case 'created_at':
+                $value = trim($value);
                 break;
             case 'city':
-                if (is_numeric($value)) {
-                    $value = EntityManager::getCityRepository()->find($value);
+                if (isValidID($value)) {
+                    $em = main()->getEntityManager();
+                    $value = $em->find('Entities:City', $value);
                 }
                 break;
         }
@@ -77,7 +95,7 @@ class District extends Entity
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvaildArgument
+     * @throws \EBloodBank\Exceptions\InvalidArgument
      * @return bool
      * @since 1.0
      */
@@ -85,18 +103,26 @@ class District extends Entity
     {
         switch ($key) {
             case 'id':
-                if (! isVaildID($value)) {
-                    throw new InvaildArgument(__('Invaild district ID.'), 'invaild_distr_id');
+                if (! isValidID($value)) {
+                    throw new InvalidArgument(__('Invalid district ID.'), 'Invalid_district_id');
                 }
                 break;
             case 'name':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvaildArgument(__('Invaild district name.'), 'invaild_distr_name');
+                    throw new InvalidArgument(__('Invalid district name.'), 'Invalid_district_name');
                 }
                 break;
             case 'city':
-                if (! $value instanceof City || ! isVaildID($value->get('id'))) {
-                    throw new InvaildArgument(__('Invaild district city object.'), 'invaild_distr_city');
+                if (! $value instanceof City || ! $value->isExists()) {
+                    throw new InvalidArgument(__('Invalid district city.'), 'Invalid_district_city');
+                }
+                break;
+            case 'created_at':
+                // TODO: Checks the validity of DATETIME.
+                break;
+            case 'created_by':
+                if (! isValidID($value)) {
+                    throw new InvalidArgument(__('Invalid district user.'), 'Invalid_district_user');
                 }
                 break;
         }

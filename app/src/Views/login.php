@@ -8,7 +8,7 @@
  */
 namespace EBloodBank\Views;
 
-View::display('header', array( 'title' => __('Login') ));
+View::display('header', array( 'title' => __('Log In') ));
 
 View::display('form-login');
 

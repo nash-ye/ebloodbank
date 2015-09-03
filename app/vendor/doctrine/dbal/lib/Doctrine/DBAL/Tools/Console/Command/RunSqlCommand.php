@@ -61,7 +61,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $conn = $this->getHelper('db')->getConnection();
+        $conn = $this->getHelper('db')->getDBConnection();
 
         if (($sql = $input->getArgument('sql')) === null) {
             throw new \RuntimeException("Argument 'SQL' is required in order to execute this command correctly.");

@@ -8,17 +8,32 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\Exceptions;
-use EBloodBank\EntityManager;
-use EBloodBank\Kernal\Notices;
+use EBloodBank\Notices;
 use EBloodBank\Models\District;
 use EBloodBank\Views\View;
+use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
  */
 class AddDistrict extends Controller
 {
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __invoke()
+    {
+        if (isCurrentUserCan('add_district')) {
+            $this->doActions();
+            $this->addNotices();
+            $view = View::forge('add-district');
+        } else {
+            $view = View::forge('error-403');
+        }
+        $view();
+    }
+
     /**
      * @return void
      * @since 1.0
@@ -36,6 +51,17 @@ class AddDistrict extends Controller
      * @return void
      * @since 1.0
      */
+    protected function addNotices()
+    {
+        if (filter_has_var(INPUT_GET, 'flag-added')) {
+            Notices::addNotice('added', __('District added.'), 'success');
+        }
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
     protected function doSubmitAction()
     {
         if (isCurrentUserCan('add_district')) {
@@ -45,43 +71,31 @@ class AddDistrict extends Controller
                 $district = new District();
 
                 // Set the district name.
-                $district->set('name', filter_input(INPUT_POST, 'distr_name'), true);
+                $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
 
                 // Set the district city ID.
-                $district->set('city', filter_input(INPUT_POST, 'distr_city_id'), true);
+                $district->set('city', filter_input(INPUT_POST, 'district_city_id'), true);
 
-                $em = EntityManager::getInstance();
+                $district->set('created_at', gmdate('Y-m-d H:i:s'));
+                $district->set('created_by', getCurrentUserID());
+
+                $em = main()->getEntityManager();
                 $em->persist($district);
                 $em->flush();
 
-                $submitted = isVaildID($district->get('id'));
+                $added = isValidID($district->get('id'));
 
                 redirect(
                     addQueryArgs(
                         getAddDistrictURL(),
-                        array('flag-submitted' => $submitted)
+                        array('flag-added' => $added)
                     )
                 );
 
-            } catch (Exceptions\InvaildArgument $ex) {
+            } catch (InvalidArgument $ex) {
                 Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
             }
 
         }
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function __invoke()
-    {
-        if (isCurrentUserCan('add_district')) {
-            $this->doActions();
-            $view = View::instance('add-district');
-        } else {
-            $view = View::instance('error-401');
-        }
-        $view();
     }
 }
