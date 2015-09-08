@@ -113,8 +113,8 @@ CREATE  TABLE IF NOT EXISTS `donor_meta` (
   CONSTRAINT `dm_donor_id`
     FOREIGN KEY (`donor_id` )
     REFERENCES `donor` (`donor_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `dm_donor_id_idx` ON `donor_meta` (`donor_id` ASC) ;
@@ -132,11 +132,21 @@ CREATE  TABLE IF NOT EXISTS `user_meta` (
   CONSTRAINT `um_user_id`
     FOREIGN KEY (`user_id` )
     REFERENCES `user` (`user_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `um_user_id_idx` ON `user_meta` (`user_id` ASC) ;
+
+
+-- -----------------------------------------------------
+-- Table `variable`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `variable` (
+  `variable_name` VARCHAR(45) NOT NULL ,
+  `variable_value` LONGTEXT NOT NULL ,
+  PRIMARY KEY (`variable_name`) )
+ENGINE = InnoDB;
 
 
 

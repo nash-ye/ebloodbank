@@ -24,7 +24,6 @@ define('EBB_DB_USER', 'root');
  */
 define('EBB_DB_PASS', 'mysql');
 
-
 /**
  * MySQL database host.
  *
@@ -33,4 +32,10 @@ define('EBB_DB_PASS', 'mysql');
  */
 define('EBB_DB_HOST', 'localhost');
 
+/**
+ * eBloodBank Development Mode.
+ *
+ * @var bool
+ * @since 1.0
+ */
 define('EBB_DEV_MODE', true);

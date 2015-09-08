@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.0-alpha-7');
+define('EBB_VERSION', '1.0-alpha-8');
 
 define('EBB_MIN_PHP_VERSION', '5.4');
 define('EBB_MIN_MYSQL_VERSION', '5.6');
@@ -78,24 +78,34 @@ if (! ini_get('date.timezone')) {
 ini_set('filter.default', 'unsafe_raw');
 ini_set('filter.default_flags', '');
 
-/*** App Helpers **************************************************************/
+/*** App Functions ************************************************************/
 
-require EBB_APP_DIR . '/src/uri.php';
-require EBB_APP_DIR . '/src/l10n.php';
-require EBB_APP_DIR . '/src/http.php';
-require EBB_APP_DIR . '/src/html.php';
-require EBB_APP_DIR . '/src/context.php';
-require EBB_APP_DIR . '/src/session.php';
-require EBB_APP_DIR . '/src/formatting.php';
-require EBB_APP_DIR . '/src/validation.php';
-require EBB_APP_DIR . '/src/template-links.php';
-
-/*** App Packages *************************************************************/
-
-require EBB_APP_DIR . '/vendor/autoload.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.uri.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.http.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.html.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.context.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.session.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.filtering.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.formatting.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.hyperlinks.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.dropdowns.php';
 
 /*** App Autoloader ***********************************************************/
 
-$loader = new Aura\Autoload\Loader;
-$loader->register(); // Register the autoloader.
-$loader->addPrefix('EBloodBank', EBB_APP_DIR . '/src');
+require EBB_APP_DIR . '/vendor/autoload.php';
+
+/*** App Instance ******************************************************/
+
+/**
+ * return the true EBloodBank main instance.
+ *
+ * @return EBloodBank\Main
+ * @since 1.0
+ */
+function main()
+{
+    return EBloodBank\Main::getInstance();
+}
+
+// Fire it up.
+main();

@@ -1,0 +1,310 @@
+<?php
+/**
+ * Donor Model
+ *
+ * @package EBloodBank
+ * @subpackage Models
+ * @since 1.0
+ */
+namespace EBloodBank\Models;
+
+use EBloodBank as EBB;
+use EBloodBank\Options;
+use EBloodBank\Traits\EntityMeta;
+use EBloodBank\Exceptions\InvalidArgument;
+
+/**
+ * @since 1.0
+ *
+ * @Entity(repositoryClass="EBloodBank\Models\DonorRepository")
+ * @Table(name="donor")
+ */
+class Donor extends Entity
+{
+    use EntityMeta;
+
+    /**
+     * @var int
+     * @since 1.0
+     *
+     * @Id
+     * @GeneratedValue
+     * @Column(type="integer", name="donor_id")
+     */
+    protected $id = 0;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string", name="donor_name")
+     */
+    protected $name;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string", name="donor_gender")
+     */
+    protected $gender;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string", name="donor_birthdate")
+     */
+    protected $birthdate;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string", name="donor_blood_group")
+     */
+    protected $blood_group;
+
+    /**
+     * @var District
+     * @since 1.0
+     *
+     * @ManyToOne(targetEntity="EBloodBank\Models\District")
+     * @JoinColumn(name="donor_district_id", referencedColumnName="district_id")
+     */
+    protected $district;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="datetime", name="donor_created_at")
+     */
+    protected $created_at;
+
+    /**
+     * @var User
+     * @since 1.0
+     *
+     * @ManyToOne(targetEntity="EBloodBank\Models\User")
+     * @JoinColumn(name="donor_created_by", referencedColumnName="user_id")
+     */
+    protected $created_by;
+
+    /**
+     * @var string
+     * @since 1.0
+     *
+     * @Column(type="string", name="donor_status")
+     */
+    protected $status;
+
+    /**
+     * @var bool
+     * @since 1.0
+     */
+    public function isPending()
+    {
+        return 'pending' === $this->get('status');
+    }
+
+    /**
+     * @var bool
+     * @since 1.0
+     */
+    public function isApproved()
+    {
+        return 'approved' === $this->get('status');
+    }
+
+    /**
+     * @var int
+     * @since 1.0
+     */
+    public function calculateAge()
+    {
+        $currentDate = new \DateTime(date('Y-m-d'));
+        $birthdate = new \DateTime($this->get('birthdate'));
+
+        if ($birthdate > $currentDate) {
+            return 0;
+        }
+
+        return (int) $currentDate->diff($birthdate)->format('%y');
+    }
+
+    /**
+     * @var string
+     * @since 1.0
+     */
+    public function getGenderTitle()
+    {
+        $gender = $this->get('gender');
+        $genders = self::getGenderTitles();
+        if (isset($genders[$gender])) {
+            $gender = $genders[$gender];
+        }
+        return $gender;
+    }
+
+    /**
+     * @var array
+     * @since 1.0
+     */
+    public static function getBloodGroups()
+    {
+        return array(
+            'A+',
+            'A-',
+            'B+',
+            'B+',
+            'O+',
+            'O-',
+            'AB+',
+            'AB-',
+        );
+    }
+
+    /**
+     * @var array
+     * @since 1.0
+     */
+    public static function getGenderTitles()
+    {
+        return array(
+            'male'   => __('Male'),
+            'female' => __('Female'),
+        );
+    }
+
+    /**
+     * @return mixed
+     * @since 1.0
+     */
+    public static function sanitize($key, $value)
+    {
+        switch ($key) {
+            case 'id':
+                $value = EBB\sanitizeInteger($value);
+                break;
+            case 'name':
+            case 'gender':
+            case 'status':
+            case 'birthdate':
+            case 'blood_group':
+                $value = trim($value);
+                break;
+            case 'district':
+                if (EBB\isValidID($value)) {
+                    $em = main()->getEntityManager();
+                    $value = $em->find('Entities:District', $value);
+                }
+                break;
+            case 'created_at':
+                break;
+            case 'created_by':
+                if (EBB\isValidID($value)) {
+                    $em = main()->getEntityManager();
+                    $value = $em->find('Entities:User', $value);
+                }
+                break;
+        }
+        return $value;
+    }
+
+    /**
+     * @throws \EBloodBank\Exceptions\InvalidArgument
+     * @return bool
+     * @since 1.0
+     */
+    public static function validate($key, $value)
+    {
+        switch ($key) {
+            case 'id':
+                if (! EBB\isValidID($value)) {
+                    throw new InvalidArgument(__('Invalid donor ID.'), 'Invalid_donor_id');
+                }
+                break;
+            case 'name':
+                if (! is_string($value) || empty($value)) {
+                    throw new InvalidArgument(__('Invalid donor name.'), 'Invalid_donor_name');
+                }
+                break;
+            case 'gender':
+                if (! array_key_exists($value, self::getGenderTitles())) {
+                    throw new InvalidArgument(__('Invalid donor gender.'), 'Invalid_donor_gender');
+                }
+                break;
+            case 'birthdate':
+                break;
+            case 'blood_group':
+                if (! in_array($value, self::getBloodGroups())) {
+                    throw new InvalidArgument(__('Invalid donor blood group.'), 'Invalid_donor_blood_group');
+                }
+                break;
+            case 'district':
+                if (! $value instanceof District || ! $value->isExists()) {
+                    throw new InvalidArgument(__('Invalid donor district.'), 'Invalid_donor_district');
+                }
+                break;
+            case 'created_at':
+                break;
+            case 'created_by':
+                if (! $value instanceof User || ! $value->isExists()) {
+                    throw new InvalidArgument(__('Invalid donor originator.'), 'Invalid_donor_originator');
+                }
+                break;
+            case 'status':
+                if (! is_string($value) || empty($value)) {
+                    throw new InvalidArgument(__('Invalid donor status.'), 'Invalid_donor_status');
+                }
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * @return mixed
+     * @since 1.0
+     */
+    static public function sanitizeMeta($metaKey, $metaValue)
+    {
+        switch ($metaKey) {
+            case 'weight':
+                $metaValue = EBB\sanitizeFloat($metaValue);
+                break;
+            case 'email':
+                $metaValue = EBB\sanitizeEmail($metaValue);
+                break;
+            case 'phone':
+                $metaValue = EBB\sanitizeInteger($metaValue);
+                break;
+            case 'address':
+                $metaValue = trim($metaValue);
+                break;
+        }
+        return $metaValue;
+    }
+
+    /**
+     * @return bool
+     * @since 1.0
+     */
+    static public function validateMeta($metaKey, $metaValue)
+    {
+        switch ($metaKey) {
+            case 'weight':
+                if (! EBB\isValidFloat($metaValue)) {
+                    // TODO: Check Min and Max weight.
+                    throw new InvalidArgument(__('Invalid donor weight.'), 'Invalid_donor_weight');
+                }
+                break;
+            case 'email':
+                if (! EBB\isValidEmail($metaValue)) {
+                    throw new InvalidArgument(__('Invalid donor e-mail.'), 'Invalid_donor_email');
+                }
+                break;
+        }
+        return true;
+    }
+}

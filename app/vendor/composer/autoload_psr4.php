@@ -8,10 +8,11 @@ $baseDir = dirname($vendorDir);
 return array(
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Gettext\\Languages\\' => array($vendorDir . '/gettext/languages/src'),
     'Gettext\\' => array($vendorDir . '/gettext/gettext/src'),
+    'EBloodBank\\' => array($baseDir . '/src/EBloodBank'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Aura\\Router\\_Config\\' => array($vendorDir . '/aura/router/config'),
     'Aura\\Router\\' => array($vendorDir . '/aura/router/src'),
-    'Aura\\Autoload\\' => array($vendorDir . '/aura/autoload/src'),
 );
