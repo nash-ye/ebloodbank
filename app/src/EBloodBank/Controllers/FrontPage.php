@@ -40,6 +40,11 @@ class FrontPage extends Controller
                 break;
 
 
+            case 'settings':
+                $controller = new Settings();
+                break;
+
+
             case 'view-users':
                 $controller = new ViewUsers();
                 break;

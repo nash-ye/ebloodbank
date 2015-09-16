@@ -7,111 +7,120 @@
  */
 namespace EBloodBank;
 
+use GlobIterator;
+
 /**
  * @since 1.0
  */
 class Locales
 {
     /**
-     * @var array
+     * @var Locale
      * @since 1.0
      * @static
      */
-    protected static $locales = array();
+    protected static $defaultLocale;
 
     /**
-     * @var string
+     * @var Locale
      * @since 1.0
      * @static
      */
     protected static $currentLocale;
 
     /**
-     * @var array
+     * @return Locale
      * @since 1.0
      * @static
      */
-    public static function getLocales()
+    public static function getDefaultLocale()
     {
-        return self::$locales;
+        return self::$defaultLocale;
     }
 
     /**
-     * @var Locale
-     * @since 1.0
-     * @static
-     */
-    public static function getLocale($code)
-    {
-        if (! self::isLocaleExists($code)) {
-            return;
-        }
-
-        return self::$locales[$code];
-    }
-
-    /**
-     * @var bool
-     * @since 1.0
-     * @static
-     */
-    public static function isLocaleExists($code)
-    {
-        return $code && isset(self::$locales[$code]);
-    }
-
-    /**
-     * @var bool
-     * @since 1.0
-     * @static
-     */
-    public static function addLocale(Locale $locale)
-    {
-        if (self::isLocaleExists($locale->getCode())) {
-            return false;
-        }
-
-        self::$locales[$locale->getCode()] = $locale;
-        return true;
-    }
-
-    /**
-     * @var bool
-     * @since 1.0
-     * @static
-     */
-    public static function removeLocale($code)
-    {
-        if (! self::isLocaleExists($code)) {
-            return false;
-        }
-
-        unset(self::$locales[$code]);
-        return true;
-    }
-
-    /**
-     * @var Locale
+     * @return Locale
      * @since 1.0
      * @static
      */
     public static function getCurrentLocale()
     {
-        return self::getLocale(self::$currentLocale);
+        if (empty(self::$currentLocale)) {
+            return self::$defaultLocale;
+        } else {
+            return self::$currentLocale;
+        }
     }
 
     /**
-     * @var bool
+     * @return bool
      * @since 1.0
      * @static
      */
-    public static function setCurrentLocale($code)
+    public static function isDefaultLocale(Locale $locale)
     {
-        if (! self::isLocaleExists($code)) {
+        $defaultLocale = self::getDefaultLocale();
+
+        if (empty($defaultLocale)) {
             return false;
         }
 
-        self::$currentLocale = $code;
-        return true;
+        return ($defaultLocale->getCode() === $locale->getCode());
+    }
+
+    /**
+     * @return bool
+     * @since 1.0
+     * @static
+     */
+    public static function isCurrentLocale(Locale $locale)
+    {
+        $currentLocale = self::getCurrentLocale();
+
+        if (empty($currentLocale)) {
+            return false;
+        }
+
+        return ($currentLocale->getCode() === $locale->getCode());
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     * @static
+     */
+    public static function setDefaultLocale(Locale $locale)
+    {
+        self::$defaultLocale = $locale;
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     * @static
+     */
+    public static function setCurrentLocale(Locale $locale)
+    {
+        self::$currentLocale = $locale;
+    }
+
+    /**
+     * @return Locale[]
+     * @since 1.0
+     * @static
+     */
+    public static function getAvailableLocales()
+    {
+        $locales = array();
+
+        foreach (new GlobIterator(EBB_LOCALES_DIR . '/*.mo') as $moFile) {
+            if ($moFile->isFile() && $moFile->isReadable()) {
+                $moFilePath = $moFile->getRealPath();
+                $localeCode = $moFile->getBasename('.mo');
+                $locales[$localeCode] = new Locale($localeCode, $moFilePath);
+            }
+        }
+
+        return $locales;
     }
 }

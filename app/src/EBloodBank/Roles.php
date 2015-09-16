@@ -1,4 +1,10 @@
 <?php
+/**
+ * Roles Class
+ *
+ * @package EBloodBank
+ * @since 1.0
+ */
 namespace EBloodBank;
 
 /**
@@ -27,11 +33,11 @@ class Roles
      */
     public static function addRole(Role $role)
     {
-        if (self::isExists($role->slug)) {
+        if (self::isExists($role->getSlug())) {
             return false;
         }
 
-        self::$roles[$role->slug] = $role;
+        self::$roles[$role->getSlug()] = $role;
         return true;
     }
 

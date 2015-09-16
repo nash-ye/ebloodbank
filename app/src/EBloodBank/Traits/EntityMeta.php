@@ -26,22 +26,22 @@ trait EntityMeta
             $metaValue = array();
         }
 
-        $db = main()->getDBConnection();
         $em = main()->getEntityManager();
+        $connection = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
         $eIDFieldName = $eMetaData->getSingleIdentifierFieldName();
         $eIDColumnName = $eMetaData->getSingleIdentifierColumnName();
 
-        $eID = parent::get($eIDFieldName);
+        $eID = $this->get($eIDFieldName);
 
         if (! EBB\isValidID($eID)) {
             return $metaValue;
         }
 
         if (! isset($this->meta[$metaKey])) {
-            $rows = $db->fetchAll("SELECT meta_id, meta_value FROM $eMetaTableName WHERE $eIDColumnName = ? AND meta_key = ?", array( $eID, $metaKey ));
+            $rows = $connection->fetchAll("SELECT meta_id, meta_value FROM $eMetaTableName WHERE $eIDColumnName = ? AND meta_key = ?", array( $eID, $metaKey ));
             if (! empty($rows)) {
                 foreach ($rows as $row) {
                     $this->meta[$metaKey][$row['meta_id']] = $row['meta_value'];
@@ -64,16 +64,16 @@ trait EntityMeta
      * @return void
      * @since 1.0
      */
-    public function submitMeta($metaKey, $metaValue)
+    public function submitMeta($metaKey, $metaValue, $sanitize = false, $validate = true)
     {
         if (empty($metaValue)) {
             $this->deleteMeta($metaKey);
         } else {
-            $prevMetaValue = $this->getMeta($metaKey);
-            if (is_null($prevMetaValue)) {
-                $this->addMeta($metaKey, $metaValue);
+            $currentMetaValue = $this->getMeta($metaKey);
+            if (is_null($currentMetaValue)) {
+                $this->addMeta($metaKey, $metaValue, $sanitize, $validate);
             } else {
-                $this->updateMeta($metaKey, $metaValue);
+                $this->updateMeta($metaKey, $metaValue, $currentMetaValue, $sanitize, $validate);
             }
         }
     }
@@ -84,14 +84,15 @@ trait EntityMeta
      */
     public function addMeta($metaKey, $metaValue, $sanitize = false, $validate = true)
     {
-        $db = main()->getDBConnection();
         $em = main()->getEntityManager();
+        $connection = $em->getConnection();
+
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
         $eIDFieldName = $eMetaData->getSingleIdentifierFieldName();
         $eIDColumnName = $eMetaData->getSingleIdentifierColumnName();
 
-        $eID = parent::get($eIDFieldName);
+        $eID = $this->get($eIDFieldName);
 
         if (! EBB\isValidID($eID)) {
             return false;
@@ -111,8 +112,8 @@ trait EntityMeta
             'meta_key'      => $metaKey,
         );
 
-        $inserted = (bool) $db->insert($eMetaTableName, $data);
-        $metaID = ($inserted) ? (int) $db->lastInsertId() : 0;
+        $inserted = (bool) $connection->insert($eMetaTableName, $data);
+        $metaID = ($inserted) ? (int) $connection->lastInsertId() : 0;
 
         return $metaID;
     }
@@ -121,16 +122,17 @@ trait EntityMeta
      * @return bool
      * @since 1.0
      */
-    public function updateMeta($metaKey, $metaValue, $prevMetaValue = null, $sanitize = false, $validate = true)
+    public function updateMeta($metaKey, $metaValue, $currentMetaValue = null, $sanitize = false, $validate = true)
     {
-        $db = main()->getDBConnection();
         $em = main()->getEntityManager();
+        $connection = $em->getConnection();
+
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
         $eIDFieldName = $eMetaData->getSingleIdentifierFieldName();
         $eIDColumnName = $eMetaData->getSingleIdentifierColumnName();
 
-        $eID = parent::get($eIDFieldName);
+        $eID = $this->get($eIDFieldName);
 
         if (! EBB\isValidID($eID)) {
             return false;
@@ -153,11 +155,11 @@ trait EntityMeta
             'meta_key'     => $metaKey,
         );
 
-        if (! is_null($prevMetaValue)) {
-            $criteria['meta_value'] = $prevMetaValue;
+        if (! is_null($currentMetaValue)) {
+            $criteria['meta_value'] = $currentMetaValue;
         }
 
-        $updated = (bool) $db->update($eMetaTableName, $data, $criteria);
+        $updated = (bool) $connection->update($eMetaTableName, $data, $criteria);
 
         return $updated;
     }
@@ -168,15 +170,15 @@ trait EntityMeta
      */
     public function deleteMeta($metaKey, $metaValue = null)
     {
-        $db = main()->getDBConnection();
         $em = main()->getEntityManager();
+        $connection = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
         $eIDFieldName = $eMetaData->getSingleIdentifierFieldName();
         $eIDColumnName = $eMetaData->getSingleIdentifierColumnName();
 
-        $eID = parent::get($eIDFieldName);
+        $eID = $this->get($eIDFieldName);
 
         if (! EBB\isValidID($eID)) {
             return false;
@@ -191,7 +193,7 @@ trait EntityMeta
             $criteria['meta_value'] = $metaValue;
         }
 
-        $deleted = (bool) $db->delete($eMetaTableName, $criteria);
+        $deleted = (bool) $connection->delete($eMetaTableName, $criteria);
 
         return $deleted;
     }
@@ -199,6 +201,7 @@ trait EntityMeta
     /**
      * @return mixed
      * @since 1.0
+     * @static
      */
     static public function sanitizeMeta($metaKey, $metaValue)
     {
@@ -208,6 +211,7 @@ trait EntityMeta
     /**
      * @return bool
      * @since 1.0
+     * @static
      */
     static public function validateMeta($metaKey, $metaValue)
     {

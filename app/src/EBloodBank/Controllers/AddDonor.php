@@ -8,11 +8,13 @@
  */
 namespace EBloodBank\Controllers;
 
+use DateTime;
+use DateTimeZone;
+use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\Donor;
 use EBloodBank\Views\View;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -86,7 +88,7 @@ class AddDonor extends Controller
                 // Set the donor district ID.
                 $donor->set('district', filter_input(INPUT_POST, 'donor_district_id'), true);
 
-                $donor->set('created_at', new \DateTime('now', new \DateTimeZone('UTC')), true);
+                $donor->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
                 $donor->set('created_by', EBB\getCurrentUserID(), true);
 
                 // Set the donor status.
@@ -112,7 +114,7 @@ class AddDonor extends Controller
                 // Set the donor address.
                 $donor->addMeta('address', filter_input(INPUT_POST, 'donor_address'), true);
 
-                $added = EBB\isValidID($donor->get('id'));
+                $added = $donor->isExists();
 
                 EBB\redirect(
                     EBB\addQueryArgs(
@@ -121,8 +123,8 @@ class AddDonor extends Controller
                     )
                 );
 
-            } catch (InvalidArgument $ex) {
-                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
+            } catch (InvalidArgumentException $ex) {
+                Notices::addNotice('invalid_donor_argument', $ex->getMessage());
             }
 
         }

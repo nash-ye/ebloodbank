@@ -13,7 +13,7 @@ namespace EBloodBank;
  */
 function escAttr($data, $encoding = 'UTF-8')
 {
-    return htmlspecialchars($data, ENT_QUOTES, $encoding);
+    return htmlspecialchars($data, ENT_QUOTES, $encoding, false);
 }
 
 /**
@@ -22,7 +22,7 @@ function escAttr($data, $encoding = 'UTF-8')
  */
 function escHTML($data, $encoding = 'UTF-8')
 {
-    return htmlspecialchars($data, ENT_HTML5, $encoding);
+    return htmlspecialchars($data, ENT_HTML5, $encoding, false);
 }
 
 /**

@@ -32,14 +32,10 @@ abstract class Entity
      * @return bool
      * @since 1.0
      */
-    public function isExists()
-    {
-        $id = (int) $this->get('id');
-        return ! empty($id);
-    }
+    abstract public function isExists();
 
     /**
-     * @return mixed
+     * @return void
      * @since 1.0
      */
     public function display($key, $format = 'html')

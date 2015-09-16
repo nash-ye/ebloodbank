@@ -1,7 +1,7 @@
 {
     "name": "nash1ye/ebloodbank",
-    "description": "A Premium Blood Bank System.",
-    "version": "1.0-alpha-8",
+    "description": "A Premium Blood Bank Platform.",
+    "version": "1.0-alpha-9",
     "license": "GPL-3.0+",
     "type": "project",
     "authors": [
@@ -13,6 +13,10 @@
         }
     ],
     "require": {
+        "php": ">5.5",
+        "ext-PDO": "*",
+        "ext-filter": "*",
+        "ext-session": "*",
         "aura/router": "^2.3",
         "gettext/gettext": "^3.4",
         "monolog/monolog": "^1.17",

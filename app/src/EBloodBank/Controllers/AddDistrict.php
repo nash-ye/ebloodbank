@@ -8,11 +8,13 @@
  */
 namespace EBloodBank\Controllers;
 
+use DateTime;
+use DateTimeZone;
+use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\District;
 use EBloodBank\Views\View;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -77,14 +79,14 @@ class AddDistrict extends Controller
                 // Set the district city ID.
                 $district->set('city', filter_input(INPUT_POST, 'district_city_id'), true);
 
-                $district->set('created_at', new \DateTime('now', new \DateTimeZone('UTC')), true);
+                $district->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
                 $district->set('created_by', EBB\getCurrentUserID(), true);
 
                 $em = main()->getEntityManager();
                 $em->persist($district);
                 $em->flush();
 
-                $added = EBB\isValidID($district->get('id'));
+                $added = $district->isExists();
 
                 EBB\redirect(
                     EBB\addQueryArgs(
@@ -93,8 +95,8 @@ class AddDistrict extends Controller
                     )
                 );
 
-            } catch (InvalidArgument $ex) {
-                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
+            } catch (InvalidArgumentException $ex) {
+                Notices::addNotice('invalid_district_argument', $ex->getMessage());
             }
 
         }

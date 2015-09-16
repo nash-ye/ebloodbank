@@ -64,11 +64,11 @@ class Main
         $this->logger = new Monolog\Logger('Main Logger');
 
         if (EBB_DEV_MODE) {
-            $debugHandler = new Monolog\Handler\StreamHandler(EBB_DIR . '/logs/debug.log', Monolog\Logger::DEBUG);
+            $debugHandler = new Monolog\Handler\StreamHandler(EBB_APP_DIR . '/debug.log', Monolog\Logger::DEBUG);
             $this->logger->pushHandler($debugHandler);
         }
 
-        $warningsHandler = new Monolog\Handler\StreamHandler(EBB_DIR . '/logs/warnings.log', Monolog\Logger::WARNING);
+        $warningsHandler = new Monolog\Handler\StreamHandler(EBB_APP_DIR . '/warnings.log', Monolog\Logger::WARNING);
         $this->logger->pushHandler($warningsHandler);
 
         // Register the logger as an exception handler, error handler and fatal error handler.
@@ -99,6 +99,8 @@ class Main
         $this->router->add('login', '/login/');
         $this->router->add('logout', '/logout/');
         $this->router->add('signup', '/signup/');
+
+        $this->router->add('settings', '/settings/');
 
         $this->router->add('view-donors', '/donors/');
         $this->router->add('add-donor', '/add/donor/');
@@ -146,15 +148,6 @@ class Main
      */
     private function setupTranslator()
     {
-        $moFiles = glob(EBB_APP_DIR . '/locales/*.mo');
-
-        if (! empty($moFiles)) {
-            foreach ($moFiles as $moFile) {
-                $code = pathinfo($moFile, PATHINFO_FILENAME);
-                Locales::addLocale(new Locale($code));
-            }
-        }
-
         $this->translator = NEW Gettext\Translator();
         $this->translator->register();
     }
@@ -174,22 +167,14 @@ class Main
      */
     private function setupDBConnection()
     {
-        try {
-
-            $this->DBConnection = DBAL\DriverManager::getConnection(array(
-                'dbname'    => EBB_DB_NAME,
-                'user'      => EBB_DB_USER,
-                'password'  => EBB_DB_PASS,
-                'host'      => EBB_DB_HOST,
-                'driver'    => 'pdo_mysql',
-                'charset'   => 'utf8',
-            ));
-
-            $this->DBConnection->connect(); // Establishes the connection.
-
-        } catch (\Exception $ex) {
-            die('Error establishing a database connection.');
-        }
+        $this->DBConnection = DBAL\DriverManager::getConnection(array(
+            'dbname'    => EBB_DB_NAME,
+            'user'      => EBB_DB_USER,
+            'password'  => EBB_DB_PASS,
+            'host'      => EBB_DB_HOST,
+            'driver'    => 'pdo_mysql',
+            'charset'   => 'utf8',
+        ));
     }
 
     /**
@@ -207,21 +192,13 @@ class Main
      */
     private function setupEntityManager()
     {
-        try {
+        $config = ORM\Tools\Setup::createConfiguration((bool) EBB_DEV_MODE);
+        $entitiesPaths = array(trimTrailingSlash(EBB_APP_DIR) . '/src/Models/');
+        $driverImpl = $config->newDefaultAnnotationDriver($entitiesPaths, true);
+        $config->addEntityNamespace('Entities', 'EBloodBank\Models');
+        $config->setMetadataDriverImpl($driverImpl);
 
-            $config = ORM\Tools\Setup::createConfiguration(EBB_DEV_MODE);
-
-            $entityPaths = array(trimTrailingSlash(EBB_DIR) . '/app/src/Models/');
-            $driverImpl = $config->newDefaultAnnotationDriver($entityPaths, true);
-            $config->setMetadataDriverImpl($driverImpl);
-
-            $config->addEntityNamespace('Entities', 'EBloodBank\Models');
-
-            $this->entityManager = ORM\EntityManager::create(self::getDBConnection(), $config);
-
-        } catch (\Exception $ex) {
-            die('Error establishing a database connection.');
-        }
+        $this->entityManager = ORM\EntityManager::create($this->getDBConnection(), $config);
     }
 
     /**
@@ -237,15 +214,48 @@ class Main
      * @return void
      * @since 1.0
      */
+    private function checkInstallation()
+    {
+        $connection = $this->getDBConnection();
+
+        if (! isDatabaseSelected($connection)) {
+            if (! isInstaller()) {
+                redirect(getInstallerURL());
+            }
+        } elseif (! isDatabaseConnected($connection)) {
+            Views\View::display('error-db');
+            die();
+        } elseif (! isAllTablesExists($connection)) {
+            if (! isInstaller()) {
+                redirect(getInstallerURL());
+            }
+        }
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
     private function setupCurrentLocale()
     {
-        if (isInstaller()) {
-            return;
+        $locales = Locales::getAvailableLocales();
+
+        if (isset($locales[EBB_DEFAULT_LOCALE])) {
+            Locales::setDefaultLocale($locales[EBB_DEFAULT_LOCALE]);
         }
-        $siteLocale = Options::getOption('site_locale');
-        if (! empty($siteLocale) && Locales::setCurrentLocale($siteLocale)) {
-            $currentLocale = Locales::getCurrentLocale();
+
+        if (! isInstaller()) {
+            $siteLocale = Options::getOption('site_locale');
+            if (! empty($siteLocale) && isset($locales[$siteLocale])) {
+                Locales::setCurrentLocale($locales[$siteLocale]);
+            }
+        }
+
+        $currentLocale = Locales::getCurrentLocale();
+
+        if (! empty($currentLocale)) {
             $this->getTranslator()->loadTranslations($currentLocale->getTranslations());
+
         }
     }
 
@@ -371,6 +381,9 @@ class Main
             'view_districts'        => true,
             'delete_district'       => true,
 
+            // Settings
+            'edit_settings'         => true,
+
         ) ) );
     }
 
@@ -404,13 +417,15 @@ class Main
             // Sets up the ORM entity manager.
             $instance->setupEntityManager();
 
+            $instance->checkInstallation();
+
             // Sets up the current locale.
             $instance->setupCurrentLocale();
 
-            // Sets up the current locale.
+            // Sets up the user session.
             $instance->setupUserSession();
 
-            // Sets up the current locale.
+            // Sets up the user roles.
             $instance->setupUserRoles();
 
         }

@@ -8,11 +8,14 @@
  */
 namespace EBloodBank\Controllers;
 
+use DateTime;
+use DateTimeZone;
+use InvalidArgumentException;
 use EBloodBank as EBB;
+use EBloodBank\Notices;
 use EBloodBank\Options;
 use EBloodBank\Models\User;
 use EBloodBank\Views\View;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -25,11 +28,49 @@ class Install extends Controller
      */
     public function __invoke()
     {
-        $this->doStepAction();
-        $view = View::forge('install', array(
-            'step' => $this->getStep(),
-        ));
+        if ($this->isInstalled()) {
+            $view = View::forge('install', array(
+                'status' => 'installed',
+            ));
+        } else {
+            $view = View::forge('install', array(
+                'step' => $this->getStep(),
+                'status' => 'installing',
+            ));
+        }
         $view();
+    }
+
+    /**
+     * @return bool
+     * @since 1.0
+     */
+    protected function isInstalled()
+    {
+
+        $connection = main()->getDBConnection();
+
+        /* Check eBloodBank database selection. */
+
+        if (! isDatabaseSelected($connection)) {
+            return false;
+        }
+
+        /* Check eBloodBank database connection. */
+
+        if (! isDatabaseConnected($connection) ) {
+            return false;
+        }
+
+        /* Check eBloodBank database tables existence. */
+
+        if (! isAllTablesExists($connection)) {
+            return false;
+        }
+
+        /* Nothing left to check, well-done! */
+
+        return true;
     }
 
     /**
@@ -50,13 +91,10 @@ class Install extends Controller
         if ('POST' === filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
             switch ($this->getStep()) {
                 case 1:
-                    $this->doFirstStepAction();
+                    $this->doStep1Action();
                     break;
                 case 2:
-                    $this->doSecondStepAction();
-                    break;
-                case 3:
-                    $this->doThirdStepAction();
+                    $this->doStep2Action();
                     break;
             }
         }
@@ -66,11 +104,33 @@ class Install extends Controller
      * @return void
      * @since 1.0
      */
-    protected function doFirstStepAction()
+    protected function doStep1Action()
     {
-        $db = main()->getDBConnection();
+        $connection = main()->getDBConnection();
+        if (EBB\isDatabaseSelected($connection)) {
+            if (EBB\isDatabaseConnected($connection)) {
+                EBB\redirect(
+                    EBB\addQueryArgs(
+                        EBB\getInstallerURL(),
+                        array('step' => 2)
+                    )
+                );
+            }
+        }
+    }
 
-        $sql = <<<'SQL'
+    /**
+     * @return void
+     * @since 1.0
+     */
+    protected function doStep2Action()
+    {
+        try {
+
+            $connection = main()->getDBConnection();
+
+            $sql = <<<'SQL'
+
 -- -----------------------------------------------------
 -- Table `user`
 -- -----------------------------------------------------
@@ -212,80 +272,67 @@ CREATE INDEX `um_user_id_idx` ON `user_meta` (`user_id` ASC) ;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `variable` (
   `variable_name` VARCHAR(45) NOT NULL ,
-  `variable_value` LONGTEXT NOT NULL ,
+  `variable_value` LONGTEXT NULL ,
   PRIMARY KEY (`variable_name`) )
 ENGINE = InnoDB;
 SQL;
 
-        $db->exec($sql);
+            $connection->exec($sql);
 
-        Options::addOption('site_locale', 'en');
-        Options::addOption('entities_per_page', 10);
-        Options::addOption('self_registration', '0');
-        Options::addOption('default_role', 'subscriber');
+            /* General Options */
+            Options::addOption('site_url', EBB\getHomeURL());
+            Options::addOption('site_name', filter_input(INPUT_POST, 'site_name'), true);
+            Options::addOption('site_email', filter_input(INPUT_POST, 'site_email'), true);
 
-        EBB\redirect(
-            EBB\addQueryArgs(
-                EBB\getSiteURL('install.php'),
-                array( 'step' => 2 )
-            )
-        );
-    }
+            /* Accounts Options */
+            Options::addOption('self_registration', 'off');
+            Options::addOption('default_user_role', 'subscriber');
+            Options::addOption('default_user_status', 'pending');
 
-    /**
-     * @return void
-     * @since 1.0
-     */
-    protected function doSecondStepAction()
-    {
-        $user = new User();
+            /* Reading Options */
+            Options::addOption('entities_per_page', 10);
 
-        // Set the user name.
-        $user->set('name', filter_input(INPUT_POST, 'user_name'));
+            $user = new User();
 
-        // Set the user name.
-        $user->set('email', filter_input(INPUT_POST, 'user_email'));
+            // Set the user name.
+            $user->set('name', filter_input(INPUT_POST, 'user_name'));
 
-        $userPass1 = filter_input(INPUT_POST, 'user_pass_1', FILTER_UNSAFE_RAW);
-        $userPass2 = filter_input(INPUT_POST, 'user_pass_2', FILTER_UNSAFE_RAW);
+            // Set the user name.
+            $user->set('email', filter_input(INPUT_POST, 'user_email'));
 
-        if (empty($userPass1)) {
-            throw new InvalidArgument(__('Please enter your password.'), 'user_pass');
+            $userPass1 = filter_input(INPUT_POST, 'user_pass_1', FILTER_UNSAFE_RAW);
+            $userPass2 = filter_input(INPUT_POST, 'user_pass_2', FILTER_UNSAFE_RAW);
+
+            if (empty($userPass1)) {
+                throw new InvalidArgumentException(__('Please enter your password.'));
+            }
+
+            if (empty($userPass2)) {
+                throw new InvalidArgumentException(__('Please confirm your password.'));
+            }
+
+            if ($userPass1 !== $userPass2) {
+                throw new InvalidArgumentException(__('Please enter the same password.'));
+            }
+
+            // Set the user password.
+            $user->set('pass', password_hash($userPass1, PASSWORD_BCRYPT), false);
+
+            // Set the user role.
+            $user->set('role', 'administrator');
+            $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
+            $user->set('status', 'activated');
+
+            $em = main()->getEntityManager();
+            $em->persist($user);
+            $em->flush();
+
+            EBB\redirect(EBB\getLoginURL());
+
+        } catch (InvalidArgumentException $ex) {
+            Notices::addNotice('invalid_user_argument', $ex->getMessage());
+        } catch (\Exception $ex) {
+            Notices::addNotice('installing_failed', __('An unexpected error occurred while installing eBloodBank.'));
         }
-
-        if (empty($userPass2)) {
-            throw new InvalidArgument(__('Please confirm your password.'), 'user_pass');
-        }
-
-        if ($userPass1 !== $userPass2) {
-            throw new InvalidArgument(__('Please enter the same password.'), 'user_pass');
-        }
-
-        // Set the user password.
-        $user->set('pass', password_hash($userPass1, PASSWORD_BCRYPT), false);
-
-        // Set the user role.
-        $user->set('role', 'administrator');
-        $user->set('created_at', new \DateTime('now', new \DateTimeZone('UTC')), true);
-        $user->set('status', 'activated');
-
-        $em = main()->getEntityManager();
-        $em->persist($user);
-        $em->flush();
-
-        EBB\redirect(
-            EBB\addQueryArgs(
-                EBB\getSiteURL('install.php'),
-                array( 'step' => 3 )
-            )
-        );
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    protected function doThirdStepAction()
-    {
     }
 }

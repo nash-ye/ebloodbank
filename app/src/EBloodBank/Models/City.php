@@ -8,8 +8,8 @@
  */
 namespace EBloodBank\Models;
 
+use InvalidArgumentException;
 use EBloodBank as EBB;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -63,6 +63,16 @@ class City extends Entity
     protected $districts = array();
 
     /**
+     * @return bool
+     * @since 1.0
+     */
+    public function isExists()
+    {
+        $id = (int) $this->get('id');
+        return ! empty($id);
+    }
+
+    /**
      * @return mixed
      * @since 1.0
      */
@@ -88,7 +98,7 @@ class City extends Entity
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvalidArgument
+     * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
      */
@@ -97,19 +107,19 @@ class City extends Entity
         switch ($key) {
             case 'id':
                 if (! EBB\isValidID($value)) {
-                    throw new InvalidArgument(__('Invalid city ID.'), 'Invalid_city_id');
+                    throw new InvalidArgumentException(__('Invalid city ID.'));
                 }
                 break;
             case 'name':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvalidArgument(__('Invalid city name.'), 'Invalid_city_name');
+                    throw new InvalidArgumentException(__('Invalid city name.'));
                 }
                 break;
             case 'created_at':
                 break;
             case 'created_by':
                 if (! $value instanceof User || ! $value->isExists()) {
-                    throw new InvalidArgument(__('Invalid city originator.'), 'Invalid_city_originator');
+                    throw new InvalidArgumentException(__('Invalid city originator.'));
                 }
                 break;
         }

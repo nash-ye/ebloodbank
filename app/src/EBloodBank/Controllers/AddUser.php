@@ -8,11 +8,13 @@
  */
 namespace EBloodBank\Controllers;
 
+use DateTime;
+use DateTimeZone;
+use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\User;
 use EBloodBank\Views\View;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -80,25 +82,25 @@ class AddUser extends Controller
                 // Set the user email.
                 $user->set('email', filter_input(INPUT_POST, 'user_email'), true);
 
-                $duplicateUser = $userRepository->findOneBy(array( 'email' => $user->get('email') ));
+                $duplicateUser = $userRepository->findOneBy(array('email' => $user->get('email')));
 
                 if (! empty($duplicateUser)) {
-                    throw new InvalidArgument(__('Please enter a unique e-mail.'), 'user_email');
+                    throw new InvalidArgumentException(__('Please enter a unique user e-mail.'));
                 }
 
                 $userPass1 = filter_input(INPUT_POST, 'user_pass_1', FILTER_UNSAFE_RAW);
                 $userPass2 = filter_input(INPUT_POST, 'user_pass_2', FILTER_UNSAFE_RAW);
 
                 if (empty($userPass1)) {
-                    throw new InvalidArgument(__('Please enter the password.'), 'user_pass');
+                    throw new InvalidArgumentException(__('Please enter the password.'));
                 }
 
                 if (empty($userPass2)) {
-                    throw new InvalidArgument(__('Please confirm the password.'), 'user_pass');
+                    throw new InvalidArgumentException(__('Please confirm the password.'));
                 }
 
                 if ($userPass1 !== $userPass2) {
-                    throw new InvalidArgument(__('Please enter the same password.'), 'user_pass');
+                    throw new InvalidArgumentException(__('Please enter the same password.'));
                 }
 
                 // Set the user password.
@@ -108,20 +110,20 @@ class AddUser extends Controller
                 $user->set('role', filter_input(INPUT_POST, 'user_role'), true);
 
                 // Set the user time.
-                $user->set('created_at', new \DateTime('now', new \DateTimeZone('UTC')), true);
+                $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
 
                 // Set the user status.
                 if (EBB\isCurrentUserCan('activate_user')) {
                     $user->set('status', 'activated');
                 } else {
-                    $user->set('status', 'pending');
+                    $user->set('status', Options::getOption('default_user_status'), true);
                 }
 
                 $em = main()->getEntityManager();
                 $em->persist($user);
                 $em->flush();
 
-                $added = EBB\isValidID($user->get('id'));
+                $added = $user->isExists();
 
                 EBB\redirect(
                     EBB\addQueryArgs(
@@ -130,8 +132,8 @@ class AddUser extends Controller
                     )
                 );
 
-            } catch (InvalidArgument $ex) {
-                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
+            } catch (InvalidArgumentException $ex) {
+                Notices::addNotice('invalid_user_argument', $ex->getMessage());
             }
 
         }

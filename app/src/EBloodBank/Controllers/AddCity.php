@@ -8,11 +8,13 @@
  */
 namespace EBloodBank\Controllers;
 
+use DateTime;
+use DateTimeZone;
+use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\City;
 use EBloodBank\Views\View;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -77,14 +79,14 @@ class AddCity extends Controller
                 // Set the city name.
                 $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
 
-                $duplicateCity = $cityRepository->findOneBy(array( 'name' => $city->get('name') ));
+                $duplicateCity = $cityRepository->findOneBy(array('name' => $city->get('name')));
 
                 if (! empty($duplicateCity)) {
-                    throw new InvalidArgument(__('Please enter a unique name.'), 'city_name');
+                    throw new InvalidArgumentException(__('Please enter a unique city name.'));
                 }
 
                 // Set the creation date.
-                $city->set('created_at', new \DateTime('now', new \DateTimeZone('UTC')), true);
+                $city->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
 
                 // Set the creator ID.
                 $city->set('created_by', EBB\getCurrentUserID(), true);
@@ -92,7 +94,7 @@ class AddCity extends Controller
                 $em->persist($city);
                 $em->flush();
 
-                $added = EBB\isValidID($city->get('id'));
+                $added = $city->isExists();
 
                 EBB\redirect(
                     EBB\addQueryArgs(
@@ -101,8 +103,8 @@ class AddCity extends Controller
                     )
                 );
 
-            } catch (InvalidArgument $ex) {
-                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
+            } catch (InvalidArgumentException $ex) {
+                Notices::addNotice('invalid_city_argument', $ex->getMessage());
             }
 
         }

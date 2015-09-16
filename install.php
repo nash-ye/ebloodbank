@@ -25,8 +25,8 @@ define('EBB_DIR', dirname(__FILE__));
 // Load eBloodBank bootstrapper.
 require EBB_DIR . '/app/bootstrap.php';
 
-// Instance an Installer controller.
+// Instance the install page controller.
 $installer = new EBloodBank\Controllers\Install();
 
-// Start the Installer!
+// Invoke it!
 $installer();

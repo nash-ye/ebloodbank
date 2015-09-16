@@ -39,3 +39,11 @@ define('EBB_DB_HOST', 'localhost');
  * @since 1.0
  */
 define('EBB_DEV_MODE', true);
+
+/**
+ * eBloodBank default locale.
+ *
+ * @var string
+ * @since 1.0
+ */
+define('EBB_DEFAULT_LOCALE', '');

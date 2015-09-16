@@ -57,9 +57,9 @@ function getCurrentUserID()
  * @return bool
  * @since 1.0
  */
-function isCurrentUserCan($caps, $opt = 'AND')
+function isCurrentUserCan($cap)
 {
-    if (empty($caps)) {
+    if (empty($cap)) {
         return false;
     }
 
@@ -69,5 +69,5 @@ function isCurrentUserCan($caps, $opt = 'AND')
         return false;
     }
 
-    return $currentUser->hasCaps((array) $caps, $opt);
+    return $currentUser->hasCapability($cap);
 }

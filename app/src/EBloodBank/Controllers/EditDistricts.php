@@ -80,7 +80,7 @@ class EditDistricts extends ViewDistricts
             $district = $em->getReference('Entities:District', $districtID);
 
             $donorRepository = $em->getRepository('Entities:Donor');
-            $donorsCount = $donorRepository->countBy(array( 'district' => $district ));
+            $donorsCount = $donorRepository->countBy(array('district' => $district));
 
             if ($donorsCount > 0) {
                 return;

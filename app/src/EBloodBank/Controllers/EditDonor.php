@@ -8,10 +8,10 @@
  */
 namespace EBloodBank\Controllers;
 
+use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -115,8 +115,8 @@ class EditDonor extends Controller
                     )
                 );
 
-            } catch (InvalidArgument $ex) {
-                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
+            } catch (InvalidArgumentException $ex) {
+                Notices::addNotice('invalid_donor_argument', $ex->getMessage());
             }
 
         }

@@ -8,10 +8,10 @@
  */
 namespace EBloodBank\Models;
 
+use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Roles;
 use EBloodBank\Traits\EntityMeta;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -82,7 +82,17 @@ class User extends Entity
     protected $status;
 
     /**
-     * @return Role
+     * @return bool
+     * @since 1.0
+     */
+    public function isExists()
+    {
+        $id = (int) $this->get('id');
+        return ! empty($id);
+    }
+
+    /**
+     * @return \EBloodBank\Role
      * @since 1.0
      */
     public function getRole()
@@ -91,10 +101,25 @@ class User extends Entity
     }
 
     /**
+     * @return string
+     * @since 1.0
+     */
+    public function getRoleTitle()
+    {
+        $role = $this->getRole();
+
+        if (empty($role)) {
+            return $this->get('role');
+        } else {
+            return $role->getTitle();
+        }
+    }
+
+    /**
      * @return bool
      * @since 1.0
      */
-    public function hasCaps(array $caps, $opt = 'AND')
+    public function hasCapability($cap)
     {
         $role = $this->getRole();
 
@@ -102,7 +127,7 @@ class User extends Entity
             return false;
         }
 
-        return $role->hasCaps($caps, $opt);
+        return $role->hasCapability($cap);
     }
 
     /**
@@ -147,7 +172,7 @@ class User extends Entity
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvalidArgument
+     * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
      */
@@ -156,34 +181,34 @@ class User extends Entity
         switch ($key) {
             case 'id':
                 if (! EBB\isValidID($value)) {
-                    throw new InvalidArgument(__('Invalid user ID.'), 'Invalid_user_id');
+                    throw new InvalidArgumentException(__('Invalid user ID.'));
                 }
                 break;
             case 'name':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvalidArgument(__('Invalid user name.'), 'Invalid_user_name');
+                    throw new InvalidArgumentException(__('Invalid user name.'));
                 }
                 break;
             case 'email':
                 if (! EBB\isValidEmail($value)) {
-                    throw new InvalidArgument(__('Invalid user e-mail.'), 'Invalid_user_email');
+                    throw new InvalidArgumentException(__('Invalid user e-mail.'));
                 }
                 break;
             case 'pass':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvalidArgument(__('Invalid user password.'), 'Invalid_user_pass');
+                    throw new InvalidArgumentException(__('Invalid user password.'));
                 }
                 break;
             case 'role':
                 if (! is_string($value) || ! Roles::isExists($value)) {
-                    throw new InvalidArgument(__('Invalid user role.'), 'Invalid_user_role');
+                    throw new InvalidArgumentException(__('Invalid user role.'));
                 }
                 break;
             case 'created_at':
                 break;
             case 'status':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvalidArgument(__('Invalid user status.'), 'Invalid_user_status');
+                    throw new InvalidArgumentException(__('Invalid user status.'));
                 }
                 break;
         }

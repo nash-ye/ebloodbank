@@ -5,7 +5,6 @@
  * @package EBloodBank
  * @since 1.0
  */
-
 namespace EBloodBank;
 
 /**
@@ -17,35 +16,98 @@ class Role
      * @var string
      * @since 1.0
      */
-    public $slug;
+    protected $slug;
 
     /**
      * @var string
      * @since 1.0
      */
-    public $title;
+    protected $title;
 
     /**
      * @var array
      * @since 1.0
      */
-    public $caps = array();
+    protected $caps = array();
 
     /**
      * @since 1.0
      */
     public function __construct($slug, $title, array $caps)
     {
-        $this->slug  = $slug;
+        $this->setSlug($slug);
+        $this->setTitle($title);
+        $this->setCapabilities($caps);
+    }
+
+    /**
+     * @return string
+     * @since 1.0
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    protected function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * @return string
+     * @since 1.0
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function setTitle($title)
+    {
         $this->title = $title;
-        $this->caps  = $caps;
+    }
+
+    /**
+     * @return array
+     * @since 1.0
+     */
+    public function getCapabilities()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function setCapabilities(array $caps)
+    {
+        $this->caps = $caps;
     }
 
     /**
      * @return bool
      * @since 1.0
      */
-    public function hasCaps(array $caps, $opt = 'AND')
+    public function hasCapability($cap)
+    {
+        return ! empty($this->caps[$cap]);
+    }
+
+    /**
+     * @return bool
+     * @since 1.0
+     */
+    public function hasCapabilities(array $caps, $opt = 'AND')
     {
         if (empty($opt)) {
             $opt = 'AND';
@@ -59,7 +121,7 @@ class Role
 
                 case 'AND':
 
-                    if (empty($this->caps[$cap])) {
+                    if (! $this->hasCapability($cap)) {
                         return false;
                     }
 
@@ -67,7 +129,7 @@ class Role
 
                 case 'OR':
 
-                    if (! empty($this->caps[$cap])) {
+                    if ($this->hasCapability($cap)) {
                         return true;
                     }
 
@@ -75,7 +137,7 @@ class Role
 
                 case 'NOT':
 
-                    if (! empty($this->caps[$cap])) {
+                    if ($this->hasCapability($cap)) {
                         return false;
                     }
 

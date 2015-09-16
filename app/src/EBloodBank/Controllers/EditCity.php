@@ -8,10 +8,10 @@
  */
 namespace EBloodBank\Controllers;
 
+use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -84,10 +84,10 @@ class EditCity extends Controller
                 // Set the city name.
                 $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
 
-                $duplicateCity = $cityRepository->findOneBy(array( 'name' => $city->get('name') ));
+                $duplicateCity = $cityRepository->findOneBy(array('name' => $city->get('name')));
 
                 if (! empty($duplicateCity) && $duplicateCity->get('id') != $cityID) {
-                    throw new InvalidArgument(__('Please enter a unique name.'), 'city_name');
+                    throw new InvalidArgumentException(__('Please enter a unique city name.'));
                 }
 
                 $em->flush($city);
@@ -99,8 +99,8 @@ class EditCity extends Controller
                     )
                 );
 
-            } catch (InvalidArgument $ex) {
-                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
+            } catch (InvalidArgumentException $ex) {
+                Notices::addNotice('invalid_city_argument', $ex->getMessage());
             }
 
         }

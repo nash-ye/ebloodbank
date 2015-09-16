@@ -8,8 +8,8 @@
  */
 namespace EBloodBank\Models;
 
+use InvalidArgumentException;
 use EBloodBank as EBB;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -72,6 +72,16 @@ class District extends Entity
     protected $donors = array();
 
     /**
+     * @return bool
+     * @since 1.0
+     */
+    public function isExists()
+    {
+        $id = (int) $this->get('id');
+        return ! empty($id);
+    }
+
+    /**
      * @return mixed
      * @since 1.0
      */
@@ -103,7 +113,7 @@ class District extends Entity
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvalidArgument
+     * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
      */
@@ -112,24 +122,24 @@ class District extends Entity
         switch ($key) {
             case 'id':
                 if (! EBB\isValidID($value)) {
-                    throw new InvalidArgument(__('Invalid district ID.'), 'Invalid_district_id');
+                    throw new InvalidArgumentException(__('Invalid district ID.'));
                 }
                 break;
             case 'name':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvalidArgument(__('Invalid district name.'), 'Invalid_district_name');
+                    throw new InvalidArgumentException(__('Invalid district name.'));
                 }
                 break;
             case 'city':
                 if (! $value instanceof City || ! $value->isExists()) {
-                    throw new InvalidArgument(__('Invalid district city.'), 'Invalid_district_city');
+                    throw new InvalidArgumentException(__('Invalid district city.'));
                 }
                 break;
             case 'created_at':
                 break;
             case 'created_by':
                 if (! $value instanceof User || ! $value->isExists()) {
-                    throw new InvalidArgument(__('Invalid district originator.'), 'Invalid_district_originator');
+                    throw new InvalidArgumentException(__('Invalid district originator.'));
                 }
                 break;
         }

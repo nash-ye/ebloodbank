@@ -144,7 +144,7 @@ CREATE INDEX `um_user_id_idx` ON `user_meta` (`user_id` ASC) ;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `variable` (
   `variable_name` VARCHAR(45) NOT NULL ,
-  `variable_value` LONGTEXT NOT NULL ,
+  `variable_value` LONGTEXT NULL ,
   PRIMARY KEY (`variable_name`) )
 ENGINE = InnoDB;
 

@@ -7,7 +7,17 @@
  */
 namespace EBloodBank;
 
-use EBloodBank\Options;
+/*** Installer Template Tags **************************************************/
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function getInstallerURL()
+{
+    $url = getSiteURL('/install.php');
+    return $url;
+}
 
 /*** Login\Logout\Signup Template Tags ****************************************/
 
@@ -25,13 +35,13 @@ function getLoginURL()
  * @return string
  * @since 1.0
  */
-function getLoginLink(array $args = array())
+function getLoginLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Log Out'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -67,13 +77,13 @@ function getLogoutURL()
  * @return string
  * @since 1.0
  */
-function getLogoutLink(array $args = array())
+function getLogoutLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Log Out'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -106,18 +116,18 @@ function getSignupURL()
  * @return string
  * @since 1.0
  */
-function getSignupLink(array $args = array())
+function getSignupLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Sign Up'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
 
-    if (! Options::getOption('self_registration')) {
+    if ('on' !== Options::getOption('self_registration')) {
         return $link;
     }
 
@@ -227,13 +237,13 @@ function getActivateUserURL($id)
  * @return string
  * @since 1.0
  */
-function getUsersLink(array $args = array())
+function getUsersLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Users'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -256,13 +266,13 @@ function getUsersLink(array $args = array())
  * @return string
  * @since 1.0
  */
-function getAddUserLink(array $args = array())
+function getAddUserLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Add'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -285,13 +295,13 @@ function getAddUserLink(array $args = array())
  * @return string
  * @since 1.0
  */
-function getEditUsersLink(array $args = array())
+function getEditUsersLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Edit'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -320,7 +330,7 @@ function getEditUserLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Edit'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -354,7 +364,7 @@ function getDeleteUserLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Delete'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -392,7 +402,7 @@ function getActivateUserLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Activate'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -519,13 +529,13 @@ function getApproveDonorURL($id)
  * @return string
  * @since 1.0
  */
-function getDonorsLink(array $args = array())
+function getDonorsLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Donors'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -548,13 +558,13 @@ function getDonorsLink(array $args = array())
  * @return string
  * @since 1.0
  */
-function getAddDonorLink(array $args = array())
+function getAddDonorLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Add'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -577,13 +587,13 @@ function getAddDonorLink(array $args = array())
  * @return string
  * @since 1.0
  */
-function getEditDonorsLink(array $args = array())
+function getEditDonorsLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Edit'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -612,7 +622,7 @@ function getEditDonorLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Edit'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -646,7 +656,7 @@ function getDeleteDonorLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Delete'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -680,7 +690,7 @@ function getApproveDonorLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Approve'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -785,13 +795,13 @@ function getDeleteCityURL($id)
  * @return string
  * @since 1.0
  */
-function getCitiesLink(array $args = array())
+function getCitiesLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Cities'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -814,13 +824,13 @@ function getCitiesLink(array $args = array())
  * @return string
  * @since 1.0
  */
-function getAddCityLink(array $args = array())
+function getAddCityLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Add'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -843,13 +853,13 @@ function getAddCityLink(array $args = array())
  * @return string
  * @since 1.0
  */
-function getEditCitiesLink(array $args = array())
+function getEditCitiesLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Edit'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -878,7 +888,7 @@ function getEditCityLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Edit'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -912,7 +922,7 @@ function getDeleteCityLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Delete'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -1010,13 +1020,13 @@ function getDeleteDistrictURL($id)
  * @return string
  * @since 1.0
  */
-function getDistrictsLink(array $args = array())
+function getDistrictsLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Districts'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -1039,13 +1049,13 @@ function getDistrictsLink(array $args = array())
  * @return string
  * @since 1.0
  */
-function getAddDistrictLink(array $args = array())
+function getAddDistrictLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Add'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -1068,13 +1078,13 @@ function getAddDistrictLink(array $args = array())
  * @return string
  * @since 1.0
  */
-function getEditDistrictsLink(array $args = array())
+function getEditDistrictsLink(array $args = [])
 {
     $link = '';
 
     $args = array_merge(array(
         'content' => __('Edit'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
     ), $args);
@@ -1103,7 +1113,7 @@ function getEditDistrictLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Edit'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -1137,7 +1147,7 @@ function getDeleteDistrictLink(array $args)
 
     $args = array_merge(array(
         'content' => __('Delete'),
-        'atts' => array(),
+        'atts' => [],
         'before' => '',
         'after' => '',
         'id' => 0,
@@ -1212,4 +1222,45 @@ function getPagination(array $args)
     }
 
     return $output;
+}
+
+/*** Settings Template Tags ***************************************************/
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function getSettingsURL()
+{
+    $url = getSiteURL('/settings');
+    return $url;
+}
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function getSettingsLink(array $args = [])
+{
+    $link = '';
+
+    $args = array_merge(array(
+        'content' => __('Settings'),
+        'atts' => [],
+        'before' => '',
+        'after' => '',
+    ), $args);
+
+    if (! isCurrentUserCan('edit_settings')) {
+        return $link;
+    }
+
+    $args['atts']['href'] = getSettingsURL();
+
+    if (! isset($args['atts']['class'])) {
+        $args['atts']['class'] = 'settings-link';
+    }
+
+    $link = '<a' . toAttributes($args['atts']) . '>' . $args['content'] . '</a>';
+    return $args['before'] . $link . $args['after'];
 }

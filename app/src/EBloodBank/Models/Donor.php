@@ -8,10 +8,11 @@
  */
 namespace EBloodBank\Models;
 
+use DateTime;
+use DateTimeZone;
+use InvalidArgumentException;
 use EBloodBank as EBB;
-use EBloodBank\Options;
 use EBloodBank\Traits\EntityMeta;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -100,6 +101,16 @@ class Donor extends Entity
     protected $status;
 
     /**
+     * @return bool
+     * @since 1.0
+     */
+    public function isExists()
+    {
+        $id = (int) $this->get('id');
+        return ! empty($id);
+    }
+
+    /**
      * @var bool
      * @since 1.0
      */
@@ -123,8 +134,8 @@ class Donor extends Entity
      */
     public function calculateAge()
     {
-        $currentDate = new \DateTime(date('Y-m-d'));
-        $birthdate = new \DateTime($this->get('birthdate'));
+        $currentDate = new DateTime(date('Y-m-d'));
+        $birthdate = new DateTime($this->get('birthdate'));
 
         if ($birthdate > $currentDate) {
             return 0;
@@ -213,7 +224,7 @@ class Donor extends Entity
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvalidArgument
+     * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
      */
@@ -222,41 +233,41 @@ class Donor extends Entity
         switch ($key) {
             case 'id':
                 if (! EBB\isValidID($value)) {
-                    throw new InvalidArgument(__('Invalid donor ID.'), 'Invalid_donor_id');
+                    throw new InvalidArgumentException(__('Invalid donor ID.'));
                 }
                 break;
             case 'name':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvalidArgument(__('Invalid donor name.'), 'Invalid_donor_name');
+                    throw new InvalidArgumentException(__('Invalid donor name.'));
                 }
                 break;
             case 'gender':
                 if (! array_key_exists($value, self::getGenderTitles())) {
-                    throw new InvalidArgument(__('Invalid donor gender.'), 'Invalid_donor_gender');
+                    throw new InvalidArgumentException(__('Invalid donor gender.'));
                 }
                 break;
             case 'birthdate':
                 break;
             case 'blood_group':
                 if (! in_array($value, self::getBloodGroups())) {
-                    throw new InvalidArgument(__('Invalid donor blood group.'), 'Invalid_donor_blood_group');
+                    throw new InvalidArgumentException(__('Invalid donor blood group.'));
                 }
                 break;
             case 'district':
                 if (! $value instanceof District || ! $value->isExists()) {
-                    throw new InvalidArgument(__('Invalid donor district.'), 'Invalid_donor_district');
+                    throw new InvalidArgumentException(__('Invalid donor district.'));
                 }
                 break;
             case 'created_at':
                 break;
             case 'created_by':
                 if (! $value instanceof User || ! $value->isExists()) {
-                    throw new InvalidArgument(__('Invalid donor originator.'), 'Invalid_donor_originator');
+                    throw new InvalidArgumentException(__('Invalid donor originator.'));
                 }
                 break;
             case 'status':
                 if (! is_string($value) || empty($value)) {
-                    throw new InvalidArgument(__('Invalid donor status.'), 'Invalid_donor_status');
+                    throw new InvalidArgumentException(__('Invalid donor status.'));
                 }
                 break;
         }
@@ -287,6 +298,7 @@ class Donor extends Entity
     }
 
     /**
+     * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
      */
@@ -296,12 +308,12 @@ class Donor extends Entity
             case 'weight':
                 if (! EBB\isValidFloat($metaValue)) {
                     // TODO: Check Min and Max weight.
-                    throw new InvalidArgument(__('Invalid donor weight.'), 'Invalid_donor_weight');
+                    throw new InvalidArgumentException(__('Invalid donor weight.'), 'Invalid_donor_weight');
                 }
                 break;
             case 'email':
                 if (! EBB\isValidEmail($metaValue)) {
-                    throw new InvalidArgument(__('Invalid donor e-mail.'), 'Invalid_donor_email');
+                    throw new InvalidArgumentException(__('Invalid donor e-mail.'), 'Invalid_donor_email');
                 }
                 break;
         }

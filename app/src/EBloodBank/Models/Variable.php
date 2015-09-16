@@ -8,8 +8,8 @@
  */
 namespace EBloodBank\Models;
 
+use InvalidArgumentException;
 use EBloodBank as EBB;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -32,9 +32,19 @@ class Variable extends Entity
      * @var string
      * @since 1.0
      *
-     * @Column(type="string", name="variable_value")
+     * @Column(type="string", name="variable_value", nullable=true)
      */
     protected $value;
+
+    /**
+     * @return bool
+     * @since 1.0
+     */
+    public function isExists()
+    {
+        $id = (int) $this->get('id');
+        return ! empty($id);
+    }
 
     /**
      * @return mixed
@@ -47,14 +57,13 @@ class Variable extends Entity
                 $value = trim($value);
                 break;
             case 'value':
-                $value = (string) $value;
                 break;
         }
         return $value;
     }
 
     /**
-     * @throws \EBloodBank\Exceptions\InvalidArgument
+     * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
      */
@@ -62,14 +71,11 @@ class Variable extends Entity
     {
         switch ($key) {
             case 'name':
-                if (! is_string($value) || empty($value)) {
-                    throw new InvalidArgument(__('Invalid variable name.'), 'Invalid_variable_name');
+                if (empty($value)) {
+                    throw new InvalidArgumentException(__('Invalid variable name.'));
                 }
                 break;
             case 'value':
-                if (! is_string($value) || empty($value)) {
-                    throw new InvalidArgument(__('Invalid variable value.'), 'Invalid_variable_value');
-                }
                 break;
         }
         return true;

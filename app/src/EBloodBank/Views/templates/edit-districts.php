@@ -1,0 +1,68 @@
+<?php
+/**
+ * Manage Districts Page
+ *
+ * @package EBloodBank
+ * @subpackage Views
+ * @since 1.0
+ */
+namespace EBloodBank\Views;
+
+use EBloodBank as EBB;
+
+View::display('header', ['title' => __('Edit Districts')]);
+?>
+
+    <div class="btn-toolbar">
+        <div class="btn-group" role="group">
+            <?= EBB\getDistrictsLink(['content' => __('View'), 'atts' => ['class' => 'btn btn-default btn-view btn-view-districts']]) ?>
+            <?= EBB\getAddDistrictLink(['content' => __('Add New'), 'atts' => ['class' => 'btn btn-primary btn-add btn-add-district']]) ?>
+        </div>
+    </div>
+
+    <?php View::display('notices') ?>
+
+	<table id="table-districts" class="table table-bordered table-hover">
+
+		<thead>
+			<tr>
+				<th>#</th>
+                <th><?= EBB\escHTML(__('Name')) ?></th>
+				<th><?= EBB\escHTML(__('City')) ?></th>
+				<th><?= EBB\escHTML(__('Actions')) ?></th>
+			</tr>
+		</thead>
+
+		<tbody>
+
+            <?php foreach ($view->get('districts') as $district) : ?>
+
+            <tr>
+                <td><?php $district->display('id') ?></td>
+                <td><?php $district->display('name') ?></td>
+                <td><?php $district->get('city')->display('name') ?></td>
+                <td>
+                    <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
+                    <?= EBB\getDeleteDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
+                </td>
+            </tr>
+
+            <?php endforeach; ?>
+
+		</tbody>
+
+	</table>
+
+    <?=
+
+        EBB\getPagination([
+            'total'    => $view->get('pagination.total'),
+            'current'  => $view->get('pagination.current'),
+            'base_url' => EBB\getEditDistrictsURL(),
+            'page_url' => EBB\addQueryArgs(EBB\getEditDistrictsURL(), ['page' => '%#%']),
+        ])
+
+    ?>
+
+<?php
+View::display('footer');

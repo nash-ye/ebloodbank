@@ -8,10 +8,10 @@
  */
 namespace EBloodBank\Controllers;
 
+use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -89,23 +89,23 @@ class EditUser extends Controller
                 // Set the user email.
                 $user->set('email', filter_input(INPUT_POST, 'user_email'), true);
 
-                $duplicateUser = $userRepository->findOneBy(array( 'email' => $user->get('email') ));
+                $duplicateUser = $userRepository->findOneBy(array('email' => $user->get('email')));
 
                 if (! empty($duplicateUser) && $duplicateUser->get('id') != $userID) {
-                    throw new InvalidArgument(__('Please enter a unique e-mail.'), 'user_email');
+                    throw new InvalidArgumentException(__('Please enter a unique user e-mail.'));
                 }
 
                 $userPass1 = filter_input(INPUT_POST, 'user_pass_1', FILTER_UNSAFE_RAW);
                 $userPass2 = filter_input(INPUT_POST, 'user_pass_2', FILTER_UNSAFE_RAW);
 
                 if (! empty($userPass1) xor ! empty($userPass2)) {
-                    throw new InvalidArgument(__('Please enter the password twice.'), 'user_pass');
+                    throw new InvalidArgumentException(__('Please enter the password twice.'));
                 }
 
                 if (! empty($userPass1) && ! empty($userPass2)) {
 
                     if ($userPass1 !== $userPass2) {
-                        throw new InvalidArgument(__('Please enter the same password.'), 'user_pass');
+                        throw new InvalidArgumentException(__('Please enter the same password.'));
                     }
 
                     // Set the user password.
@@ -128,8 +128,8 @@ class EditUser extends Controller
                     )
                 );
 
-            } catch (InvalidArgument $ex) {
-                Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
+            } catch (InvalidArgumentException $ex) {
+                Notices::addNotice('invalid_user_argument', $ex->getMessage());
             }
 
         }

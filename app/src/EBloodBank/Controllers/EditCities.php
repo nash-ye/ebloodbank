@@ -80,7 +80,7 @@ class EditCities extends ViewCities
             $city = $em->getReference('Entities:City', $cityID);
 
             $donorRepository = $em->getRepository('Entities:Donor');
-            $donorsCount = $donorRepository->countBy(array( 'city' => $city ));
+            $donorsCount = $donorRepository->countBy(array('city' => $city));
 
             if ($donorsCount > 0) {
                 return;

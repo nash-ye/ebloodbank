@@ -8,12 +8,14 @@
  */
 namespace EBloodBank\Controllers;
 
+use DateTime;
+use DateTimeZone;
+use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Models\User;
 use EBloodBank\Views\View;
-use EBloodBank\Exceptions\InvalidArgument;
 
 /**
  * @since 1.0
@@ -26,7 +28,7 @@ class Signup extends Controller
      */
     public function __invoke()
     {
-        if (Options::getOption('self_registration')) {
+        if ('on' === Options::getOption('self_registration')) {
             $this->doActions();
             $view = View::forge('signup');
         } else {
@@ -68,34 +70,34 @@ class Signup extends Controller
             $userPass2 = filter_input(INPUT_POST, 'user_pass_2', FILTER_UNSAFE_RAW);
 
             if (empty($userPass1)) {
-                throw new InvalidArgument(__('Please enter your password.'), 'user_pass');
+                throw new InvalidArgumentException(__('Please enter your password.'));
             }
 
             if (empty($userPass2)) {
-                throw new InvalidArgument(__('Please confirm your password.'), 'user_pass');
+                throw new InvalidArgumentException(__('Please confirm your password.'));
             }
 
             if ($userPass1 !== $userPass2) {
-                throw new InvalidArgument(__('Please enter the same password.'), 'user_pass');
+                throw new InvalidArgumentException(__('Please enter the same password.'));
             }
 
             // Set the user password.
             $user->set('pass', password_hash($userPass1, PASSWORD_BCRYPT), false);
 
             // Set the user role.
-            $user->set('role', 'subscriber');
+            $user->set('role', Options::getOption('default_user_role'), true);
 
             // Set the user time.
-            $user->set('created_at', new \DateTime('now', new \DateTimeZone('UTC')), true);
+            $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
 
             // Set the user status.
-            $user->set('status', 'pending');
+            $user->set('status', Options::getOption('default_user_status'), true);
 
             $em = main()->getEntityManager();
             $em->persist($user);
             $em->flush();
 
-            $signedup = EBB\isValidID($user->get('id'));
+            $signedup = $user->isExists();
 
             EBB\redirect(
                  EBB\addQueryArgs(
@@ -104,8 +106,8 @@ class Signup extends Controller
                  )
              );
 
-        } catch (InvalidArgument $ex) {
-            Notices::addNotice($ex->getSlug(), $ex->getMessage(), 'warning');
+        } catch (InvalidArgumentException $ex) {
+            Notices::addNotice('invalid_user_argument', $ex->getMessage());
         }
     }
 }

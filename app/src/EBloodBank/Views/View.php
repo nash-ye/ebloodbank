@@ -30,7 +30,7 @@ class View
      * @since 1.0
      * @static
      */
-    public static function forge($name, array $data = array())
+    public static function forge($name, array $data = [])
     {
         $view = new static($name, $data);
         return $view;
@@ -41,7 +41,7 @@ class View
      * @since 1.0
      * @static
      */
-    public static function display($name, array $data = array())
+    public static function display($name, array $data = [])
     {
         $view = static::forge($name, $data);
         $view();
@@ -51,7 +51,7 @@ class View
      * @return void
      * @since 1.0
      */
-    protected function __construct($name, array $data = array())
+    protected function __construct($name, array $data = [])
     {
         $this->name = $name;
         $this->data = $data;
@@ -101,7 +101,7 @@ class View
      */
     public function getPath()
     {
-        return __DIR__ . '/' . $this->getName() . '.php';
+        return __DIR__ . '/templates/' . $this->getName() . '.php';
     }
 
     /**
@@ -111,7 +111,7 @@ class View
     public function __invoke()
     {
         if (is_readable($this->getPath())) {
-            extract($this->data, EXTR_REFS);
+            extract($this->data + ['view' => $this], EXTR_REFS);
             include $this->getPath();
         }
     }
