@@ -6,7 +6,7 @@
  * @var string
  * @since 1.0
  */
-define('EBB_DB_NAME', 'ebloodbank9');
+define('EBB_DB_NAME', '');
 
 /**
  * MySQL database username.
@@ -14,7 +14,7 @@ define('EBB_DB_NAME', 'ebloodbank9');
  * @var string
  * @since 1.0
  */
-define('EBB_DB_USER', 'root');
+define('EBB_DB_USER', '');
 
 /**
  * MySQL database password.
@@ -22,7 +22,7 @@ define('EBB_DB_USER', 'root');
  * @var string
  * @since 1.0
  */
-define('EBB_DB_PASS', 'mysql');
+define('EBB_DB_PASS', '');
 
 /**
  * MySQL database host.
@@ -38,7 +38,7 @@ define('EBB_DB_HOST', 'localhost');
  * @var bool
  * @since 1.0
  */
-define('EBB_DEV_MODE', true);
+define('EBB_DEV_MODE', false);
 
 /**
  * eBloodBank default locale.

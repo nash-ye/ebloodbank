@@ -314,18 +314,18 @@ class Donor extends Entity
     {
         switch ($metaKey) {
             case 'weight':
-                if (! EBB\isValidFloat($metaValue)) {
+                if (! empty($metaValue) && ! EBB\isValidFloat($metaValue)) {
                     // TODO: Check Min and Max weight.
                     throw new InvalidArgumentException(__('Invalid donor weight.'));
                 }
                 break;
             case 'email':
-                if (! EBB\isValidEmail($metaValue)) {
+                if (! empty($metaValue) && ! EBB\isValidEmail($metaValue)) {
                     throw new InvalidArgumentException(__('Invalid donor e-mail.'));
                 }
                 break;
             case 'phone':
-                if (! EBB\isValidInteger($metaValue)) {
+                if (! empty($metaValue) && ! EBB\isValidInteger($metaValue)) {
                     throw new InvalidArgumentException(__('Invalid donor phone number.'));
                 }
                 break;

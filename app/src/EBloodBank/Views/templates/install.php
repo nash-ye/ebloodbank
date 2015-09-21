@@ -78,7 +78,7 @@ use EBloodBank as EBB;
 
                     <?php $view->displayView('notices') ?>
 
-                    <p><?= EBB\escHTML(__('Welcome to the installation process! Just fill in the information below and you’ll be on your way to using the eBloodBank premium application.')) ?></p>
+                    <p><?= EBB\escHTML(__('Welcome to the installation process! Just fill in the information below and you’ll be on your way to using the eBloodBank premium system.')) ?></p>
 
                     <form id="form-install" class="form-horizontal" method="POST">
 
