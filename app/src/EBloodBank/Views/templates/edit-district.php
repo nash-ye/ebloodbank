@@ -6,10 +6,9 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
 
-View::display('header', ['title' => __('Edit District')]);
+$view->displayView('header', ['title' => __('Edit District')]);
 
-View::display('form-district', ['district' => $view->get('district')]);
+$view->displayView('form-district', ['district' => $view->get('district')]);
 
-View::display('footer');
+$view->displayView('footer');

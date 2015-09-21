@@ -6,10 +6,9 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
 
-View::display('header', ['title' => __('Sign Up')]);
+$view->displayView('header', ['title' => __('Sign Up')]);
 
-View::display('form-signup');
+$view->displayView('form-signup');
 
-View::display('footer');
+$view->displayView('footer');

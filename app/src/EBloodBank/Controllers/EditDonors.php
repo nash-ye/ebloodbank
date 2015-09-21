@@ -30,6 +30,7 @@ class EditDonors extends ViewDonors
                 'donors' => $this->getQueriedDonors(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
+                'filter.criteria' => $this->getFilterCriteria(),
             ));
         } else {
             $view = View::forge('error-403');

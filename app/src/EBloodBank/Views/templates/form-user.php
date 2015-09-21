@@ -6,8 +6,6 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 use EBloodBank\Roles;
 use EBloodBank\Models\User;
@@ -17,7 +15,7 @@ if (! $view->isExists('user')) {
 }
 ?>
 
-<?php View::display('notices') ?>
+<?php $view->displayView('notices') ?>
 
 <form id="form-user" class="form-horizontal" method="POST">
 

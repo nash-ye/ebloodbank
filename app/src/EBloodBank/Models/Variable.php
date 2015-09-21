@@ -49,12 +49,13 @@ class Variable extends Entity
     /**
      * @return mixed
      * @since 1.0
+     * @static
      */
     public static function sanitize($key, $value)
     {
         switch ($key) {
             case 'name':
-                $value = trim($value);
+                $value = EBB\sanitizeTitle($value);
                 break;
             case 'value':
                 break;
@@ -66,12 +67,13 @@ class Variable extends Entity
      * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
+     * @static
      */
     public static function validate($key, $value)
     {
         switch ($key) {
             case 'name':
-                if (empty($value)) {
+                if (! is_string($value) || empty($value)) {
                     throw new InvalidArgumentException(__('Invalid variable name.'));
                 }
                 break;

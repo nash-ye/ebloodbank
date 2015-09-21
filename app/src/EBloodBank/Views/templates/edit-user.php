@@ -6,10 +6,9 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
 
-View::display('header', ['title' => __('Edit User')]);
+$view->displayView('header', ['title' => __('Edit User')]);
 
-View::display('form-user', ['user' => $view->get('user')]);
+$view->displayView('form-user', ['user' => $view->get('user')]);
 
-View::display('footer');
+$view->displayView('footer');

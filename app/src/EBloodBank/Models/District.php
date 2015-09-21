@@ -84,6 +84,7 @@ class District extends Entity
     /**
      * @return mixed
      * @since 1.0
+     * @static
      */
     public static function sanitize($key, $value)
     {
@@ -92,7 +93,7 @@ class District extends Entity
                 $value = EBB\sanitizeInteger($value);
                 break;
             case 'name':
-                $value = trim($value);
+                $value = EBB\sanitizeTitle($value);
                 break;
             case 'city':
                 if (EBB\isValidID($value)) {
@@ -116,6 +117,7 @@ class District extends Entity
      * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
+     * @static
      */
     public static function validate($key, $value)
     {

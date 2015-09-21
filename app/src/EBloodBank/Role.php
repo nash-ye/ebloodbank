@@ -53,7 +53,7 @@ class Role
      * @return void
      * @since 1.0
      */
-    protected function setSlug($slug)
+    public function setSlug($slug)
     {
         $this->slug = $slug;
     }

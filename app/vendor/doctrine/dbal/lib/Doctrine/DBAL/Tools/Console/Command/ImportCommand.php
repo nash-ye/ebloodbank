@@ -61,7 +61,7 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $conn = $this->getHelper('db')->getDBConnection();
+        $conn = $this->getHelper('db')->getConnection();
 
         if (($fileNames = $input->getArgument('file')) !== null) {
             foreach ((array) $fileNames as $fileName) {

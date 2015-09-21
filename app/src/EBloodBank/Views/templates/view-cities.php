@@ -6,11 +6,9 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 
-View::display('header', ['title' => __('Cities')]);
+$view->displayView('header', ['title' => __('Cities')]);
 ?>
 
     <div class="btn-toolbar">
@@ -20,9 +18,9 @@ View::display('header', ['title' => __('Cities')]);
         </div>
     </div>
 
-    <?php View::display('notices') ?>
+    <?php $view->displayView('notices') ?>
 
-	<table id="table-cities" class="table table-bordered table-hover">
+	<table id="table-cities" class="table table-entities table-bordered table-striped table-hover">
 
 		<thead>
 			<tr>
@@ -46,9 +44,9 @@ View::display('header', ['title' => __('Cities')]);
 
 	</table>
 
-    <?=
+    <?php
 
-        EBB\getPagination([
+        $view->displayView('pagination', [
             'total'    => $view->get('pagination.total'),
             'current'  => $view->get('pagination.current'),
             'base_url' => EBB\getCitiesURL(),
@@ -58,4 +56,4 @@ View::display('header', ['title' => __('Cities')]);
     ?>
 
 <?php
-View::display('footer');
+$view->displayView('footer');

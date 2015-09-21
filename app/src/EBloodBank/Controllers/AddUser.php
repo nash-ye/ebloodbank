@@ -116,7 +116,7 @@ class AddUser extends Controller
                 if (EBB\isCurrentUserCan('activate_user')) {
                     $user->set('status', 'activated');
                 } else {
-                    $user->set('status', Options::getOption('default_user_status'), true);
+                    $user->set('status', Options::getOption('new_user_status'), true);
                 }
 
                 $em = main()->getEntityManager();

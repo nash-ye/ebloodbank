@@ -5,10 +5,9 @@
  * @package    EBloodBank
  * @subpackage Views
  */
-namespace EBloodBank\Views;
 
-View::display('header', ['title' => __('Add Donor')]);
+$view->displayView('header', ['title' => __('Add New Donor')]);
 
-View::display('form-donor');
+$view->displayView('form-donor');
 
-View::display('footer');
+$view->displayView('footer');

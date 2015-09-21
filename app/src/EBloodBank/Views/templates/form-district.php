@@ -6,8 +6,6 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 use EBloodBank\Models\District;
 
@@ -19,7 +17,7 @@ $em = main()->getEntityManager();
 $cityRepository = $em->getRepository('Entities:City');
 ?>
 
-<?php View::display('notices') ?>
+<?php $view->displayView('notices') ?>
 
 <form id="form-district" class="form-horizontal" method="POST">
 

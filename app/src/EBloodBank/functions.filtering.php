@@ -92,15 +92,6 @@ function sanitizeEmail($value)
  * @return string
  * @since 1.0
  */
-function sanitizeFloat($value)
-{
-    return filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT);
-}
-
-/**
- * @return string
- * @since 1.0
- */
 function sanitizeInteger($value)
 {
     return filter_var($value, FILTER_SANITIZE_NUMBER_INT);
@@ -110,7 +101,25 @@ function sanitizeInteger($value)
  * @return string
  * @since 1.0
  */
-function sanitizeSpecialChars($value)
+function sanitizeFloat($value)
 {
-    return filter_var($value, FILTER_SANITIZE_SPECIAL_CHARS);
+    return filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+}
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function sanitizeTitle($value)
+{
+    return trim(filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_NO_ENCODE_QUOTES));
+}
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function sanitizeSlug($value)
+{
+    return filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_NO_ENCODE_QUOTES);
 }

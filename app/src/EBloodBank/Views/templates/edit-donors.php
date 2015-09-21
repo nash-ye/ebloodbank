@@ -6,11 +6,9 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 
-View::display('header', ['title' => __('Edit Donors')]);
+$view->displayView('header', ['title' => __('Edit Donors')]);
 ?>
 
     <div class="btn-toolbar">
@@ -20,9 +18,17 @@ View::display('header', ['title' => __('Edit Donors')]);
         </div>
     </div>
 
-    <?php View::display('notices') ?>
+    <?php $view->displayView('notices') ?>
 
-	<table id="table-donors" class="table table-bordered table-hover">
+    <?php
+
+        $view->displayView('form-donors-filter', [
+            'criteria' => $this->get('filter.criteria')
+        ])
+
+    ?>
+
+	<table id="table-donors" class="table table-entities table-bordered table-striped table-hover">
 
 		<thead>
 			<tr>
@@ -33,7 +39,6 @@ View::display('header', ['title' => __('Edit Donors')]);
 				<th><?= EBB\escHTML(__('Blood Group')) ?></th>
                 <th><?= EBB\escHTML(__('City')) ?></th>
 				<th><?= EBB\escHTML(__('District')) ?></th>
-				<th><?= EBB\escHTML(__('Phone Number')) ?></th>
 				<th><?= EBB\escHTML(__('Actions')) ?></th>
 			</tr>
 		</thead>
@@ -46,11 +51,10 @@ View::display('header', ['title' => __('Edit Donors')]);
 					<td><?php $donor->display('id') ?></td>
 					<td><?php $donor->display('name') ?></td>
 					<td><?= EBB\escHTML($donor->getGenderTitle()) ?></td>
-					<td><?= EBB\escHTML($donor->calculateAge()) ?></td>
+					<td><?= EBB\escHTML($donor->getAge()) ?></td>
 					<td><?php $donor->display('blood_group') ?></td>
 					<td><?php $donor->get('district')->get('city')->display('name') ?></td>
                     <td><?php $donor->get('district')->display('name') ?></td>
-					<td><?= EBB\escHTML($donor->getMeta('phone')) ?></td>
 					<td>
                         <?= EBB\getEditDonorLink(['id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
                         <?= EBB\getDeleteDonorLink(['id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
@@ -64,9 +68,9 @@ View::display('header', ['title' => __('Edit Donors')]);
 
 	</table>
 
-    <?=
+    <?php
 
-        EBB\getPagination([
+        $view->displayView('pagination', [
             'total'    => $view->get('pagination.total'),
             'current'  => $view->get('pagination.current'),
             'base_url' => EBB\getEditDonorsURL(),
@@ -76,4 +80,4 @@ View::display('header', ['title' => __('Edit Donors')]);
     ?>
 
 <?php
-View::display('footer');
+$view->displayView('footer');

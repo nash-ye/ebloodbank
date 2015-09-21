@@ -6,10 +6,9 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
 
-View::display('header', ['title' => __('Add District')]);
+$view->displayView('header', ['title' => __('Add New District')]);
 
-View::display('form-district');
+$view->displayView('form-district');
 
-View::display('footer');
+$view->displayView('footer');

@@ -6,13 +6,11 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 
 http_response_code(403); // Set the HTTP response status.
 
-View::display('header', ['title' => __('Error: Access denied')]);
+$view->displayView('header', ['title' => __('Error: Access denied')]);
 ?>
 
 	<div class="error-msg error-403-msg">
@@ -20,4 +18,4 @@ View::display('header', ['title' => __('Error: Access denied')]);
 	</div>
 
 <?php
-View::display('footer');
+$view->displayView('footer');

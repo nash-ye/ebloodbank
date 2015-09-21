@@ -7,6 +7,57 @@
  */
 namespace EBloodBank;
 
+/*** Home Template Tags *******************************************************/
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function getHomeURL($format = 'absolute')
+{
+    $url = '';
+
+    if (empty($format)) {
+        $format = 'absolute';
+    }
+
+    switch (strtolower($format)) {
+
+        case 'absolute':
+            if (defined('EBB_URL')) {
+                $url = EBB_URL;
+            } else {
+                $url = Options::getOption('site_url');
+            }
+            if (empty($url)) {
+                $url = guessHomeURL(); // A fallback URl.
+            }
+            break;
+
+        case 'relative':
+            $url = (string) parse_url(getHomeURL(), PHP_URL_PATH);
+            break;
+
+    }
+
+    return $url;
+}
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function getSiteURL($path = '', $format = 'absolute')
+{
+    $url = getHomeURL($format);
+
+    if (! empty($path)) {
+        $url = trimTrailingSlash($url) . '/' . ltrim($path, '/');
+    }
+
+    return $url;
+}
+
 /*** Installer Template Tags **************************************************/
 
 /**
@@ -40,7 +91,7 @@ function getLoginLink(array $args = [])
     $link = '';
 
     $args = array_merge(array(
-        'content' => __('Log Out'),
+        'content' => __('Log In'),
         'atts' => [],
         'before' => '',
         'after' => '',
@@ -340,7 +391,7 @@ function getEditUserLink(array $args)
         return $link;
     }
 
-    if (! isCurrentUserCan('edit_user')) {
+    if (! isCurrentUserCan('edit_user') && getCurrentUserID() != $args['id']) {
         return $link;
     }
 
@@ -1171,59 +1222,6 @@ function getDeleteDistrictLink(array $args)
     return $args['before'] . $link . $args['after'];
 }
 
-/*** General Template Tags ****************************************************/
-
-/**
- * @return array
- * @since 1.0
- */
-function getPagination(array $args)
-{
-    $output = '';
-
-    $args = array_merge(array(
-        'total' => 1,
-        'current' => 1,
-        'base_url' => '',
-        'page_url' => '',
-        'before' => '<nav>',
-        'after' => '</nav>',
-    ), $args);
-
-	$args['total'] = (int) $args['total'];
-    $args['total'] = max($args['total'], 1);
-
-	if ($args['total'] > 1) {
-
-        $output .= '<ul class="pagination">';
-
-        $args['current'] = (int) $args['current'];
-        $args['current'] = max($args['current'], 1);
-
-        for ($n = 1; $n <= $args['total']; $n++) {
-            if ($n === $args['current']) {
-                $output .= '<li class="active"><span>' . number_format($n) . '</span></li>';
-            } else {
-                if (1 === $n) {
-                    $url = $args['base_url'];
-                } else {
-                    $url = str_replace('%#%', $n, urldecode($args['page_url']));
-                }
-                $output .= '<li><a href="' . escURL($url) . '">' . number_format($n) . '</a></li>';
-            }
-        }
-
-        $output .= '</ul>';
-
-	}
-
-    if (! empty($output)) {
-        $output = $args['before'] . $output . $args['after'];
-    }
-
-    return $output;
-}
-
 /*** Settings Template Tags ***************************************************/
 
 /**
@@ -1263,4 +1261,39 @@ function getSettingsLink(array $args = [])
 
     $link = '<a' . toAttributes($args['atts']) . '>' . $args['content'] . '</a>';
     return $args['before'] . $link . $args['after'];
+}
+
+/*** General Template Tags ****************************************************/
+
+/**
+ * @return array
+ * @since 1.0
+ */
+function getPaginationURLs(array $args)
+{
+    $urls = array();
+
+    $args = array_merge(array(
+        'total'    => 1,
+        'base_url' => '',
+        'page_url' => '',
+    ), $args);
+
+	$args['total'] = (int) $args['total'];
+
+	if ($args['total'] <= 1) {
+        return $urls;
+	}
+
+    $args['page_url'] = urldecode($args['page_url']);
+
+    for ($n = 1; $n <= $args['total']; $n++) {
+        if (1 === $n) {
+            $urls[$n] = $args['base_url'];
+        } else {
+            $urls[$n] = str_replace('%#%', $n, $args['page_url']);
+        }
+    }
+
+    return $urls;
 }

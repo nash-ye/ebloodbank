@@ -6,12 +6,10 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 ?>
 
-<?php View::display('notices') ?>
+<?php $view->displayView('notices') ?>
 
 <form id="form-login" class="form-horizontal" action="<?= EBB\escURL(EBB\getLoginURL()) ?>" method="POST">
 

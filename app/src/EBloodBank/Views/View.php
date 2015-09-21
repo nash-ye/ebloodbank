@@ -58,6 +58,24 @@ class View
     }
 
     /**
+     * @return View
+     * @since 1.0
+     */
+    public function forgeView($name, array $data = [])
+    {
+        return self::forge($name, $data);
+    }
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function displayView($name, array $data = [])
+    {
+        return self::display($name, $data);
+    }
+
+    /**
      * @return void
      * @since 1.0
      */

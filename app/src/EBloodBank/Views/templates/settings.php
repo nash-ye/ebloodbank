@@ -6,23 +6,21 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 use EBloodBank\Roles;
 use EBloodBank\Options;
 use EBloodBank\Locales;
 
-View::display('header', ['title' => __('Settings')]);
+$view->displayView('header', ['title' => __('Settings')]);
 ?>
 
-    <?php View::display('notices') ?>
+    <?php $view->displayView('notices') ?>
 
     <form id="form-settings" class="form-horizontal" method="POST">
 
         <fieldset>
 
-            <legend><?= EBB\escHTML(__('General Options')) ?></legend>
+            <legend><?= EBB\escHTML(__('Site Options')) ?></legend>
 
             <div class="form-group">
                 <div class="col-sm-2">
@@ -78,7 +76,7 @@ View::display('header', ['title' => __('Settings')]);
 
         <fieldset>
 
-            <legend><?= EBB\escHTML(__('Accounts Options')) ?></legend>
+            <legend><?= EBB\escHTML(__('Users Options')) ?></legend>
 
             <div class="form-group">
                 <div class="col-sm-6">
@@ -93,13 +91,13 @@ View::display('header', ['title' => __('Settings')]);
 
             <div class="form-group">
                 <div class="col-sm-2">
-                    <label for="default_user_role"><?= EBB\escHTML(__('Default User Role')) ?></label>
+                    <label for="new_user_role"><?= EBB\escHTML(__('New User Role')) ?></label>
                 </div>
                 <div class="col-sm-4">
-                    <select name="default_user_role" id="default_user_role" class="form-control">
-                        <?php $defaultUserRole = Options::getOption('default_user_role') ?>
+                    <select name="new_user_role" id="new_user_role" class="form-control">
+                        <?php $newUserRole = Options::getOption('new_user_role') ?>
                         <?php foreach (Roles::getRoles() as $role) : ?>
-                        <option<?= EBB\toAttributes(['value' => $role->getSlug(), 'selected' => $role->getSlug() === $defaultUserRole]) ?>><?= EBB\escHTML($role->getTitle()) ?></option>
+                        <option<?= EBB\toAttributes(['value' => $role->getSlug(), 'selected' => $role->getSlug() === $newUserRole]) ?>><?= EBB\escHTML($role->getTitle()) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -107,13 +105,13 @@ View::display('header', ['title' => __('Settings')]);
 
             <div class="form-group">
                 <div class="col-sm-2">
-                    <label for="default_user_status"><?= EBB\escHTML(__('Default User Status')) ?></label>
+                    <label for="new_user_status"><?= EBB\escHTML(__('New User Status')) ?></label>
                 </div>
                 <div class="col-sm-4">
-                    <select name="default_user_status" id="default_user_status" class="form-control">
-                        <?php $defaultUserStatus = Options::getOption('default_user_status') ?>
+                    <select name="new_user_status" id="new_user_status" class="form-control">
+                        <?php $newUserStatus = Options::getOption('new_user_status') ?>
                         <?php foreach (['pending' => __('Pending'), 'activated' => __('Activated')] as $slug => $title) : ?>
-                        <option<?= EBB\toAttributes(['value' => $slug, 'selected' => $slug === $defaultUserStatus]) ?>><?= EBB\escHTML($title) ?></option>
+                        <option<?= EBB\toAttributes(['value' => $slug, 'selected' => $slug === $newUserStatus]) ?>><?= EBB\escHTML($title) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -147,4 +145,4 @@ View::display('header', ['title' => __('Settings')]);
     </form>
 
 <?php
-View::display('footer');
+$view->displayView('footer');

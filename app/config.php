@@ -6,7 +6,7 @@
  * @var string
  * @since 1.0
  */
-define('EBB_DB_NAME', 'ebloodbank');
+define('EBB_DB_NAME', 'ebloodbank9');
 
 /**
  * MySQL database username.

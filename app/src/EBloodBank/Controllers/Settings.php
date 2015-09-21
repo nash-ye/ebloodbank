@@ -76,8 +76,8 @@ class Settings extends Controller
 
             /* Accounts Options */
             Options::submitOption('self_registration', filter_input(INPUT_POST, 'self_registration'), true);
-            Options::submitOption('default_user_role', filter_input(INPUT_POST, 'default_user_role'), true);
-            Options::submitOption('default_user_status', filter_input(INPUT_POST, 'default_user_status'), true);
+            Options::submitOption('new_user_role', filter_input(INPUT_POST, 'new_user_role'), true);
+            Options::submitOption('new_user_status', filter_input(INPUT_POST, 'new_user_status'), true);
 
             /* Reading Options */
             Options::submitOption('entities_per_page', filter_input(INPUT_POST, 'entities_per_page'), true);

@@ -41,8 +41,12 @@ class ViewDistricts extends Controller
      */
     public function getPagesTotal()
     {
+        $total = 1;
         $limit = (int) Options::getOption('entities_per_page');
-        $total = (int) ceil($this->countAllDistricts() / $limit);
+        if ($limit >= 1) {
+            $total = (int) ceil($this->countAllDistricts() / $limit);
+        }
+
         return $total;
     }
 

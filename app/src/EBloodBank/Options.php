@@ -16,12 +16,11 @@ class Options
      */
     public static function getOption($name)
     {
-        $em = main()->getEntityManager();
-
-        if (empty($em)) {
+        if (main()->getStatus() !== 'installed') {
             return;
         }
 
+        $em = main()->getEntityManager();
         $var = $em->find('Entities:Variable', $name);
 
         if (! empty($var)) {
@@ -36,9 +35,7 @@ class Options
      */
     public static function addOption($name, $value, $sanitize = false, $validate = true)
     {
-        $em = main()->getEntityManager();
-
-        if (empty($em)) {
+        if (main()->getStatus() !== 'installed') {
             return false;
         }
 
@@ -50,6 +47,7 @@ class Options
             return false;
         }
 
+        $em = main()->getEntityManager();
         $var = $em->find('Entities:Variable', $name);
 
         if (! empty($var)) {
@@ -73,9 +71,7 @@ class Options
      */
     public static function updateOption($name, $value, $sanitize = false, $validate = true)
     {
-        $em = main()->getEntityManager();
-
-        if (empty($em)) {
+        if (main()->getStatus() !== 'installed') {
             return false;
         }
 
@@ -87,6 +83,7 @@ class Options
             return false;
         }
 
+        $em = main()->getEntityManager();
         $var = $em->find('Entities:Variable', $name);
 
         if (empty($var)) {
@@ -107,11 +104,11 @@ class Options
      */
     public static function submitOption($name, $value, $sanitize = false, $validate = true)
     {
-        $em = main()->getEntityManager();
-
-        if (empty($em)) {
+        if (main()->getStatus() !== 'installed') {
             return false;
         }
+
+        $em = main()->getEntityManager();
 
         if ('' === strval($value)) {
             return self::deleteOption($name);
@@ -132,12 +129,11 @@ class Options
      */
     public static function deleteOption($name)
     {
-        $em = main()->getEntityManager();
-
-        if (empty($em)) {
+        if (main()->getStatus() !== 'installed') {
             return false;
         }
 
+        $em = main()->getEntityManager();
         $var = $em->getReference('Entities:Variable', $name);
 
         if (empty($var)) {
@@ -164,16 +160,16 @@ class Options
             case 'site_name':
             case 'site_slogan':
             case 'site_locale':
-                $value = trim(sanitizeSpecialChars($value));
+                $value = sanitizeTitle($value);
                 break;
             case 'site_email':
                 $value = sanitizeEmail($value);
                 break;
             case 'self_registration':
                 break;
-            case 'default_user_role':
+            case 'new_user_role':
                 break;
-            case 'default_user_status':
+            case 'new_user_status':
                 break;
             case 'entities_per_page':
                 $value = sanitizeInteger($value);
@@ -220,14 +216,14 @@ class Options
                     throw new InvalidArgumentException(__('Invalid self-registration status.'));
                 }
                 break;
-            case 'default_user_role':
+            case 'new_user_role':
                 if (empty($value) || ! Roles::isExists($value)) {
-                    throw new InvalidArgumentException(__('Invalid default user role.'));
+                    throw new InvalidArgumentException(__('Invalid new user role.'));
                 }
                 break;
-            case 'default_user_status':
+            case 'new_user_status':
                 if (empty($value) || ! in_array($value, ['pending', 'activated'])) {
-                    throw new InvalidArgumentException(__('Invalid default user status.'));
+                    throw new InvalidArgumentException(__('Invalid new user status.'));
                 }
                 break;
             case 'entities_per_page':

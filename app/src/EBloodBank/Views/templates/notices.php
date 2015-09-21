@@ -6,8 +6,6 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 

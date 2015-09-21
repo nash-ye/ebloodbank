@@ -85,13 +85,13 @@ class Signup extends Controller
             $user->set('pass', password_hash($userPass1, PASSWORD_BCRYPT), false);
 
             // Set the user role.
-            $user->set('role', Options::getOption('default_user_role'), true);
+            $user->set('role', Options::getOption('new_user_role'), true);
 
             // Set the user time.
             $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
 
             // Set the user status.
-            $user->set('status', Options::getOption('default_user_status'), true);
+            $user->set('status', Options::getOption('new_user_status'), true);
 
             $em = main()->getEntityManager();
             $em->persist($user);

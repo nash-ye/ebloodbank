@@ -6,13 +6,11 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 
 http_response_code(404); // Set the HTTP response status.
 
-View::display('header', ['title' => __('Error: Not Found')]);
+$view->displayView('header', ['title' => __('Error: Not Found')]);
 ?>
 
 	<div class="error-msg error-404-msg">
@@ -20,4 +18,4 @@ View::display('header', ['title' => __('Error: Not Found')]);
 	</div>
 
 <?php
-View::display('footer');
+$view->displayView('footer');

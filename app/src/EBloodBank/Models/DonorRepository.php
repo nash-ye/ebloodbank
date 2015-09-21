@@ -52,19 +52,15 @@ class DonorRepository extends EntityRepository
     protected function parseCriteria(array $criteria)
     {
 
-        if (! empty($criteria['blood_group'])) {
-            if ('any' === $criteria['blood_group']) {
-                unset($criteria['blood_group']);
-            }
+        if (isset($criteria['blood_group']) && 'any' === $criteria['blood_group']) {
+            unset($criteria['blood_group']); // Remove the blood-group criteria.
         }
 
-        if (! empty($criteria['district'])) {
-            if (-1 === $criteria['district']) {
-                unset($criteria['district']);
-            }
+        if (isset($criteria['district']) && -1 == $criteria['district']) {
+            unset($criteria['district']); // Remove the district criteria.
         }
 
-        if (! empty($criteria['city'])) {
+        if (isset($criteria['city']) && empty($criteria['district'])) {
 
             $districts = array();
 
@@ -88,16 +84,16 @@ class DonorRepository extends EntityRepository
 
             }
 
-            unset($criteria['city'], $districts);
-
         }
+
+        unset($criteria['city']); // Remove the city criteria in any condition.
 
         if (! isset($criteria['status'])) {
             if (! EBB\isCurrentUserCan('approve_donor')) {
                 $criteria['status'] = 'approved';
             }
         } elseif ('any' === $criteria['status']) {
-            unset($criteria['status']);
+            unset($criteria['status']); // Remove the status criteria.
         }
 
         return $criteria;

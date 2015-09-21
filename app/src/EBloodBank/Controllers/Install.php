@@ -33,6 +33,7 @@ class Install extends Controller
                 'status' => 'installed',
             ));
         } else {
+            $this->doStepAction();
             $view = View::forge('install', array(
                 'step' => $this->getStep(),
                 'status' => 'installing',
@@ -47,30 +48,7 @@ class Install extends Controller
      */
     protected function isInstalled()
     {
-
-        $connection = main()->getDBConnection();
-
-        /* Check eBloodBank database selection. */
-
-        if (! isDatabaseSelected($connection)) {
-            return false;
-        }
-
-        /* Check eBloodBank database connection. */
-
-        if (! isDatabaseConnected($connection) ) {
-            return false;
-        }
-
-        /* Check eBloodBank database tables existence. */
-
-        if (! isAllTablesExists($connection)) {
-            return false;
-        }
-
-        /* Nothing left to check, well-done! */
-
-        return true;
+        return (main()->getStatus() === 'installed');
     }
 
     /**
@@ -279,55 +257,61 @@ SQL;
 
             $connection->exec($sql);
 
-            /* General Options */
-            Options::addOption('site_url', EBB\getHomeURL());
-            Options::addOption('site_name', filter_input(INPUT_POST, 'site_name'), true);
-            Options::addOption('site_email', filter_input(INPUT_POST, 'site_email'), true);
+            main()->checkInstallation();
 
-            /* Accounts Options */
-            Options::addOption('self_registration', 'off');
-            Options::addOption('default_user_role', 'subscriber');
-            Options::addOption('default_user_status', 'pending');
+            if (main()->getStatus() === 'installed') {
 
-            /* Reading Options */
-            Options::addOption('entities_per_page', 10);
+                /* General Options */
+                Options::addOption('site_url', EBB\getHomeURL());
+                Options::addOption('site_name', filter_input(INPUT_POST, 'site_name'), true);
+                Options::addOption('site_email', filter_input(INPUT_POST, 'site_email'), true);
 
-            $user = new User();
+                /* Accounts Options */
+                Options::addOption('self_registration', 'on');
+                Options::addOption('new_user_role', 'contributor');
+                Options::addOption('new_user_status', 'pending');
 
-            // Set the user name.
-            $user->set('name', filter_input(INPUT_POST, 'user_name'));
+                /* Reading Options */
+                Options::addOption('entities_per_page', 10);
 
-            // Set the user name.
-            $user->set('email', filter_input(INPUT_POST, 'user_email'));
+                $user = new User();
 
-            $userPass1 = filter_input(INPUT_POST, 'user_pass_1', FILTER_UNSAFE_RAW);
-            $userPass2 = filter_input(INPUT_POST, 'user_pass_2', FILTER_UNSAFE_RAW);
+                // Set the user name.
+                $user->set('name', filter_input(INPUT_POST, 'user_name'));
 
-            if (empty($userPass1)) {
-                throw new InvalidArgumentException(__('Please enter your password.'));
+                // Set the user name.
+                $user->set('email', filter_input(INPUT_POST, 'user_email'));
+
+                $userPass1 = filter_input(INPUT_POST, 'user_pass_1', FILTER_UNSAFE_RAW);
+                $userPass2 = filter_input(INPUT_POST, 'user_pass_2', FILTER_UNSAFE_RAW);
+
+                if (empty($userPass1)) {
+                    throw new InvalidArgumentException(__('Please enter your password.'));
+                }
+
+                if (empty($userPass2)) {
+                    throw new InvalidArgumentException(__('Please confirm your password.'));
+                }
+
+                if ($userPass1 !== $userPass2) {
+                    throw new InvalidArgumentException(__('Please enter the same password.'));
+                }
+
+                // Set the user password.
+                $user->set('pass', password_hash($userPass1, PASSWORD_BCRYPT), false);
+
+                // Set the user role.
+                $user->set('role', 'administrator');
+                $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
+                $user->set('status', 'activated');
+
+                $em = main()->getEntityManager();
+                $em->persist($user);
+                $em->flush();
+
+                EBB\redirect(EBB\getLoginURL());
+
             }
-
-            if (empty($userPass2)) {
-                throw new InvalidArgumentException(__('Please confirm your password.'));
-            }
-
-            if ($userPass1 !== $userPass2) {
-                throw new InvalidArgumentException(__('Please enter the same password.'));
-            }
-
-            // Set the user password.
-            $user->set('pass', password_hash($userPass1, PASSWORD_BCRYPT), false);
-
-            // Set the user role.
-            $user->set('role', 'administrator');
-            $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
-            $user->set('status', 'activated');
-
-            $em = main()->getEntityManager();
-            $em->persist($user);
-            $em->flush();
-
-            EBB\redirect(EBB\getLoginURL());
 
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_user_argument', $ex->getMessage());

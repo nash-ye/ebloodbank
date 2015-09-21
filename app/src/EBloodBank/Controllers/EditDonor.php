@@ -19,6 +19,24 @@ use EBloodBank\Views\View;
 class EditDonor extends Controller
 {
     /**
+     * @var \EBloodBank\Models\Donor
+     * @since 1.0
+     */
+    protected $donor;
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __construct($id)
+    {
+        if (EBB\isValidID($id)) {
+            $donorRepository = main()->getEntityManager()->getRepository('Entities:Donor');
+            $this->donor = $donorRepository->find($id);
+        }
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
@@ -128,20 +146,7 @@ class EditDonor extends Controller
      */
     protected function getQueriedDonor()
     {
-        $route = main()->getRouter()->getMatchedRoute();
-
-        if (empty($route)) {
-            return;
-        }
-
-        if (! isset($route->params['id']) || ! EBB\isValidID($route->params['id'])) {
-            return;
-        }
-
-        $donorRepository = main()->getEntityManager()->getRepository('Entities:Donor');
-        $donor = $donorRepository->find((int) $route->params['id']);
-
-        return $donor;
+        return $this->donor;
     }
 
     /**
@@ -150,6 +155,7 @@ class EditDonor extends Controller
      */
     protected function getQueriedDonorID()
     {
-        return ($donor = $this->getQueriedDonor()) ? (int) $donor->get('id') : 0;
+        $donor = $this->getQueriedDonor();
+        return ($donor) ? (int) $donor->get('id') : 0;
     }
 }

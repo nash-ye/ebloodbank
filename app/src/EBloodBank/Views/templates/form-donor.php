@@ -6,8 +6,6 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 use EBloodBank\Models\Donor;
 
@@ -19,7 +17,7 @@ $em = main()->getEntityManager();
 $cityRepository = $em->getRepository('Entities:City');
 ?>
 
-<?php View::display('notices') ?>
+<?php $view->displayView('notices') ?>
 
 <form id="form-donor" class="form-horizontal" method="POST">
 
@@ -69,27 +67,10 @@ $cityRepository = $em->getRepository('Entities:City');
 
 	<div class="form-group">
 		<div class="col-sm-2">
-			<label for="donor_district_id"><?= EBB\escHTML(__('City > District')) ?> <span class="form-required">*</span></label>
+			<label for="donor_weight"><?= EBB\escHTML(__('Weight (kg)')) ?></label>
 		</div>
 		<div class="col-sm-4">
-			<select name="donor_district_id" id="donor_district_id" class="form-control" required>
-				<?php foreach ($cityRepository->findAll() as $city) : ?>
-					<optgroup label="<?php $city->display('name', 'attr') ?>">
-                        <?php foreach ($city->get('districts') as $district) : ?>
-                        <option<?= EBB\toAttributes(['value' => $district->get('id'), 'selected' => ($district === $donor->get('district'))]) ?>><?php $district->display('name') ?></option>
-                        <?php endforeach; ?>
-					</optgroup>
-                <?php endforeach; ?>
-			</select>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<div class="col-sm-2">
-			<label for="donor_weight"><?= EBB\escHTML(__('Weight')) ?></label>
-		</div>
-		<div class="col-sm-4">
-            <input type="number" name="donor_weight" id="donor_weight" class="form-control" value="<?= EBB\escAttr($donor->getMeta('weight')) ?>" />
+            <input type="number" name="donor_weight" id="donor_weight" class="form-control" value="<?= EBB\escAttr($donor->getMeta('weight')) ?>" step="0.1" />
 		</div>
 	</div>
 
@@ -108,6 +89,23 @@ $cityRepository = $em->getRepository('Entities:City');
 		</div>
 		<div class="col-sm-4">
 			<input type="phone" name="donor_phone" id="donor_phone" class="form-control" value="<?= EBB\escAttr($donor->getMeta('phone')) ?>" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-2">
+			<label for="donor_district_id"><?= EBB\escHTML(__('District')) ?> <span class="form-required">*</span></label>
+		</div>
+		<div class="col-sm-4">
+			<select name="donor_district_id" id="donor_district_id" class="form-control" required>
+				<?php foreach ($cityRepository->findAll() as $city) : ?>
+					<optgroup label="<?php $city->display('name', 'attr') ?>">
+                        <?php foreach ($city->get('districts') as $district) : ?>
+                        <option<?= EBB\toAttributes(['value' => $district->get('id'), 'selected' => ($district === $donor->get('district'))]) ?>><?php $district->display('name') ?></option>
+                        <?php endforeach; ?>
+					</optgroup>
+                <?php endforeach; ?>
+			</select>
 		</div>
 	</div>
 

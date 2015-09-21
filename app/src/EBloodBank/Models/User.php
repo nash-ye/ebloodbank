@@ -131,7 +131,7 @@ class User extends Entity
     }
 
     /**
-     * @var bool
+     * @return bool
      * @since 1.0
      */
     public function isPending()
@@ -140,7 +140,7 @@ class User extends Entity
     }
 
     /**
-     * @var bool
+     * @return bool
      * @since 1.0
      */
     public function isActivated()
@@ -151,6 +151,7 @@ class User extends Entity
     /**
      * @return mixed
      * @since 1.0
+     * @static
      */
     public static function sanitize($key, $value)
     {
@@ -158,12 +159,15 @@ class User extends Entity
             case 'id':
                 $value = EBB\sanitizeInteger($value);
                 break;
+            case 'name':
+                $value = EBB\sanitizeTitle($value);
+                break;
             case 'email':
                 $value = EBB\sanitizeEmail($value);
                 break;
-            case 'name':
             case 'role':
-                $value = trim($value);
+            case 'status':
+                $value = EBB\sanitizeSlug($value);
                 break;
             case 'created_at':
                 break;
@@ -175,6 +179,7 @@ class User extends Entity
      * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
+     * @static
      */
     public static function validate($key, $value)
     {

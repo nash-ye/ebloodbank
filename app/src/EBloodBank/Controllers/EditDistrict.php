@@ -19,6 +19,24 @@ use EBloodBank\Views\View;
 class EditDistrict extends Controller
 {
     /**
+     * @var \EBloodBank\Models\District
+     * @since 1.0
+     */
+    protected $district;
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __construct($id)
+    {
+        if (EBB\isValidID($id)) {
+            $districtRepository = main()->getEntityManager()->getRepository('Entities:District');
+            $this->district = $districtRepository->find($id);
+        }
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
@@ -108,20 +126,7 @@ class EditDistrict extends Controller
      */
     protected function getQueriedDistrict()
     {
-        $route = main()->getRouter()->getMatchedRoute();
-
-        if (empty($route)) {
-            return;
-        }
-
-        if (! isset($route->params['id']) || ! EBB\isValidID($route->params['id'])) {
-            return;
-        }
-
-        $districtRepository = main()->getEntityManager()->getRepository('Entities:District');
-        $district = $districtRepository->find((int) $route->params['id']);
-
-        return $district;
+        return $this->district;
     }
 
     /**
@@ -130,6 +135,7 @@ class EditDistrict extends Controller
      */
     protected function getQueriedDistrictID()
     {
-        return ($district = $this->getQueriedDistrict()) ? (int) $district->get('id') : 0;
+        $district = $this->getQueriedDistrict();
+        return ($district) ? (int) $district->get('id') : 0;
     }
 }

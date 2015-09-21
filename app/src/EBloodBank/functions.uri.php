@@ -20,7 +20,7 @@ function isHTTPS()
  * @return string
  * @since 1.0
  */
-function getHomeURL($format = 'absolute')
+function guessHomeURL($format = 'absolute')
 {
     $url = '';
 
@@ -36,30 +36,15 @@ function getHomeURL($format = 'absolute')
             } else {
                 $uri_scheme = isHTTPS() ? 'https' : 'http';
                 $uri_host = $_SERVER['HTTP_HOST'];
-                $url_path = pathinfo($_SERVER['SCRIPT_NAME'], PATHINFO_DIRNAME);
+                $url_path = dirname($_SERVER['SCRIPT_NAME']);
                 $url = $uri_scheme . '://' . $uri_host . $url_path;
             }
             break;
 
         case 'relative':
-            $url = (string) parse_url(getHomeURL(), PHP_URL_PATH);
+            $url = (string) parse_url(guessHomeURL(), PHP_URL_PATH);
             break;
 
-    }
-
-    return $url;
-}
-
-/**
- * @return string
- * @since 1.0
- */
-function getSiteURL($path = '', $format = 'absolute')
-{
-    $url = getHomeURL($format);
-
-    if (! empty($path)) {
-        $url = trimTrailingSlash($url) . '/' . ltrim( $path, '/' );
     }
 
     return $url;

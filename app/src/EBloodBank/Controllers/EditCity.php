@@ -19,6 +19,24 @@ use EBloodBank\Views\View;
 class EditCity extends Controller
 {
     /**
+     * @var \EBloodBank\Models\City
+     * @since 1.0
+     */
+    protected $city;
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __construct($id)
+    {
+        if (EBB\isValidID($id)) {
+            $cityRepository = main()->getEntityManager()->getRepository('Entities:City');
+            $this->city = $cityRepository->find($id);
+        }
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
@@ -112,20 +130,7 @@ class EditCity extends Controller
      */
     protected function getQueriedCity()
     {
-        $route = main()->getRouter()->getMatchedRoute();
-
-        if (empty($route)) {
-            return;
-        }
-
-        if (! isset($route->params['id']) || ! EBB\isValidID($route->params['id'])) {
-            return;
-        }
-
-        $cityRepository = main()->getEntityManager()->getRepository('Entities:City');
-        $city = $cityRepository->find((int) $route->params['id']);
-
-        return $city;
+        return $this->city;
     }
 
     /**
@@ -134,6 +139,7 @@ class EditCity extends Controller
      */
     protected function getQueriedCityID()
     {
-        return ($city = $this->getQueriedCity()) ? (int) $city->get('id') : 0;
+        $city = $this->getQueriedCity();
+        return ($city) ? (int) $city->get('id') : 0;
     }
 }

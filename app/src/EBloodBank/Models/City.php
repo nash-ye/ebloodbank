@@ -83,7 +83,7 @@ class City extends Entity
                 $value = EBB\sanitizeInteger($value);
                 break;
             case 'name':
-                $value = trim($value);
+                $value = EBB\sanitizeTitle($value);
                 break;
             case 'created_at':
                 break;

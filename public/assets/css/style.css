@@ -1,8 +1,20 @@
 body {
-    margin: 0;
-    color: #333;
-    height: 100%;
+    color: #727272;
     background-color: #fff;
+}
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #212121;
 }
 
 /**
@@ -10,8 +22,37 @@ body {
  * ----------------------------------------------------------------------------
  */
 
-.navbar-inverse .navbar-brand {
-    color: #fff;
+.navbar {
+    color: #FFFFFF;    
+    border-color: #F44336;
+    background-color: #D32F2F;
+}
+
+.navbar-brand,
+.navbar-brand:focus,
+.navbar-brand:hover {
+    color: #FFFFFF;
+}
+
+.navbar-nav > li > a {
+    color: #FFFFFF;
+}
+.navbar-nav > li > a:focus,
+.navbar-nav > li > a:hover {
+    color: #FFFFFF;
+    background-color: #F44336;
+}
+
+.navbar-toggle {
+    color: #FFFFFF;
+    border-color: #F44336;
+}
+.navbar-toggle:focus,
+.navbar-toggle:hover {
+    background-color: #F44336;
+}
+.navbar-toggle .icon-bar {
+    background-color: #FFFFFF;
 }
 
 /**
@@ -19,19 +60,17 @@ body {
  * ----------------------------------------------------------------------------
  */
 
-.table {
+.form-required {
+    color: #D32F2F;
+}
+.table-entities {
     margin: 20px 0;
 }
-
-.form-required {
-    color: #F00;
+#form-donors-filter {
+    margin: 15px 0;
 }
 
 /**
  * The Footer
  * ----------------------------------------------------------------------------
  */
-
-.copyrights {
-    text-align: center;
-}

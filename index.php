@@ -1,11 +1,11 @@
 <?php
 /**
- * eBloodBank Project | A Premium Blood Bank Platform.
+ * eBloodBank Project | A Premium Blood Bank Application.
  *
  * @author Nashwan Doaqan<nashwan.doaqan@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt GPL-3.0+
  * @copyright (c) 2015, Nashwan Doaqan
- * @version 1.0-alpha-9
+ * @version 1.0-alpha-10
  */
 
 /**
@@ -27,8 +27,4 @@ define('EBB_DIR', dirname(__FILE__));
 // Load eBloodBank bootstrapper.
 require EBB_DIR . '/app/bootstrap.php';
 
-// Instance the frontpage controller.
-$frontpage = new EBloodBank\Controllers\FrontPage();
-
-// Invoke it!
-$frontpage();
+main();

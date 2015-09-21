@@ -6,8 +6,6 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 ?>
 <!doctype html>
@@ -28,7 +26,7 @@ use EBloodBank as EBB;
 	<body>
 
 		<!-- Navigation -->
-		<nav class="navbar navbar-inverse" role="navigation">
+		<nav class="navbar" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
                     <a class="navbar-brand" href="<?= EBB\escURL(EBB\getHomeURL()) ?>">
@@ -49,7 +47,7 @@ use EBloodBank as EBB;
                         <h1><?= EBB\escHTML(__('Configuration')) ?></h1>
                     </header>
 
-                    <?php View::display('notices') ?>
+                    <?php $view->displayView('notices') ?>
 
                     <p><?= EBB\escHTML(__('Welcome to eBloodBank, Before getting started, we need some information on the database. You will need to know the following items before proceeding.')) ?></p>
 
@@ -78,9 +76,9 @@ use EBloodBank as EBB;
                         <h1><?= EBB\escHTML(__('Installation')) ?></h1>
                     </header>
 
-                    <?php View::display('notices') ?>
+                    <?php $view->displayView('notices') ?>
 
-                    <p><?= EBB\escHTML(__('Welcome to the installation process! Just fill in the information below and you’ll be on your way to using the eBloodBank premium platform.')) ?></p>
+                    <p><?= EBB\escHTML(__('Welcome to the installation process! Just fill in the information below and you’ll be on your way to using the eBloodBank premium application.')) ?></p>
 
                     <form id="form-install" class="form-horizontal" method="POST">
 

@@ -111,7 +111,7 @@ class Donor extends Entity
     }
 
     /**
-     * @var bool
+     * @return bool
      * @since 1.0
      */
     public function isPending()
@@ -120,7 +120,7 @@ class Donor extends Entity
     }
 
     /**
-     * @var bool
+     * @return bool
      * @since 1.0
      */
     public function isApproved()
@@ -129,23 +129,7 @@ class Donor extends Entity
     }
 
     /**
-     * @var int
-     * @since 1.0
-     */
-    public function calculateAge()
-    {
-        $currentDate = new DateTime(date('Y-m-d'));
-        $birthdate = new DateTime($this->get('birthdate'));
-
-        if ($birthdate > $currentDate) {
-            return 0;
-        }
-
-        return (int) $currentDate->diff($birthdate)->format('%y');
-    }
-
-    /**
-     * @var string
+     * @return string
      * @since 1.0
      */
     public function getGenderTitle()
@@ -159,8 +143,25 @@ class Donor extends Entity
     }
 
     /**
-     * @var array
+     * @return string
      * @since 1.0
+     */
+    public function getAge($format = '%y')
+    {
+        $currentDate = new DateTime(date('Y-m-d'));
+        $birthdate = new DateTime($this->get('birthdate'));
+
+        if ($birthdate > $currentDate) {
+            return 0;
+        }
+
+        return $currentDate->diff($birthdate)->format($format);
+    }
+
+    /**
+     * @return array
+     * @since 1.0
+     * @static
      */
     public static function getBloodGroups()
     {
@@ -177,8 +178,9 @@ class Donor extends Entity
     }
 
     /**
-     * @var array
+     * @return array
      * @since 1.0
+     * @static
      */
     public static function getGenderTitles()
     {
@@ -191,6 +193,7 @@ class Donor extends Entity
     /**
      * @return mixed
      * @since 1.0
+     * @static
      */
     public static function sanitize($key, $value)
     {
@@ -199,11 +202,13 @@ class Donor extends Entity
                 $value = EBB\sanitizeInteger($value);
                 break;
             case 'name':
+                $value = EBB\sanitizeTitle($value);
+                break;
             case 'gender':
             case 'status':
             case 'birthdate':
             case 'blood_group':
-                $value = trim($value);
+                $value = EBB\sanitizeSlug($value);
                 break;
             case 'district':
                 if (EBB\isValidID($value)) {
@@ -227,6 +232,7 @@ class Donor extends Entity
      * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
+     * @static
      */
     public static function validate($key, $value)
     {
@@ -249,7 +255,7 @@ class Donor extends Entity
             case 'birthdate':
                 break;
             case 'blood_group':
-                if (! in_array($value, self::getBloodGroups())) {
+                if (! in_array($value, self::getBloodGroups(), true)) {
                     throw new InvalidArgumentException(__('Invalid donor blood group.'));
                 }
                 break;
@@ -277,6 +283,7 @@ class Donor extends Entity
     /**
      * @return mixed
      * @since 1.0
+     * @static
      */
     static public function sanitizeMeta($metaKey, $metaValue)
     {
@@ -291,7 +298,7 @@ class Donor extends Entity
                 $metaValue = EBB\sanitizeInteger($metaValue);
                 break;
             case 'address':
-                $metaValue = trim($metaValue);
+                $metaValue = EBB\sanitizeTitle($metaValue);
                 break;
         }
         return $metaValue;
@@ -301,6 +308,7 @@ class Donor extends Entity
      * @throws \InvalidArgumentException
      * @return bool
      * @since 1.0
+     * @static
      */
     static public function validateMeta($metaKey, $metaValue)
     {
@@ -308,12 +316,17 @@ class Donor extends Entity
             case 'weight':
                 if (! EBB\isValidFloat($metaValue)) {
                     // TODO: Check Min and Max weight.
-                    throw new InvalidArgumentException(__('Invalid donor weight.'), 'Invalid_donor_weight');
+                    throw new InvalidArgumentException(__('Invalid donor weight.'));
                 }
                 break;
             case 'email':
                 if (! EBB\isValidEmail($metaValue)) {
-                    throw new InvalidArgumentException(__('Invalid donor e-mail.'), 'Invalid_donor_email');
+                    throw new InvalidArgumentException(__('Invalid donor e-mail.'));
+                }
+                break;
+            case 'phone':
+                if (! EBB\isValidInteger($metaValue)) {
+                    throw new InvalidArgumentException(__('Invalid donor phone number.'));
                 }
                 break;
         }

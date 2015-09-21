@@ -19,6 +19,24 @@ use EBloodBank\Views\View;
 class EditUser extends Controller
 {
     /**
+     * @var \EBloodBank\Models\User
+     * @since 1.0
+     */
+    protected $user;
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __construct($id)
+    {
+        if (EBB\isValidID($id)) {
+            $userRepository = main()->getEntityManager()->getRepository('Entities:User');
+            $this->user = $userRepository->find($id);
+        }
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
@@ -118,7 +136,6 @@ class EditUser extends Controller
                     $user->set('role', filter_input(INPUT_POST, 'user_role'), true);
                 }
 
-                $em = main()->getEntityManager();
                 $em->flush($user);
 
                 EBB\redirect(
@@ -141,20 +158,7 @@ class EditUser extends Controller
      */
     protected function getQueriedUser()
     {
-        $route = main()->getRouter()->getMatchedRoute();
-
-        if (empty($route)) {
-            return;
-        }
-
-        if (! isset($route->params['id']) || ! EBB\isValidID($route->params['id'])) {
-            return;
-        }
-
-        $userRepository = main()->getEntityManager()->getRepository('Entities:User');
-        $user = $userRepository->find((int) $route->params['id']);
-
-        return $user;
+        return $this->user;
     }
 
     /**
@@ -163,6 +167,7 @@ class EditUser extends Controller
      */
     protected function getQueriedUserID()
     {
-        return ($user = $this->getQueriedUser()) ? (int) $user->get('id') : 0;
+        $user = $this->getQueriedUser();
+        return ($user) ? (int) $user->get('id') : 0;
     }
 }

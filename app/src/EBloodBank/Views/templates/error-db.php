@@ -6,8 +6,6 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 ?>
 <!doctype html>
@@ -28,7 +26,7 @@ use EBloodBank as EBB;
 	<body>
 
 		<!-- Navigation -->
-		<nav class="navbar navbar-inverse" role="navigation">
+		<nav class="navbar" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
                     <a class="navbar-brand" href="<?= EBB\escURL(EBB\getHomeURL()) ?>">

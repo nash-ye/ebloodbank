@@ -28,6 +28,7 @@ class ViewDonors extends Controller
                 'donors' => $this->getQueriedDonors(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
+                'filter.criteria' => $this->getFilterCriteria(),
             ));
         } else {
             $view = View::forge('error-403');
@@ -41,8 +42,11 @@ class ViewDonors extends Controller
      */
     public function getPagesTotal()
     {
+        $total = 1;
         $limit = (int) Options::getOption('entities_per_page');
-        $total = (int) ceil($this->countAllDonors() / $limit);
+        if ($limit >= 1) {
+            $total = (int) ceil($this->countAllDonors() / $limit);
+        }
         return $total;
     }
 
@@ -53,6 +57,29 @@ class ViewDonors extends Controller
     public function getCurrentPage()
     {
         return max((int) filter_input(INPUT_GET, 'page'), 1);
+    }
+
+    /**
+     * @return array
+     * @since 1.0
+     */
+    public function getFilterCriteria()
+    {
+        $criteria = [];
+
+        if (filter_has_var(INPUT_POST, 'city_id')) {
+            $criteria['city'] = filter_input(INPUT_POST, 'city_id');
+        }
+
+        if (filter_has_var(INPUT_POST, 'district_id')) {
+            $criteria['district'] = filter_input(INPUT_POST, 'district_id');
+        }
+
+        if (filter_has_var(INPUT_POST, 'blood_group')) {
+            $criteria['blood_group'] = filter_input(INPUT_POST, 'blood_group');
+        }
+
+        return $criteria;
     }
 
     /**
@@ -88,10 +115,12 @@ class ViewDonors extends Controller
         $em = main()->getEntityManager();
         $donorRepository = $em->getRepository('Entities:Donor');
 
+        $criteria = $this->getFilterCriteria();
+
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
-        return $donorRepository->findBy(array(), array(), $limit, $offset);
+        return $donorRepository->findBy($criteria, array(), $limit, $offset);
     }
 
     /**

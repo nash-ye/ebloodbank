@@ -6,10 +6,9 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
 
-View::display('header', ['title' => __('Add City')]);
+$view->displayView('header', ['title' => __('Add New City')]);
 
-View::display('form-city');
+$view->displayView('form-city');
 
-View::display('footer');
+$view->displayView('footer');

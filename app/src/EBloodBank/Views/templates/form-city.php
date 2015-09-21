@@ -6,8 +6,6 @@
  * @subpackage Views
  * @since 1.0
  */
-namespace EBloodBank\Views;
-
 use EBloodBank as EBB;
 use EBloodBank\Models\City;
 
@@ -16,7 +14,7 @@ if (! $view->isExists('city')) {
 }
 ?>
 
-<?php View::display('notices') ?>
+<?php $view->displayView('notices') ?>
 
 <form id="form-city" class="form-horizontal" method="POST">
 
