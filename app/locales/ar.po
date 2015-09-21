@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-21 19:27+0300\n"
-"PO-Revision-Date: 2015-09-21 19:28+0300\n"
+"POT-Creation-Date: 2015-09-21 19:55+0300\n"
+"PO-Revision-Date: 2015-09-21 20:00+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: ar\n"
@@ -660,10 +660,10 @@ msgstr "مرحبًا، منقذو الحياة!"
 
 #: ../src/EBloodBank/Views/templates/home.php:15
 msgid ""
-"Transfusion of blood helps save millions of lives every year, optimistically "
+"Blood transfusion helps save millions of lives every year. Optimistically, "
 "we will help to save more."
 msgstr ""
-"نقل الدم يساعد على إنقاذ حياة ملايين الأشخاص كل عام، بتفائل نحن سنساعد على "
+"نقل الدم يساعد على إنقاذ حياة ملايين الأشخاص كل عام. بتفائل، نحن سنساعد على "
 "إنقاذ المزيد."
 
 #: ../src/EBloodBank/Views/templates/home.php:18

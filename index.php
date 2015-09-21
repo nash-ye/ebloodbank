@@ -1,11 +1,11 @@
 <?php
 /**
- * eBloodBank Project | A Premium Blood Bank Application.
+ * eBloodBank | A Premium Blood Bank System.
  *
  * @author Nashwan Doaqan<nashwan.doaqan@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt GPL-3.0+
  * @copyright (c) 2015, Nashwan Doaqan
- * @version 1.0-alpha-10
+ * @version 1.0-beta-1
  */
 
 /**

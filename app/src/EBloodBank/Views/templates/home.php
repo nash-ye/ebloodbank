@@ -12,7 +12,7 @@ $view->displayView('header', ['title' => __('Home'), 'page_header.hide' => true]
 
     <div class="jumbotron">
         <h1><?= EBB\escHTML(__('Hello, life savers!')) ?></h1>
-        <p><?= EBB\escHTML(__('Transfusion of blood helps save millions of lives every year, optimistically we will help to save more.')) ?></p>
+        <p><?= EBB\escHTML(__('Blood transfusion helps save millions of lives every year. Optimistically, we will help to save more.')) ?></p>
         <div class="btn-group" role="group">
             <?php if (EBB\isUserLoggedIn()) : ?>
             <?= EBB\getAddDonorLink(['content' => EBB\escHTML(__('Add Donor')), 'atts' => ['class' => 'btn btn-lg btn-primary']]) ?>
