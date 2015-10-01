@@ -9,6 +9,7 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
+use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
@@ -88,6 +89,7 @@ class DeleteCity extends Controller
             $districtsCount = $districtRepository->countBy(array('city' => $city));
 
             if ($districtsCount > 0) {
+                Notices::addNotice('linked_districts_exists', __('At first, delete any linked districts with this city.'));
                 return;
             }
 

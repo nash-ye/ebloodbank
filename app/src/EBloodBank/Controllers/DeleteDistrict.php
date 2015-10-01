@@ -88,6 +88,7 @@ class DeleteDistrict extends Controller
             $donorsCount = $donorRepository->countBy(array('district' => $district));
 
             if ($donorsCount > 0) {
+                Notices::addNotice('linked_donors_exists', __('At first, delete any linked donors with this district.'));
                 return;
             }
 

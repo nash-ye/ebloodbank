@@ -110,7 +110,6 @@ class Install extends Controller
             $connection = main()->getDBConnection();
 
             $sql = <<<'SQL'
-
 -- -----------------------------------------------------
 -- Table `user`
 -- -----------------------------------------------------
@@ -135,13 +134,13 @@ CREATE  TABLE IF NOT EXISTS `city` (
   `city_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `city_name` VARCHAR(255) NOT NULL ,
   `city_created_at` DATETIME NOT NULL ,
-  `city_created_by` INT UNSIGNED NOT NULL ,
+  `city_created_by` INT UNSIGNED NULL ,
   PRIMARY KEY (`city_id`) ,
   CONSTRAINT `city_created_by`
     FOREIGN KEY (`city_created_by` )
     REFERENCES `user` (`user_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `city_created_by_idx` ON `city` (`city_created_by` ASC) ;
@@ -157,7 +156,7 @@ CREATE  TABLE IF NOT EXISTS `district` (
   `district_name` VARCHAR(255) NOT NULL ,
   `district_city_id` INT UNSIGNED NOT NULL ,
   `district_created_at` DATETIME NOT NULL ,
-  `district_created_by` INT UNSIGNED NOT NULL ,
+  `district_created_by` INT UNSIGNED NULL ,
   PRIMARY KEY (`district_id`) ,
   CONSTRAINT `district_city_id`
     FOREIGN KEY (`district_city_id` )
@@ -167,8 +166,8 @@ CREATE  TABLE IF NOT EXISTS `district` (
   CONSTRAINT `district_created_by`
     FOREIGN KEY (`district_created_by` )
     REFERENCES `user` (`user_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `district_city_id_idx` ON `district` (`district_city_id` ASC) ;
@@ -189,7 +188,7 @@ CREATE  TABLE IF NOT EXISTS `donor` (
   `donor_blood_group` VARCHAR(45) NOT NULL ,
   `donor_district_id` INT UNSIGNED NOT NULL ,
   `donor_created_at` DATETIME NOT NULL ,
-  `donor_created_by` INT UNSIGNED NOT NULL ,
+  `donor_created_by` INT UNSIGNED NULL ,
   `donor_status` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`donor_id`) ,
   CONSTRAINT `donor_district_id`
@@ -200,8 +199,8 @@ CREATE  TABLE IF NOT EXISTS `donor` (
   CONSTRAINT `donor_created_by`
     FOREIGN KEY (`donor_created_by` )
     REFERENCES `user` (`user_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `donor_district_id_idx` ON `donor` (`donor_district_id` ASC) ;
