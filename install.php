@@ -1,9 +1,9 @@
 <?php
 /**
- * App Installer
+ * eBloodBank installer
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 
 /**

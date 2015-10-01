@@ -1,20 +1,24 @@
 <?php
 /**
- * Locales Class
+ * Locales class file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
 use GlobIterator;
 
 /**
+ * Locales class
+ *
  * @since 1.0
  */
 class Locales
 {
     /**
+     * The default locale.
+     *
      * @var Locale
      * @since 1.0
      * @static
@@ -22,6 +26,8 @@ class Locales
     protected static $defaultLocale;
 
     /**
+     * The current locale.
+     *
      * @var Locale
      * @since 1.0
      * @static
@@ -29,6 +35,8 @@ class Locales
     protected static $currentLocale;
 
     /**
+     * Get the default locale.
+     *
      * @return Locale
      * @since 1.0
      * @static
@@ -39,6 +47,8 @@ class Locales
     }
 
     /**
+     * Get the current locale, or the default locale if it's not specified.
+     *
      * @return Locale
      * @since 1.0
      * @static
@@ -53,6 +63,8 @@ class Locales
     }
 
     /**
+     * Whether the given locale is the default.
+     *
      * @return bool
      * @since 1.0
      * @static
@@ -69,6 +81,8 @@ class Locales
     }
 
     /**
+     * Whether the given locale is the current.
+     *
      * @return bool
      * @since 1.0
      * @static
@@ -85,6 +99,8 @@ class Locales
     }
 
     /**
+     * Set the default locale.
+     *
      * @return void
      * @since 1.0
      * @static
@@ -95,6 +111,8 @@ class Locales
     }
 
     /**
+     * Set the current locale.
+     *
      * @return void
      * @since 1.0
      * @static
@@ -105,6 +123,8 @@ class Locales
     }
 
     /**
+     * Get the available locales.
+     *
      * @return Locale[]
      * @since 1.0
      * @static

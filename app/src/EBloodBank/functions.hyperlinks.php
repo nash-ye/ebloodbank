@@ -1,9 +1,9 @@
 <?php
 /**
- * Template Links Functions
+ * Template hyperlinks helpers file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
@@ -56,6 +56,31 @@ function getSiteURL($path = '', $format = 'absolute')
     }
 
     return $url;
+}
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function getHomeLink(array $args = [])
+{
+    $link = '';
+
+    $args = array_merge(array(
+        'content' => __('Home'),
+        'atts' => [],
+        'before' => '',
+        'after' => '',
+    ), $args);
+
+    $args['atts']['href'] = getHomeURL();
+
+    if (! isset($args['atts']['class'])) {
+        $args['atts']['class'] = 'home-link';
+    }
+
+    $link = '<a' . toAttributes($args['atts']) . '>' . $args['content'] . '</a>';
+    return $args['before'] . $link . $args['after'];
 }
 
 /*** Installer Template Tags **************************************************/
@@ -254,11 +279,7 @@ function getDeleteUserURL($id)
         return $url;
     }
 
-    $url = addQueryArgs(getEditUsersURL(), array(
-        'action' => 'delete',
-        'id' => $id,
-    ));
-
+    $url = getSiteURL("/delete/user/{$id}");
     return $url;
 }
 
@@ -275,11 +296,7 @@ function getActivateUserURL($id)
         return $url;
     }
 
-    $url = addQueryArgs(getEditUsersURL(), array(
-        'action' => 'activate',
-        'id' => $id,
-    ));
-
+    $url = getSiteURL("/activate/user/{$id}");
     return $url;
 }
 
@@ -546,11 +563,7 @@ function getDeleteDonorURL($id)
         return $url;
     }
 
-    $url = addQueryArgs(getEditDonorsURL(), array(
-        'action' => 'delete',
-        'id' => $id,
-    ));
-
+    $url = getSiteURL("/delete/donor/{$id}");
     return $url;
 }
 
@@ -567,11 +580,7 @@ function getApproveDonorURL($id)
         return $url;
     }
 
-    $url = addQueryArgs(getEditDonorsURL(), array(
-        'action' => 'approve',
-        'id' => $id,
-    ));
-
+    $url = getSiteURL("/approve/donor/{$id}");
     return $url;
 }
 
@@ -834,11 +843,7 @@ function getDeleteCityURL($id)
         return $url;
     }
 
-    $url = addQueryArgs(getEditCitiesURL(), array(
-        'action' => 'delete',
-        'id' => $id,
-    ));
-
+    $url = getSiteURL("/delete/city/{$id}");
     return $url;
 }
 
@@ -1059,11 +1064,7 @@ function getDeleteDistrictURL($id)
         return $url;
     }
 
-    $url = addQueryArgs(getEditDistrictsURL(), array(
-        'action' => 'delete',
-        'id' => $id,
-    ));
-
+    $url = getSiteURL("/delete/district/{$id}");
     return $url;
 }
 
@@ -1279,11 +1280,11 @@ function getPaginationURLs(array $args)
         'page_url' => '',
     ), $args);
 
-	$args['total'] = (int) $args['total'];
+    $args['total'] = (int) $args['total'];
 
-	if ($args['total'] <= 1) {
+    if ($args['total'] <= 1) {
         return $urls;
-	}
+    }
 
     $args['page_url'] = urldecode($args['page_url']);
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * Variable Model
+ * Variable entity class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Models
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Models;
 
@@ -12,6 +12,8 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 
 /**
+ * Variable entity class
+ *
  * @since 1.0
  *
  * @Entity(repositoryClass="EBloodBank\Models\VariableRepository")

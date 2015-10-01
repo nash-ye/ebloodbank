@@ -1,10 +1,10 @@
 <?php
 /**
- * Sign-up Controller
+ * Sign-up page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -18,6 +18,8 @@ use EBloodBank\Models\User;
 use EBloodBank\Views\View;
 
 /**
+ * Sign-up page controller class
+ *
  * @since 1.0
  */
 class Signup extends Controller
@@ -57,7 +59,6 @@ class Signup extends Controller
     protected function doSignupAction()
     {
         try {
-
             $user = new User();
 
             // Set the user name.
@@ -100,12 +101,11 @@ class Signup extends Controller
             $signedup = $user->isExists();
 
             EBB\redirect(
-                 EBB\addQueryArgs(
+                EBB\addQueryArgs(
                     EBB\getLoginURL(),
                     array('flag-signedup' => $signedup)
-                 )
-             );
-
+                )
+            );
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_user_argument', $ex->getMessage());
         }

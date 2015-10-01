@@ -1,10 +1,10 @@
 <?php
 /**
- * Edit District Controller
+ * Edit district page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -14,6 +14,8 @@ use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
+ * Edit district page controller class
+ *
  * @since 1.0
  */
 class EditDistrict extends Controller
@@ -90,11 +92,17 @@ class EditDistrict extends Controller
     protected function doSubmitAction()
     {
         if (EBB\isCurrentUserCan('edit_district')) {
-
             try {
+                $session = main()->getSession();
+                $sessionToken = $session->getCsrfToken();
+                $actionToken = filter_input(INPUT_POST, 'token');
 
                 $district = $this->getQueriedDistrict();
                 $districtID = $this->getQueriedDistrictID();
+
+                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                    return;
+                }
 
                 // Set the district name.
                 $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
@@ -111,13 +119,10 @@ class EditDistrict extends Controller
                         array('flag-edited' => true)
                     )
                 );
-
             } catch (InvalidArgumentException $ex) {
                 Notices::addNotice('invalid_district_argument', $ex->getMessage());
             }
-
         }
-
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
 /**
- * HTTP Functions
+ * HTTP functions file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 

@@ -1,11 +1,12 @@
 <?php
 /**
- * Error 403 Page
+ * Error 403 page template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 
 http_response_code(403); // Set the HTTP response status.

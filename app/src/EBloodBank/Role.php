@@ -1,36 +1,45 @@
 <?php
 /**
- * Role Class
+ * Role class file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
 /**
+ * Role class
+ *
  * @since 1.0
  */
 class Role
 {
     /**
+     * The role slug.
+     *
      * @var string
      * @since 1.0
      */
     protected $slug;
 
     /**
+     * The role title.
+     *
      * @var string
      * @since 1.0
      */
     protected $title;
 
     /**
+     * The role capabilities.
+     *
      * @var array
      * @since 1.0
      */
     protected $caps = array();
 
     /**
+     * @return void
      * @since 1.0
      */
     public function __construct($slug, $title, array $caps)
@@ -41,6 +50,8 @@ class Role
     }
 
     /**
+     * Get the role slug.
+     *
      * @return string
      * @since 1.0
      */
@@ -50,6 +61,8 @@ class Role
     }
 
     /**
+     * Set the role slug.
+     *
      * @return void
      * @since 1.0
      */
@@ -59,6 +72,8 @@ class Role
     }
 
     /**
+     * Get the role title.
+     *
      * @return string
      * @since 1.0
      */
@@ -68,6 +83,8 @@ class Role
     }
 
     /**
+     * Set the role title.
+     *
      * @return void
      * @since 1.0
      */
@@ -77,6 +94,8 @@ class Role
     }
 
     /**
+     * Get the role capabilities.
+     *
      * @return array
      * @since 1.0
      */
@@ -86,15 +105,8 @@ class Role
     }
 
     /**
-     * @return void
-     * @since 1.0
-     */
-    public function setCapabilities(array $caps)
-    {
-        $this->caps = $caps;
-    }
-
-    /**
+     * Whether the role has a capability.
+     *
      * @return bool
      * @since 1.0
      */
@@ -104,58 +116,13 @@ class Role
     }
 
     /**
-     * @return bool
+     * Set the role capabilities.
+     *
+     * @return void
      * @since 1.0
      */
-    public function hasCapabilities(array $caps, $opt = 'AND')
+    public function setCapabilities(array $caps)
     {
-        if (empty($opt)) {
-            $opt = 'AND';
-        }
-
-        $opt = strtoupper($opt);
-
-        foreach ($caps as $cap) {
-
-            switch ($opt) {
-
-                case 'AND':
-
-                    if (! $this->hasCapability($cap)) {
-                        return false;
-                    }
-
-                    break;
-
-                case 'OR':
-
-                    if ($this->hasCapability($cap)) {
-                        return true;
-                    }
-
-                    break;
-
-                case 'NOT':
-
-                    if ($this->hasCapability($cap)) {
-                        return false;
-                    }
-
-                    break;
-
-            }
-
-        }
-
-        switch ($opt) {
-
-            case 'AND':
-            case 'NOT':
-                return true;
-
-            case 'OR':
-                return false;
-
-        }
+        $this->caps = $caps;
     }
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * Add Donor Controller
+ * Add donor page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -17,6 +17,8 @@ use EBloodBank\Models\Donor;
 use EBloodBank\Views\View;
 
 /**
+ * Add donor page controller class
+ *
  * @since 1.0
  */
 class AddDonor extends Controller
@@ -68,10 +70,16 @@ class AddDonor extends Controller
     protected function doSubmitAction()
     {
         if (EBB\isCurrentUserCan('add_donor')) {
-
             try {
-
                 $donor = new Donor();
+
+                $session = main()->getSession();
+                $sessionToken = $session->getCsrfToken();
+                $actionToken = filter_input(INPUT_POST, 'token');
+
+                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                    return;
+                }
 
                 // Set the donor name.
                 $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
@@ -122,11 +130,9 @@ class AddDonor extends Controller
                         array('flag-added' => $added)
                     )
                 );
-
             } catch (InvalidArgumentException $ex) {
                 Notices::addNotice('invalid_donor_argument', $ex->getMessage());
             }
-
         }
     }
 }

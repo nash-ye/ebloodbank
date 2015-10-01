@@ -1,16 +1,18 @@
 <?php
 /**
- * Base Model
+ * Abstract entity class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Models
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Models;
 
 use EBloodBank as EBB;
 
 /**
+ * Abstract entity class
+ *
  * @since 1.0
  *
  * @MappedSuperclass
@@ -62,7 +64,7 @@ abstract class Entity
      * @return mixed
      * @since 1.0
      */
-    static public function sanitize($key, $value)
+    public static function sanitize($key, $value)
     {
         return $value;
     }
@@ -71,7 +73,7 @@ abstract class Entity
      * @return bool
      * @since 1.0
      */
-    static public function validate($key, $value)
+    public static function validate($key, $value)
     {
         return true;
     }

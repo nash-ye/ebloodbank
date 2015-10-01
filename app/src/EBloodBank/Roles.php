@@ -1,18 +1,22 @@
 <?php
 /**
- * Roles Class
+ * Roles class file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
 /**
+ * Roles class
+ *
  * @since 1.0
  */
 class Roles
 {
     /**
+     * The roles list.
+     *
      * @var Role[]
      * @since 1.0
      * @static
@@ -20,6 +24,7 @@ class Roles
     private static $roles = array();
 
     /**
+     * @access private
      * @since 1.0
      */
     private function __construct()
@@ -27,6 +32,8 @@ class Roles
     }
 
     /**
+     * Add a new role.
+     *
      * @return bool
      * @since 1.0
      * @static
@@ -42,6 +49,8 @@ class Roles
     }
 
     /**
+     * Remove an existing role.
+     *
      * @return bool
      * @since 1.0
      * @static
@@ -57,16 +66,24 @@ class Roles
     }
 
     /**
+     * Whether a given role is exists.
+     *
      * @return bool
      * @since 1.0
      * @static
      */
-    public static function isExists($slug)
+    public static function isExists($role)
     {
-        return isset(self::$roles[$slug]);
+        if ($role instanceof Role) {
+            $role = $role->getSlug();
+        }
+
+        return isset(self::$roles[$role]);
     }
 
     /**
+     * Get a role.
+     *
      * @return Role
      * @since 1.0
      * @static
@@ -79,6 +96,8 @@ class Roles
     }
 
     /**
+     * Get all roles.
+     *
      * @return Role[]
      * @since 1.0
      * @static

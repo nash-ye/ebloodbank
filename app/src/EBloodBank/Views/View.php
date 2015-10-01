@@ -1,14 +1,16 @@
 <?php
 /**
- * Base View
+ * View class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Views
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Views;
 
 /**
+ * View class
+ *
  * @since 1.0
  */
 class View

@@ -1,9 +1,18 @@
 <?php
+/**
+ * Entity meta trait file
+ *
+ * @package    EBloodBank
+ * @subpackage Models
+ * @since      1.0
+ */
 namespace EBloodBank\Traits;
 
 use EBloodBank as EBB;
 
 /**
+ * Entity meta trait
+ *
  * @since 1.0
  */
 trait EntityMeta
@@ -203,7 +212,7 @@ trait EntityMeta
      * @since 1.0
      * @static
      */
-    static public function sanitizeMeta($metaKey, $metaValue)
+    public static function sanitizeMeta($metaKey, $metaValue)
     {
         return $metaValue;
     }
@@ -213,7 +222,7 @@ trait EntityMeta
      * @since 1.0
      * @static
      */
-    static public function validateMeta($metaKey, $metaValue)
+    public static function validateMeta($metaKey, $metaValue)
     {
         return true;
     }

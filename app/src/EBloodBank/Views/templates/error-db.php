@@ -1,12 +1,14 @@
 <?php
 /**
- * Database Errors Page
+ * Database error page template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
+
 ?>
 <!doctype html>
 <html lang="<?= EBB\escAttr(p__('language code', 'en')) ?>" dir="<?= EBB\escAttr(p__('text direction', 'ltr')) ?>">

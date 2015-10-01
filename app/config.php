@@ -1,4 +1,10 @@
 <?php
+/**
+ * eBloodBank configurations
+ *
+ * @package EBloodBank
+ * @since   1.0
+ */
 
 /**
  * MySQL database name.

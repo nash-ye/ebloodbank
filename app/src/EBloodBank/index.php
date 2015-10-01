@@ -1,2 +1,7 @@
 <?php
-// Silence is golden.
+/**
+ * Blank index file
+ *
+ * @package    EBloodBank
+ * @since      1.0
+ */

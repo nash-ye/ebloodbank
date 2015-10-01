@@ -1,10 +1,10 @@
 <?php
 /**
- * Add District Controller
+ * Add district page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -17,6 +17,8 @@ use EBloodBank\Models\District;
 use EBloodBank\Views\View;
 
 /**
+ * Add district page controller class
+ *
  * @since 1.0
  */
 class AddDistrict extends Controller
@@ -68,10 +70,16 @@ class AddDistrict extends Controller
     protected function doSubmitAction()
     {
         if (EBB\isCurrentUserCan('add_district')) {
-
             try {
-
                 $district = new District();
+
+                $session = main()->getSession();
+                $sessionToken = $session->getCsrfToken();
+                $actionToken = filter_input(INPUT_POST, 'token');
+
+                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                    return;
+                }
 
                 // Set the district name.
                 $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
@@ -94,11 +102,9 @@ class AddDistrict extends Controller
                         array('flag-added' => $added)
                     )
                 );
-
             } catch (InvalidArgumentException $ex) {
                 Notices::addNotice('invalid_district_argument', $ex->getMessage());
             }
-
         }
     }
 }

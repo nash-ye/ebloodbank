@@ -1,11 +1,12 @@
 <?php
 /**
- * Home Page Template
+ * Home page template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 
 $view->displayView('header', ['title' => __('Home'), 'page_header.hide' => true]); ?>

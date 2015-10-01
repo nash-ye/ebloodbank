@@ -1,9 +1,9 @@
 <?php
 /**
- * Formatting Functions
+ * Formatting functions file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
@@ -13,5 +13,5 @@ namespace EBloodBank;
  */
 function trimTrailingSlash($string)
 {
-	return rtrim($string, '/\\');
+    return rtrim($string, '/\\');
 }

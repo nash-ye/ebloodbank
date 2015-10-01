@@ -1,11 +1,12 @@
 <?php
 /**
- * New\Edit City Form
+ * New\Edit city form template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 use EBloodBank\Models\City;
 
@@ -34,5 +35,6 @@ if (! $view->isExists('city')) {
 	</div>
 
 	<input type="hidden" name="action" value="submit_city" />
+    <?= EBB\getTokenField(['name' => 'token']) ?>
 
 </form>

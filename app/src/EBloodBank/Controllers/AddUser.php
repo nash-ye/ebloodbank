@@ -1,10 +1,10 @@
 <?php
 /**
- * Add User Controller
+ * Add user page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -17,6 +17,8 @@ use EBloodBank\Models\User;
 use EBloodBank\Views\View;
 
 /**
+ * Add user page controller class
+ *
  * @since 1.0
  */
 class AddUser extends Controller
@@ -68,13 +70,19 @@ class AddUser extends Controller
     protected function doSubmitAction()
     {
         if (EBB\isCurrentUserCan('add_user')) {
-
             try {
-
                 $user = new User();
+
+                $session = main()->getSession();
+                $sessionToken = $session->getCsrfToken();
+                $actionToken = filter_input(INPUT_POST, 'token');
 
                 $em = main()->getEntityManager();
                 $userRepository = $em->getRepository('Entities:User');
+
+                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                    return;
+                }
 
                 // Set the user name.
                 $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
@@ -131,11 +139,9 @@ class AddUser extends Controller
                         array('flag-added' => $added)
                     )
                 );
-
             } catch (InvalidArgumentException $ex) {
                 Notices::addNotice('invalid_user_argument', $ex->getMessage());
             }
-
         }
     }
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * Log-in Controller
+ * Log-in page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -13,6 +13,8 @@ use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
+ * Log-in page controller class
+ *
  * @since 1.0
  */
 class Login extends Controller
@@ -88,9 +90,10 @@ class Login extends Controller
             return;
         }
 
-        $_SESSION['user_id'] = (int) $user->get('id');
-
-        session_regenerate_id(true);
+        $session = main()->getSession();
+        $segment = $session->getSegment('EBloodBank');
+        $segment->set('user_id', (int) $user->get('id'));
+        $session->regenerateId();
 
         EBB\redirect(EBB\getHomeURL());
     }
@@ -102,11 +105,10 @@ class Login extends Controller
     protected function doLogoutAction()
     {
         if (EBB\isUserLoggedIn()) {
-            $_SESSION = array();
-            if (session_destroy()) {
-                session_start();
-            }
-            session_regenerate_id(true);
+            $session = main()->getSession();
+            $session->destroy();
+            $session->start();
+            $session->regenerateId();
             EBB\redirect(
                 EBB\addQueryArgs(
                     EBB\getLoginURL(),

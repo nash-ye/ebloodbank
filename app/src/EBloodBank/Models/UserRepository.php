@@ -1,18 +1,20 @@
 <?php
 /**
- * User Entity Repository
+ * User entity repository class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Models
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Models;
 
 use EBloodBank as EBB;
 
 /**
-* @since 1.0
-*/
+ * User entity repository class
+ *
+ * @since 1.0
+ */
 class UserRepository extends EntityRepository
 {
     /**

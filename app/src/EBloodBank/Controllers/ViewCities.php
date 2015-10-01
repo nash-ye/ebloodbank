@@ -1,10 +1,10 @@
 <?php
 /**
- * View Cities Controller
+ * View cities page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -13,6 +13,8 @@ use EBloodBank\Options;
 use EBloodBank\Views\View;
 
 /**
+ * View cities page controller class
+ *
  * @since 1.0
  */
 class ViewCities extends Controller

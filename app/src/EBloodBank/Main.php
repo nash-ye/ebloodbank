@@ -1,9 +1,9 @@
 <?php
 /**
- * EBloodBank Main Class
+ * Main class file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
@@ -13,55 +13,81 @@ use Doctrine\ORM;
 use Doctrine\DBAL;
 use Aura\Router\RouterFactory;
 use Aura\Dispatcher\Dispatcher;
+use Aura\Session\SessionFactory;
 
 /**
+ * Main class
+ *
  * @since 1.0
  */
 class Main
 {
     /**
+     * The main status.
+     *
      * @var string
      * @since 1.0
      */
     protected $status;
 
     /**
+     * The logger.
+     *
      * @var \Monolog\Logger
      * @since 1.0
      */
     protected $logger;
 
     /**
+     * The router.
+     *
      * @var \Aura\Router\Router
      * @since 1.0
      */
     protected $router;
 
     /**
+     * The session.
+     *
+     * @var \Aura\Session\Session
+     * @since 1.0.1
+     */
+    protected $session;
+
+    /**
+     * The translator.
+     *
      * @var \Gettext\Translator
      * @since 1.0
      */
     protected $translator;
 
     /**
+     * The database connection.
+     *
      * @var \Doctrine\DBAL\Connection
      * @since 1.0
      */
     protected $DBConnection;
 
     /**
+     * The entity manager.
+     *
      * @var \Doctrine\ORM\EntityManager
      * @since 1.0
      */
     protected $entityManager;
 
     /**
+     * The dispatcher.
+     *
      * @var \Aura\Dispatcher\Dispatcher
      * @since 1.0
      */
     protected $dispatcher;
 
     /**
+     * @access private
      * @since 1.0
      */
     private function __construct()
@@ -69,6 +95,7 @@ class Main
     }
 
     /**
+     * @access private
      * @return void
      * @since 1.0
      */
@@ -98,12 +125,13 @@ class Main
     }
 
     /**
+     * @access private
      * @return void
      * @since 1.0
      */
     private function setupTranslator()
     {
-        $this->translator = NEW Gettext\Translator();
+        $this->translator = new Gettext\Translator();
         $this->translator->register();
     }
 
@@ -117,6 +145,7 @@ class Main
     }
 
     /**
+     * @access private
      * @return void
      * @since 1.0
      */
@@ -130,6 +159,8 @@ class Main
             'driver'    => 'pdo_mysql',
             'charset'   => 'utf8',
         ));
+
+        tryDatabaseConnection($this->DBConnection); // Try to establish the database connection.
     }
 
     /**
@@ -142,6 +173,7 @@ class Main
     }
 
     /**
+     * @access private
      * @return void
      * @since 1.0
      */
@@ -185,15 +217,7 @@ class Main
     }
 
     /**
-     * @return string
-     * @since 1.0
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
+     * @access private
      * @return void
      * @since 1.0
      */
@@ -216,24 +240,30 @@ class Main
         $this->router->add('view-donor', '/donor/{id}/');
         $this->router->add('edit-donors', '/edit/donors/');
         $this->router->add('edit-donor', '/edit/donor/{id}/');
+        $this->router->add('delete-donor', '/delete/donor/{id}/');
+        $this->router->add('approve-donor', '/approve/donor/{id}/');
 
         $this->router->add('view-users', '/users/');
         $this->router->add('add-user', '/add/user/');
         $this->router->add('view-user', '/user/{id}/');
         $this->router->add('edit-users', '/edit/users/');
         $this->router->add('edit-user', '/edit/user/{id}/');
+        $this->router->add('delete-user', '/delete/user/{id}/');
+        $this->router->add('activate-user', '/activate/user/{id}/');
 
         $this->router->add('view-cities', '/cities/');
         $this->router->add('add-city', '/add/city/');
         $this->router->add('view-city', '/city/{id}/');
         $this->router->add('edit-cities', '/edit/cities/');
         $this->router->add('edit-city', '/edit/city/{id}/');
+        $this->router->add('delete-city', '/delete/city/{id}/');
 
         $this->router->add('view-districts', '/districts/');
         $this->router->add('add-district', '/add/district/');
         $this->router->add('view-district', '/district/{id}/');
         $this->router->add('edit-districts', '/edit/districts/');
         $this->router->add('edit-district', '/edit/district/{id}/');
+        $this->router->add('delete-district', '/delete/district/{id}/');
 
         $this->router->match(
             trimTrailingSlash(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) . '/',
@@ -251,6 +281,7 @@ class Main
     }
 
     /**
+     * @access private
      * @return void
      * @since 1.0
      */
@@ -276,25 +307,38 @@ class Main
     }
 
     /**
+     * @access private
      * @return void
-     * @since 1.0
+     * @since 1.0.1
      */
-    private function setupUserSession()
+    private function setupSession()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_set_cookie_params(
-                    3600,
-                    parse_url(getHomeURL(), PHP_URL_PATH),
-                    parse_url(getHomeURL(), PHP_URL_HOST),
-                    isHTTPS(),
-                    true
-            );
-            session_name('EBB_SESSION_ID');
-            session_start();
+        $sessionFactory = new SessionFactory();
+        $this->session = $sessionFactory->newInstance($_COOKIE);
+        if (! $this->session->isStarted()) {
+            $this->session->setName('EBB_SESSION_ID');
+            $this->session->setCookieParams([
+                'lifetime' => 3600,
+                'path'     => parse_url(getHomeURL(), PHP_URL_PATH),
+                'domain'   => parse_url(getHomeURL(), PHP_URL_HOST),
+                'secure'   => isHTTPS(),
+                'httponly' => true,
+            ]);
+            $this->session->start();
         }
     }
 
     /**
+     * @return \Aura\Session\Session
+     * @since 1.0.1
+     */
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * @access private
      * @return void
      * @since 1.0
      */
@@ -311,7 +355,7 @@ class Main
             // Districts
             'view_districts'        => true,
 
-        ) ) );
+        )));
 
         Roles::addRole(new Role('contributor', __('Contributor'), array(
 
@@ -325,7 +369,7 @@ class Main
             // Districts
             'view_districts'        => true,
 
-        ) ) );
+        )));
 
         Roles::addRole(new Role('editor', __('Editor'), array(
 
@@ -354,7 +398,7 @@ class Main
             'view_districts'        => true,
             'delete_district'       => true,
 
-        ) ) );
+        )));
 
         Roles::addRole(new Role('administrator', __('Administrator'), array(
 
@@ -391,77 +435,96 @@ class Main
             // Settings
             'edit_settings'         => true,
 
-        ) ) );
+        )));
     }
 
     /**
+     * @access private
      * @return void
      * @since 1.0
      */
     public function setupDispatcher()
     {
         $controllers = [
-            'home' => function() {
+            'home' => function () {
                 return new Controllers\Home();
             },
-            'login' => function() {
+            'login' => function () {
                 return new Controllers\Login();
             },
-            'signup' => function() {
+            'signup' => function () {
                 return new Controllers\Signup();
             },
-            'install' => function() {
+            'install' => function () {
                 return new Controllers\Install();
             },
-            'settings' => function() {
+            'settings' => function () {
                 return new Controllers\Settings();
             },
-            'view-users' => function() {
+            'view-users' => function () {
                 return new Controllers\ViewUsers();
             },
-            'view-donors' => function() {
+            'view-donors' => function () {
                 return new Controllers\ViewDonors();
             },
-            'view-cities' => function() {
+            'view-cities' => function () {
                 return new Controllers\ViewCities();
             },
-            'view-districts' => function() {
+            'view-districts' => function () {
                 return new Controllers\ViewDistricts();
             },
-            'add-user' => function() {
+            'add-user' => function () {
                 return new Controllers\AddUser();
             },
-            'add-donor' => function() {
+            'add-donor' => function () {
                 return new Controllers\AddDonor();
             },
-            'add-city' => function() {
+            'add-city' => function () {
                 return new Controllers\AddCity();
             },
-            'add-district' => function() {
+            'add-district' => function () {
                 return new Controllers\AddDistrict();
             },
-            'edit-user' => function($id) {
+            'edit-user' => function ($id) {
                 return new Controllers\EditUser($id);
             },
-            'edit-donor' => function($id) {
+            'edit-donor' => function ($id) {
                 return new Controllers\EditDonor($id);
             },
-            'edit-city' => function($id) {
+            'edit-city' => function ($id) {
                 return new Controllers\EditCity($id);
             },
-            'edit-district' => function($id) {
+            'edit-district' => function ($id) {
                 return new Controllers\EditDistrict($id);
             },
-            'edit-users' => function() {
+            'delete-user' => function ($id) {
+                return new Controllers\DeleteUser($id);
+            },
+            'delete-donor' => function ($id) {
+                return new Controllers\DeleteDonor($id);
+            },
+            'delete-city' => function ($id) {
+                return new Controllers\DeleteCity($id);
+            },
+            'delete-district' => function ($id) {
+                return new Controllers\DeleteDistrict($id);
+            },
+            'activate-user' => function ($id) {
+                return new Controllers\ActivateUser($id);
+            },
+            'approve-donor' => function ($id) {
+                return new Controllers\ApproveDonor($id);
+            },
+            'edit-users' => function () {
                 return new Controllers\EditUsers();
             },
-            'edit-donors' => function() {
+            'edit-donors' => function () {
                 return new Controllers\EditDonors();
             },
-            'edit-cities' => function() {
+            'edit-cities' => function () {
                 return new Controllers\EditCities();
             },
-            'edit-districts' => function() {
+            'edit-districts' => function () {
                 return new Controllers\EditDistricts();
             },
         ];
@@ -514,7 +577,16 @@ class Main
         }
     }
 
-	/** Singleton *************************************************************/
+    /**
+     * @return string
+     * @since 1.0
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /** Singleton *************************************************************/
 
     /**
      * @return Main
@@ -526,7 +598,6 @@ class Main
         static $instance;
 
         if (is_null($instance)) {
-
             $instance = new self();
 
             // Sets up the logger.
@@ -547,11 +618,11 @@ class Main
             // Sets up the current locale.
             $instance->setupCurrentLocale();
 
-            // Sets up the user session.
-            $instance->setupUserSession();
-
             // Sets up the user roles.
             $instance->setupUserRoles();
+
+            // Sets up the session.
+            $instance->setupSession();
 
             // Sets up the router.
             $instance->setupRouter();
@@ -561,7 +632,6 @@ class Main
 
             // Dispatch!
             $instance->dispatch();
-
         }
 
         return $instance;

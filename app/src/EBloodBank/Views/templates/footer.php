@@ -1,11 +1,12 @@
 <?php
 /**
- * The Footer
+ * Page footer template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 
 ?>

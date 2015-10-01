@@ -1,10 +1,10 @@
 <?php
 /**
- * Settings Page Controller
+ * Settings page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -15,6 +15,8 @@ use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
+ * Settings page controller class
+ *
  * @since 1.0
  */
 class Settings extends Controller
@@ -66,7 +68,6 @@ class Settings extends Controller
     protected function doSaveAction()
     {
         try {
-
             /* General Options */
             Options::submitOption('site_url', filter_input(INPUT_POST, 'site_url'), true);
             Options::submitOption('site_name', filter_input(INPUT_POST, 'site_name'), true);
@@ -83,12 +84,11 @@ class Settings extends Controller
             Options::submitOption('entities_per_page', filter_input(INPUT_POST, 'entities_per_page'), true);
 
             EBB\redirect(
-                 EBB\addQueryArgs(
+                EBB\addQueryArgs(
                     EBB\getSettingsURL(),
                     array('flag-saved' => true)
-                 )
-             );
-
+                )
+            );
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_option', $ex->getMessage());
         }

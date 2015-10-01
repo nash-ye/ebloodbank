@@ -1,16 +1,17 @@
 <?php
 /**
- * City Entity Repository
+ * City entity repository class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Models
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Models;
 
 /**
-* @since 1.0
-*/
+ * City entity repository class
+ * @since 1.0
+ */
 class CityRepository extends EntityRepository
 {
 }

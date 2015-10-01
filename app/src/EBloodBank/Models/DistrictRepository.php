@@ -1,16 +1,18 @@
 <?php
 /**
- * District Entity Repository
+ * District entity repository class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Models
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Models;
 
 /**
-* @since 1.0
-*/
+ * District entity repository class
+ *
+ * @since 1.0
+ */
 class DistrictRepository extends EntityRepository
 {
 }

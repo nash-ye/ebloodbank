@@ -1,11 +1,12 @@
 <?php
 /**
- * View Cities Page
+ * View cities page template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 
 $view->displayView('header', ['title' => __('Cities')]);

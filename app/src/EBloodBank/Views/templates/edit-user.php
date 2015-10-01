@@ -1,10 +1,10 @@
 <?php
 /**
- * Edit User Page
+ * Edit user page template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
 
 $view->displayView('header', ['title' => __('Edit User')]);

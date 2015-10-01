@@ -1,10 +1,10 @@
 <?php
 /**
- * User Model
+ * User entity class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Models
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Models;
 
@@ -14,6 +14,8 @@ use EBloodBank\Roles;
 use EBloodBank\Traits\EntityMeta;
 
 /**
+ * User entity class
+ *
  * @since 1.0
  *
  * @Entity(repositoryClass="EBloodBank\Models\UserRepository")

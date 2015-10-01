@@ -1,13 +1,15 @@
 <?php
 /**
- * Filtering Functions
+ * Filtering functions file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
 /**
+ * Whether a specific value is a valid IP address.
+ *
  * @return bool
  * @since 1.0
  */
@@ -17,6 +19,8 @@ function isValidIP($value)
 }
 
 /**
+ * Whether a specific value is a valid MAC address.
+ *
  * @return bool
  * @since 1.0
  */
@@ -26,6 +30,8 @@ function isValidMAC($value)
 }
 
 /**
+ * Whether a specific value is a valid URL address.
+ *
  * @return bool
  * @since 1.0
  */
@@ -35,6 +41,8 @@ function isValidURL($value)
 }
 
 /**
+ * Whether a specific value is a valid E-mail address.
+ *
  * @return bool
  * @since 1.0
  */
@@ -44,6 +52,8 @@ function isValidEmail($email)
 }
 
 /**
+ * Whether a specific value is a valid integer number.
+ *
  * @return bool
  * @since 1.0
  */
@@ -53,6 +63,8 @@ function isValidInteger($value)
 }
 
 /**
+ * Whether a specific value is a valid float number.
+ *
  * @return bool
  * @since 1.0
  */
@@ -62,6 +74,11 @@ function isValidFloat($value)
 }
 
 /**
+ * Whether a specific value is a valid numeric identifier.
+ *
+ * In other words, It checks whether the value
+ * is a valid positive integer.
+ *
  * @return bool
  * @since 1.0
  */

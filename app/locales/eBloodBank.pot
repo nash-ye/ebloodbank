@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-21 21:24+0300\n"
-"PO-Revision-Date: 2015-09-21 21:24+0300\n"
+"POT-Creation-Date: 2015-10-01 08:57+0300\n"
+"PO-Revision-Date: 2015-10-01 08:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: en\n"
@@ -17,305 +17,319 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ../src\n"
 
-#: ../src/EBloodBank/Controllers/AddCity.php:60
+#: ../src/EBloodBank/Controllers/AddCity.php:62
 msgid "City added."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/AddCity.php:85
-#: ../src/EBloodBank/Controllers/EditCity.php:108
+#: ../src/EBloodBank/Controllers/AddCity.php:93
+#: ../src/EBloodBank/Controllers/EditCity.php:116
 msgid "Please enter a unique city name."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/AddDistrict.php:60
+#: ../src/EBloodBank/Controllers/AddDistrict.php:62
 msgid "District added."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/AddDonor.php:60
+#: ../src/EBloodBank/Controllers/AddDonor.php:62
 msgid "Donor added."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/AddUser.php:60
+#: ../src/EBloodBank/Controllers/AddUser.php:62
 msgid "User added."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/AddUser.php:88
-#: ../src/EBloodBank/Controllers/EditUser.php:113
+#: ../src/EBloodBank/Controllers/AddUser.php:96
+#: ../src/EBloodBank/Controllers/EditUser.php:121
 msgid "Please enter a unique user e-mail."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/AddUser.php:95
+#: ../src/EBloodBank/Controllers/AddUser.php:103
 msgid "Please enter the password."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/AddUser.php:99
+#: ../src/EBloodBank/Controllers/AddUser.php:107
 msgid "Please confirm the password."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/AddUser.php:103
-#: ../src/EBloodBank/Controllers/EditUser.php:126
-#: ../src/EBloodBank/Controllers/Install.php:297
-#: ../src/EBloodBank/Controllers/Signup.php:81
+#: ../src/EBloodBank/Controllers/AddUser.php:111
+#: ../src/EBloodBank/Controllers/EditUser.php:133
+#: ../src/EBloodBank/Controllers/Install.php:298
+#: ../src/EBloodBank/Controllers/Signup.php:82
 msgid "Please enter the same password."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/EditCities.php:61
+#: ../src/EBloodBank/Controllers/EditCities.php:58
 #, php-format
 msgid "%d city permanently deleted."
 msgid_plural "%d cities permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EBloodBank/Controllers/EditCity.php:82
+#: ../src/EBloodBank/Controllers/EditCity.php:84
 msgid "City edited."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/EditDistrict.php:82
+#: ../src/EBloodBank/Controllers/EditDistrict.php:84
 msgid "District edited."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/EditDistricts.php:61
+#: ../src/EBloodBank/Controllers/EditDistricts.php:58
 #, php-format
 msgid "%d district permanently deleted."
 msgid_plural "%d districts permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EBloodBank/Controllers/EditDonor.php:82
+#: ../src/EBloodBank/Controllers/EditDonor.php:84
 msgid "Donor edited."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/EditDonors.php:65
+#: ../src/EBloodBank/Controllers/EditDonors.php:59
 #, php-format
 msgid "%d donor approved."
 msgid_plural "%d donors approved."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EBloodBank/Controllers/EditDonors.php:69
+#: ../src/EBloodBank/Controllers/EditDonors.php:63
 #, php-format
 msgid "%d donor permanently deleted."
 msgid_plural "%d donors permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EBloodBank/Controllers/EditUser.php:83
+#: ../src/EBloodBank/Controllers/EditUser.php:85
 msgid "User edited."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/EditUser.php:120
+#: ../src/EBloodBank/Controllers/EditUser.php:128
 msgid "Please enter the password twice."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/EditUsers.php:64
+#: ../src/EBloodBank/Controllers/EditUsers.php:58
 #, php-format
 msgid "%d user activated."
 msgid_plural "%d users activated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EBloodBank/Controllers/EditUsers.php:68
+#: ../src/EBloodBank/Controllers/EditUsers.php:62
 #, php-format
 msgid "%d user permanently deleted."
 msgid_plural "%d users permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EBloodBank/Controllers/Install.php:289
-#: ../src/EBloodBank/Controllers/Signup.php:73
+#: ../src/EBloodBank/Controllers/Install.php:290
+#: ../src/EBloodBank/Controllers/Signup.php:74
 msgid "Please enter your password."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/Install.php:293
-#: ../src/EBloodBank/Controllers/Signup.php:77
+#: ../src/EBloodBank/Controllers/Install.php:294
+#: ../src/EBloodBank/Controllers/Signup.php:78
 msgid "Please confirm your password."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/Install.php:319
+#: ../src/EBloodBank/Controllers/Install.php:318
 msgid "An unexpected error occurred while installing eBloodBank."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/Login.php:59
+#: ../src/EBloodBank/Controllers/Login.php:61
 msgid "You are now logged out."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/Login.php:73
+#: ../src/EBloodBank/Controllers/Login.php:75
 msgid "Please enter your login details."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/Login.php:82
+#: ../src/EBloodBank/Controllers/Login.php:84
 msgid "No match for user e-mail and/or password."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/Login.php:87
+#: ../src/EBloodBank/Controllers/Login.php:89
 msgid "Your account is pending moderation."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/Settings.php:58
+#: ../src/EBloodBank/Controllers/Settings.php:60
 msgid "Settings saved."
 msgstr ""
 
-#: ../src/EBloodBank/Locale.php:64
+#: ../src/EBloodBank/Locale.php:78
 msgid "Invalid locale code."
 msgstr ""
 
-#: ../src/EBloodBank/Locale.php:70
+#: ../src/EBloodBank/Locale.php:84
 msgid "Locale MO file is not readable or not exists."
 msgstr ""
 
-#: ../src/EBloodBank/Locale.php:77
+#: ../src/EBloodBank/Locale.php:91
 msgid "Locale PO file is not readable or not exists."
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:303
+#: ../src/EBloodBank/Main.php:347
 msgid "Subscriber"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:316
+#: ../src/EBloodBank/Main.php:360
 msgid "Contributor"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:330
+#: ../src/EBloodBank/Main.php:374
 msgid "Editor"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:359
+#: ../src/EBloodBank/Main.php:403
 msgid "Administrator"
 msgstr ""
 
-#: ../src/EBloodBank/Models/City.php:110
+#: ../src/EBloodBank/Models/City.php:112
 msgid "Invalid city ID."
 msgstr ""
 
-#: ../src/EBloodBank/Models/City.php:115
+#: ../src/EBloodBank/Models/City.php:117
 msgid "Invalid city name."
 msgstr ""
 
-#: ../src/EBloodBank/Models/City.php:122
+#: ../src/EBloodBank/Models/City.php:124
 msgid "Invalid city originator."
 msgstr ""
 
-#: ../src/EBloodBank/Models/District.php:127
+#: ../src/EBloodBank/Models/District.php:129
 msgid "Invalid district ID."
 msgstr ""
 
-#: ../src/EBloodBank/Models/District.php:132
+#: ../src/EBloodBank/Models/District.php:134
 msgid "Invalid district name."
 msgstr ""
 
-#: ../src/EBloodBank/Models/District.php:137
+#: ../src/EBloodBank/Models/District.php:139
 msgid "Invalid district city."
 msgstr ""
 
-#: ../src/EBloodBank/Models/District.php:144
+#: ../src/EBloodBank/Models/District.php:146
 msgid "Invalid district originator."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:188
+#: ../src/EBloodBank/Models/Donor.php:190
 msgid "Male"
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:189
+#: ../src/EBloodBank/Models/Donor.php:191
 msgid "Female"
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:242
+#: ../src/EBloodBank/Models/Donor.php:244
 msgid "Invalid donor ID."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:247
+#: ../src/EBloodBank/Models/Donor.php:249
 msgid "Invalid donor name."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:252
+#: ../src/EBloodBank/Models/Donor.php:254
 msgid "Invalid donor gender."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:259
+#: ../src/EBloodBank/Models/Donor.php:261
 msgid "Invalid donor blood group."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:264
+#: ../src/EBloodBank/Models/Donor.php:266
 msgid "Invalid donor district."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:271
+#: ../src/EBloodBank/Models/Donor.php:273
 msgid "Invalid donor originator."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:276
+#: ../src/EBloodBank/Models/Donor.php:278
 msgid "Invalid donor status."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:319
+#: ../src/EBloodBank/Models/Donor.php:321
 msgid "Invalid donor weight."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:324
+#: ../src/EBloodBank/Models/Donor.php:326
 msgid "Invalid donor e-mail."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Donor.php:329
+#: ../src/EBloodBank/Models/Donor.php:331
 msgid "Invalid donor phone number."
 msgstr ""
 
-#: ../src/EBloodBank/Models/User.php:189
+#: ../src/EBloodBank/Models/User.php:191
 msgid "Invalid user ID."
 msgstr ""
 
-#: ../src/EBloodBank/Models/User.php:194
+#: ../src/EBloodBank/Models/User.php:196
 msgid "Invalid user name."
 msgstr ""
 
-#: ../src/EBloodBank/Models/User.php:199
+#: ../src/EBloodBank/Models/User.php:201
 msgid "Invalid user e-mail."
 msgstr ""
 
-#: ../src/EBloodBank/Models/User.php:204
+#: ../src/EBloodBank/Models/User.php:206
 msgid "Invalid user password."
 msgstr ""
 
-#: ../src/EBloodBank/Models/User.php:209
+#: ../src/EBloodBank/Models/User.php:211
 msgid "Invalid user role."
 msgstr ""
 
-#: ../src/EBloodBank/Models/User.php:216
+#: ../src/EBloodBank/Models/User.php:218
 msgid "Invalid user status."
 msgstr ""
 
-#: ../src/EBloodBank/Models/Variable.php:77
+#: ../src/EBloodBank/Models/Variable.php:79
 msgid "Invalid variable name."
 msgstr ""
 
-#: ../src/EBloodBank/Options.php:191
+#: ../src/EBloodBank/Options.php:221
 msgid "Invalid site URL."
 msgstr ""
 
-#: ../src/EBloodBank/Options.php:196
+#: ../src/EBloodBank/Options.php:226
 msgid "Invalid site name."
 msgstr ""
 
-#: ../src/EBloodBank/Options.php:205
+#: ../src/EBloodBank/Options.php:235
 msgid "Invalid site locale."
 msgstr ""
 
-#: ../src/EBloodBank/Options.php:211
+#: ../src/EBloodBank/Options.php:241
 msgid "Invalid site e-mail address."
 msgstr ""
 
-#: ../src/EBloodBank/Options.php:216
+#: ../src/EBloodBank/Options.php:246
 msgid "Invalid self-registration status."
 msgstr ""
 
-#: ../src/EBloodBank/Options.php:221
+#: ../src/EBloodBank/Options.php:251
 msgid "Invalid new user role."
 msgstr ""
 
-#: ../src/EBloodBank/Options.php:226
+#: ../src/EBloodBank/Options.php:256
 msgid "Invalid new user status."
 msgstr ""
 
-#: ../src/EBloodBank/Options.php:231
+#: ../src/EBloodBank/Options.php:261
 msgid "Invalid entities per page count."
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/activate-user.php:12
+msgid "Activate User"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/activate-user.php:19
+#, php-format
+msgid "Activate user \"%s\"?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/activate-user.php:23
+#: ../src/EBloodBank/functions.hyperlinks.php:472
+msgid "Activate"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/add-city.php:10
@@ -326,7 +340,7 @@ msgstr ""
 msgid "Add New District"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/add-donor.php:9
+#: ../src/EBloodBank/Views/templates/add-donor.php:10
 msgid "Add New Donor"
 msgstr ""
 
@@ -334,49 +348,110 @@ msgstr ""
 msgid "Add New User"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-cities.php:11
-msgid "Edit Cities"
+#: ../src/EBloodBank/Views/templates/approve-donor.php:12
+msgid "Approve Donor"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-cities.php:16
-#: ../src/EBloodBank/Views/templates/edit-districts.php:16
-#: ../src/EBloodBank/Views/templates/edit-donors.php:16
-#: ../src/EBloodBank/Views/templates/edit-users.php:16
-msgid "View"
+#: ../src/EBloodBank/Views/templates/approve-donor.php:19
+#, php-format
+msgid "Approve donor \"%s\"?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/approve-donor.php:23
+#: ../src/EBloodBank/functions.hyperlinks.php:752
+msgid "Approve"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-city.php:12
+msgid "Delete City"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-city.php:19
+#, php-format
+msgid "Delete city \"%s\"?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-city.php:23
+#: ../src/EBloodBank/Views/templates/delete-district.php:23
+#: ../src/EBloodBank/Views/templates/delete-donor.php:23
+#: ../src/EBloodBank/Views/templates/delete-user.php:23
+#: ../src/EBloodBank/functions.hyperlinks.php:434
+#: ../src/EBloodBank/functions.hyperlinks.php:718
+#: ../src/EBloodBank/functions.hyperlinks.php:980
+#: ../src/EBloodBank/functions.hyperlinks.php:1201
+msgid "Delete"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-district.php:12
+msgid "Delete District"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-district.php:19
+#, php-format
+msgid "Delete district \"%s\"?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-donor.php:12
+msgid "Delete Donor"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-donor.php:19
+#, php-format
+msgid "Delete donor \"%s\"?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-user.php:12
+msgid "Delete User"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-user.php:19
+#, php-format
+msgid "Delete user \"%s\"?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/edit-cities.php:12
+msgid "Edit Cities"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/edit-cities.php:17
 #: ../src/EBloodBank/Views/templates/edit-districts.php:17
 #: ../src/EBloodBank/Views/templates/edit-donors.php:17
 #: ../src/EBloodBank/Views/templates/edit-users.php:17
-#: ../src/EBloodBank/Views/templates/view-cities.php:17
-#: ../src/EBloodBank/Views/templates/view-districts.php:17
-#: ../src/EBloodBank/Views/templates/view-donors.php:17
-#: ../src/EBloodBank/Views/templates/view-users.php:17
+msgid "View"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/edit-cities.php:18
+#: ../src/EBloodBank/Views/templates/edit-districts.php:18
+#: ../src/EBloodBank/Views/templates/edit-donors.php:18
+#: ../src/EBloodBank/Views/templates/edit-users.php:18
+#: ../src/EBloodBank/Views/templates/view-cities.php:18
+#: ../src/EBloodBank/Views/templates/view-districts.php:18
+#: ../src/EBloodBank/Views/templates/view-donors.php:18
+#: ../src/EBloodBank/Views/templates/view-users.php:18
 msgid "Add New"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-cities.php:28
-#: ../src/EBloodBank/Views/templates/edit-districts.php:28
-#: ../src/EBloodBank/Views/templates/edit-donors.php:36
-#: ../src/EBloodBank/Views/templates/edit-users.php:27
-#: ../src/EBloodBank/Views/templates/form-city.php:23
-#: ../src/EBloodBank/Views/templates/form-district.php:26
-#: ../src/EBloodBank/Views/templates/form-donor.php:26
-#: ../src/EBloodBank/Views/templates/form-signup.php:18
-#: ../src/EBloodBank/Views/templates/form-user.php:24
-#: ../src/EBloodBank/Views/templates/install.php:115
-#: ../src/EBloodBank/Views/templates/view-cities.php:28
-#: ../src/EBloodBank/Views/templates/view-districts.php:28
-#: ../src/EBloodBank/Views/templates/view-donors.php:36
-#: ../src/EBloodBank/Views/templates/view-users.php:27
+#: ../src/EBloodBank/Views/templates/edit-cities.php:29
+#: ../src/EBloodBank/Views/templates/edit-districts.php:29
+#: ../src/EBloodBank/Views/templates/edit-donors.php:37
+#: ../src/EBloodBank/Views/templates/edit-users.php:28
+#: ../src/EBloodBank/Views/templates/form-city.php:24
+#: ../src/EBloodBank/Views/templates/form-district.php:27
+#: ../src/EBloodBank/Views/templates/form-donor.php:27
+#: ../src/EBloodBank/Views/templates/form-signup.php:20
+#: ../src/EBloodBank/Views/templates/form-user.php:25
+#: ../src/EBloodBank/Views/templates/install.php:117
+#: ../src/EBloodBank/Views/templates/view-cities.php:29
+#: ../src/EBloodBank/Views/templates/view-districts.php:29
+#: ../src/EBloodBank/Views/templates/view-donors.php:37
+#: ../src/EBloodBank/Views/templates/view-users.php:28
 msgid "Name"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-cities.php:29
-#: ../src/EBloodBank/Views/templates/edit-districts.php:30
-#: ../src/EBloodBank/Views/templates/edit-donors.php:42
-#: ../src/EBloodBank/Views/templates/edit-users.php:30
+#: ../src/EBloodBank/Views/templates/edit-cities.php:30
+#: ../src/EBloodBank/Views/templates/edit-districts.php:31
+#: ../src/EBloodBank/Views/templates/edit-donors.php:43
+#: ../src/EBloodBank/Views/templates/edit-users.php:31
 msgid "Actions"
 msgstr ""
 
@@ -388,16 +463,16 @@ msgstr ""
 msgid "Edit District"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-districts.php:11
+#: ../src/EBloodBank/Views/templates/edit-districts.php:12
 msgid "Edit Districts"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-districts.php:29
-#: ../src/EBloodBank/Views/templates/edit-donors.php:40
-#: ../src/EBloodBank/Views/templates/form-district.php:35
-#: ../src/EBloodBank/Views/templates/form-donors-filter.php:80
-#: ../src/EBloodBank/Views/templates/view-districts.php:29
-#: ../src/EBloodBank/Views/templates/view-donors.php:40
+#: ../src/EBloodBank/Views/templates/edit-districts.php:30
+#: ../src/EBloodBank/Views/templates/edit-donors.php:41
+#: ../src/EBloodBank/Views/templates/form-district.php:36
+#: ../src/EBloodBank/Views/templates/form-donors-filter.php:81
+#: ../src/EBloodBank/Views/templates/view-districts.php:30
+#: ../src/EBloodBank/Views/templates/view-donors.php:41
 msgid "City"
 msgstr ""
 
@@ -405,32 +480,32 @@ msgstr ""
 msgid "Edit Donor"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:11
+#: ../src/EBloodBank/Views/templates/edit-donors.php:12
 msgid "Edit Donors"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:37
-#: ../src/EBloodBank/Views/templates/form-donor.php:35
-#: ../src/EBloodBank/Views/templates/view-donors.php:37
+#: ../src/EBloodBank/Views/templates/edit-donors.php:38
+#: ../src/EBloodBank/Views/templates/form-donor.php:36
+#: ../src/EBloodBank/Views/templates/view-donors.php:38
 msgid "Gender"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:38
-#: ../src/EBloodBank/Views/templates/view-donors.php:38
+#: ../src/EBloodBank/Views/templates/edit-donors.php:39
+#: ../src/EBloodBank/Views/templates/view-donors.php:39
 msgid "Age"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:39
-#: ../src/EBloodBank/Views/templates/form-donor.php:57
-#: ../src/EBloodBank/Views/templates/form-donors-filter.php:68
-#: ../src/EBloodBank/Views/templates/view-donors.php:39
+#: ../src/EBloodBank/Views/templates/edit-donors.php:40
+#: ../src/EBloodBank/Views/templates/form-donor.php:58
+#: ../src/EBloodBank/Views/templates/form-donors-filter.php:69
+#: ../src/EBloodBank/Views/templates/view-donors.php:40
 msgid "Blood Group"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:41
-#: ../src/EBloodBank/Views/templates/form-donor.php:97
-#: ../src/EBloodBank/Views/templates/form-donors-filter.php:92
-#: ../src/EBloodBank/Views/templates/view-donors.php:41
+#: ../src/EBloodBank/Views/templates/edit-donors.php:42
+#: ../src/EBloodBank/Views/templates/form-donor.php:98
+#: ../src/EBloodBank/Views/templates/form-donors-filter.php:93
+#: ../src/EBloodBank/Views/templates/view-donors.php:42
 msgid "District"
 msgstr ""
 
@@ -438,402 +513,388 @@ msgstr ""
 msgid "Edit User"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-users.php:11
+#: ../src/EBloodBank/Views/templates/edit-users.php:12
 msgid "Edit Users"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-users.php:28
-#: ../src/EBloodBank/Views/templates/form-donor.php:79
-#: ../src/EBloodBank/Views/templates/form-login.php:18
-#: ../src/EBloodBank/Views/templates/form-signup.php:27
-#: ../src/EBloodBank/Views/templates/form-user.php:33
-#: ../src/EBloodBank/Views/templates/install.php:124
-#: ../src/EBloodBank/Views/templates/view-users.php:28
+#: ../src/EBloodBank/Views/templates/edit-users.php:29
+#: ../src/EBloodBank/Views/templates/form-donor.php:80
+#: ../src/EBloodBank/Views/templates/form-login.php:20
+#: ../src/EBloodBank/Views/templates/form-signup.php:29
+#: ../src/EBloodBank/Views/templates/form-user.php:34
+#: ../src/EBloodBank/Views/templates/install.php:126
+#: ../src/EBloodBank/Views/templates/view-users.php:29
 msgid "E-mail"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-users.php:29
-#: ../src/EBloodBank/Views/templates/form-user.php:58
-#: ../src/EBloodBank/Views/templates/view-users.php:29
+#: ../src/EBloodBank/Views/templates/edit-users.php:30
+#: ../src/EBloodBank/Views/templates/form-user.php:59
+#: ../src/EBloodBank/Views/templates/view-users.php:30
 msgid "Role"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-403.php:13
+#: ../src/EBloodBank/Views/templates/error-403.php:14
 msgid "Error: Access denied"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-403.php:17
+#: ../src/EBloodBank/Views/templates/error-403.php:18
 msgid "Sorry, you are not authorized to access this page."
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-404.php:13
+#: ../src/EBloodBank/Views/templates/error-404.php:14
 msgid "Error: Not Found"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-404.php:17
+#: ../src/EBloodBank/Views/templates/error-404.php:18
 msgid "Sorry, the page you requested was not found."
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-db.php:12
-#: ../src/EBloodBank/Views/templates/header.php:13
-#: ../src/EBloodBank/Views/templates/install.php:12
+#: ../src/EBloodBank/Views/templates/error-db.php:14
+#: ../src/EBloodBank/Views/templates/header.php:15
+#: ../src/EBloodBank/Views/templates/install.php:14
 msgctxt "language code"
 msgid "en"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-db.php:12
-#: ../src/EBloodBank/Views/templates/error-db.php:20
-#: ../src/EBloodBank/Views/templates/header.php:13
-#: ../src/EBloodBank/Views/templates/header.php:21
-#: ../src/EBloodBank/Views/templates/install.php:12
-#: ../src/EBloodBank/Views/templates/install.php:20
+#: ../src/EBloodBank/Views/templates/error-db.php:14
+#: ../src/EBloodBank/Views/templates/error-db.php:22
+#: ../src/EBloodBank/Views/templates/header.php:15
+#: ../src/EBloodBank/Views/templates/header.php:23
+#: ../src/EBloodBank/Views/templates/install.php:14
+#: ../src/EBloodBank/Views/templates/install.php:22
 msgctxt "text direction"
 msgid "ltr"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-db.php:15
+#: ../src/EBloodBank/Views/templates/error-db.php:17
 msgid "eBloodBank &rsaquo; Database Error"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-db.php:33
-#: ../src/EBloodBank/Views/templates/install.php:33
+#: ../src/EBloodBank/Views/templates/error-db.php:35
+#: ../src/EBloodBank/Views/templates/install.php:35
 msgid "eBloodBank"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-db.php:43
+#: ../src/EBloodBank/Views/templates/error-db.php:45
 msgid "Error: Database Connection Failed"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/error-db.php:47
+#: ../src/EBloodBank/Views/templates/error-db.php:49
 msgid "An error occurred while establishing the database connection."
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-city.php:32
-#: ../src/EBloodBank/Views/templates/form-district.php:48
-#: ../src/EBloodBank/Views/templates/form-donor.php:123
-#: ../src/EBloodBank/Views/templates/form-user.php:72
+#: ../src/EBloodBank/Views/templates/form-city.php:33
+#: ../src/EBloodBank/Views/templates/form-district.php:49
+#: ../src/EBloodBank/Views/templates/form-donor.php:124
+#: ../src/EBloodBank/Views/templates/form-user.php:73
 msgid "Submit"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-donor.php:48
+#: ../src/EBloodBank/Views/templates/form-donor.php:49
 msgid "Birthdate"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-donor.php:70
+#: ../src/EBloodBank/Views/templates/form-donor.php:71
 msgid "Weight (kg)"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-donor.php:88
+#: ../src/EBloodBank/Views/templates/form-donor.php:89
 msgid "Phone"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-donor.php:114
+#: ../src/EBloodBank/Views/templates/form-donor.php:115
 msgid "Address"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-donors-filter.php:70
-#: ../src/EBloodBank/Views/templates/form-donors-filter.php:82
-#: ../src/EBloodBank/Views/templates/form-donors-filter.php:94
+#: ../src/EBloodBank/Views/templates/form-donors-filter.php:71
+#: ../src/EBloodBank/Views/templates/form-donors-filter.php:83
+#: ../src/EBloodBank/Views/templates/form-donors-filter.php:95
 msgid "All"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-donors-filter.php:103
+#: ../src/EBloodBank/Views/templates/form-donors-filter.php:104
 msgid "Search"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-login.php:27
-#: ../src/EBloodBank/Views/templates/form-signup.php:36
-#: ../src/EBloodBank/Views/templates/form-user.php:45
-#: ../src/EBloodBank/Views/templates/install.php:133
+#: ../src/EBloodBank/Views/templates/form-login.php:29
+#: ../src/EBloodBank/Views/templates/form-signup.php:38
+#: ../src/EBloodBank/Views/templates/form-user.php:46
+#: ../src/EBloodBank/Views/templates/install.php:135
 msgid "Password"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-login.php:36
+#: ../src/EBloodBank/Views/templates/form-login.php:38
 #: ../src/EBloodBank/Views/templates/login.php:10
-#: ../src/EBloodBank/functions.hyperlinks.php:94
+#: ../src/EBloodBank/functions.hyperlinks.php:119
 msgid "Log In"
-msgstr ""
-
-#: ../src/EBloodBank/Views/templates/form-signup.php:39
-#: ../src/EBloodBank/Views/templates/install.php:136
-msgid "Type your password"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-signup.php:41
 #: ../src/EBloodBank/Views/templates/install.php:138
+msgid "Type your password"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/form-signup.php:43
+#: ../src/EBloodBank/Views/templates/install.php:140
 msgid "Type your password again"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-signup.php:47
+#: ../src/EBloodBank/Views/templates/form-signup.php:49
 #: ../src/EBloodBank/Views/templates/signup.php:10
-#: ../src/EBloodBank/functions.hyperlinks.php:175
+#: ../src/EBloodBank/functions.hyperlinks.php:200
 msgid "Sign Up"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-user.php:43
+#: ../src/EBloodBank/Views/templates/form-user.php:44
 msgid "New Password"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-user.php:49
+#: ../src/EBloodBank/Views/templates/form-user.php:50
 msgid "Type the password"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-user.php:51
+#: ../src/EBloodBank/Views/templates/form-user.php:52
 msgid "Type the password again"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/header.php:36
+#: ../src/EBloodBank/Views/templates/header.php:38
 msgid "Toggle navigation"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/header.php:45
-#: ../src/EBloodBank/Views/templates/home.php:11
+#: ../src/EBloodBank/Views/templates/header.php:47
+#: ../src/EBloodBank/Views/templates/home.php:12
+#: ../src/EBloodBank/functions.hyperlinks.php:70
 msgid "Home"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/header.php:46
-#: ../src/EBloodBank/Views/templates/view-donors.php:11
-#: ../src/EBloodBank/functions.hyperlinks.php:588
+#: ../src/EBloodBank/Views/templates/header.php:48
+#: ../src/EBloodBank/Views/templates/view-donors.php:12
+#: ../src/EBloodBank/functions.hyperlinks.php:597
 msgid "Donors"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/header.php:47
-#: ../src/EBloodBank/Views/templates/view-cities.php:11
-#: ../src/EBloodBank/functions.hyperlinks.php:854
+#: ../src/EBloodBank/Views/templates/header.php:49
+#: ../src/EBloodBank/Views/templates/view-cities.php:12
+#: ../src/EBloodBank/functions.hyperlinks.php:859
 msgid "Cities"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/header.php:48
-#: ../src/EBloodBank/Views/templates/view-districts.php:11
-#: ../src/EBloodBank/functions.hyperlinks.php:1079
+#: ../src/EBloodBank/Views/templates/header.php:50
+#: ../src/EBloodBank/Views/templates/view-districts.php:12
+#: ../src/EBloodBank/functions.hyperlinks.php:1080
 msgid "Districts"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/header.php:49
-#: ../src/EBloodBank/Views/templates/view-users.php:11
-#: ../src/EBloodBank/functions.hyperlinks.php:296
+#: ../src/EBloodBank/Views/templates/header.php:51
+#: ../src/EBloodBank/Views/templates/view-users.php:12
+#: ../src/EBloodBank/functions.hyperlinks.php:313
 msgid "Users"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/header.php:50
-#: ../src/EBloodBank/Views/templates/settings.php:14
-#: ../src/EBloodBank/functions.hyperlinks.php:1246
+#: ../src/EBloodBank/Views/templates/header.php:52
+#: ../src/EBloodBank/Views/templates/settings.php:15
+#: ../src/EBloodBank/functions.hyperlinks.php:1247
 msgid "Settings"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/header.php:54
+#: ../src/EBloodBank/Views/templates/header.php:56
 #, php-format
 msgid "Hello, <b>%s</b>!"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/header.php:57
+#: ../src/EBloodBank/Views/templates/header.php:59
 msgid "Anonymous, Log In?"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/home.php:14
+#: ../src/EBloodBank/Views/templates/home.php:15
 msgid "Hello, life savers!"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/home.php:15
+#: ../src/EBloodBank/Views/templates/home.php:16
 msgid ""
 "Blood transfusion helps save millions of lives every year. Optimistically, "
 "we will help to save more."
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/home.php:18
+#: ../src/EBloodBank/Views/templates/home.php:19
 msgid "Add Donor"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/home.php:19
+#: ../src/EBloodBank/Views/templates/home.php:20
 msgid "Add City"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/home.php:20
+#: ../src/EBloodBank/Views/templates/home.php:21
 msgid "Add District"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/home.php:21
+#: ../src/EBloodBank/Views/templates/home.php:22
 msgid "Add User"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:15
+#: ../src/EBloodBank/Views/templates/install.php:17
 msgid "eBloodBank &rsaquo; Installation"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:47
+#: ../src/EBloodBank/Views/templates/install.php:49
 msgid "Configuration"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:52
+#: ../src/EBloodBank/Views/templates/install.php:54
 msgid ""
 "Welcome to eBloodBank, Before getting started, we need some information on "
 "the database. You will need to know the following items before proceeding."
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:55
+#: ../src/EBloodBank/Views/templates/install.php:57
 msgid "Database name"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:56
+#: ../src/EBloodBank/Views/templates/install.php:58
 msgid "Database username"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:57
+#: ../src/EBloodBank/Views/templates/install.php:59
 msgid "Database password"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:58
+#: ../src/EBloodBank/Views/templates/install.php:60
 msgid "Database host"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:61
+#: ../src/EBloodBank/Views/templates/install.php:63
 msgid ""
 "We’re going to use this information to setup the database. You should open "
 "\"app/config.php\" file in a text editor, fill in your information, and save "
 "it."
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:67
+#: ../src/EBloodBank/Views/templates/install.php:69
 msgid "Run the install"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:76
+#: ../src/EBloodBank/Views/templates/install.php:78
 msgid "Installation"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:81
+#: ../src/EBloodBank/Views/templates/install.php:83
 msgid ""
 "Welcome to the installation process! Just fill in the information below and "
 "you’ll be on your way to using the eBloodBank premium system."
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:87
+#: ../src/EBloodBank/Views/templates/install.php:89
 msgid "Site Information"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:91
-#: ../src/EBloodBank/Views/templates/settings.php:36
+#: ../src/EBloodBank/Views/templates/install.php:93
+#: ../src/EBloodBank/Views/templates/settings.php:37
 msgid "Site Name"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:100
-#: ../src/EBloodBank/Views/templates/settings.php:54
+#: ../src/EBloodBank/Views/templates/install.php:102
+#: ../src/EBloodBank/Views/templates/settings.php:55
 msgid "Site E-mail"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:111
+#: ../src/EBloodBank/Views/templates/install.php:113
 msgid "Administrator Account"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:146
+#: ../src/EBloodBank/Views/templates/install.php:148
 msgid "Install eBloodBank"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:157
+#: ../src/EBloodBank/Views/templates/install.php:159
 msgid "Already Installed"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/install.php:160
+#: ../src/EBloodBank/Views/templates/install.php:162
 msgid "You have already installed eBloodBank."
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/pagination.php:23
+#: ../src/EBloodBank/Views/templates/pagination.php:24
 msgid "&laquo;"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/pagination.php:41
+#: ../src/EBloodBank/Views/templates/pagination.php:42
 msgid "&raquo;"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:23
+#: ../src/EBloodBank/Views/templates/settings.php:24
 msgid "Site Options"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:27
+#: ../src/EBloodBank/Views/templates/settings.php:28
 msgid "Site URL"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:45
+#: ../src/EBloodBank/Views/templates/settings.php:46
 msgid "Site Slogan"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:63
+#: ../src/EBloodBank/Views/templates/settings.php:64
 msgid "Site Locale"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:79
+#: ../src/EBloodBank/Views/templates/settings.php:80
 msgid "Users Options"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:86
+#: ../src/EBloodBank/Views/templates/settings.php:87
 msgid "Enable self-registration."
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:94
+#: ../src/EBloodBank/Views/templates/settings.php:95
 msgid "New User Role"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:108
+#: ../src/EBloodBank/Views/templates/settings.php:109
 msgid "New User Status"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:113
+#: ../src/EBloodBank/Views/templates/settings.php:114
 msgid "Pending"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:113
+#: ../src/EBloodBank/Views/templates/settings.php:114
 msgid "Activated"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:124
+#: ../src/EBloodBank/Views/templates/settings.php:125
 msgid "Reading Options"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:128
+#: ../src/EBloodBank/Views/templates/settings.php:129
 msgid "Entities Per Page"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/settings.php:139
+#: ../src/EBloodBank/Views/templates/settings.php:140
 msgid "Save Settings"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/view-cities.php:16
-#: ../src/EBloodBank/Views/templates/view-districts.php:16
-#: ../src/EBloodBank/Views/templates/view-donors.php:16
-#: ../src/EBloodBank/Views/templates/view-users.php:16
-#: ../src/EBloodBank/functions.hyperlinks.php:354
-#: ../src/EBloodBank/functions.hyperlinks.php:383
-#: ../src/EBloodBank/functions.hyperlinks.php:646
-#: ../src/EBloodBank/functions.hyperlinks.php:675
-#: ../src/EBloodBank/functions.hyperlinks.php:912
-#: ../src/EBloodBank/functions.hyperlinks.php:941
-#: ../src/EBloodBank/functions.hyperlinks.php:1137
-#: ../src/EBloodBank/functions.hyperlinks.php:1166
+#: ../src/EBloodBank/Views/templates/view-cities.php:17
+#: ../src/EBloodBank/Views/templates/view-districts.php:17
+#: ../src/EBloodBank/Views/templates/view-donors.php:17
+#: ../src/EBloodBank/Views/templates/view-users.php:17
+#: ../src/EBloodBank/functions.hyperlinks.php:371
+#: ../src/EBloodBank/functions.hyperlinks.php:400
+#: ../src/EBloodBank/functions.hyperlinks.php:655
+#: ../src/EBloodBank/functions.hyperlinks.php:684
+#: ../src/EBloodBank/functions.hyperlinks.php:917
+#: ../src/EBloodBank/functions.hyperlinks.php:946
+#: ../src/EBloodBank/functions.hyperlinks.php:1138
+#: ../src/EBloodBank/functions.hyperlinks.php:1167
 msgid "Edit"
 msgstr ""
 
-#: ../src/EBloodBank/functions.hyperlinks.php:136
+#: ../src/EBloodBank/functions.hyperlinks.php:161
 msgid "Log Out"
 msgstr ""
 
-#: ../src/EBloodBank/functions.hyperlinks.php:325
-#: ../src/EBloodBank/functions.hyperlinks.php:617
-#: ../src/EBloodBank/functions.hyperlinks.php:883
-#: ../src/EBloodBank/functions.hyperlinks.php:1108
+#: ../src/EBloodBank/functions.hyperlinks.php:342
+#: ../src/EBloodBank/functions.hyperlinks.php:626
+#: ../src/EBloodBank/functions.hyperlinks.php:888
+#: ../src/EBloodBank/functions.hyperlinks.php:1109
 msgid "Add"
-msgstr ""
-
-#: ../src/EBloodBank/functions.hyperlinks.php:417
-#: ../src/EBloodBank/functions.hyperlinks.php:709
-#: ../src/EBloodBank/functions.hyperlinks.php:975
-#: ../src/EBloodBank/functions.hyperlinks.php:1200
-msgid "Delete"
-msgstr ""
-
-#: ../src/EBloodBank/functions.hyperlinks.php:455
-msgid "Activate"
-msgstr ""
-
-#: ../src/EBloodBank/functions.hyperlinks.php:743
-msgid "Approve"
 msgstr ""

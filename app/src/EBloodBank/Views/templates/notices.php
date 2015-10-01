@@ -1,17 +1,20 @@
 <?php
 /**
- * Notices List Template
+ * Page notices template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 
-if (Notices::hasNotices()) : ?>
+$notices = Notices::getNotices();
+
+if (! empty($notices) && is_array($notices)) : ?>
     <div class="alerts">
-        <?php foreach (Notices::getNotices() as $notice) : ?>
+        <?php foreach ($notices as $notice) : ?>
         <div class="alert alert-<?= $notice->type ?> alert-code-<?= $notice->code ?>" role="alert">
             <p><?= EBB\escHTML($notice->msg) ?></p>
         </div>

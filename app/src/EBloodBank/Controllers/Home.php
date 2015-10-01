@@ -1,16 +1,18 @@
 <?php
 /**
- * Home Page Controller
+ * Home page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
 use EBloodBank\Views\View;
 
 /**
+ * Home page controller class
+ *
  * @since 1.0
  */
 class Home extends Controller

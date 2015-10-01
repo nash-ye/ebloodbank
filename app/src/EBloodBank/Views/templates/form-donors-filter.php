@@ -1,11 +1,12 @@
 <?php
 /**
- * Search Form
+ * Filter donors form template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 use EBloodBank\Models\Donor;
 
@@ -13,7 +14,7 @@ $criteria = array_merge([
     'blood_group' => 'any',
     'district'    => -1,
     'city'        => -1,
-], (array) $view->get('criteria') );
+], (array) $view->get('criteria'));
 
 $em = main()->getEntityManager();
 $cityRepository = $em->getRepository('Entities:City');

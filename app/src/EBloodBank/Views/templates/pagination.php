@@ -1,11 +1,12 @@
 <?php
 /**
- * Pagination Template
+ * Page pagination template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 
 $urls = EBB\getPaginationURLs([
@@ -25,7 +26,7 @@ if (! empty($urls)) : ?>
             </li>
             <?php endif; ?>
 
-            <?php foreach($urls as $number => $url) : ?>
+            <?php foreach ($urls as $number => $url) : ?>
 
             <?php if ($number == $view->get('current')) : ?>
             <li class="active"><span><?= EBB\escHTML(number_format($number)) ?></span></li>

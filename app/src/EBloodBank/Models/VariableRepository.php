@@ -1,16 +1,18 @@
 <?php
 /**
- * Variable Entity Repository
+ * Variable entity repository class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Models
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Models;
 
 /**
-* @since 1.0
-*/
+ * Variable entity repository class
+ *
+ * @since 1.0
+ */
 class VariableRepository extends EntityRepository
 {
 }

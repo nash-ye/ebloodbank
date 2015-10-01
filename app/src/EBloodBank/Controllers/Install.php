@@ -1,10 +1,10 @@
 <?php
 /**
- * Install Page Controller
+ * Install page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -18,6 +18,8 @@ use EBloodBank\Models\User;
 use EBloodBank\Views\View;
 
 /**
+ * Install page controller class
+ *
  * @since 1.0
  */
 class Install extends Controller
@@ -86,6 +88,7 @@ class Install extends Controller
     {
         $connection = main()->getDBConnection();
         if (EBB\isDatabaseSelected($connection)) {
+            EBB\tryDatabaseConnection($connection);
             if (EBB\isDatabaseConnected($connection)) {
                 EBB\redirect(
                     EBB\addQueryArgs(
@@ -104,7 +107,6 @@ class Install extends Controller
     protected function doStep2Action()
     {
         try {
-
             $connection = main()->getDBConnection();
 
             $sql = <<<'SQL'
@@ -260,7 +262,6 @@ SQL;
             main()->checkInstallation();
 
             if (main()->getStatus() === 'installed') {
-
                 /* General Options */
                 Options::addOption('site_url', EBB\getHomeURL());
                 Options::addOption('site_name', filter_input(INPUT_POST, 'site_name'), true);
@@ -310,9 +311,7 @@ SQL;
                 $em->flush();
 
                 EBB\redirect(EBB\getLoginURL());
-
             }
-
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_user_argument', $ex->getMessage());
         } catch (\Exception $ex) {

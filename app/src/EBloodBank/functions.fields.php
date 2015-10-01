@@ -1,11 +1,36 @@
 <?php
 /**
- * Template Lists Functions
+ * Template dropdowns helpers file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0.1
  */
 namespace EBloodBank;
+
+/**
+ * @return string
+ * @since 1.0.1
+ */
+function getTokenField(array $args)
+{
+    $args = array_merge([
+        'id'    => '',
+        'name'  => '',
+    ], $args);
+
+    $session = main()->getSession();
+    $sessionToken = $session->getCsrfToken();
+
+    $atts = [
+        'type'  => 'hidden',
+        'id'    => $args['id'],
+        'name'  => $args['name'],
+        'value' => $sessionToken->getValue(),
+    ];
+
+    $output = sprintf('<input%s/>', toAttributes($atts));
+    return $output;
+}
 
 /**
  * @return void
@@ -29,26 +54,24 @@ function getUsersDropdown(array $args)
         $args['users'] = (array) $userRepository->findAll();
     }
 
-	$args['atts'] = array_merge((array) $args['atts'], array(
-		'name' => $args['name'],
-		'id'   => $args['id'],
-	) );
+    $args['atts'] = array_merge((array) $args['atts'], array(
+        'name' => $args['name'],
+        'id'   => $args['id'],
+    ));
 
     $output .= sprintf('<select%s>', toAttributes($args['atts']));
 
     foreach ($args['users'] as $user) {
-
         $userID = (int) $user->get('id');
 
         $output .= sprintf(
-                '<option%s>%s</option>',
-                toAttributes(array(
-                    'value' => $userID,
-                    'selected' => in_array($userID, (array) $args['selected']),
-                )),
-                escHTML($user->get('name'))
-            );
-
+            '<option%s>%s</option>',
+            toAttributes(array(
+                'value' => $userID,
+                'selected' => in_array($userID, (array) $args['selected']),
+            )),
+            escHTML($user->get('name'))
+        );
     }
 
     $output .= '</select>';
@@ -78,26 +101,24 @@ function getCitiesDropdown(array $args)
         $args['cities'] = (array) $cityRepository->findAll();
     }
 
-	$args['atts'] = array_merge((array) $args['atts'], array(
-		'name' => $args['name'],
-		'id'   => $args['id'],
-	) );
+    $args['atts'] = array_merge((array) $args['atts'], array(
+        'name' => $args['name'],
+        'id'   => $args['id'],
+    ));
 
     $output .= sprintf('<select%s>', toAttributes($args['atts']));
 
     foreach ($args['users'] as $city) {
-
         $cityID = (int) $city->get('id');
 
         $output .= sprintf(
-                '<option%s>%s</option>',
-                toAttributes(array(
-                    'value' => $cityID,
-                    'selected' => in_array($cityID, (array) $args['selected']),
-                )),
-                escHTML($city->get('name'))
-            );
-
+            '<option%s>%s</option>',
+            toAttributes(array(
+                'value' => $cityID,
+                'selected' => in_array($cityID, (array) $args['selected']),
+            )),
+            escHTML($city->get('name'))
+        );
     }
 
     $output .= '</select>';

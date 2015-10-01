@@ -1,10 +1,10 @@
 <?php
 /**
- * Edit City Controller
+ * Edit city page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -14,6 +14,8 @@ use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
+ * Edit city page controller class
+ *
  * @since 1.0
  */
 class EditCity extends Controller
@@ -90,14 +92,20 @@ class EditCity extends Controller
     protected function doSubmitAction()
     {
         if (EBB\isCurrentUserCan('edit_city')) {
-
             try {
-
                 $city = $this->getQueriedCity();
                 $cityID = $this->getQueriedCityID();
 
+                $session = main()->getSession();
+                $sessionToken = $session->getCsrfToken();
+                $actionToken = filter_input(INPUT_POST, 'token');
+
                 $em = main()->getEntityManager();
                 $cityRepository = $em->getRepository('Entities:City');
+
+                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                    return;
+                }
 
                 // Set the city name.
                 $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
@@ -116,11 +124,9 @@ class EditCity extends Controller
                         array('flag-edited' => true)
                     )
                 );
-
             } catch (InvalidArgumentException $ex) {
                 Notices::addNotice('invalid_city_argument', $ex->getMessage());
             }
-
         }
     }
 

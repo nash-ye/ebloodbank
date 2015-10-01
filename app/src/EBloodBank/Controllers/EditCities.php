@@ -1,10 +1,10 @@
 <?php
 /**
- * Edit Cities Controller
+ * Edit cities page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -13,6 +13,8 @@ use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
+ * Edit cities page controller class
+ *
  * @since 1.0
  */
 class EditCities extends ViewCities
@@ -43,11 +45,6 @@ class EditCities extends ViewCities
      */
     protected function doActions()
     {
-        switch (filter_input(INPUT_GET, 'action')) {
-            case 'delete':
-                $this->doDeleteAction();
-                break;
-        }
     }
 
     /**
@@ -59,43 +56,6 @@ class EditCities extends ViewCities
         if (filter_has_var(INPUT_GET, 'flag-deleted')) {
             $deleted = (int) filter_input(INPUT_GET, 'flag-deleted');
             Notices::addNotice('deleted', sprintf(n__('%d city permanently deleted.', '%d cities permanently deleted.', $deleted), $deleted), 'success');
-        }
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    protected function doDeleteAction()
-    {
-        if (EBB\isCurrentUserCan('delete_city')) {
-
-            $cityID = filter_input(INPUT_GET, 'id');
-
-            if (! EBB\isValidID($cityID)) {
-                return;
-            }
-
-            $em = main()->getEntityManager();
-            $city = $em->getReference('Entities:City', $cityID);
-
-            $donorRepository = $em->getRepository('Entities:Donor');
-            $donorsCount = $donorRepository->countBy(array('city' => $city));
-
-            if ($donorsCount > 0) {
-                return;
-            }
-
-            $em->remove($city);
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditCitiesURL(),
-                    array('flag-deleted' => 1)
-                )
-            );
-
         }
     }
 }

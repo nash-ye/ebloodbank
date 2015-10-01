@@ -1,9 +1,9 @@
 <?php
 /**
- * Session Functions
+ * Session functions file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
@@ -25,9 +25,9 @@ function getCurrentUser()
     static $user;
     $userID = 0;
 
-    if (isset($_SESSION['user_id'])) {
-        $userID = (int) $_SESSION['user_id'];
-    }
+    $session = main()->getSession();
+    $segment = $session->getSegment('EBloodBank');
+    $userID = (int) $segment->get('user_id', 0);
 
     if (isValidID($userID) && (! $user || $user->get('id') != $userID)) {
         $em = main()->getEntityManager();

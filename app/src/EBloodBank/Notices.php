@@ -1,12 +1,22 @@
 <?php
+/**
+ * Notices class file
+ *
+ * @package EBloodBank
+ * @since   1.0
+ */
 namespace EBloodBank;
 
 /**
+ * Notices class
+ *
  * @since 1.0
  */
 class Notices
 {
     /**
+     * The notices list.
+     *
      * @var array
      * @since 1.0
      * @static
@@ -14,6 +24,16 @@ class Notices
     private static $notices = array();
 
     /**
+     * @access private
+     * @since 1.0
+     */
+    private function __construct()
+    {
+    }
+
+    /**
+     * Get all notices.
+     *
      * @return array
      * @since 1.0
      * @static
@@ -24,6 +44,8 @@ class Notices
     }
 
     /**
+     * Get a notice.
+     *
      * @return object
      * @since 1.0
      * @static
@@ -36,47 +58,27 @@ class Notices
     }
 
     /**
+     * Whether a given notice is exists.
+     *
      * @return bool
      * @since 1.0
      * @static
      */
-    public static function hasNotice($code)
+    public static function isExists($code)
     {
         return isset(self::$notices[$code]);
     }
 
     /**
-     * @return bool
-     * @since 1.0
-     * @static
-     */
-    public static function hasNotices($type = 'all')
-    {
-        if ('all' === $type) {
-
-            return ! empty(self::$notices);
-
-        } else {
-
-            foreach (self::$notices as $notice) {
-                if ($notice->type === $type) {
-                    return true;
-                }
-            }
-
-            return false;
-
-        }
-    }
-
-    /**
+     * Add a new notice.
+     *
      * @return bool
      * @since 1.0
      * @static
      */
     public static function addNotice($code, $msg, $type = 'warning')
     {
-        if (! $code || self::hasNotice($code)) {
+        if (! $code || self::isExists($code)) {
             return false;
         }
 
@@ -90,13 +92,15 @@ class Notices
     }
 
     /**
+     * Remove an existing notice.
+     *
      * @return void
      * @since 1.0
      * @static
      */
     public static function removeNotice($code)
     {
-        if (! $code || ! self::hasNotice($code)) {
+        if (! $code || ! self::isExists($code)) {
             return false;
         }
 

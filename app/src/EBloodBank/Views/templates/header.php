@@ -1,13 +1,15 @@
 <?php
 /**
- * The Header
+ * Page header template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 use EBloodBank\Options;
+
 ?>
 <!doctype html>
 <html lang="<?= EBB\escAttr(p__('language code', 'en')) ?>" dir="<?= EBB\escAttr(p__('text direction', 'ltr')) ?>">
@@ -42,7 +44,7 @@ use EBloodBank\Options;
 				</div>
 				<div id="navbar-collapse" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-left flip">
-						<li><a href="<?= EBB\escURL(EBB\getHomeURL()) ?>"><?= EBB\escHTML(__('Home')) ?></a></li>
+                        <?= EBB\getHomeLink(['content' => EBB\escHTML(__('Home')), 'before' => '<li>', 'after' => '</li>']) ?>
                         <?= EBB\getDonorsLink(['content' => EBB\escHTML(__('Donors')), 'before' => '<li>', 'after' => '</li>']) ?>
                         <?= EBB\getCitiesLink(['content' => EBB\escHTML(__('Cities')), 'before' => '<li>', 'after' => '</li>']) ?>
                         <?= EBB\getDistrictsLink(['content' => EBB\escHTML(__('Districts')), 'before' => '<li>', 'after' => '</li>']) ?>
@@ -53,7 +55,7 @@ use EBloodBank\Options;
                         <?php if (EBB\isUserLoggedIn()) : ?>
                         <?= EBB\getEditUserLink(['id' => EBB\getCurrentUserID(), 'content' => sprintf(__('Hello, <b>%s</b>!'), EBB\escHTML(EBB\getCurrentUser()->get('name'))), 'before' => '<li>', 'after' => '</li>']) ?>
                         <?= EBB\getLogoutLink(['before' => '<li>', 'after' => '</li>']) ?>
-                        <?php else: ?>
+                        <?php else : ?>
                         <?= EBB\getLoginLink(['content' => EBB\escHTML(__('Anonymous, Log In?')), 'before' => '<li>', 'after' => '</li>']) ?>
                         <?= EBB\getSignupLink(['before' => '<li>', 'after' => '</li>']) ?>
                         <?php endif; ?>

@@ -1,9 +1,9 @@
 <?php
 /**
- * URI Functions
+ * URI functions file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
@@ -65,12 +65,12 @@ function addQueryArgs($uri, array $query_args)
         $uri = substr($uri, 0, -strlen($fragment));
     }
 
-	if (strpos($uri, '?') !== false) {
-		list($base, $query) = explode('?', $uri, 2);
-	} else {
-		$base = $uri;
+    if (strpos($uri, '?') !== false) {
+        list($base, $query) = explode('?', $uri, 2);
+    } else {
+        $base = $uri;
         $query = '';
-	}
+    }
 
     $query_array = array();
     parse_str($query, $query_array);
@@ -79,14 +79,13 @@ function addQueryArgs($uri, array $query_args)
         $query_array[$key] = $value;
     }
 
-	foreach ($query_array as $key => $value) {
+    foreach ($query_array as $key => $value) {
         if ($value === false) {
             unset($query_args[$key]);
         }
-	}
+    }
 
     $query = http_build_query($query_array);
 
     return $base . '?' . $query . $fragment;
 }
-

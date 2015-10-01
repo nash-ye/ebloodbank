@@ -1,15 +1,33 @@
 <?php
+/**
+ * Options class file
+ *
+ * @package EBloodBank
+ * @since   1.0
+ */
 namespace EBloodBank;
 
 use InvalidArgumentException;
 use EBloodBank\Models\Variable;
 
 /**
+ * Options class
+ *
  * @since 1.0
  */
 class Options
 {
     /**
+     * @access private
+     * @since 1.0
+     */
+    private function __construct()
+    {
+    }
+
+    /**
+     * Get an option.
+     *
      * @return mixed
      * @since 1.0
      * @static
@@ -29,6 +47,8 @@ class Options
     }
 
     /**
+     * Add a new option.
+     *
      * @return bool
      * @since 1.0
      * @static
@@ -65,6 +85,8 @@ class Options
     }
 
     /**
+     * Update an existing option.
+     *
      * @return bool
      * @since 1.0
      * @static
@@ -98,6 +120,8 @@ class Options
     }
 
     /**
+     * Submit an option.
+     *
      * @return bool
      * @since 1.0
      * @static
@@ -112,7 +136,7 @@ class Options
 
         if ('' === strval($value)) {
             return self::deleteOption($name);
-        } else{
+        } else {
             $currentOption = self::getOption($name);
             if (is_null($currentOption)) {
                 return self::addOption($name, $value, $sanitize, $validate);
@@ -123,6 +147,8 @@ class Options
     }
 
     /**
+     * Delete an option.
+     *
      * @return bool
      * @since 1.0
      * @static
@@ -147,11 +173,13 @@ class Options
     }
 
     /**
+     * Sanitize an option value.
+     *
      * @return mixed
      * @since 1.0
      * @static
      */
-    static public function sanitizeOption($name, $value)
+    public static function sanitizeOption($name, $value)
     {
         switch ($name) {
             case 'site_url':
@@ -179,11 +207,13 @@ class Options
     }
 
     /**
+     * Validate an option value.
+     *
      * @return bool
      * @since 1.0
      * @static
      */
-    static public function validateOption($name, $value)
+    public static function validateOption($name, $value)
     {
         switch ($name) {
             case 'site_url':

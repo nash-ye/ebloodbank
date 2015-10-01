@@ -1,11 +1,12 @@
 <?php
 /**
- * New\Edit Donor Form
+ * New\Edit donor form template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 use EBloodBank\Models\Donor;
 
@@ -125,5 +126,6 @@ $cityRepository = $em->getRepository('Entities:City');
 	</div>
 
 	<input type="hidden" name="action" value="submit_donor" />
+    <?= EBB\getTokenField(['name' => 'token']) ?>
 
 </form>

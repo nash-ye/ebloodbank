@@ -1,18 +1,20 @@
 <?php
 /**
- * Donor Entity Repository
+ * Donor entity repository class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Models
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Models;
 
 use EBloodBank as EBB;
 
 /**
-* @since 1.0
-*/
+ * Donor entity repository class
+ *
+ * @since 1.0
+ */
 class DonorRepository extends EntityRepository
 {
     /**
@@ -61,7 +63,6 @@ class DonorRepository extends EntityRepository
         }
 
         if (isset($criteria['city']) && empty($criteria['district'])) {
-
             $districts = array();
 
             if ($criteria['city'] instanceof City) {
@@ -69,21 +70,18 @@ class DonorRepository extends EntityRepository
             } elseif (EBB\isValidID($criteria['city'])) {
                 $em = $this->getEntityManager();
                 $city = $em->find('Entities:City', $criteria['city']);
-                if ( ! empty($city)) {
+                if (! empty($city)) {
                     $districts = $city->get('districts');
                 }
             }
 
             if (! empty($districts)) {
-
                 $criteria['district'] = array();
 
                 foreach ($districts as $district) {
                     $criteria['district'][] = (int) $district->get('id');
                 }
-
             }
-
         }
 
         unset($criteria['city']); // Remove the city criteria in any condition.

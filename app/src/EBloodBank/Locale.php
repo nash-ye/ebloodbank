@@ -1,9 +1,9 @@
 <?php
 /**
- * Locale Class
+ * Locale class file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
@@ -11,41 +11,55 @@ use Gettext;
 use InvalidArgumentException;
 
 /**
+ * Locale class
+ *
  * @since 1.0
  */
 class Locale
 {
     /**
+     * The locale code.
+     *
      * @var string
      * @since 1.0
      */
     protected $code;
 
     /**
+     * The locale MO file path.
+     *
      * @var string
      * @since 1.0
      */
     protected $moFilePath;
 
     /**
+     * The locale PO file path.
+     *
      * @var string
      * @since 1.0
      */
     protected $poFilePath;
 
     /**
+     * The locale translations.
+     *
      * @var \Gettext\Translations
      * @since 1.0
      */
     protected $translations;
 
     /**
+     * The locale language code.
+     *
      * @var string
      * @since 1.0
      */
     protected $languageCode;
 
     /**
+     * The locale text direction.
+     *
      * @var string
      * @since 1.0
      */
@@ -80,6 +94,8 @@ class Locale
     }
 
     /**
+     * Get the locale code.
+     *
      * @return string
      * @since 1.0
      */
@@ -89,6 +105,8 @@ class Locale
     }
 
     /**
+     * Get the locale MO file path.
+     *
      * @return string
      * @since 1.0
      */
@@ -98,6 +116,8 @@ class Locale
     }
 
     /**
+     * Get the locale PO file path.
+     *
      * @return string
      * @since 1.0
      */
@@ -114,6 +134,8 @@ class Locale
     }
 
     /**
+     * Get the locale translations.
+     *
      * @return \Gettext\Translations
      * @since 1.0
      */
@@ -127,10 +149,12 @@ class Locale
     }
 
     /**
+     * Get the language code.
+     *
      * @return string
      * @since 1.0
      */
-    public function getLangaugeCode()
+    public function getLanguageCode()
     {
         if (is_null($this->languageCode)) {
             $translations = $this->getTranslations();
@@ -149,6 +173,8 @@ class Locale
     }
 
     /**
+     * Get the text direction.
+     *
      * @return string
      * @since 1.0
      */

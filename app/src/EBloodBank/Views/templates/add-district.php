@@ -1,10 +1,10 @@
 <?php
 /**
- * Add District Page
+ * Add district page template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
 
 $view->displayView('header', ['title' => __('Add New District')]);

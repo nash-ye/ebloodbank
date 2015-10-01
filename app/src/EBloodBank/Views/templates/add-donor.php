@@ -1,9 +1,10 @@
 <?php
 /**
- * Add Donor
+ * Add donor page template
  *
- * @package    EBloodBank
- * @subpackage Views
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
 
 $view->displayView('header', ['title' => __('Add New Donor')]);

@@ -1,10 +1,10 @@
 <?php
 /**
- * Donor Model
+ * Donor entity class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Models
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Models;
 
@@ -15,6 +15,8 @@ use EBloodBank as EBB;
 use EBloodBank\Traits\EntityMeta;
 
 /**
+ * Donor entity class
+ *
  * @since 1.0
  *
  * @Entity(repositoryClass="EBloodBank\Models\DonorRepository")
@@ -285,7 +287,7 @@ class Donor extends Entity
      * @since 1.0
      * @static
      */
-    static public function sanitizeMeta($metaKey, $metaValue)
+    public static function sanitizeMeta($metaKey, $metaValue)
     {
         switch ($metaKey) {
             case 'weight':
@@ -310,7 +312,7 @@ class Donor extends Entity
      * @since 1.0
      * @static
      */
-    static public function validateMeta($metaKey, $metaValue)
+    public static function validateMeta($metaKey, $metaValue)
     {
         switch ($metaKey) {
             case 'weight':

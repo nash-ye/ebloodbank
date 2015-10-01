@@ -1,11 +1,12 @@
 <?php
 /**
- * Manage Users Page
+ * Edit users page template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 
 $view->displayView('header', ['title' => __('Edit Users')]);

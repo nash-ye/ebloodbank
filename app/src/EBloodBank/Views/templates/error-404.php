@@ -1,11 +1,12 @@
 <?php
 /**
- * Error 404 Page
+ * Error 404 page template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 
 http_response_code(404); // Set the HTTP response status.

@@ -1,9 +1,9 @@
 <?php
 /**
- * HTML Functions
+ * HTML functions file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
@@ -37,8 +37,9 @@ function escURL($url)
 /**
  * Convert an associative array to HTML attributes list.
  *
- * Convert an associative array of attributes and their values 'attribute => value' To
- * an inline list of HTML attributes.
+ * Convert an associative array of attributes and their values
+ * ['attribute' => 'value']
+ * to an inline list of HTML attributes.
  *
  * @return string
  * @since  1.0

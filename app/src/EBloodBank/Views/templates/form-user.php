@@ -1,11 +1,12 @@
 <?php
 /**
- * New\Edit User Form
+ * New\Edit user form template
  *
- * @package EBloodBank
- * @subpackage Views
- * @since 1.0
+ * @package    EBloodBank\Views
+ * @subpackage Templates
+ * @since      1.0
  */
+
 use EBloodBank as EBB;
 use EBloodBank\Roles;
 use EBloodBank\Models\User;
@@ -41,7 +42,7 @@ if (! $view->isExists('user')) {
 		<div class="col-sm-2">
             <?php if ($user->isExists()) : ?>
             <label for="user_pass"><?= EBB\escHTML(__('New Password')) ?></label>
-            <?php else: ?>
+            <?php else : ?>
             <label for="user_pass"><?= EBB\escHTML(__('Password')) ?> <span class="form-required">*</span></label>
             <?php endif; ?>
 		</div>
@@ -74,5 +75,6 @@ if (! $view->isExists('user')) {
 	</div>
 
 	<input type="hidden" name="action" value="submit_user" />
+    <?= EBB\getTokenField(['name' => 'token']) ?>
 
 </form>

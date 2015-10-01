@@ -1,13 +1,15 @@
 <?php
 /**
- * Context Functions
+ * Context functions file
  *
  * @package EBloodBank
- * @since 1.0
+ * @since   1.0
  */
 namespace EBloodBank;
 
 /**
+ * Whether the current page is the installer.
+ *
  * @return bool
  * @since 1.0
  */

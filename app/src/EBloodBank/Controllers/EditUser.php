@@ -1,10 +1,10 @@
 <?php
 /**
- * Edit User Controller
+ * Edit user page controller class file
  *
- * @package EBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
- * @since 1.0
+ * @since      1.0
  */
 namespace EBloodBank\Controllers;
 
@@ -14,6 +14,8 @@ use EBloodBank\Notices;
 use EBloodBank\Views\View;
 
 /**
+ * Edit user page controller class
+ *
  * @since 1.0
  */
 class EditUser extends Controller
@@ -93,13 +95,19 @@ class EditUser extends Controller
         $userID = $this->getQueriedUserID();
 
         if (EBB\isCurrentUserCan('edit_user') || EBB\getCurrentUserID() === $userID) {
-
             try {
-
                 $user = $this->getQueriedUser();
+
+                $session = main()->getSession();
+                $sessionToken = $session->getCsrfToken();
+                $actionToken = filter_input(INPUT_POST, 'token');
 
                 $em = main()->getEntityManager();
                 $userRepository = $em->getRepository('Entities:User');
+
+                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                    return;
+                }
 
                 // Set the user name.
                 $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
@@ -121,14 +129,12 @@ class EditUser extends Controller
                 }
 
                 if (! empty($userPass1) && ! empty($userPass2)) {
-
                     if ($userPass1 !== $userPass2) {
                         throw new InvalidArgumentException(__('Please enter the same password.'));
                     }
 
                     // Set the user password.
                     $user->set('pass', password_hash($userPass1, PASSWORD_BCRYPT), false);
-
                 }
 
                 // Set the user role.
@@ -144,11 +150,9 @@ class EditUser extends Controller
                         array('flag-edited' => true)
                     )
                 );
-
             } catch (InvalidArgumentException $ex) {
                 Notices::addNotice('invalid_user_argument', $ex->getMessage());
             }
-
         }
     }
 
