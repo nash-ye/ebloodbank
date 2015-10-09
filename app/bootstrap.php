@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.0.2');
+define('EBB_VERSION', '1.0.3');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
@@ -29,7 +29,7 @@ if (version_compare(PHP_VERSION, EBB_MIN_PHP_VERSION, '<')) {
     );
 }
 
-foreach (['spl', 'date', 'filter', 'session', 'pdo_mysql'] as $extension) {
+foreach (['spl', 'date', 'filter', 'session'] as $extension) {
     if (! extension_loaded($extension)) {
         die(
             sprintf(

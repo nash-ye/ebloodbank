@@ -18,6 +18,10 @@ Feature Highlights
 
 - **City\District Taxonomy** Being organized is being in control, eBloodBank provides an ability to categorize the donors by a manageable cities and districts list.
 
+- **Pretty Permalinks** eBloodBank add support for the Pretty Permalinks which make sense and not filled with incomprehensible parameters.
+
+- **Secure** eBloodBank is protected from the common security vulnerabilities such as SQL Injection, XSS and CSRF...etc.
+
 
 Requirements
 ------------------

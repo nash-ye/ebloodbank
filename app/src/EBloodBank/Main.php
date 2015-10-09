@@ -151,14 +151,16 @@ class Main
      */
     private function setupDBConnection()
     {
-        $this->DBConnection = DBAL\DriverManager::getConnection(array(
+        $mysqlDriver = extension_loaded('pdo_mysql') ? 'pdo_mysql' : 'mysqli';
+
+        $this->DBConnection = DBAL\DriverManager::getConnection([
             'dbname'    => EBB_DB_NAME,
             'user'      => EBB_DB_USER,
             'password'  => EBB_DB_PASS,
             'host'      => EBB_DB_HOST,
-            'driver'    => 'pdo_mysql',
+            'driver'    => $mysqlDriver,
             'charset'   => 'utf8',
-        ));
+        ]);
 
         tryDatabaseConnection($this->DBConnection); // Try to establish the database connection.
     }
@@ -180,10 +182,16 @@ class Main
     private function setupEntityManager()
     {
         $config = ORM\Tools\Setup::createConfiguration((bool) EBB_DEV_MODE);
-        $entitiesPaths = array(trimTrailingSlash(EBB_APP_DIR) . '/src/Models/');
+
+        $entitiesPaths = array(trimTrailingSlash(EBB_APP_DIR) . '/src/EBloodBank/Models/');
         $driverImpl = $config->newDefaultAnnotationDriver($entitiesPaths, true);
-        $config->addEntityNamespace('Entities', 'EBloodBank\Models');
         $config->setMetadataDriverImpl($driverImpl);
+
+        $config->addEntityNamespace('Entities', 'EBloodBank\Models');
+
+        $config->setProxyDir(trimTrailingSlash(EBB_APP_DIR) . '/src/EBloodBank/Proxies/');
+        $config->setProxyNamespace('EBloodBank\Proxies');
+        $config->setAutoGenerateProxyClasses(true);
 
         $this->entityManager = ORM\EntityManager::create($this->getDBConnection(), $config);
     }

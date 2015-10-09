@@ -1,0 +1,2 @@
+- Enhancement: Use the PHP mysqli extension if pdo_mysql extension is not installed.
+- Bug Fix: Set custom Doctrine ORM proxies namespace and directory path.
