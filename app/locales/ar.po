@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-09 17:19+0300\n"
-"PO-Revision-Date: 2015-10-09 17:19+0300\n"
+"POT-Creation-Date: 2015-10-12 18:28+0300\n"
+"PO-Revision-Date: 2015-10-12 18:29+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: ar\n"
@@ -54,7 +54,7 @@ msgstr "يرجى تأكيد كلمة المرور."
 #: ../src/EBloodBank/Controllers/AddUser.php:111
 #: ../src/EBloodBank/Controllers/EditUser.php:133
 #: ../src/EBloodBank/Controllers/Install.php:297
-#: ../src/EBloodBank/Controllers/Signup.php:82
+#: ../src/EBloodBank/Controllers/Signup.php:91
 msgid "Please enter the same password."
 msgstr "يرجى إدخال نفس كلمة المرور."
 
@@ -153,12 +153,12 @@ msgstr[4] "تم حذف %d مستخدم بشكل دائم."
 msgstr[5] "تم حذف %d مستخدم بشكل دائم."
 
 #: ../src/EBloodBank/Controllers/Install.php:289
-#: ../src/EBloodBank/Controllers/Signup.php:74
+#: ../src/EBloodBank/Controllers/Signup.php:83
 msgid "Please enter your password."
 msgstr "يرجى إدخال كلمة مرورك"
 
 #: ../src/EBloodBank/Controllers/Install.php:293
-#: ../src/EBloodBank/Controllers/Signup.php:78
+#: ../src/EBloodBank/Controllers/Signup.php:87
 msgid "Please confirm your password."
 msgstr "يرجى تأكييد كلمة مرورك"
 
@@ -185,6 +185,10 @@ msgstr "حسابك بانتظار الموافقة. "
 #: ../src/EBloodBank/Controllers/Settings.php:60
 msgid "Settings saved."
 msgstr "تم حفظ الإعدادات."
+
+#: ../src/EBloodBank/Controllers/Signup.php:76
+msgid "Please enter another e-mail address."
+msgstr "يرجى إدخال عنوان بريد إلكتروني آخر."
 
 #: ../src/EBloodBank/Locale.php:78
 msgid "Invalid locale code."

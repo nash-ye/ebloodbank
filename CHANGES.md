@@ -1,2 +1,1 @@
-- Enhancement: Use the PHP mysqli extension if pdo_mysql extension is not installed.
-- Bug Fix: Set custom Doctrine ORM proxies namespace and directory path.
+- Bug Fix: Add a check to avoid registering a user with an existing e-mail address.

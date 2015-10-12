@@ -61,11 +61,20 @@ class Signup extends Controller
         try {
             $user = new User();
 
+            $em = main()->getEntityManager();
+            $userRepository = $em->getRepository('Entities:User');
+
             // Set the user name.
             $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
 
             // Set the user email.
             $user->set('email', filter_input(INPUT_POST, 'user_email'), true);
+
+            $duplicateUser = $userRepository->findOneBy(array('email' => $user->get('email')));
+
+            if (! empty($duplicateUser)) {
+                throw new InvalidArgumentException(__('Please enter another e-mail address.'));
+            }
 
             $userPass1 = filter_input(INPUT_POST, 'user_pass_1', FILTER_UNSAFE_RAW);
             $userPass2 = filter_input(INPUT_POST, 'user_pass_2', FILTER_UNSAFE_RAW);
