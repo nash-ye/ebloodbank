@@ -124,6 +124,24 @@ class AddDonor extends Controller
 
                 $added = $donor->isExists();
 
+                if ($added) {
+                    $mailer = main()->getMailer();
+                    $message = Swift_Message::newInstance();
+
+                    $message->setSubject(sprintf(__('[%s] New Donor'), Options::getOption('site_name')));
+                    $message->setTo(Options::getOption('site_email'));
+
+                    $messageBody  = sprintf(__('New donor addition on %s:'), Options::getOption('site_name')) . "\r\n\r\n";
+                    $messageBody .= sprintf(__('Name: %s'), $donor->get('name')) . "\r\n";
+                    $messageBody .= sprintf(__('Gender: %s'), $donor->getGenderTitle()) . "\r\n";
+                    $messageBody .= sprintf(__('Blood Group: %s'), $donor->get('blood_group')) . "\r\n";
+                    $messageBody .= sprintf(__('City\District: %s\%s'), $donor->get('district')->get('city')->get('name'), $donor->get('district')->get('name'));
+
+                    $message->setBody($messageBody, 'text/plain');
+
+                    $mailer->send($message);
+                }
+
                 EBB\redirect(
                     EBB\addQueryArgs(
                         EBB\getAddDonorURL(),

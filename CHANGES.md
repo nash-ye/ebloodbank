@@ -1,1 +1,2 @@
+- New Feature: Send e-mail notifications after users or donors registration.
 - Bug Fix: Add a check to avoid registering a user with an existing e-mail address.

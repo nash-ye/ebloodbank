@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use DateTime;
 use DateTimeZone;
+use Swift_Message;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Options;
@@ -70,7 +71,7 @@ class Signup extends Controller
             // Set the user email.
             $user->set('email', filter_input(INPUT_POST, 'user_email'), true);
 
-            $duplicateUser = $userRepository->findOneBy(array('email' => $user->get('email')));
+            $duplicateUser = $userRepository->findOneBy(['email' => $user->get('email'), 'status' => 'any']);
 
             if (! empty($duplicateUser)) {
                 throw new InvalidArgumentException(__('Please enter another e-mail address.'));
@@ -108,6 +109,22 @@ class Signup extends Controller
             $em->flush();
 
             $signedup = $user->isExists();
+
+            if ($signedup) {
+                $mailer = main()->getMailer();
+                $message = Swift_Message::newInstance();
+
+                $message->setSubject(sprintf(__('[%s] New User Registration'), Options::getOption('site_name')));
+                $message->setTo(Options::getOption('site_email'));
+
+                $messageBody  = sprintf(__('New user registration on %s:'), Options::getOption('site_name')) . "\r\n\r\n";
+                $messageBody .= sprintf(__('Username: %s'), $user->get('name')) . "\r\n";
+                $messageBody .= sprintf(__('E-mail: %s'), $user->get('email')) . "\r\n";
+
+                $message->setBody($messageBody, 'text/plain');
+
+                $mailer->send($message);
+            }
 
             EBB\redirect(
                 EBB\addQueryArgs(

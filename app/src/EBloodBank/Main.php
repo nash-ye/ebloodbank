@@ -11,6 +11,8 @@ use Monolog;
 use Gettext;
 use Doctrine\ORM;
 use Doctrine\DBAL;
+use Swift_Mailer;
+use Swift_SmtpTransport;
 use Aura\Router\RouterFactory;
 use Aura\Dispatcher\Dispatcher;
 use Aura\Session\SessionFactory;
@@ -85,6 +87,14 @@ class Main
      * @since 1.0
      */
     protected $dispatcher;
+
+    /**
+     * The mailer.
+     *
+     * @var \Swift_Mailer
+     * @since 1.1
+     */
+    protected $mailer;
 
     /**
      * @access private
@@ -286,6 +296,26 @@ class Main
     public function getRouter()
     {
         return $this->router;
+    }
+
+    /**
+     * @access private
+     * @return void
+     * @since 1.1
+     */
+    private function setupMailer()
+    {
+        $transport = Swift_SmtpTransport::newInstance();
+        $this->mailer = Swift_Mailer::newInstance($transport);
+    }
+
+    /**
+     * @return \Swift_Mailer
+     * @since 1.0
+     */
+    public function getMailer()
+    {
+        return $this->mailer;
     }
 
     /**
@@ -625,6 +655,9 @@ class Main
 
             // Sets up the current locale.
             $instance->setupCurrentLocale();
+
+            // Sets up the mailer.
+            $instance->setupMailer();
 
             // Sets up the user roles.
             $instance->setupUserRoles();

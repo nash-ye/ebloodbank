@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-12 18:28+0300\n"
-"PO-Revision-Date: 2015-10-12 18:29+0300\n"
+"POT-Creation-Date: 2015-10-20 13:08+0300\n"
+"PO-Revision-Date: 2015-10-20 13:08+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: en\n"
@@ -34,6 +34,36 @@ msgstr ""
 msgid "Donor added."
 msgstr ""
 
+#: ../src/EBloodBank/Controllers/AddDonor.php:131
+#, php-format
+msgid "[%s] New Donor"
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/AddDonor.php:134
+#, php-format
+msgid "New donor addition on %s:"
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/AddDonor.php:135
+#, php-format
+msgid "Name: %s"
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/AddDonor.php:136
+#, php-format
+msgid "Gender: %s"
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/AddDonor.php:137
+#, php-format
+msgid "Blood Group: %s"
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/AddDonor.php:138
+#, php-format
+msgid "City\\District: %s\\%s"
+msgstr ""
+
 #: ../src/EBloodBank/Controllers/AddUser.php:62
 msgid "User added."
 msgstr ""
@@ -54,7 +84,7 @@ msgstr ""
 #: ../src/EBloodBank/Controllers/AddUser.php:111
 #: ../src/EBloodBank/Controllers/EditUser.php:133
 #: ../src/EBloodBank/Controllers/Install.php:297
-#: ../src/EBloodBank/Controllers/Signup.php:91
+#: ../src/EBloodBank/Controllers/Signup.php:92
 msgid "Please enter the same password."
 msgstr ""
 
@@ -129,12 +159,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../src/EBloodBank/Controllers/Install.php:289
-#: ../src/EBloodBank/Controllers/Signup.php:83
+#: ../src/EBloodBank/Controllers/Signup.php:84
 msgid "Please enter your password."
 msgstr ""
 
 #: ../src/EBloodBank/Controllers/Install.php:293
-#: ../src/EBloodBank/Controllers/Signup.php:87
+#: ../src/EBloodBank/Controllers/Signup.php:88
 msgid "Please confirm your password."
 msgstr ""
 
@@ -162,8 +192,28 @@ msgstr ""
 msgid "Settings saved."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/Signup.php:76
+#: ../src/EBloodBank/Controllers/Signup.php:77
 msgid "Please enter another e-mail address."
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/Signup.php:117
+#, php-format
+msgid "[%s] New User Registration"
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/Signup.php:120
+#, php-format
+msgid "New user registration on %s:"
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/Signup.php:121
+#, php-format
+msgid "Username: %s"
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/Signup.php:122
+#, php-format
+msgid "E-mail: %s"
 msgstr ""
 
 #: ../src/EBloodBank/Locale.php:78
@@ -178,19 +228,19 @@ msgstr ""
 msgid "Locale PO file is not readable or not exists."
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:355
+#: ../src/EBloodBank/Main.php:385
 msgid "Subscriber"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:368
+#: ../src/EBloodBank/Main.php:398
 msgid "Contributor"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:382
+#: ../src/EBloodBank/Main.php:412
 msgid "Editor"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:411
+#: ../src/EBloodBank/Main.php:441
 msgid "Administrator"
 msgstr ""
 

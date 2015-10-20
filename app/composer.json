@@ -1,7 +1,7 @@
 {
     "name": "nash1ye/ebloodbank",
     "description": "A Premium Blood Bank System.",
-    "version": "1.0.4",
+    "version": "1.1-alpha-1",
     "license": "GPL-3.0+",
     "type": "project",
     "authors": [
@@ -22,6 +22,7 @@
         "aura/dispatcher": "^2.0",
         "gettext/gettext": "^3.4",
         "monolog/monolog": "^1.17",
+        "swiftmailer/swiftmailer": "^5.4",
         "doctrine/orm": "^2.5"
     },
     "require-dev": {

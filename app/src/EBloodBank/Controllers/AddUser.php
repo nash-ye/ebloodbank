@@ -90,7 +90,7 @@ class AddUser extends Controller
                 // Set the user email.
                 $user->set('email', filter_input(INPUT_POST, 'user_email'), true);
 
-                $duplicateUser = $userRepository->findOneBy(array('email' => $user->get('email')));
+                $duplicateUser = $userRepository->findOneBy(['email' => $user->get('email'), 'status' => 'any']);
 
                 if (! empty($duplicateUser)) {
                     throw new InvalidArgumentException(__('Please enter a unique user e-mail.'));
