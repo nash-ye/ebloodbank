@@ -24,6 +24,21 @@ use EBloodBank\Views\View;
 class AddUser extends Controller
 {
     /**
+     * @var \EBloodBank\Models\User
+     * @since 1.0
+     */
+    protected $user;
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __construct()
+    {
+        $this->user = new User();
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
@@ -32,7 +47,10 @@ class AddUser extends Controller
         if (EBB\isCurrentUserCan('add_user')) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('add-user');
+            $user = $this->getQueriedUser();
+            $view = View::forge('add-user', [
+                'user' => $user,
+            ]);
         } else {
             $view = View::forge('error-403');
         }
@@ -71,7 +89,7 @@ class AddUser extends Controller
     {
         if (EBB\isCurrentUserCan('add_user')) {
             try {
-                $user = new User();
+                $user = $this->getQueriedUser();
 
                 $session = main()->getSession();
                 $sessionToken = $session->getCsrfToken();
@@ -143,5 +161,14 @@ class AddUser extends Controller
                 Notices::addNotice('invalid_user_argument', $ex->getMessage());
             }
         }
+    }
+
+    /**
+     * @return \EBloodBank\Models\User
+     * @since 1.0
+     */
+    protected function getQueriedUser()
+    {
+        return $this->user;
     }
 }

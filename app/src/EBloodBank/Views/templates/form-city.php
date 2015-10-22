@@ -8,11 +8,6 @@
  */
 
 use EBloodBank as EBB;
-use EBloodBank\Models\City;
-
-if (! $view->isExists('city')) {
-    $city = new City();
-}
 ?>
 
 <?php $view->displayView('notices') ?>

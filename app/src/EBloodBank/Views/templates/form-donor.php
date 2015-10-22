@@ -10,10 +10,6 @@
 use EBloodBank as EBB;
 use EBloodBank\Models\Donor;
 
-if (! $view->isExists('donor')) {
-    $donor = new Donor();
-}
-
 $em = main()->getEntityManager();
 $cityRepository = $em->getRepository('Entities:City');
 ?>

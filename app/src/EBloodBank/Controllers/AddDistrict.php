@@ -24,6 +24,21 @@ use EBloodBank\Views\View;
 class AddDistrict extends Controller
 {
     /**
+     * @var \EBloodBank\Models\District
+     * @since 1.0
+     */
+    protected $district;
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __construct()
+    {
+        $this->district = new District();
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
@@ -32,7 +47,10 @@ class AddDistrict extends Controller
         if (EBB\isCurrentUserCan('add_district')) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('add-district');
+            $district = $this->getQueriedDistrict();
+            $view = View::forge('add-district', [
+                'district' => $district,
+            ]);
         } else {
             $view = View::forge('error-403');
         }
@@ -71,7 +89,7 @@ class AddDistrict extends Controller
     {
         if (EBB\isCurrentUserCan('add_district')) {
             try {
-                $district = new District();
+                $district = $this->getQueriedDistrict();
 
                 $session = main()->getSession();
                 $sessionToken = $session->getCsrfToken();
@@ -106,5 +124,14 @@ class AddDistrict extends Controller
                 Notices::addNotice('invalid_district_argument', $ex->getMessage());
             }
         }
+    }
+
+    /**
+     * @return \EBloodBank\Models\District
+     * @since 1.0
+     */
+    protected function getQueriedDistrict()
+    {
+        return $this->district;
     }
 }

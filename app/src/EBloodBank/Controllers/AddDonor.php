@@ -10,8 +10,10 @@ namespace EBloodBank\Controllers;
 
 use DateTime;
 use DateTimeZone;
+use Swift_Message;
 use InvalidArgumentException;
 use EBloodBank as EBB;
+use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Models\Donor;
 use EBloodBank\Views\View;
@@ -24,6 +26,21 @@ use EBloodBank\Views\View;
 class AddDonor extends Controller
 {
     /**
+     * @var \EBloodBank\Models\Donor
+     * @since 1.0
+     */
+    protected $donor;
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __construct()
+    {
+        $this->donor = new Donor();
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
@@ -32,7 +49,10 @@ class AddDonor extends Controller
         if (EBB\isCurrentUserCan('add_donor')) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('add-donor');
+            $donor = $this->getQueriedDonor();
+            $view = View::forge('add-donor', [
+                'donor' => $donor,
+            ]);
         } else {
             $view = View::forge('error-403');
         }
@@ -71,7 +91,7 @@ class AddDonor extends Controller
     {
         if (EBB\isCurrentUserCan('add_donor')) {
             try {
-                $donor = new Donor();
+                $donor = $this->getQueriedDonor();
 
                 $session = main()->getSession();
                 $sessionToken = $session->getCsrfToken();
@@ -129,6 +149,7 @@ class AddDonor extends Controller
                     $message = Swift_Message::newInstance();
 
                     $message->setSubject(sprintf(__('[%s] New Donor'), Options::getOption('site_name')));
+                    $message->setFrom(Options::getOption('site_email'));
                     $message->setTo(Options::getOption('site_email'));
 
                     $messageBody  = sprintf(__('New donor addition on %s:'), Options::getOption('site_name')) . "\r\n\r\n";
@@ -152,5 +173,14 @@ class AddDonor extends Controller
                 Notices::addNotice('invalid_donor_argument', $ex->getMessage());
             }
         }
+    }
+
+    /**
+     * @return \EBloodBank\Models\Donor
+     * @since 1.0
+     */
+    protected function getQueriedDonor()
+    {
+        return $this->donor;
     }
 }

@@ -9,6 +9,6 @@
 
 $view->displayView('header', ['title' => __('Add New City')]);
 
-$view->displayView('form-city');
+$view->displayView('form-city', ['city' => $view->get('city')]);
 
 $view->displayView('footer');

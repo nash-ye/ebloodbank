@@ -49,9 +49,9 @@ class EditCity extends Controller
             if (! empty($city)) {
                 $this->doActions();
                 $this->addNotices();
-                $view = View::forge('edit-city', array(
+                $view = View::forge('edit-city', [
                     'city' => $city,
-                ));
+                ]);
             } else {
                 $view = View::forge('error-404');
             }

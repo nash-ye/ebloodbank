@@ -24,6 +24,21 @@ use EBloodBank\Views\View;
 class AddCity extends Controller
 {
     /**
+     * @var \EBloodBank\Models\City
+     * @since 1.0
+     */
+    protected $city;
+
+    /**
+     * @return void
+     * @since 1.0
+     */
+    public function __construct()
+    {
+        $this->city = new City();
+    }
+
+    /**
      * @return void
      * @since 1.0
      */
@@ -32,7 +47,10 @@ class AddCity extends Controller
         if (EBB\isCurrentUserCan('add_city')) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('add-city');
+            $city = $this->getQueriedCity();
+            $view = View::forge('add-city', [
+                'city' => $city,
+            ]);
         } else {
             $view = View::forge('error-403');
         }
@@ -71,7 +89,7 @@ class AddCity extends Controller
     {
         if (EBB\isCurrentUserCan('add_city')) {
             try {
-                $city = new City();
+                $city = $this->getQueriedCity();
 
                 $session = main()->getSession();
                 $sessionToken = $session->getCsrfToken();
@@ -114,5 +132,14 @@ class AddCity extends Controller
                 Notices::addNotice('invalid_city_argument', $ex->getMessage());
             }
         }
+    }
+
+    /**
+     * @return \EBloodBank\Models\City
+     * @since 1.0
+     */
+    protected function getQueriedCity()
+    {
+        return $this->city;
     }
 }

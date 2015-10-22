@@ -9,6 +9,6 @@
 
 $view->displayView('header', ['title' => __('Add New User')]);
 
-$view->displayView('form-user');
+$view->displayView('form-user', ['user' => $view->get('user')]);
 
 $view->displayView('footer');

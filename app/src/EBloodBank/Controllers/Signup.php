@@ -115,6 +115,7 @@ class Signup extends Controller
                 $message = Swift_Message::newInstance();
 
                 $message->setSubject(sprintf(__('[%s] New User Registration'), Options::getOption('site_name')));
+                $message->setFrom(Options::getOption('site_email'));
                 $message->setTo(Options::getOption('site_email'));
 
                 $messageBody  = sprintf(__('New user registration on %s:'), Options::getOption('site_name')) . "\r\n\r\n";

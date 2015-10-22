@@ -9,6 +9,6 @@
 
 $view->displayView('header', ['title' => __('Add New District')]);
 
-$view->displayView('form-district');
+$view->displayView('form-district', ['district' => $view->get('district')]);
 
 $view->displayView('footer');

@@ -9,11 +9,6 @@
 
 use EBloodBank as EBB;
 use EBloodBank\Roles;
-use EBloodBank\Models\User;
-
-if (! $view->isExists('user')) {
-    $user = new User();
-}
 ?>
 
 <?php $view->displayView('notices') ?>

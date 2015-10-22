@@ -49,7 +49,12 @@ $view->displayView('header', ['title' => __('Donors')]);
 
 				<tr>
 					<td><?php $donor->display('id') ?></td>
-					<td><?php $donor->display('name') ?></td>
+					<td>
+                        <?php $donor->display('name') ?>
+                        <?php if ($donor->isPending()) : ?>
+                            <span class="label label-warning"><?= EBB\escHTML(__('Pending')) ?></span>
+                        <?php endif; ?>
+                    </td>
 					<td><?= EBB\escHTML($donor->getGenderTitle()) ?></td>
 					<td><?= EBB\escHTML($donor->getAge()) ?></td>
 					<td><?php $donor->display('blood_group') ?></td>

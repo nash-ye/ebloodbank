@@ -49,9 +49,9 @@ class EditDistrict extends Controller
             if (! empty($district)) {
                 $this->doActions();
                 $this->addNotices();
-                $view = View::forge('edit-district', array(
+                $view = View::forge('edit-district', [
                     'district' => $district,
-                ));
+                ]);
             } else {
                 $view = View::forge('error-404');
             }

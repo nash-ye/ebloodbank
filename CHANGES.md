@@ -1,2 +1,3 @@
 - New Feature: Send e-mail notifications after users or donors registration.
+- Enhancement: Keep forms fields values after failed entities addition submissions.
 - Bug Fix: Add a check to avoid registering a user with an existing e-mail address.

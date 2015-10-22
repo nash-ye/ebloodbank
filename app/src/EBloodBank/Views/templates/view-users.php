@@ -36,7 +36,12 @@ $view->displayView('header', ['title' => __('Users')]);
 
 			<tr>
 				<td><?php $user->display('id') ?></td>
-				<td><?php $user->display('name') ?></td>
+				<td>
+                    <?php $user->display('name') ?>
+                    <?php if ($user->isPending()) : ?>
+                        <span class="label label-warning"><?= EBB\escHTML(__('Pending')) ?></span>
+                    <?php endif; ?>
+                </td>
 				<td><?php $user->display('email') ?></td>
 				<td><?= EBB\escHTML($user->getRoleTitle()) ?></td>
 			</tr>

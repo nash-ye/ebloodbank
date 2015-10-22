@@ -50,9 +50,9 @@ class EditUser extends Controller
             if (! empty($user)) {
                 $this->doActions();
                 $this->addNotices();
-                $view = View::forge('edit-user', array(
+                $view = View::forge('edit-user', [
                     'user' => $user,
-                ));
+                ]);
             } else {
                 $view = View::forge('error-404');
             }

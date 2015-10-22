@@ -8,11 +8,6 @@
  */
 
 use EBloodBank as EBB;
-use EBloodBank\Models\District;
-
-if (! $view->isExists('district')) {
-    $district = new District();
-}
 
 $em = main()->getEntityManager();
 $cityRepository = $em->getRepository('Entities:City');

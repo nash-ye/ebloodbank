@@ -9,6 +9,6 @@
 
 $view->displayView('header', ['title' => __('Add New Donor')]);
 
-$view->displayView('form-donor');
+$view->displayView('form-donor', ['donor' => $view->get('donor')]);
 
 $view->displayView('footer');
