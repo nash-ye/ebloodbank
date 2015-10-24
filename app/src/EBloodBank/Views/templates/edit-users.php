@@ -38,7 +38,7 @@ $view->displayView('header', ['title' => __('Edit Users')]);
 			<tr>
 				<td><?php $user->display('id') ?></td>
 				<td>
-                    <?php $user->display('name') ?>
+                    <?= EBB\getEditUserLink(['id' => $user->get('id'), 'content' => EBB\escHTML($user->get('name'))]) ?>
                     <?php if ($user->isPending()) : ?>
                         <span class="label label-warning"><?= EBB\escHTML(__('Pending')) ?></span>
                     <?php endif; ?>

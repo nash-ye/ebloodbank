@@ -38,8 +38,12 @@ $view->displayView('header', ['title' => __('Edit Districts')]);
 
             <tr>
                 <td><?php $district->display('id') ?></td>
-                <td><?php $district->display('name') ?></td>
-                <td><?php $district->get('city')->display('name') ?></td>
+                <td>
+                    <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => EBB\escHTML($district->get('name'))]) ?>
+                <td>
+                    <?php $city = $district->get('city') ?>
+                    <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
+                </td>
                 <td>
                     <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
                     <?= EBB\getDeleteDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>

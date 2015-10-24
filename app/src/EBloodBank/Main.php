@@ -256,6 +256,7 @@ class Main
         $this->router->add('view-donors', '/donors/');
         $this->router->add('add-donor', '/add/donor/');
         $this->router->add('view-donor', '/donor/{id}/');
+        $this->router->add('view-donor', '/donor/{id}/');
         $this->router->add('edit-donors', '/edit/donors/');
         $this->router->add('edit-donor', '/edit/donor/{id}/');
         $this->router->add('delete-donor', '/delete/donor/{id}/');
@@ -510,6 +511,9 @@ class Main
             },
             'view-districts' => function () {
                 return new Controllers\ViewDistricts();
+            },
+            'view-donor' => function ($id) {
+                return new Controllers\ViewDonor($id);
             },
             'add-user' => function () {
                 return new Controllers\AddUser();

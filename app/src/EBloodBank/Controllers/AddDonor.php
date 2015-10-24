@@ -156,7 +156,7 @@ class AddDonor extends Controller
                     $messageBody .= sprintf(__('Name: %s'), $donor->get('name')) . "\r\n";
                     $messageBody .= sprintf(__('Gender: %s'), $donor->getGenderTitle()) . "\r\n";
                     $messageBody .= sprintf(__('Blood Group: %s'), $donor->get('blood_group')) . "\r\n";
-                    $messageBody .= sprintf(__('City\District: %s\%s'), $donor->get('district')->get('city')->get('name'), $donor->get('district')->get('name'));
+                    $messageBody .= sprintf(__('City\District: %1$s\%2$s'), $donor->get('district')->get('city')->get('name'), $donor->get('district')->get('name'));
 
                     $message->setBody($messageBody, 'text/plain');
 

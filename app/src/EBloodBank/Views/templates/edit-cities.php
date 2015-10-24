@@ -37,7 +37,9 @@ $view->displayView('header', ['title' => __('Edit Cities')]);
 
             <tr>
                 <td><?php $city->display('id') ?></td>
-                <td><?php $city->display('name') ?></td>
+                <td>
+                    <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
+                </td>
                 <td>
                     <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
                     <?= EBB\getDeleteCityLink(['id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>

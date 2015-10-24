@@ -515,6 +515,23 @@ function getDonorsURL()
 
 /**
  * @return string
+ * @since 1.1
+ */
+function getDonorURL($id)
+{
+    $url = '';
+    $id = (int) $id;
+
+    if (! isValidID($id)) {
+        return $url;
+    }
+
+    $url = getSiteURL("/donor/{$id}");
+    return $url;
+}
+
+/**
+ * @return string
  * @since 1.0
  */
 function getAddDonorURL()
@@ -608,6 +625,46 @@ function getDonorsLink(array $args = [])
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'view-link view-donors-link';
+    }
+
+    $link = '<a' . toAttributes($args['atts']) . '>' . $args['content'] . '</a>';
+    return $args['before'] . $link . $args['after'];
+}
+
+/**
+ * @return string
+ * @since 1.0
+ */
+function getDonorLink(array $args = [])
+{
+    $link = '';
+
+    $args = array_merge(array(
+        'content' => '',
+        'atts' => [],
+        'before' => '',
+        'after' => '',
+        'id' => 0,
+    ), $args);
+
+    if (! isValidID($args['id'])) {
+        return $link;
+    }
+
+    if (! isCurrentUserCan('view_donors')) {
+        return $link;
+    }
+
+    if (empty($args['content'])) {
+        $em = main()->getEntityManager();
+        $donor = $em->find('Entities:Donor', $args['id']);
+        $args['content'] = escHTML($donor->get('name'));
+    }
+
+    $args['atts']['href'] = getDonorURL($args['id']);
+
+    if (! isset($args['atts']['class'])) {
+        $args['atts']['class'] = 'view-link view-donor-link';
     }
 
     $link = '<a' . toAttributes($args['atts']) . '>' . $args['content'] . '</a>';

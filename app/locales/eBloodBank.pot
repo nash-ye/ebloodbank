@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-22 13:07+0300\n"
-"PO-Revision-Date: 2015-10-22 13:07+0300\n"
+"POT-Creation-Date: 2015-10-24 15:13+0300\n"
+"PO-Revision-Date: 2015-10-24 15:13+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: en\n"
@@ -61,7 +61,7 @@ msgstr ""
 
 #: ../src/EBloodBank/Controllers/AddDonor.php:159
 #, php-format
-msgid "City\\District: %s\\%s"
+msgid "City\\District: %1$s\\%2$s"
 msgstr ""
 
 #: ../src/EBloodBank/Controllers/AddUser.php:80
@@ -228,19 +228,19 @@ msgstr ""
 msgid "Locale PO file is not readable or not exists."
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:385
+#: ../src/EBloodBank/Main.php:386
 msgid "Subscriber"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:398
+#: ../src/EBloodBank/Main.php:399
 msgid "Contributor"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:412
+#: ../src/EBloodBank/Main.php:413
 msgid "Editor"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:441
+#: ../src/EBloodBank/Main.php:442
 msgid "Administrator"
 msgstr ""
 
@@ -420,7 +420,7 @@ msgid "Approve donor \"%s\"?"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/approve-donor.php:23
-#: ../src/EBloodBank/functions.hyperlinks.php:752
+#: ../src/EBloodBank/functions.hyperlinks.php:809
 msgid "Approve"
 msgstr ""
 
@@ -438,9 +438,9 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/delete-donor.php:23
 #: ../src/EBloodBank/Views/templates/delete-user.php:23
 #: ../src/EBloodBank/functions.hyperlinks.php:434
-#: ../src/EBloodBank/functions.hyperlinks.php:718
-#: ../src/EBloodBank/functions.hyperlinks.php:980
-#: ../src/EBloodBank/functions.hyperlinks.php:1201
+#: ../src/EBloodBank/functions.hyperlinks.php:775
+#: ../src/EBloodBank/functions.hyperlinks.php:1037
+#: ../src/EBloodBank/functions.hyperlinks.php:1258
 msgid "Delete"
 msgstr ""
 
@@ -505,6 +505,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/install.php:117
 #: ../src/EBloodBank/Views/templates/view-cities.php:29
 #: ../src/EBloodBank/Views/templates/view-districts.php:29
+#: ../src/EBloodBank/Views/templates/view-donor.php:16
 #: ../src/EBloodBank/Views/templates/view-donors.php:37
 #: ../src/EBloodBank/Views/templates/view-users.php:28
 msgid "Name"
@@ -548,6 +549,7 @@ msgstr ""
 
 #: ../src/EBloodBank/Views/templates/edit-donors.php:38
 #: ../src/EBloodBank/Views/templates/form-donor.php:32
+#: ../src/EBloodBank/Views/templates/view-donor.php:19
 #: ../src/EBloodBank/Views/templates/view-donors.php:38
 msgid "Gender"
 msgstr ""
@@ -560,6 +562,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/edit-donors.php:40
 #: ../src/EBloodBank/Views/templates/form-donor.php:54
 #: ../src/EBloodBank/Views/templates/form-donors-filter.php:69
+#: ../src/EBloodBank/Views/templates/view-donor.php:25
 #: ../src/EBloodBank/Views/templates/view-donors.php:40
 msgid "Blood Group"
 msgstr ""
@@ -593,6 +596,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/form-signup.php:29
 #: ../src/EBloodBank/Views/templates/form-user.php:29
 #: ../src/EBloodBank/Views/templates/install.php:126
+#: ../src/EBloodBank/Views/templates/view-donor.php:31
 #: ../src/EBloodBank/Views/templates/view-users.php:29
 msgid "E-mail"
 msgstr ""
@@ -661,18 +665,22 @@ msgid "Submit"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:45
+#: ../src/EBloodBank/Views/templates/view-donor.php:22
 msgid "Birthdate"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:67
+#: ../src/EBloodBank/Views/templates/view-donor.php:28
 msgid "Weight (kg)"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:85
+#: ../src/EBloodBank/Views/templates/view-donor.php:34
 msgid "Phone"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:111
+#: ../src/EBloodBank/Views/templates/view-donor.php:40
 msgid "Address"
 msgstr ""
 
@@ -739,19 +747,19 @@ msgstr ""
 
 #: ../src/EBloodBank/Views/templates/header.php:48
 #: ../src/EBloodBank/Views/templates/view-donors.php:12
-#: ../src/EBloodBank/functions.hyperlinks.php:597
+#: ../src/EBloodBank/functions.hyperlinks.php:614
 msgid "Donors"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/header.php:49
 #: ../src/EBloodBank/Views/templates/view-cities.php:12
-#: ../src/EBloodBank/functions.hyperlinks.php:859
+#: ../src/EBloodBank/functions.hyperlinks.php:916
 msgid "Cities"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/header.php:50
 #: ../src/EBloodBank/Views/templates/view-districts.php:12
-#: ../src/EBloodBank/functions.hyperlinks.php:1080
+#: ../src/EBloodBank/functions.hyperlinks.php:1137
 msgid "Districts"
 msgstr ""
 
@@ -763,7 +771,7 @@ msgstr ""
 
 #: ../src/EBloodBank/Views/templates/header.php:52
 #: ../src/EBloodBank/Views/templates/settings.php:15
-#: ../src/EBloodBank/functions.hyperlinks.php:1247
+#: ../src/EBloodBank/functions.hyperlinks.php:1304
 msgid "Settings"
 msgstr ""
 
@@ -945,13 +953,22 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/view-users.php:17
 #: ../src/EBloodBank/functions.hyperlinks.php:371
 #: ../src/EBloodBank/functions.hyperlinks.php:400
-#: ../src/EBloodBank/functions.hyperlinks.php:655
-#: ../src/EBloodBank/functions.hyperlinks.php:684
-#: ../src/EBloodBank/functions.hyperlinks.php:917
-#: ../src/EBloodBank/functions.hyperlinks.php:946
-#: ../src/EBloodBank/functions.hyperlinks.php:1138
-#: ../src/EBloodBank/functions.hyperlinks.php:1167
+#: ../src/EBloodBank/functions.hyperlinks.php:712
+#: ../src/EBloodBank/functions.hyperlinks.php:741
+#: ../src/EBloodBank/functions.hyperlinks.php:974
+#: ../src/EBloodBank/functions.hyperlinks.php:1003
+#: ../src/EBloodBank/functions.hyperlinks.php:1195
+#: ../src/EBloodBank/functions.hyperlinks.php:1224
 msgid "Edit"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/view-donor.php:37
+msgid "City\\District"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/view-donor.php:38
+#, php-format
+msgid "%1$s\\%2$s"
 msgstr ""
 
 #: ../src/EBloodBank/functions.hyperlinks.php:161
@@ -959,8 +976,8 @@ msgid "Log Out"
 msgstr ""
 
 #: ../src/EBloodBank/functions.hyperlinks.php:342
-#: ../src/EBloodBank/functions.hyperlinks.php:626
-#: ../src/EBloodBank/functions.hyperlinks.php:888
-#: ../src/EBloodBank/functions.hyperlinks.php:1109
+#: ../src/EBloodBank/functions.hyperlinks.php:683
+#: ../src/EBloodBank/functions.hyperlinks.php:945
+#: ../src/EBloodBank/functions.hyperlinks.php:1166
 msgid "Add"
 msgstr ""

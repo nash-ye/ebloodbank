@@ -51,7 +51,7 @@ $view->displayView('header', ['title' => __('Edit Donors')]);
 				<tr>
 					<td><?php $donor->display('id') ?></td>
 					<td>
-                        <?php $donor->display('name') ?>
+                        <?= EBB\getEditDonorLink(['id' => $donor->get('id'), 'content' => EBB\escHTML($donor->get('name'))]) ?>
                         <?php if ($donor->isPending()) : ?>
                             <span class="label label-warning"><?= EBB\escHTML(__('Pending')) ?></span>
                         <?php endif; ?>
@@ -59,8 +59,14 @@ $view->displayView('header', ['title' => __('Edit Donors')]);
 					<td><?= EBB\escHTML($donor->getGenderTitle()) ?></td>
 					<td><?= EBB\escHTML($donor->getAge()) ?></td>
 					<td><?php $donor->display('blood_group') ?></td>
-					<td><?php $donor->get('district')->get('city')->display('name') ?></td>
-                    <td><?php $donor->get('district')->display('name') ?></td>
+					<td>
+                        <?php $city = $donor->get('district')->get('city') ?>
+                        <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
+                    </td>
+                    <td>
+                        <?php $district = $donor->get('district') ?>
+                        <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => EBB\escHTML($district->get('name'))]) ?>
+                    </td>
 					<td>
                         <?= EBB\getEditDonorLink(['id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
                         <?= EBB\getDeleteDonorLink(['id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
