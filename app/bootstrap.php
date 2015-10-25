@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.1-alpha-3');
+define('EBB_VERSION', '1.1-alpha-4');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
@@ -89,6 +89,7 @@ require EBB_APP_DIR . '/src/EBloodBank/functions.filtering.php';
 require EBB_APP_DIR . '/src/EBloodBank/functions.formatting.php';
 require EBB_APP_DIR . '/src/EBloodBank/functions.diagnosing.php';
 require EBB_APP_DIR . '/src/EBloodBank/functions.hyperlinks.php';
+require EBB_APP_DIR . '/src/EBloodBank/functions.badges.php';
 require EBB_APP_DIR . '/src/EBloodBank/functions.fields.php';
 
 /*** App Autoloader ***********************************************************/

@@ -45,10 +45,10 @@ use EBloodBank\Options;
 				<div id="navbar-collapse" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-left flip">
                         <?= EBB\getHomeLink(['content' => EBB\escHTML(__('Home')), 'before' => '<li>', 'after' => '</li>']) ?>
-                        <?= EBB\getDonorsLink(['content' => EBB\escHTML(__('Donors')), 'before' => '<li>', 'after' => '</li>']) ?>
+                        <?= EBB\getDonorsLink(['content' => EBB\escHTML(__('Donors')) . EBB\getPendingDonorsCountBadge(), 'before' => '<li>', 'after' => '</li>']) ?>
                         <?= EBB\getCitiesLink(['content' => EBB\escHTML(__('Cities')), 'before' => '<li>', 'after' => '</li>']) ?>
                         <?= EBB\getDistrictsLink(['content' => EBB\escHTML(__('Districts')), 'before' => '<li>', 'after' => '</li>']) ?>
-                        <?= EBB\getUsersLink(['content' => EBB\escHTML(__('Users')), 'before' => '<li>', 'after' => '</li>']) ?>
+                        <?= EBB\getUsersLink(['content' => EBB\escHTML(__('Users')) . EBB\getPendingUsersCountBadge(), 'before' => '<li>', 'after' => '</li>']) ?>
                         <?= EBB\getSettingsLink(['content' => EBB\escHTML(__('Settings')), 'before' => '<li>', 'after' => '</li>']) ?>
 					</ul>
 					<ul class="nav navbar-nav navbar-right flip">
