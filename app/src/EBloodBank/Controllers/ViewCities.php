@@ -69,7 +69,7 @@ class ViewCities extends Controller
         $em = main()->getEntityManager();
         $cityRepository = $em->getRepository('Entities:City');
 
-        return $cityRepository->findAll();
+        return $cityRepository->findAll([], ['created_at' => 'DESC']);
     }
 
     /**
@@ -96,7 +96,7 @@ class ViewCities extends Controller
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
-        return $cityRepository->findBy(array(), array(), $limit, $offset);
+        return $cityRepository->findBy([], ['created_at' => 'DESC'], $limit, $offset);
     }
 
     /**

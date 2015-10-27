@@ -69,7 +69,7 @@ class ViewUsers extends Controller
         $em = main()->getEntityManager();
         $userRepository = $em->getRepository('Entities:User');
 
-        return $userRepository->findAll();
+        return $userRepository->findAll([], ['created_at' => 'DESC']);
     }
 
     /**
@@ -96,7 +96,7 @@ class ViewUsers extends Controller
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
-        return $userRepository->findBy(array(), array(), $limit, $offset);
+        return $userRepository->findBy([], ['created_at' => 'DESC'], $limit, $offset);
     }
 
     /**

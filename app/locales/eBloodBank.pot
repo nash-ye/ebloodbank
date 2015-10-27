@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-25 17:34+0300\n"
-"PO-Revision-Date: 2015-10-25 17:34+0300\n"
+"POT-Creation-Date: 2015-10-27 18:54+0300\n"
+"PO-Revision-Date: 2015-10-27 18:54+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: en\n"
@@ -88,12 +88,22 @@ msgstr ""
 msgid "Please enter the same password."
 msgstr ""
 
+#: ../src/EBloodBank/Controllers/DeleteCities.php:110
+#, php-format
+msgid "At first, delete any linked districts with city \"%s\"."
+msgstr ""
+
 #: ../src/EBloodBank/Controllers/DeleteCity.php:92
 msgid "At first, delete any linked districts with this city."
 msgstr ""
 
 #: ../src/EBloodBank/Controllers/DeleteDistrict.php:91
 msgid "At first, delete any linked donors with this district."
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/DeleteDistricts.php:110
+#, php-format
+msgid "At first, delete any linked donors with district \"%s\"."
 msgstr ""
 
 #: ../src/EBloodBank/Controllers/EditCities.php:58
@@ -228,19 +238,19 @@ msgstr ""
 msgid "Locale PO file is not readable or not exists."
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:386
+#: ../src/EBloodBank/Main.php:392
 msgid "Subscriber"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:399
+#: ../src/EBloodBank/Main.php:405
 msgid "Contributor"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:413
+#: ../src/EBloodBank/Main.php:419
 msgid "Editor"
 msgstr ""
 
-#: ../src/EBloodBank/Main.php:442
+#: ../src/EBloodBank/Main.php:448
 msgid "Administrator"
 msgstr ""
 
@@ -390,8 +400,18 @@ msgid "Activate user \"%s\"?"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/activate-user.php:23
+#: ../src/EBloodBank/Views/templates/activate-users.php:32
+#: ../src/EBloodBank/Views/templates/edit-users.php:72
 #: ../src/EBloodBank/functions.hyperlinks.php:472
 msgid "Activate"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/activate-users.php:12
+msgid "Activate Users"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/activate-users.php:19
+msgid "Activate each user in the list below?"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/add-city.php:10
@@ -420,8 +440,45 @@ msgid "Approve donor \"%s\"?"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/approve-donor.php:23
+#: ../src/EBloodBank/Views/templates/approve-donors.php:32
+#: ../src/EBloodBank/Views/templates/edit-donors.php:94
 #: ../src/EBloodBank/functions.hyperlinks.php:809
 msgid "Approve"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/approve-donors.php:12
+msgid "Approve Donors"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/approve-donors.php:19
+msgid "Approve each donor in the list below?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-cities.php:12
+msgid "Delete Cities"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-cities.php:19
+msgid "Delete each city in the list below?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-cities.php:32
+#: ../src/EBloodBank/Views/templates/delete-city.php:23
+#: ../src/EBloodBank/Views/templates/delete-district.php:23
+#: ../src/EBloodBank/Views/templates/delete-districts.php:32
+#: ../src/EBloodBank/Views/templates/delete-donor.php:23
+#: ../src/EBloodBank/Views/templates/delete-donors.php:32
+#: ../src/EBloodBank/Views/templates/delete-user.php:23
+#: ../src/EBloodBank/Views/templates/delete-users.php:32
+#: ../src/EBloodBank/Views/templates/edit-cities.php:63
+#: ../src/EBloodBank/Views/templates/edit-districts.php:67
+#: ../src/EBloodBank/Views/templates/edit-donors.php:91
+#: ../src/EBloodBank/Views/templates/edit-users.php:69
+#: ../src/EBloodBank/functions.hyperlinks.php:434
+#: ../src/EBloodBank/functions.hyperlinks.php:775
+#: ../src/EBloodBank/functions.hyperlinks.php:1037
+#: ../src/EBloodBank/functions.hyperlinks.php:1258
+msgid "Delete"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/delete-city.php:12
@@ -433,17 +490,6 @@ msgstr ""
 msgid "Delete city \"%s\"?"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/delete-city.php:23
-#: ../src/EBloodBank/Views/templates/delete-district.php:23
-#: ../src/EBloodBank/Views/templates/delete-donor.php:23
-#: ../src/EBloodBank/Views/templates/delete-user.php:23
-#: ../src/EBloodBank/functions.hyperlinks.php:434
-#: ../src/EBloodBank/functions.hyperlinks.php:775
-#: ../src/EBloodBank/functions.hyperlinks.php:1037
-#: ../src/EBloodBank/functions.hyperlinks.php:1258
-msgid "Delete"
-msgstr ""
-
 #: ../src/EBloodBank/Views/templates/delete-district.php:12
 msgid "Delete District"
 msgstr ""
@@ -451,6 +497,14 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/delete-district.php:19
 #, php-format
 msgid "Delete district \"%s\"?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-districts.php:12
+msgid "Delete Districts"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-districts.php:19
+msgid "Delete each district in the list below?"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/delete-donor.php:12
@@ -462,6 +516,14 @@ msgstr ""
 msgid "Delete donor \"%s\"?"
 msgstr ""
 
+#: ../src/EBloodBank/Views/templates/delete-donors.php:12
+msgid "Delete Donors"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-donors.php:19
+msgid "Delete each donor in the list below?"
+msgstr ""
+
 #: ../src/EBloodBank/Views/templates/delete-user.php:12
 msgid "Delete User"
 msgstr ""
@@ -469,6 +531,14 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/delete-user.php:19
 #, php-format
 msgid "Delete user \"%s\"?"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-users.php:12
+msgid "Delete Users"
+msgstr ""
+
+#: ../src/EBloodBank/Views/templates/delete-users.php:19
+msgid "Delete each user in the list below?"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/edit-cities.php:12
@@ -493,10 +563,10 @@ msgstr ""
 msgid "Add New"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-cities.php:29
-#: ../src/EBloodBank/Views/templates/edit-districts.php:29
-#: ../src/EBloodBank/Views/templates/edit-donors.php:37
-#: ../src/EBloodBank/Views/templates/edit-users.php:28
+#: ../src/EBloodBank/Views/templates/edit-cities.php:33
+#: ../src/EBloodBank/Views/templates/edit-districts.php:33
+#: ../src/EBloodBank/Views/templates/edit-donors.php:41
+#: ../src/EBloodBank/Views/templates/edit-users.php:32
 #: ../src/EBloodBank/Views/templates/form-city.php:19
 #: ../src/EBloodBank/Views/templates/form-district.php:22
 #: ../src/EBloodBank/Views/templates/form-donor.php:23
@@ -511,10 +581,10 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-cities.php:30
-#: ../src/EBloodBank/Views/templates/edit-districts.php:31
-#: ../src/EBloodBank/Views/templates/edit-donors.php:43
-#: ../src/EBloodBank/Views/templates/edit-users.php:31
+#: ../src/EBloodBank/Views/templates/edit-cities.php:34
+#: ../src/EBloodBank/Views/templates/edit-districts.php:35
+#: ../src/EBloodBank/Views/templates/edit-donors.php:47
+#: ../src/EBloodBank/Views/templates/edit-users.php:35
 msgid "Actions"
 msgstr ""
 
@@ -530,8 +600,8 @@ msgstr ""
 msgid "Edit Districts"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-districts.php:30
-#: ../src/EBloodBank/Views/templates/edit-donors.php:41
+#: ../src/EBloodBank/Views/templates/edit-districts.php:34
+#: ../src/EBloodBank/Views/templates/edit-donors.php:45
 #: ../src/EBloodBank/Views/templates/form-district.php:31
 #: ../src/EBloodBank/Views/templates/form-donors-filter.php:81
 #: ../src/EBloodBank/Views/templates/view-districts.php:30
@@ -547,19 +617,19 @@ msgstr ""
 msgid "Edit Donors"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:38
+#: ../src/EBloodBank/Views/templates/edit-donors.php:42
 #: ../src/EBloodBank/Views/templates/form-donor.php:32
 #: ../src/EBloodBank/Views/templates/view-donor.php:19
 #: ../src/EBloodBank/Views/templates/view-donors.php:38
 msgid "Gender"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:39
+#: ../src/EBloodBank/Views/templates/edit-donors.php:43
 #: ../src/EBloodBank/Views/templates/view-donors.php:39
 msgid "Age"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:40
+#: ../src/EBloodBank/Views/templates/edit-donors.php:44
 #: ../src/EBloodBank/Views/templates/form-donor.php:54
 #: ../src/EBloodBank/Views/templates/form-donors-filter.php:69
 #: ../src/EBloodBank/Views/templates/view-donor.php:25
@@ -567,15 +637,15 @@ msgstr ""
 msgid "Blood Group"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:42
+#: ../src/EBloodBank/Views/templates/edit-donors.php:46
 #: ../src/EBloodBank/Views/templates/form-donor.php:94
 #: ../src/EBloodBank/Views/templates/form-donors-filter.php:93
 #: ../src/EBloodBank/Views/templates/view-donors.php:42
 msgid "District"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-donors.php:56
-#: ../src/EBloodBank/Views/templates/edit-users.php:43
+#: ../src/EBloodBank/Views/templates/edit-donors.php:62
+#: ../src/EBloodBank/Views/templates/edit-users.php:49
 #: ../src/EBloodBank/Views/templates/settings.php:114
 #: ../src/EBloodBank/Views/templates/view-donors.php:55
 #: ../src/EBloodBank/Views/templates/view-users.php:42
@@ -590,7 +660,7 @@ msgstr ""
 msgid "Edit Users"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-users.php:29
+#: ../src/EBloodBank/Views/templates/edit-users.php:33
 #: ../src/EBloodBank/Views/templates/form-donor.php:76
 #: ../src/EBloodBank/Views/templates/form-login.php:20
 #: ../src/EBloodBank/Views/templates/form-signup.php:29
@@ -601,7 +671,7 @@ msgstr ""
 msgid "E-mail"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/edit-users.php:30
+#: ../src/EBloodBank/Views/templates/edit-users.php:34
 #: ../src/EBloodBank/Views/templates/form-user.php:54
 #: ../src/EBloodBank/Views/templates/view-users.php:30
 msgid "Role"

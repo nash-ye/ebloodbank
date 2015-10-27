@@ -67,7 +67,7 @@ $districtRepository = $em->getRepository('Entities:District');
     <div class="form-group">
         <label>
             <?= EBB\escHTML(__('Blood Group')) ?>
-            <select name="blood_group"  class="form-control">
+            <select name="blood_group" class="form-control">
                 <option value="any"><?= EBB\escHTML(__('All')) ?></option>
                 <?php foreach (Donor::getBloodGroups() as $bloodGroup) : ?>
                 <option<?= EBB\toAttributes(['selected' => ($bloodGroup === $criteria['blood_group'])]) ?>><?= EBB\escHTML($bloodGroup) ?></option>
@@ -79,7 +79,7 @@ $districtRepository = $em->getRepository('Entities:District');
     <div class="form-group">
         <label>
             <?= EBB\escHTML(__('City')) ?>
-            <select name="city_id"  class="form-control">
+            <select name="city_id" class="form-control">
                 <option value="-1"><?= EBB\escHTML(__('All')) ?></option>
                 <?php foreach ($cityRepository->findAll() as $city) : ?>
                 <option<?= EBB\toAttributes(['value' => $city->get('id'), 'selected' => ($city->get('id') == $criteria['city'])]) ?>><?php $city->display('name') ?></option>

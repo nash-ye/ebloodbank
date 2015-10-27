@@ -93,7 +93,7 @@ class ViewDonors extends Controller
         $em = main()->getEntityManager();
         $donorRepository = $em->getRepository('Entities:Donor');
 
-        return $donorRepository->findAll();
+        return $donorRepository->findAll([], ['created_at' => 'DESC']);
     }
 
     /**
@@ -122,7 +122,7 @@ class ViewDonors extends Controller
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
-        return $donorRepository->findBy($criteria, array(), $limit, $offset);
+        return $donorRepository->findBy($criteria, ['created_at' => 'DESC'], $limit, $offset);
     }
 
     /**

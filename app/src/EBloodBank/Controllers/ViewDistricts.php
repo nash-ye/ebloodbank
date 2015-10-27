@@ -70,7 +70,7 @@ class ViewDistricts extends Controller
         $em = main()->getEntityManager();
         $districtRepository = $em->getRepository('Entities:District');
 
-        return $districtRepository->findAll();
+        return $districtRepository->findAll([], ['created_at' => 'DESC']);
     }
 
     /**
@@ -97,7 +97,7 @@ class ViewDistricts extends Controller
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
-        return $districtRepository->findBy(array(), array(), $limit, $offset);
+        return $districtRepository->findBy([], ['created_at' => 'DESC'], $limit, $offset);
     }
 
     /**

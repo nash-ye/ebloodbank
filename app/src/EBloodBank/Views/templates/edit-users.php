@@ -21,42 +21,59 @@ $view->displayView('header', ['title' => __('Edit Users')]);
 
     <?php $view->displayView('notices') ?>
 
-	<table id="table-users" class="table table-entities table-bordered table-striped table-hover">
+    <form id="form-edit-users" method="POST">
 
-		<thead>
-			<th>#</th>
-			<th><?= EBB\escHTML(__('Name')) ?></th>
-			<th><?= EBB\escHTML(__('E-mail')) ?></th>
-			<th><?= EBB\escHTML(__('Role')) ?></th>
-            <th><?= EBB\escHTML(__('Actions')) ?></th>
-		</thead>
+        <table id="table-users" class="table table-entities table-bordered table-striped table-hover">
 
-		<tbody>
+            <thead>
+                <th>
+                    <input type="checkbox" id="cb-select-all" />
+                </th>
+                <th><?= EBB\escHTML(__('Name')) ?></th>
+                <th><?= EBB\escHTML(__('E-mail')) ?></th>
+                <th><?= EBB\escHTML(__('Role')) ?></th>
+                <th><?= EBB\escHTML(__('Actions')) ?></th>
+            </thead>
 
-            <?php foreach ($view->get('users') as $user) : ?>
+            <tbody>
 
-			<tr>
-				<td><?php $user->display('id') ?></td>
-				<td>
-                    <?= EBB\getEditUserLink(['id' => $user->get('id'), 'content' => EBB\escHTML($user->get('name'))]) ?>
-                    <?php if ($user->isPending()) : ?>
-                        <span class="label label-warning"><?= EBB\escHTML(__('Pending')) ?></span>
-                    <?php endif; ?>
-                </td>
-				<td><?php $user->display('email') ?></td>
-				<td><?= EBB\escHTML($user->getRoleTitle()) ?></td>
-				<td>
-                    <?= EBB\getEditUserLink(['id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                    <?= EBB\getDeleteUserLink(['id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
-                    <?= EBB\getActivateUserLink(['id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-ok"></i>']) ?>
-				</td>
-			</tr>
+                <?php foreach ($view->get('users') as $user) : ?>
 
-            <?php endforeach; ?>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="users[]" value="<?php $user->display('id', 'attr') ?>" class="cb-select" />
+                    </td>
+                    <td>
+                        <?= EBB\getEditUserLink(['id' => $user->get('id'), 'content' => EBB\escHTML($user->get('name'))]) ?>
+                        <?php if ($user->isPending()) : ?>
+                            <span class="label label-warning"><?= EBB\escHTML(__('Pending')) ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td><?php $user->display('email') ?></td>
+                    <td><?= EBB\escHTML($user->getRoleTitle()) ?></td>
+                    <td>
+                        <?= EBB\getEditUserLink(['id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
+                        <?= EBB\getDeleteUserLink(['id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
+                        <?= EBB\getActivateUserLink(['id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-ok"></i>']) ?>
+                    </td>
+                </tr>
 
-		</tbody>
+                <?php endforeach; ?>
 
-	</table>
+            </tbody>
+
+        </table>
+
+        <div class="btn-group pull-right bulk-actions">
+            <button type="submit" formaction="<?= EBB\escURL(EBB\getSiteURL('/delete/users')) ?>" class="btn btn-default">
+                <i class="glyphicon glyphicon-trash"></i> <?= EBB\escHTML(__('Delete')) ?>
+            </button>
+            <button type="submit" formaction="<?= EBB\escURL(EBB\getSiteURL('/activate/users')) ?>" class="btn btn-default">
+                <i class="glyphicon glyphicon-ok"></i> <?= EBB\escHTML(__('Activate')) ?>
+            </button>
+        </div>
+
+    </form>
 
     <?php
 
@@ -68,6 +85,8 @@ $view->displayView('header', ['title' => __('Edit Users')]);
         ])
 
     ?>
+
+    <script src="<?= EBB\escURL(EBB\getSiteURl('/public/assets/js/edit-entities.js')) ?>"></script>
 
 <?php
 $view->displayView('footer');

@@ -259,7 +259,9 @@ class Main
         $this->router->add('view-donor', '/donor/{id}/');
         $this->router->add('edit-donors', '/edit/donors/');
         $this->router->add('edit-donor', '/edit/donor/{id}/');
+        $this->router->add('delete-donors', '/delete/donors/');
         $this->router->add('delete-donor', '/delete/donor/{id}/');
+        $this->router->add('approve-donors', '/approve/donors/');
         $this->router->add('approve-donor', '/approve/donor/{id}/');
 
         $this->router->add('view-users', '/users/');
@@ -267,7 +269,9 @@ class Main
         $this->router->add('view-user', '/user/{id}/');
         $this->router->add('edit-users', '/edit/users/');
         $this->router->add('edit-user', '/edit/user/{id}/');
+        $this->router->add('delete-users', '/delete/users/');
         $this->router->add('delete-user', '/delete/user/{id}/');
+        $this->router->add('activate-users', '/activate/users/');
         $this->router->add('activate-user', '/activate/user/{id}/');
 
         $this->router->add('view-cities', '/cities/');
@@ -275,6 +279,7 @@ class Main
         $this->router->add('view-city', '/city/{id}/');
         $this->router->add('edit-cities', '/edit/cities/');
         $this->router->add('edit-city', '/edit/city/{id}/');
+        $this->router->add('delete-cities', '/delete/cities/');
         $this->router->add('delete-city', '/delete/city/{id}/');
 
         $this->router->add('view-districts', '/districts/');
@@ -282,6 +287,7 @@ class Main
         $this->router->add('view-district', '/district/{id}/');
         $this->router->add('edit-districts', '/edit/districts/');
         $this->router->add('edit-district', '/edit/district/{id}/');
+        $this->router->add('delete-districts', '/delete/districts/');
         $this->router->add('delete-district', '/delete/district/{id}/');
 
         $this->router->match(
@@ -568,6 +574,24 @@ class Main
             },
             'edit-districts' => function () {
                 return new Controllers\EditDistricts();
+            },
+            'delete-users' => function () {
+                return new Controllers\DeleteUsers();
+            },
+            'delete-donors' => function () {
+                return new Controllers\DeleteDonors();
+            },
+            'delete-cities' => function () {
+                return new Controllers\DeleteCities();
+            },
+            'delete-districts' => function () {
+                return new Controllers\DeleteDistricts();
+            },
+            'activate-users' => function () {
+                return new Controllers\ActivateUsers();
+            },
+            'approve-donors' => function () {
+                return new Controllers\ApproveDonors();
             },
         ];
 

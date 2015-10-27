@@ -21,40 +21,54 @@ $view->displayView('header', ['title' => __('Edit Districts')]);
 
     <?php $view->displayView('notices') ?>
 
-	<table id="table-districts" class="table table-entities table-bordered table-striped table-hover">
+    <form id="form-edit-districts" method="POST">
 
-		<thead>
-			<tr>
-				<th>#</th>
-                <th><?= EBB\escHTML(__('Name')) ?></th>
-				<th><?= EBB\escHTML(__('City')) ?></th>
-				<th><?= EBB\escHTML(__('Actions')) ?></th>
-			</tr>
-		</thead>
+        <table id="table-districts" class="table table-entities table-bordered table-striped table-hover">
 
-		<tbody>
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="cb-select-all" />
+                    </th>
+                    <th><?= EBB\escHTML(__('Name')) ?></th>
+                    <th><?= EBB\escHTML(__('City')) ?></th>
+                    <th><?= EBB\escHTML(__('Actions')) ?></th>
+                </tr>
+            </thead>
 
-            <?php foreach ($view->get('districts') as $district) : ?>
+            <tbody>
 
-            <tr>
-                <td><?php $district->display('id') ?></td>
-                <td>
-                    <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => EBB\escHTML($district->get('name'))]) ?>
-                <td>
-                    <?php $city = $district->get('city') ?>
-                    <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
-                </td>
-                <td>
-                    <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                    <?= EBB\getDeleteDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
-                </td>
-            </tr>
+                <?php foreach ($view->get('districts') as $district) : ?>
 
-            <?php endforeach; ?>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="districts[]" value="<?php $district->display('id', 'attr') ?>" class="cb-select" />
+                    </td>
+                    <td>
+                        <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => EBB\escHTML($district->get('name'))]) ?>
+                    <td>
+                        <?php $city = $district->get('city') ?>
+                        <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
+                    </td>
+                    <td>
+                        <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
+                        <?= EBB\getDeleteDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
+                    </td>
+                </tr>
 
-		</tbody>
+                <?php endforeach; ?>
 
-	</table>
+            </tbody>
+
+        </table>
+
+        <div class="btn-group pull-right bulk-actions">
+            <button type="submit" formaction="<?= EBB\escURL(EBB\getSiteURL('/delete/districts')) ?>" class="btn btn-default">
+                <i class="glyphicon glyphicon-trash"></i> <?= EBB\escHTML(__('Delete')) ?>
+            </button>
+        </div>
+
+    </form>
 
     <?php
 
@@ -66,6 +80,8 @@ $view->displayView('header', ['title' => __('Edit Districts')]);
         ])
 
     ?>
+
+    <script src="<?= EBB\escURL(EBB\getSiteURl('/public/assets/js/edit-entities.js')) ?>"></script>
 
 <?php
 $view->displayView('footer');

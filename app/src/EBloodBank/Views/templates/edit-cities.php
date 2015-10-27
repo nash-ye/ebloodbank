@@ -21,36 +21,50 @@ $view->displayView('header', ['title' => __('Edit Cities')]);
 
     <?php $view->displayView('notices') ?>
 
-	<table id="table-cities" class="table table-entities table-bordered table-striped table-hover">
+    <form id="form-edit-cities" method="POST">
 
-		<thead>
-			<tr>
-				<th>#</th>
-                <th><?= EBB\escHTML(__('Name')) ?></th>
-                <th><?= EBB\escHTML(__('Actions')) ?></th>
-			</tr>
-		</thead>
+        <table id="table-cities" class="table table-entities table-bordered table-striped table-hover">
 
-		<tbody>
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="cb-select-all" />
+                    </th>
+                    <th><?= EBB\escHTML(__('Name')) ?></th>
+                    <th><?= EBB\escHTML(__('Actions')) ?></th>
+                </tr>
+            </thead>
 
-            <?php foreach ($view->get('cities') as $city) : ?>
+            <tbody>
 
-            <tr>
-                <td><?php $city->display('id') ?></td>
-                <td>
-                    <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
-                </td>
-                <td>
-                    <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                    <?= EBB\getDeleteCityLink(['id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
-                </td>
-            </tr>
+                <?php foreach ($view->get('cities') as $city) : ?>
 
-            <?php endforeach; ?>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="cities[]" value="<?php $city->display('id', 'attr') ?>" class="cb-select" />
+                    </td>
+                    <td>
+                        <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
+                    </td>
+                    <td>
+                        <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
+                        <?= EBB\getDeleteCityLink(['id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
+                    </td>
+                </tr>
 
-		</tbody>
+                <?php endforeach; ?>
 
-	</table>
+            </tbody>
+
+        </table>
+
+        <div class="btn-group pull-right bulk-actions">
+            <button type="submit" formaction="<?= EBB\escURL(EBB\getSiteURL('/delete/cities')) ?>" class="btn btn-default">
+                <i class="glyphicon glyphicon-trash"></i> <?= EBB\escHTML(__('Delete')) ?>
+            </button>
+        </div>
+
+    </form>
 
     <?php
 
@@ -62,6 +76,8 @@ $view->displayView('header', ['title' => __('Edit Cities')]);
         ])
 
     ?>
+
+    <script src="<?= EBB\escURL(EBB\getSiteURl('/public/assets/js/edit-entities.js')) ?>"></script>
 
 <?php
 $view->displayView('footer');
