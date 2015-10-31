@@ -617,7 +617,7 @@ function getDonorsLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('view_donors')) {
+    if ('on' !== Options::getOption('site_publication') && ! isCurrentUserCan('view_donors')) {
         return $link;
     }
 
@@ -651,7 +651,7 @@ function getDonorLink(array $args = [])
         return $link;
     }
 
-    if (! isCurrentUserCan('view_donors')) {
+    if ('on' !== Options::getOption('site_publication') && ! isCurrentUserCan('view_donors')) {
         return $link;
     }
 
@@ -919,7 +919,7 @@ function getCitiesLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('view_cities')) {
+    if ('on' !== Options::getOption('site_publication') && ! isCurrentUserCan('view_cities')) {
         return $link;
     }
 
@@ -1140,7 +1140,7 @@ function getDistrictsLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('view_districts')) {
+    if ('on' !== Options::getOption('site_publication') && ! isCurrentUserCan('view_districts')) {
         return $link;
     }
 

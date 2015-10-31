@@ -25,7 +25,7 @@ class ViewDonors extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('view_donors')) {
+        if ('on' === EBB\Options::getOption('site_publication') || EBB\isCurrentUserCan('view_donors')) {
             $view = View::forge('view-donors', array(
                 'donors' => $this->getQueriedDonors(),
                 'pagination.total' => $this->getPagesTotal(),
@@ -79,6 +79,10 @@ class ViewDonors extends Controller
 
         if (filter_has_var(INPUT_POST, 'blood_group')) {
             $criteria['blood_group'] = filter_input(INPUT_POST, 'blood_group');
+        }
+
+        if (filter_has_var(INPUT_POST, 'blood_group_alternatives')) {
+            $criteria['blood_group_alternatives'] = (filter_input(INPUT_POST, 'blood_group_alternatives') === 'on');
         }
 
         return $criteria;

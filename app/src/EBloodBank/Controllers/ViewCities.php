@@ -25,7 +25,7 @@ class ViewCities extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('view_cities')) {
+        if ('on' === EBB\Options::getOption('site_publication') || EBB\isCurrentUserCan('view_cities')) {
             $view = View::forge('view-cities', array(
                 'cities' => $this->getQueriedCities(),
                 'pagination.total' => $this->getPagesTotal(),

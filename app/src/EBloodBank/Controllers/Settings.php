@@ -81,6 +81,7 @@ class Settings extends Controller
             Options::submitOption('new_user_status', filter_input(INPUT_POST, 'new_user_status'), true);
 
             /* Reading Options */
+            Options::submitOption('site_publication', filter_input(INPUT_POST, 'site_publication'), true);
             Options::submitOption('entities_per_page', filter_input(INPUT_POST, 'entities_per_page'), true);
 
             EBB\redirect(

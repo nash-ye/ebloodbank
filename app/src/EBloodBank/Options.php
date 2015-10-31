@@ -216,6 +216,8 @@ class Options
     public static function validateOption($name, $value)
     {
         switch ($name) {
+            /* Site Options */
+
             case 'site_url':
                 if (empty($value) || ! isValidURL($value)) {
                     throw new InvalidArgumentException(__('Invalid site URL.'));
@@ -241,6 +243,9 @@ class Options
                     throw new InvalidArgumentException(__('Invalid site e-mail address.'));
                 }
                 break;
+
+            /* Users Options */
+
             case 'self_registration':
                 if (empty($value) || ! in_array($value, ['on', 'off'])) {
                     throw new InvalidArgumentException(__('Invalid self-registration status.'));
@@ -254,6 +259,14 @@ class Options
             case 'new_user_status':
                 if (empty($value) || ! in_array($value, ['pending', 'activated'])) {
                     throw new InvalidArgumentException(__('Invalid new user status.'));
+                }
+                break;
+
+            /* Reading Options */
+
+            case 'site_publication':
+                if (empty($value) || ! in_array($value, ['on', 'off'])) {
+                    throw new InvalidArgumentException(__('Invalid site publication status.'));
                 }
                 break;
             case 'entities_per_page':

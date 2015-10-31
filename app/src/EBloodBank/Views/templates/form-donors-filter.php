@@ -11,9 +11,10 @@ use EBloodBank as EBB;
 use EBloodBank\Models\Donor;
 
 $criteria = array_merge([
-    'blood_group' => 'any',
-    'district'    => -1,
-    'city'        => -1,
+    'city'                     => -1,
+    'district'                 => -1,
+    'blood_group'              => 'any',
+    'blood_group_alternatives' => false,
 ], (array) $view->get('criteria'));
 
 $em = main()->getEntityManager();
@@ -74,6 +75,12 @@ $districtRepository = $em->getRepository('Entities:District');
                 <?php endforeach; ?>
             </select>
         </label>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="blood_group_alternatives" id="blood_group_alternatives" <?= EBB\toAttributes(['checked' => $criteria['blood_group_alternatives']]) ?> />
+                <?= EBB\escHTML(__('Include alternatives?')) ?>
+            </label>
+        </div>
     </div>
 
     <div class="form-group">

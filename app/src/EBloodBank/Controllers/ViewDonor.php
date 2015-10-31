@@ -42,7 +42,7 @@ class ViewDonor extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('view_donors')) {
+        if ('on' === EBB\Options::getOption('site_publication') || EBB\isCurrentUserCan('view_donors')) {
             $donor = $this->getQueriedDonor();
             if (! empty($donor)) {
                 $this->doActions();

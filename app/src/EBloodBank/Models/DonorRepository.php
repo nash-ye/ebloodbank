@@ -53,6 +53,41 @@ class DonorRepository extends EntityRepository
      */
     protected function parseCriteria(array $criteria)
     {
+        if (isset($criteria['blood_group_alternatives']) && $criteria['blood_group_alternatives']) {
+            if (isset($criteria['blood_group']) && is_string($criteria['blood_group'])) {
+                switch ($criteria['blood_group']) {
+                    case 'A+':
+                        $criteria['blood_group'] = ['A+', 'A-', 'O+', 'O-'];
+                        break;
+                    case 'A-':
+                        $criteria['blood_group'] = ['A-', 'O-'];
+                        break;
+                    case 'B+':
+                        $criteria['blood_group'] = ['B+', 'B-', 'O+', 'O-'];
+                        break;
+                    case 'B+':
+                        $criteria['blood_group'] = ['B+', 'B-', 'O+', 'O-'];
+                        break;
+                    case 'B-':
+                        $criteria['blood_group'] = ['B-', 'O-'];
+                        break;
+                    case 'O+':
+                        $criteria['blood_group'] = ['O+', 'O-'];
+                        break;
+                    case 'O-':
+                        $criteria['blood_group'] = ['O-'];
+                        break;
+                    case 'AB+':
+                        $criteria['blood_group'] = ['any'];
+                        break;
+                    case 'AB-':
+                        $criteria['blood_group'] = ['A-', 'B-', 'O-', 'AB-'];
+                        break;
+                }
+            }
+        }
+
+        unset($criteria['blood_group_alternatives']); // Remove the alternative blood-groups criteria.
 
         if (isset($criteria['blood_group']) && 'any' === $criteria['blood_group']) {
             unset($criteria['blood_group']); // Remove the blood-group criteria.

@@ -272,6 +272,7 @@ SQL;
                 Options::addOption('new_user_status', 'pending');
 
                 /* Reading Options */
+                Options::addOption('site_publication', 'on');
                 Options::addOption('entities_per_page', 10);
 
                 $user = new User();

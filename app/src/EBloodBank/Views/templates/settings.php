@@ -125,6 +125,17 @@ $view->displayView('header', ['title' => __('Settings')]);
             <legend><?= EBB\escHTML(__('Reading Options')) ?></legend>
 
             <div class="form-group">
+                <div class="col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input<?= EBB\toAttributes(['type' => 'checkbox', 'name' => 'site_publication', 'id' => 'site_publication', 'value' => 'on', 'checked' => ('on' === Options::getOption('site_publication'))]) ?>/>
+                            <?= EBB\escHTML(__('Publicly accessible.')) ?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-sm-2">
                     <label for="entities_per_page"><?= EBB\escHTML(__('Entities Per Page')) ?> <span class="form-required">*</span></label>
                 </div>
