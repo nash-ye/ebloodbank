@@ -42,10 +42,12 @@ class ActivateUser extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('activate_user')) {
+        $currentUser = EBB\getCurrentUser();
+        $user = $this->getQueriedUser();
+        if ($currentUser && $currentUser->canActivateUser($user)) {
             $this->doActions();
             $view = View::forge('activate-user', [
-                'user' => $this->getQueriedUser(),
+                'user' => $user,
             ]);
         } else {
             $view = View::forge('error-403');
@@ -72,32 +74,35 @@ class ActivateUser extends Controller
      */
     protected function doActivateAction()
     {
-        if (EBB\isCurrentUserCan('activate_user')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $em = main()->getEntityManager();
-            $user = $this->getQueriedUser();
-
-            if (! $user->isPending()) {
-                return;
-            }
-
-            $user->set('status', 'activated');
-            $em->flush($user);
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditUsersURL(),
-                    array('flag-activated' => 1)
-                )
-            );
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
         }
+
+        $user = $this->getQueriedUser();
+        $currentUser = EBB\getCurrentUser();
+
+        if (! $currentUser || ! $currentUser->canActivateUser($user)) {
+            return;
+        }
+
+        if (! $user->isPending()) {
+            return;
+        }
+
+        $em = main()->getEntityManager();
+        $user->set('status', 'activated');
+        $em->flush($user);
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditUsersURL(),
+                array('flag-activated' => 1)
+            )
+        );
     }
 
     /**

@@ -44,7 +44,8 @@ class AddDistrict extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('add_district')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser && $currentUser->canAddDistrict()) {
             $this->doActions();
             $this->addNotices();
             $district = $this->getQueriedDistrict();
@@ -87,42 +88,46 @@ class AddDistrict extends Controller
      */
     protected function doSubmitAction()
     {
-        if (EBB\isCurrentUserCan('add_district')) {
-            try {
-                $district = $this->getQueriedDistrict();
+        try {
+            $currentUser = EBB\getCurrentUser();
 
-                $session = main()->getSession();
-                $sessionToken = $session->getCsrfToken();
-                $actionToken = filter_input(INPUT_POST, 'token');
-
-                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                    return;
-                }
-
-                // Set the district name.
-                $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
-
-                // Set the district city ID.
-                $district->set('city', filter_input(INPUT_POST, 'district_city_id'), true);
-
-                $district->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
-                $district->set('created_by', EBB\getCurrentUserID(), true);
-
-                $em = main()->getEntityManager();
-                $em->persist($district);
-                $em->flush();
-
-                $added = $district->isExists();
-
-                EBB\redirect(
-                    EBB\addQueryArgs(
-                        EBB\getAddDistrictURL(),
-                        array('flag-added' => $added)
-                    )
-                );
-            } catch (InvalidArgumentException $ex) {
-                Notices::addNotice('invalid_district_argument', $ex->getMessage());
+            if (! $currentUser || ! $currentUser->canAddDistrict()) {
+                return;
             }
+
+            $session = main()->getSession();
+            $sessionToken = $session->getCsrfToken();
+            $actionToken = filter_input(INPUT_POST, 'token');
+
+            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                return;
+            }
+
+            $em = main()->getEntityManager();
+            $district = $this->getQueriedDistrict();
+
+            // Set the district name.
+            $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
+
+            // Set the district city ID.
+            $district->set('city', filter_input(INPUT_POST, 'district_city_id'), true);
+
+            $district->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
+            $district->set('created_by', EBB\getCurrentUserID(), true);
+
+            $em->persist($district);
+            $em->flush();
+
+            $added = $district->isExists();
+
+            EBB\redirect(
+                EBB\addQueryArgs(
+                    EBB\getAddDistrictURL(),
+                    array('flag-added' => $added)
+                )
+            );
+        } catch (InvalidArgumentException $ex) {
+            Notices::addNotice('invalid_district_argument', $ex->getMessage());
         }
     }
 

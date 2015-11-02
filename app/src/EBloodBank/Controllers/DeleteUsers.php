@@ -35,14 +35,7 @@ class DeleteUsers extends Controller
             $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($usersIDs) && is_array($usersIDs)) {
                 $userRepository = main()->getEntityManager()->getRepository('Entities:User');
-                foreach($usersIDs as $userID) {
-                    if (EBB\isValidID($userID)) {
-                        $user = $userRepository->find($userID);
-                        if (! empty($user)) {
-                            $this->users[$userID] = $user;
-                        }
-                    }
-                }
+                $this->users = $userRepository->findBy(['id' => $usersIDs]);
             }
         }
     }
@@ -53,7 +46,8 @@ class DeleteUsers extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('delete_user')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser && $currentUser->canDeleteUsers()) {
             $this->doActions();
             $view = View::forge('delete-users', [
                 'users' => $this->getQueriedUsers(),
@@ -83,43 +77,47 @@ class DeleteUsers extends Controller
      */
     protected function doDeleteAction()
     {
-        if (EBB\isCurrentUserCan('delete_user')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $currentUser = EBB\getCurrentUser();
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $users = $this->getQueriedUsers();
-
-            if (empty($users)) {
-                return;
-            }
-
-            $deletedUsersCount = 0;
-            $em = main()->getEntityManager();
-            $currentUserID = EBB\getCurrentUserID();
-
-            foreach($users as $user) {
-                if ($user->get('id') == $currentUserID) {
-                    return;
-                }
-
-                $em->remove($user);
-                $deletedUsersCount++;
-            }
-
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditUsersURL(),
-                    array('flag-deleted' => $deletedUsersCount)
-                )
-            );
+        if (! $currentUser || ! $currentUser->canDeleteUsers()) {
+            return;
         }
+
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
+
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
+        }
+
+        $users = $this->getQueriedUsers();
+
+        if (empty($users)) {
+            return;
+        }
+
+        $deletedUsersCount = 0;
+        $em = main()->getEntityManager();
+        $currentUserID = EBB\getCurrentUserID();
+
+        foreach($users as $user) {
+            if ($user->get('id') == $currentUserID) {
+                return;
+            }
+
+            $em->remove($user);
+            $deletedUsersCount++;
+        }
+
+        $em->flush();
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditUsersURL(),
+                array('flag-deleted' => $deletedUsersCount)
+            )
+        );
     }
 
     /**

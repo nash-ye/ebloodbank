@@ -44,17 +44,14 @@ class EditCity extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('edit_city')) {
-            $city = $this->getQueriedCity();
-            if (! empty($city)) {
-                $this->doActions();
-                $this->addNotices();
-                $view = View::forge('edit-city', [
-                    'city' => $city,
-                ]);
-            } else {
-                $view = View::forge('error-404');
-            }
+        $currentUser = EBB\getCurrentUser();
+        $city = $this->getQueriedCity();
+        if ($currentUser && $currentUser->canEditCity($city)) {
+            $this->doActions();
+            $this->addNotices();
+            $view = View::forge('edit-city', [
+                'city' => $city,
+            ]);
         } else {
             $view = View::forge('error-403');
         }
@@ -91,42 +88,45 @@ class EditCity extends Controller
      */
     protected function doSubmitAction()
     {
-        if (EBB\isCurrentUserCan('edit_city')) {
-            try {
-                $city = $this->getQueriedCity();
-                $cityID = $this->getQueriedCityID();
+        try {
+            $session = main()->getSession();
+            $sessionToken = $session->getCsrfToken();
+            $actionToken = filter_input(INPUT_POST, 'token');
 
-                $session = main()->getSession();
-                $sessionToken = $session->getCsrfToken();
-                $actionToken = filter_input(INPUT_POST, 'token');
-
-                $em = main()->getEntityManager();
-                $cityRepository = $em->getRepository('Entities:City');
-
-                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                    return;
-                }
-
-                // Set the city name.
-                $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
-
-                $duplicateCity = $cityRepository->findOneBy(array('name' => $city->get('name')));
-
-                if (! empty($duplicateCity) && $duplicateCity->get('id') != $cityID) {
-                    throw new InvalidArgumentException(__('Please enter a unique city name.'));
-                }
-
-                $em->flush($city);
-
-                EBB\redirect(
-                    EBB\addQueryArgs(
-                        EBB\getEditCityURL($cityID),
-                        array('flag-edited' => true)
-                    )
-                );
-            } catch (InvalidArgumentException $ex) {
-                Notices::addNotice('invalid_city_argument', $ex->getMessage());
+            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                return;
             }
+
+            $currentUser = EBB\getCurrentUser();
+            $city = $this->getQueriedCity();
+            $cityID = $this->getQueriedCityID();
+
+            if (! $currentUser || ! $currentUser->canEditCity($city)) {
+                return;
+            }
+
+            $em = main()->getEntityManager();
+            $cityRepository = $em->getRepository('Entities:City');
+
+            // Set the city name.
+            $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
+
+            $duplicateCity = $cityRepository->findOneBy(['name' => $city->get('name')]);
+
+            if (! empty($duplicateCity) && $duplicateCity->get('id') != $cityID) {
+                throw new InvalidArgumentException(__('Please enter a unique city name.'));
+            }
+
+            $em->flush($city);
+
+            EBB\redirect(
+                EBB\addQueryArgs(
+                    EBB\getEditCityURL($cityID),
+                    array('flag-edited' => true)
+                )
+            );
+        } catch (InvalidArgumentException $ex) {
+            Notices::addNotice('invalid_city_argument', $ex->getMessage());
         }
     }
 

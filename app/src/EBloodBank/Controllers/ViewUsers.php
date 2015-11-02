@@ -25,7 +25,8 @@ class ViewUsers extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('view_users')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser->canViewUsers()) {
             $view = View::forge('view-users', array(
                 'users' => $this->getQueriedUsers(),
                 'pagination.total' => $this->getPagesTotal(),

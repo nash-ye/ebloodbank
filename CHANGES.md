@@ -1,2 +1,3 @@
 - New Feature: Add an option to turn on site publication.
+- Enhancement: Improve the RBAC (Role Based Access Control) mechanism.
 - New Feature: Add a form field to search for a blood group alternatives.

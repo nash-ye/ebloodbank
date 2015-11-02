@@ -36,14 +36,7 @@ class DeleteCities extends Controller
             $citiesIDs = filter_input(INPUT_POST, 'cities', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($citiesIDs) && is_array($citiesIDs)) {
                 $cityRepository = main()->getEntityManager()->getRepository('Entities:City');
-                foreach($citiesIDs as $cityID) {
-                    if (EBB\isValidID($cityID)) {
-                        $city = $cityRepository->find($cityID);
-                        if (! empty($city)) {
-                            $this->cities[$cityID] = $city;
-                        }
-                    }
-                }
+                $this->cities = $cityRepository->findBy(['id' => $citiesIDs]);
             }
         }
     }
@@ -54,7 +47,8 @@ class DeleteCities extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('delete_city')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser && $currentUser->canDeleteCities()) {
             $this->doActions();
             $view = View::forge('delete-cities', [
                 'cities' => $this->getQueriedCities(),
@@ -84,46 +78,50 @@ class DeleteCities extends Controller
      */
     protected function doDeleteAction()
     {
-        if (EBB\isCurrentUserCan('delete_city')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $currentUser = EBB\getCurrentUser();
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $cities = $this->getQueriedCities();
-
-            if (empty($cities)) {
-                return;
-            }
-
-            $deletedCitiesCount = 0;
-            $em = main()->getEntityManager();
-            $districtRepository = $em->getRepository('Entities:District');
-
-            foreach($cities as $city) {
-                $districtsCount = $districtRepository->countBy(['city' => $city]);
-
-                if ($districtsCount > 0) {
-                    Notices::addNotice('linked_districts_exists', sprintf(__('At first, delete any linked districts with city "%s".'), $city->get('name')));
-                    return;
-                }
-
-                $em->remove($city);
-                $deletedCitiesCount++;
-            }
-
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditCitiesURL(),
-                    array('flag-deleted' => $deletedCitiesCount)
-                )
-            );
+        if (! $currentUser || ! $currentUser->canDeleteCities()) {
+            return;
         }
+
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
+
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
+        }
+
+        $cities = $this->getQueriedCities();
+
+        if (empty($cities)) {
+            return;
+        }
+
+        $deletedCitiesCount = 0;
+        $em = main()->getEntityManager();
+        $districtRepository = $em->getRepository('Entities:District');
+
+        foreach($cities as $city) {
+            $districtsCount = $districtRepository->countBy(['city' => $city]);
+
+            if ($districtsCount > 0) {
+                Notices::addNotice('linked_districts_exists', sprintf(__('At first, delete any linked districts with city "%s".'), $city->get('name')));
+                return;
+            }
+
+            $em->remove($city);
+            $deletedCitiesCount++;
+        }
+
+        $em->flush();
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditCitiesURL(),
+                array('flag-deleted' => $deletedCitiesCount)
+            )
+        );
     }
 
     /**

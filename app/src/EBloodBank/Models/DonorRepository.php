@@ -122,7 +122,8 @@ class DonorRepository extends EntityRepository
         unset($criteria['city']); // Remove the city criteria in any condition.
 
         if (! isset($criteria['status'])) {
-            if (! EBB\isCurrentUserCan('approve_donor')) {
+            $currentUser = EBB\getCurrentUser();
+            if (! $currentUser || ! $currentUser->canApproveDonors()) {
                 $criteria['status'] = 'approved';
             }
         } elseif ('any' === $criteria['status']) {

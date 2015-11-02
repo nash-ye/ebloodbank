@@ -35,14 +35,7 @@ class DeleteDonors extends Controller
             $donorsIDs = filter_input(INPUT_POST, 'donors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($donorsIDs) && is_array($donorsIDs)) {
                 $donorRepository = main()->getEntityManager()->getRepository('Entities:Donor');
-                foreach($donorsIDs as $donorID) {
-                    if (EBB\isValidID($donorID)) {
-                        $donor = $donorRepository->find($donorID);
-                        if (! empty($donor)) {
-                            $this->donors[$donorID] = $donor;
-                        }
-                    }
-                }
+                $this->donors = $donorRepository->findBy(['id' => $donorsIDs]);
             }
         }
     }
@@ -53,7 +46,8 @@ class DeleteDonors extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('delete_donor')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser && $currentUser->canDeleteDonors()) {
             $this->doActions();
             $view = View::forge('delete-donors', [
                 'donors' => $this->getQueriedDonors(),
@@ -83,38 +77,42 @@ class DeleteDonors extends Controller
      */
     protected function doDeleteAction()
     {
-        if (EBB\isCurrentUserCan('delete_donor')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $currentUser = EBB\getCurrentUser();
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $donors = $this->getQueriedDonors();
-
-            if (empty($donors)) {
-                return;
-            }
-
-            $deletedDonorsCount = 0;
-            $em = main()->getEntityManager();
-
-            foreach($donors as $donor) {
-                $em->remove($donor);
-                $deletedDonorsCount++;
-            }
-
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditDonorsURL(),
-                    array('flag-deleted' => $deletedDonorsCount)
-                )
-            );
+        if (! $currentUser || ! $currentUser->canDeleteDonors()) {
+            return;
         }
+
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
+
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
+        }
+
+        $donors = $this->getQueriedDonors();
+
+        if (empty($donors)) {
+            return;
+        }
+
+        $deletedDonorsCount = 0;
+        $em = main()->getEntityManager();
+
+        foreach($donors as $donor) {
+            $em->remove($donor);
+            $deletedDonorsCount++;
+        }
+
+        $em->flush();
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditDonorsURL(),
+                array('flag-deleted' => $deletedDonorsCount)
+            )
+        );
     }
 
     /**

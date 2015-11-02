@@ -42,10 +42,12 @@ class ApproveDonor extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('approve_donor')) {
+        $currentUser = EBB\getCurrentUser();
+        $donor = $this->getQueriedDonor();
+        if ($currentUser && $currentUser->canApproveDonor($donor)) {
             $this->doActions();
             $view = View::forge('approve-donor', [
-                'donor' => $this->getQueriedDonor(),
+                'donor' => $donor,
             ]);
         } else {
             $view = View::forge('error-403');
@@ -72,32 +74,35 @@ class ApproveDonor extends Controller
      */
     protected function doApproveAction()
     {
-        if (EBB\isCurrentUserCan('approve_donor')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $em = main()->getEntityManager();
-            $donor = $this->getQueriedDonor();
-
-            if (! $donor->isPending()) {
-                return;
-            }
-
-            $donor->set('status', 'approved');
-            $em->flush($donor);
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditDonorsURL(),
-                    array('flag-approved' => 1)
-                )
-            );
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
         }
+
+        $currentUser = EBB\getCurrentUser();
+        $donor = $this->getQueriedDonor();
+
+        if (! $currentUser || ! $currentUser->canApproveDonor($donor)) {
+            return;
+        }
+
+        if (! $donor->isPending()) {
+            return;
+        }
+
+        $em = main()->getEntityManager();
+        $donor->set('status', 'approved');
+        $em->flush($donor);
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditDonorsURL(),
+                array('flag-approved' => 1)
+            )
+        );
     }
 
     /**

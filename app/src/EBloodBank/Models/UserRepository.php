@@ -54,7 +54,8 @@ class UserRepository extends EntityRepository
     protected function parseCriteria(array $criteria)
     {
         if (! isset($criteria['status'])) {
-            if (! EBB\isCurrentUserCan('activate_user')) {
+            $currentUser = EBB\getCurrentUser();
+            if (! $currentUser || ! $currentUser->canActivateUsers()) {
                 $criteria['status'] = 'activated';
             }
         } elseif ('any' === $criteria['status']) {

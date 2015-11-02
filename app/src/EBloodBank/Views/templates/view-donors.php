@@ -50,7 +50,7 @@ $view->displayView('header', ['title' => __('Donors')]);
 				<tr>
 					<td><?php $donor->display('id') ?></td>
 					<td>
-                        <?= EBB\getDonorLink(['id' => $donor->get('id'), 'content' => $donor->get('name')]) ?>
+                        <?= EBB\getDonorLink(['donor' => $donor, 'content' => EBB\escHTML($donor->get('name')), 'fallbackContent' => true]) ?>
                         <?php if ($donor->isPending()) : ?>
                             <span class="label label-warning"><?= EBB\escHTML(__('Pending')) ?></span>
                         <?php endif; ?>

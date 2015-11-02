@@ -35,14 +35,7 @@ class ApproveDonors extends Controller
             $donorsIDs = filter_input(INPUT_POST, 'donors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($donorsIDs) && is_array($donorsIDs)) {
                 $donorRepository = main()->getEntityManager()->getRepository('Entities:Donor');
-                foreach($donorsIDs as $donorID) {
-                    if (EBB\isValidID($donorID)) {
-                        $donor = $donorRepository->find($donorID);
-                        if (! empty($donor)) {
-                            $this->donors[$donorID] = $donor;
-                        }
-                    }
-                }
+                $this->donors = $donorRepository->findBy(['id' => $donorsIDs]);
             }
         }
     }
@@ -53,7 +46,8 @@ class ApproveDonors extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('approve_donor')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser && $currentUser->canApproveDonors()) {
             $this->doActions();
             $view = View::forge('approve-donors', [
                 'donors' => $this->getQueriedDonors(),
@@ -83,42 +77,46 @@ class ApproveDonors extends Controller
      */
     protected function doApproveAction()
     {
-        if (EBB\isCurrentUserCan('approve_donor')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $donors = $this->getQueriedDonors();
-
-            if (empty($donors)) {
-                return;
-            }
-
-            $approvedDonorsCount = 0;
-            $em = main()->getEntityManager();
-
-            foreach($donors as $donor) {
-                if (empty($donor) || ! $donor->isPending()) {
-                    continue;
-                }
-
-                $donor->set('status', 'approved');
-                $approvedDonorsCount++;
-            }
-
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditDonorsURL(),
-                    array('flag-approved' => $approvedDonorsCount)
-                )
-            );
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
         }
+
+        $currentUser = EBB\getCurrentUser();
+
+        if (! $currentUser || ! $currentUser->canApproveDonors()) {
+            return;
+        }
+
+        $donors = $this->getQueriedDonors();
+
+        if (empty($donors)) {
+            return;
+        }
+
+        $approvedDonorsCount = 0;
+        $em = main()->getEntityManager();
+
+        foreach($donors as $donor) {
+            if (empty($donor) || ! $donor->isPending()) {
+                continue;
+            }
+
+            $donor->set('status', 'approved');
+            $approvedDonorsCount++;
+        }
+
+        $em->flush();
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditDonorsURL(),
+                array('flag-approved' => $approvedDonorsCount)
+            )
+        );
     }
 
     /**

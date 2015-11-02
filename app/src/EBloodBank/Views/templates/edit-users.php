@@ -44,7 +44,7 @@ $view->displayView('header', ['title' => __('Edit Users')]);
                         <input type="checkbox" name="users[]" value="<?php $user->display('id', 'attr') ?>" class="cb-select" />
                     </td>
                     <td>
-                        <?= EBB\getEditUserLink(['id' => $user->get('id'), 'content' => EBB\escHTML($user->get('name'))]) ?>
+                        <?= EBB\getEditUserLink(['user' => $user, 'content' => EBB\escHTML($user->get('name'))]) ?>
                         <?php if ($user->isPending()) : ?>
                             <span class="label label-warning"><?= EBB\escHTML(__('Pending')) ?></span>
                         <?php endif; ?>
@@ -52,9 +52,9 @@ $view->displayView('header', ['title' => __('Edit Users')]);
                     <td><?php $user->display('email') ?></td>
                     <td><?= EBB\escHTML($user->getRoleTitle()) ?></td>
                     <td>
-                        <?= EBB\getEditUserLink(['id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                        <?= EBB\getDeleteUserLink(['id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
-                        <?= EBB\getActivateUserLink(['id' => $user->get('id'), 'content' => '<i class="glyphicon glyphicon-ok"></i>']) ?>
+                        <?= EBB\getEditUserLink(['user' => $user, 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
+                        <?= EBB\getDeleteUserLink(['user' => $user, 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
+                        <?= EBB\getActivateUserLink(['user' => $user, 'content' => '<i class="glyphicon glyphicon-ok"></i>']) ?>
                     </td>
                 </tr>
 

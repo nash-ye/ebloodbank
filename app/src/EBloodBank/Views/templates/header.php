@@ -53,7 +53,7 @@ use EBloodBank\Options;
 					</ul>
 					<ul class="nav navbar-nav navbar-right flip">
                         <?php if (EBB\isUserLoggedIn()) : ?>
-                        <?= EBB\getEditUserLink(['id' => EBB\getCurrentUserID(), 'content' => sprintf(__('Hello, <b>%s</b>!'), EBB\escHTML(EBB\getCurrentUser()->get('name'))), 'before' => '<li>', 'after' => '</li>']) ?>
+                        <?= EBB\getEditUserLink(['user' => EBB\getCurrentUser(), 'content' => sprintf(__('Hello, <b>%s</b>!'), EBB\escHTML(EBB\getCurrentUser()->get('name'))), 'before' => '<li>', 'after' => '</li>']) ?>
                         <?= EBB\getLogoutLink(['before' => '<li>', 'after' => '</li>']) ?>
                         <?php else : ?>
                         <?= EBB\getLoginLink(['content' => EBB\escHTML(__('Anonymous, Log In?')), 'before' => '<li>', 'after' => '</li>']) ?>

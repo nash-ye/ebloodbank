@@ -57,7 +57,7 @@ $view->displayView('header', ['title' => __('Edit Donors')]);
                             <input type="checkbox" name="donors[]" value="<?php $donor->display('id', 'attr') ?>" class="cb-select" />
                         </td>
                         <td>
-                            <?= EBB\getEditDonorLink(['id' => $donor->get('id'), 'content' => EBB\escHTML($donor->get('name'))]) ?>
+                            <?= EBB\getEditDonorLink(['donor' => $donor, 'content' => EBB\escHTML($donor->get('name')), 'fallbackContent' => true]) ?>
                             <?php if ($donor->isPending()) : ?>
                                 <span class="label label-warning"><?= EBB\escHTML(__('Pending')) ?></span>
                             <?php endif; ?>
@@ -67,16 +67,16 @@ $view->displayView('header', ['title' => __('Edit Donors')]);
                         <td><?php $donor->display('blood_group') ?></td>
                         <td>
                             <?php $city = $donor->get('district')->get('city') ?>
-                            <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
+                            <?= EBB\getEditCityLink(['city' => $city, 'content' => EBB\escHTML($city->get('name')), 'fallbackContent' => true]) ?>
                         </td>
                         <td>
                             <?php $district = $donor->get('district') ?>
-                            <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => EBB\escHTML($district->get('name'))]) ?>
+                            <?= EBB\getEditDistrictLink(['district' => $district, 'content' => EBB\escHTML($district->get('name')), 'fallbackContent' => true]) ?>
                         </td>
                         <td>
-                            <?= EBB\getEditDonorLink(['id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                            <?= EBB\getDeleteDonorLink(['id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
-                            <?= EBB\getApproveDonorLink(['id' => $donor->get('id'), 'content' => '<i class="glyphicon glyphicon-ok"></i>']) ?>
+                            <?= EBB\getEditDonorLink(['donor' => $donor, 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
+                            <?= EBB\getDeleteDonorLink(['donor' => $donor, 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
+                            <?= EBB\getApproveDonorLink(['donor' => $donor, 'content' => '<i class="glyphicon glyphicon-ok"></i>']) ?>
                         </td>
                     </tr>
 

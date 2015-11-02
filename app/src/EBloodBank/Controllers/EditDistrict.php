@@ -44,17 +44,14 @@ class EditDistrict extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('edit_district')) {
-            $district = $this->getQueriedDistrict();
-            if (! empty($district)) {
-                $this->doActions();
-                $this->addNotices();
-                $view = View::forge('edit-district', [
-                    'district' => $district,
-                ]);
-            } else {
-                $view = View::forge('error-404');
-            }
+        $currentUser = EBB\getCurrentUser();
+        $district = $this->getQueriedDistrict();
+        if ($currentUser && $currentUser->canEditDistrict($district)) {
+            $this->doActions();
+            $this->addNotices();
+            $view = View::forge('edit-district', [
+                'district' => $district,
+            ]);
         } else {
             $view = View::forge('error-403');
         }
@@ -91,37 +88,40 @@ class EditDistrict extends Controller
      */
     protected function doSubmitAction()
     {
-        if (EBB\isCurrentUserCan('edit_district')) {
-            try {
-                $session = main()->getSession();
-                $sessionToken = $session->getCsrfToken();
-                $actionToken = filter_input(INPUT_POST, 'token');
+        try {
+            $session = main()->getSession();
+            $sessionToken = $session->getCsrfToken();
+            $actionToken = filter_input(INPUT_POST, 'token');
 
-                $district = $this->getQueriedDistrict();
-                $districtID = $this->getQueriedDistrictID();
-
-                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                    return;
-                }
-
-                // Set the district name.
-                $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
-
-                // Set the district city ID.
-                $district->set('city', filter_input(INPUT_POST, 'district_city_id'), true);
-
-                $em = main()->getEntityManager();
-                $em->flush($district);
-
-                EBB\redirect(
-                    EBB\addQueryArgs(
-                        EBB\getEditDistrictURL($districtID),
-                        array('flag-edited' => true)
-                    )
-                );
-            } catch (InvalidArgumentException $ex) {
-                Notices::addNotice('invalid_district_argument', $ex->getMessage());
+            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                return;
             }
+
+            $currentUser = EBB\getCurrentUser();
+            $district = $this->getQueriedDistrict();
+            $districtID = $this->getQueriedDistrictID();
+
+            if (! $currentUser || ! $currentUser->canEditDistrict($district)) {
+                return;
+            }
+
+            // Set the district name.
+            $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
+
+            // Set the district city ID.
+            $district->set('city', filter_input(INPUT_POST, 'district_city_id'), true);
+
+            $em = main()->getEntityManager();
+            $em->flush($district);
+
+            EBB\redirect(
+                EBB\addQueryArgs(
+                    EBB\getEditDistrictURL($districtID),
+                    array('flag-edited' => true)
+                )
+            );
+        } catch (InvalidArgumentException $ex) {
+            Notices::addNotice('invalid_district_argument', $ex->getMessage());
         }
     }
 

@@ -389,7 +389,7 @@ class Main
      */
     private function setupUserRoles()
     {
-        Roles::addRole(new Role('subscriber', __('Subscriber'), array(
+        Roles::addRole(new Role('subscriber', __('Subscriber'), [
 
             // Donors
             'view_donors'           => true,
@@ -400,13 +400,15 @@ class Main
             // Districts
             'view_districts'        => true,
 
-        )));
+        ]));
 
-        Roles::addRole(new Role('contributor', __('Contributor'), array(
+        Roles::addRole(new Role('contributor', __('Contributor'), [
 
             // Donors
             'add_donor'             => true,
+            'edit_donors'           => true,
             'view_donors'           => true,
+            'delete_donors'         => true,
 
             // Cities
             'view_cities'           => true,
@@ -414,73 +416,70 @@ class Main
             // Districts
             'view_districts'        => true,
 
-        )));
+        ]));
 
-        Roles::addRole(new Role('editor', __('Editor'), array(
+        Roles::addRole(new Role('editor', __('Editor'), [
 
             // Users
             'view_users'            => true,
 
             // Donors
             'add_donor'             => true,
-            'edit_donor'            => true,
             'edit_donors'           => true,
             'view_donors'           => true,
-            'delete_donor'          => true,
-            'approve_donor'         => true,
+            'delete_donors'         => true,
+            'approve_donors'        => true,
+            'edit_others_donors'    => true,
+            'delete_others_donors'  => true,
 
             // Cities
             'add_city'              => true,
-            'edit_city'             => true,
             'edit_cities'           => true,
             'view_cities'           => true,
-            'delete_city'           => true,
+            'delete_cities'         => true,
 
             // Districts
             'add_district'          => true,
-            'edit_district'         => true,
             'edit_districts'        => true,
             'view_districts'        => true,
-            'delete_district'       => true,
+            'delete_districts'      => true,
 
-        )));
+        ]));
 
-        Roles::addRole(new Role('administrator', __('Administrator'), array(
+        Roles::addRole(new Role('administrator', __('Administrator'), [
 
             // Users
             'add_user'              => true,
-            'edit_user'             => true,
             'edit_users'            => true,
             'view_users'            => true,
-            'delete_user'           => true,
-            'activate_user'         => true,
+            'delete_users'          => true,
+            'activate_users'        => true,
 
             // Donors
             'add_donor'             => true,
-            'edit_donor'            => true,
             'edit_donors'           => true,
             'view_donors'           => true,
-            'delete_donor'          => true,
-            'approve_donor'         => true,
+            'delete_donors'         => true,
+            'approve_donors'        => true,
+            'edit_others_donors'    => true,
+            'delete_others_donors'  => true,
 
             // Cities
             'add_city'              => true,
-            'edit_city'             => true,
             'edit_cities'           => true,
             'view_cities'           => true,
-            'delete_city'           => true,
+            'delete_cities'         => true,
 
             // Districts
             'add_district'          => true,
-            'edit_district'         => true,
             'edit_districts'        => true,
             'view_districts'        => true,
-            'delete_district'       => true,
+            'delete_districts'      => true,
 
             // Settings
             'edit_settings'         => true,
 
-        )));
+        ]));
     }
 
     /**

@@ -23,7 +23,9 @@ function getPendingUsersCountBadge(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('activate_user')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canActivateUsers()) {
         return $badge;
     }
 
@@ -58,7 +60,9 @@ function getPendingDonorsCountBadge(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('approve_donor')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canApproveDonors()) {
         return $badge;
     }
 

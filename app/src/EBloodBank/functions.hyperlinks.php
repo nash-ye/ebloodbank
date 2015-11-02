@@ -7,6 +7,11 @@
  */
 namespace EBloodBank;
 
+use EBloodBank\Models\User;
+use EBloodBank\Models\Donor;
+use EBloodBank\Models\City;
+use EBloodBank\Models\District;
+
 /*** Home Template Tags *******************************************************/
 
 /**
@@ -316,7 +321,9 @@ function getUsersLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('view_users')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canViewUsers()) {
         return $link;
     }
 
@@ -345,7 +352,9 @@ function getAddUserLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('add_user')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canAddUser()) {
         return $link;
     }
 
@@ -374,7 +383,9 @@ function getEditUsersLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('edit_users')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canEditUsers()) {
         return $link;
     }
 
@@ -397,22 +408,25 @@ function getEditUserLink(array $args)
     $link = '';
 
     $args = array_merge(array(
+        'fallbackContent' => false,
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'user' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
-        return $link;
+    if (! $args['user'] instanceof User) {
+        return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
-    if (! isCurrentUserCan('edit_user') && getCurrentUserID() != $args['id']) {
-        return $link;
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canEditUser($args['user'])) {
+        return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
-    $args['atts']['href'] = getEditUserURL($args['id']);
+    $args['atts']['href'] = getEditUserURL($args['user']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'edit-link edit-user-link';
@@ -435,22 +449,20 @@ function getDeleteUserLink(array $args)
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'user' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
+    if (! $args['user'] instanceof User) {
         return $link;
     }
 
-    if (! isCurrentUserCan('delete_user')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canDeleteUser($args['user'])) {
         return $link;
     }
 
-    if ($args['id'] === getCurrentUserID()) {
-        return $link;
-    }
-
-    $args['atts']['href'] = getDeleteUserURL($args['id']);
+    $args['atts']['href'] = getDeleteUserURL($args['user']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'delete-link delete-user-link';
@@ -473,25 +485,20 @@ function getActivateUserLink(array $args)
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'user' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
+    if (! $args['user'] instanceof User || ! $args['user']->isPending()) {
         return $link;
     }
 
-    if (! isCurrentUserCan('activate_user')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canActivateUser($args['user'])) {
         return $link;
     }
 
-    $em = main()->getEntityManager();
-    $user = $em->find('Entities:User', $args['id']);
-
-    if (! $user->isPending()) {
-        return $link;
-    }
-
-    $args['atts']['href'] = getActivateUserURL($args['id']);
+    $args['atts']['href'] = getActivateUserURL($args['user']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'activate-link activate-user-link';
@@ -617,7 +624,9 @@ function getDonorsLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if ('on' !== Options::getOption('site_publication') && ! isCurrentUserCan('view_donors')) {
+    $currentUser = getCurrentUser();
+
+    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $currentUser->canViewDonors())) {
         return $link;
     }
 
@@ -644,24 +653,24 @@ function getDonorLink(array $args = [])
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'donor' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
+    if (! $args['donor'] instanceof Donor) {
         return $link;
     }
 
-    if ('on' !== Options::getOption('site_publication') && ! isCurrentUserCan('view_donors')) {
+    $currentUser = getCurrentUser();
+
+    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $currentUser->canViewDonor($args['donor']))) {
         return $link;
     }
 
     if (empty($args['content'])) {
-        $em = main()->getEntityManager();
-        $donor = $em->find('Entities:Donor', $args['id']);
-        $args['content'] = escHTML($donor->get('name'));
+        $args['content'] = escHTML($args['donor']->get('name'));
     }
 
-    $args['atts']['href'] = getDonorURL($args['id']);
+    $args['atts']['href'] = getDonorURL($args['donor']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'view-link view-donor-link';
@@ -686,7 +695,9 @@ function getAddDonorLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('add_donor')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canAddDonor()) {
         return $link;
     }
 
@@ -715,7 +726,9 @@ function getEditDonorsLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('edit_donors')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canEditDonors()) {
         return $link;
     }
 
@@ -738,22 +751,25 @@ function getEditDonorLink(array $args)
     $link = '';
 
     $args = array_merge(array(
+        'fallbackContent' => false,
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'donor' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
-        return $link;
+    if (! $args['donor'] instanceof Donor) {
+        return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
-    if (! isCurrentUserCan('edit_donor')) {
-        return $link;
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canEditDonor($args['donor'])) {
+        return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
-    $args['atts']['href'] = getEditDonorURL($args['id']);
+    $args['atts']['href'] = getEditDonorURL($args['donor']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'edit-link edit-donor-link';
@@ -776,18 +792,20 @@ function getDeleteDonorLink(array $args)
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'donor' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
+    if (! $args['donor'] instanceof Donor) {
         return $link;
     }
 
-    if (! isCurrentUserCan('delete_donor')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canDeleteDonor($args['donor'])) {
         return $link;
     }
 
-    $args['atts']['href'] = getDeleteDonorURL($args['id']);
+    $args['atts']['href'] = getDeleteDonorURL($args['donor']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'delete-link delete-donor-link';
@@ -810,25 +828,20 @@ function getApproveDonorLink(array $args)
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'donor' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
+    if (! $args['donor'] instanceof Donor || ! $args['donor']->isPending()) {
         return $link;
     }
 
-    if (! isCurrentUserCan('approve_donor')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canApproveDonor($args['donor'])) {
         return $link;
     }
 
-    $em = main()->getEntityManager();
-    $donor = $em->find('Entities:Donor', $args['id']);
-
-    if (! $donor->isPending()) {
-        return $link;
-    }
-
-    $args['atts']['href'] = getApproveDonorURL($args['id']);
+    $args['atts']['href'] = getApproveDonorURL($args['donor']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'approve-link approve-donor-link';
@@ -919,7 +932,9 @@ function getCitiesLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if ('on' !== Options::getOption('site_publication') && ! isCurrentUserCan('view_cities')) {
+    $currentUser = getCurrentUser();
+
+    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $currentUser->canViewCities())) {
         return $link;
     }
 
@@ -948,7 +963,9 @@ function getAddCityLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('add_city')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canAddCity()) {
         return $link;
     }
 
@@ -977,7 +994,9 @@ function getEditCitiesLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('edit_cities')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canEditCities()) {
         return $link;
     }
 
@@ -1000,22 +1019,25 @@ function getEditCityLink(array $args)
     $link = '';
 
     $args = array_merge(array(
+        'fallbackContent' => false,
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'city' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
-        return $link;
+    if (! $args['city'] instanceof City) {
+        return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
-    if (! isCurrentUserCan('edit_city')) {
-        return $link;
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canEditCity($args['city'])) {
+        return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
-    $args['atts']['href'] = getEditCityURL($args['id']);
+    $args['atts']['href'] = getEditCityURL($args['city']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'edit-link edit-city-link';
@@ -1038,18 +1060,20 @@ function getDeleteCityLink(array $args)
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'city' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
+    if (! $args['city'] instanceof City) {
         return $link;
     }
 
-    if (! isCurrentUserCan('delete_city')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canDeleteCity($args['city'])) {
         return $link;
     }
 
-    $args['atts']['href'] = getDeleteCityURL($args['id']);
+    $args['atts']['href'] = getDeleteCityURL($args['city']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'delete-link delete-city-link';
@@ -1140,7 +1164,9 @@ function getDistrictsLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if ('on' !== Options::getOption('site_publication') && ! isCurrentUserCan('view_districts')) {
+    $currentUser = getCurrentUser();
+
+    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $currentUser->canViewDistricts())) {
         return $link;
     }
 
@@ -1169,7 +1195,9 @@ function getAddDistrictLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('add_district')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canAddDistrict()) {
         return $link;
     }
 
@@ -1198,7 +1226,9 @@ function getEditDistrictsLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('edit_districts')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canEditDistricts()) {
         return $link;
     }
 
@@ -1221,22 +1251,25 @@ function getEditDistrictLink(array $args)
     $link = '';
 
     $args = array_merge(array(
+        'fallbackContent' => false,
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'district' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
-        return $link;
+    if (! $args['district'] instanceof District) {
+        return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
-    if (! isCurrentUserCan('edit_district')) {
-        return $link;
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canEditDistrict($args['district'])) {
+        return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
-    $args['atts']['href'] = getEditDistrictURL($args['id']);
+    $args['atts']['href'] = getEditDistrictURL($args['district']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'edit-link edit-district-link';
@@ -1259,18 +1292,20 @@ function getDeleteDistrictLink(array $args)
         'atts' => [],
         'before' => '',
         'after' => '',
-        'id' => 0,
+        'district' => null,
     ), $args);
 
-    if (! isValidID($args['id'])) {
+    if (! $args['district'] instanceof District) {
         return $link;
     }
 
-    if (! isCurrentUserCan('delete_district')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canDeleteDistrict($args['district'])) {
         return $link;
     }
 
-    $args['atts']['href'] = getDeleteDistrictURL($args['id']);
+    $args['atts']['href'] = getDeleteDistrictURL($args['district']->get('id'));
 
     if (! isset($args['atts']['class'])) {
         $args['atts']['class'] = 'delete-link delete-district-link';
@@ -1307,7 +1342,9 @@ function getSettingsLink(array $args = [])
         'after' => '',
     ), $args);
 
-    if (! isCurrentUserCan('edit_settings')) {
+    $currentUser = getCurrentUser();
+
+    if (! $currentUser || ! $currentUser->canEditSettings()) {
         return $link;
     }
 

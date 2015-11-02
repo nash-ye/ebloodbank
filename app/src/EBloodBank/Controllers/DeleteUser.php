@@ -42,7 +42,9 @@ class DeleteUser extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('delete_user')) {
+        $currentUser = EBB\getCurrentUser();
+        $user = $this->getQueriedUser();
+        if ($currentUser && $currentUser->canDeleteUser($user)) {
             $this->doActions();
             $view = View::forge('delete-user', [
                 'user' => $this->getQueriedUser(),
@@ -72,32 +74,35 @@ class DeleteUser extends Controller
      */
     protected function doDeleteAction()
     {
-        if (EBB\isCurrentUserCan('delete_user')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $em = main()->getEntityManager();
-            $user = $this->getQueriedUser();
-
-            if ($user->get('id') == EBB\getCurrentUserID()) {
-                return;
-            }
-
-            $em->remove($user);
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditUsersURL(),
-                    array('flag-deleted' => 1)
-                )
-            );
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
         }
+
+        $currentUser = EBB\getCurrentUser();
+        $user = $this->getQueriedUser();
+
+        if (! $currentUser || ! $currentUser->canDeleteUser($user)) {
+            return;
+        }
+
+        if ($user->get('id') == $currentUser->get('id')) {
+            return;
+        }
+
+        $em = main()->getEntityManager();
+        $em->remove($user);
+        $em->flush();
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditUsersURL(),
+                array('flag-deleted' => 1)
+            )
+        );
     }
 
     /**

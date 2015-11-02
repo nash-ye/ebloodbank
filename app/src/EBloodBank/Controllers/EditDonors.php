@@ -25,7 +25,8 @@ class EditDonors extends ViewDonors
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('edit_donors')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser && $currentUser->canEditDonors()) {
             $this->doActions();
             $this->addNotices();
             $view = View::forge('edit-donors', array(

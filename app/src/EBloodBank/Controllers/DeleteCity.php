@@ -43,10 +43,12 @@ class DeleteCity extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('delete_city')) {
+        $currentUser = EBB\getCurrentUser();
+        $city = $this->getQueriedCity();
+        if ($currentUser && $currentUser->canDeleteCity($city)) {
             $this->doActions();
             $view = View::forge('delete-city', [
-                'city' => $this->getQueriedCity(),
+                'city' => $city,
             ]);
         } else {
             $view = View::forge('error-403');
@@ -73,36 +75,39 @@ class DeleteCity extends Controller
      */
     protected function doDeleteAction()
     {
-        if (EBB\isCurrentUserCan('delete_city')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $em = main()->getEntityManager();
-            $city = $this->getQueriedCity();
-
-            $districtRepository = $em->getRepository('Entities:District');
-            $districtsCount = $districtRepository->countBy(array('city' => $city));
-
-            if ($districtsCount > 0) {
-                Notices::addNotice('linked_districts_exists', __('At first, delete any linked districts with this city.'));
-                return;
-            }
-
-            $em->remove($city);
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditCitiesURL(),
-                    array('flag-deleted' => 1)
-                )
-            );
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
         }
+
+        $city = $this->getQueriedCity();
+        $currentUser = EBB\getCurrentUser();
+
+        if (! $currentUser || ! $currentUser->canDeleteCity($city)) {
+            return;
+        }
+
+        $em = main()->getEntityManager();
+        $districtRepository = $em->getRepository('Entities:District');
+        $districtsCount = $districtRepository->countBy(array('city' => $city));
+
+        if ($districtsCount > 0) {
+            Notices::addNotice('linked_districts_exists', __('At first, delete any linked districts with this city.'));
+            return;
+        }
+
+        $em->remove($city);
+        $em->flush();
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditCitiesURL(),
+                array('flag-deleted' => 1)
+            )
+        );
     }
 
     /**

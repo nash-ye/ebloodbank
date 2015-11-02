@@ -35,14 +35,7 @@ class ActivateUsers extends Controller
             $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($usersIDs) && is_array($usersIDs)) {
                 $userRepository = main()->getEntityManager()->getRepository('Entities:User');
-                foreach($usersIDs as $userID) {
-                    if (EBB\isValidID($userID)) {
-                        $user = $userRepository->find($userID);
-                        if (! empty($user)) {
-                            $this->users[$userID] = $user;
-                        }
-                    }
-                }
+                $this->users = $userRepository->findBy(['id' => $usersIDs]);
             }
         }
     }
@@ -53,7 +46,8 @@ class ActivateUsers extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('activate_user')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser && $currentUser->canActivateUsers()) {
             $this->doActions();
             $view = View::forge('activate-users', [
                 'users' => $this->getQueriedUsers(),
@@ -83,41 +77,45 @@ class ActivateUsers extends Controller
      */
     protected function doActivateAction()
     {
-        if (EBB\isCurrentUserCan('activate_user')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $users = $this->getQueriedUsers();
-
-            if (empty($users)) {
-                return;
-            }
-
-            $activatedUsersCount = 0;
-            $em = main()->getEntityManager();
-
-            foreach($users as $user) {
-                if (empty($user) || ! $user->isPending()) {
-                    continue;
-                }
-                $user->set('status', 'activated');
-                $activatedUsersCount++;
-            }
-
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditUsersURL(),
-                    array('flag-activated' => $activatedUsersCount)
-                )
-            );
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
         }
+
+        $currentUser = EBB\getCurrentUser();
+
+        if (! $currentUser || ! $currentUser->canActivateUsers()) {
+            return;
+        }
+
+        $users = $this->getQueriedUsers();
+
+        if (empty($users)) {
+            return;
+        }
+
+        $activatedUsersCount = 0;
+        $em = main()->getEntityManager();
+
+        foreach($users as $user) {
+            if (empty($user) || ! $user->isPending()) {
+                continue;
+            }
+            $user->set('status', 'activated');
+            $activatedUsersCount++;
+        }
+
+        $em->flush();
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditUsersURL(),
+                array('flag-activated' => $activatedUsersCount)
+            )
+        );
     }
 
     /**

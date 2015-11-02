@@ -44,11 +44,11 @@ $view->displayView('header', ['title' => __('Edit Cities')]);
                         <input type="checkbox" name="cities[]" value="<?php $city->display('id', 'attr') ?>" class="cb-select" />
                     </td>
                     <td>
-                        <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
+                        <?= EBB\getEditCityLink(['city' => $city, 'content' => EBB\escHTML($city->get('name')), 'fallbackContent' => true]) ?>
                     </td>
                     <td>
-                        <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                        <?= EBB\getDeleteCityLink(['id' => $city->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
+                        <?= EBB\getEditCityLink(['city' => $city, 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
+                        <?= EBB\getDeleteCityLink(['city' => $city, 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
                     </td>
                 </tr>
 

@@ -44,7 +44,8 @@ class AddCity extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('add_city')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser && $currentUser->canAddCity()) {
             $this->doActions();
             $this->addNotices();
             $city = $this->getQueriedCity();
@@ -87,50 +88,53 @@ class AddCity extends Controller
      */
     protected function doSubmitAction()
     {
-        if (EBB\isCurrentUserCan('add_city')) {
-            try {
-                $city = $this->getQueriedCity();
+        try {
+            $currentUser = EBB\getCurrentUser();
 
-                $session = main()->getSession();
-                $sessionToken = $session->getCsrfToken();
-                $actionToken = filter_input(INPUT_POST, 'token');
-
-                $em = main()->getEntityManager();
-                $cityRepository = $em->getRepository('Entities:City');
-
-                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                    return;
-                }
-
-                // Set the city name.
-                $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
-
-                $duplicateCity = $cityRepository->findOneBy(array('name' => $city->get('name')));
-
-                if (! empty($duplicateCity)) {
-                    throw new InvalidArgumentException(__('Please enter a unique city name.'));
-                }
-
-                // Set the creation date.
-                $city->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
-
-                // Set the creator ID.
-                $city->set('created_by', EBB\getCurrentUserID(), true);
-
-                $em->persist($city);
-                $em->flush();
-
-                $added = $city->isExists();
-
-                EBB\redirect(
-                    EBB\addQueryArgs(
-                        EBB\getAddCityURL(),
-                        array('flag-added' => $added)
-                    )
-                );
-            } catch (InvalidArgumentException $ex) {
-                Notices::addNotice('invalid_city_argument', $ex->getMessage());
+            if (! $currentUser || ! $currentUser->canAddCity()) {
+                return;
             }
+
+            $session = main()->getSession();
+            $sessionToken = $session->getCsrfToken();
+            $actionToken = filter_input(INPUT_POST, 'token');
+
+            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                return;
+            }
+
+            $em = main()->getEntityManager();
+            $city = $this->getQueriedCity();
+            $cityRepository = $em->getRepository('Entities:City');
+
+            // Set the city name.
+            $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
+
+            $duplicateCity = $cityRepository->findOneBy(array('name' => $city->get('name')));
+
+            if (! empty($duplicateCity)) {
+                throw new InvalidArgumentException(__('Please enter a unique city name.'));
+            }
+
+            // Set the creation date.
+            $city->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
+
+            // Set the creator ID.
+            $city->set('created_by', EBB\getCurrentUserID(), true);
+
+            $em->persist($city);
+            $em->flush();
+
+            $added = $city->isExists();
+
+            EBB\redirect(
+                EBB\addQueryArgs(
+                    EBB\getAddCityURL(),
+                    array('flag-added' => $added)
+                )
+            );
+        } catch (InvalidArgumentException $ex) {
+            Notices::addNotice('invalid_city_argument', $ex->getMessage());
         }
     }
 

@@ -25,7 +25,8 @@ class ViewDonors extends Controller
      */
     public function __invoke()
     {
-        if ('on' === EBB\Options::getOption('site_publication') || EBB\isCurrentUserCan('view_donors')) {
+        $currentUser = EBB\getCurrentUser();
+        if ('on' === EBB\Options::getOption('site_publication') || $currentUser->canViewDonors()) {
             $view = View::forge('view-donors', array(
                 'donors' => $this->getQueriedDonors(),
                 'pagination.total' => $this->getPagesTotal(),

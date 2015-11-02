@@ -25,7 +25,8 @@ class EditCities extends ViewCities
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('edit_cities')) {
+        $currentUser = EBB\getCurrentUser();
+        if ($currentUser && $currentUser->canEditCities()) {
             $this->doActions();
             $this->addNotices();
             $view = View::forge('edit-cities', array(

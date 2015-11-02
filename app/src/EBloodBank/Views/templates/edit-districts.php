@@ -45,14 +45,14 @@ $view->displayView('header', ['title' => __('Edit Districts')]);
                         <input type="checkbox" name="districts[]" value="<?php $district->display('id', 'attr') ?>" class="cb-select" />
                     </td>
                     <td>
-                        <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => EBB\escHTML($district->get('name'))]) ?>
+                        <?= EBB\getEditDistrictLink(['district' => $district, 'content' => EBB\escHTML($district->get('name')), 'fallbackContent' => true]) ?>
                     <td>
                         <?php $city = $district->get('city') ?>
-                        <?= EBB\getEditCityLink(['id' => $city->get('id'), 'content' => EBB\escHTML($city->get('name'))]) ?>
+                        <?= EBB\getEditCityLink(['city' => $city, 'content' => EBB\escHTML($city->get('name')), 'fallbackContent' => true]) ?>
                     </td>
                     <td>
-                        <?= EBB\getEditDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                        <?= EBB\getDeleteDistrictLink(['id' => $district->get('id'), 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
+                        <?= EBB\getEditDistrictLink(['district' => $district, 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
+                        <?= EBB\getDeleteDistrictLink(['district' => $district, 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
                     </td>
                 </tr>
 

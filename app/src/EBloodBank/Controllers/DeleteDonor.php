@@ -42,10 +42,12 @@ class DeleteDonor extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('delete_donor')) {
+        $currentUser = EBB\getCurrentUser();
+        $donor = $this->getQueriedDonor();
+        if ($currentUser && $currentUser->canDeleteDonor($donor)) {
             $this->doActions();
             $view = View::forge('delete-donor', [
-                'donor' => $this->getQueriedDonor(),
+                'donor' => $donor,
             ]);
         } else {
             $view = View::forge('error-403');
@@ -72,28 +74,31 @@ class DeleteDonor extends Controller
      */
     protected function doDeleteAction()
     {
-        if (EBB\isCurrentUserCan('delete_donor')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $em = main()->getEntityManager();
-            $donor = $this->getQueriedDonor();
-
-            $em->remove($donor);
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditDonorsURL(),
-                    array('flag-deleted' => 1)
-                )
-            );
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
         }
+
+        $currentUser = EBB\getCurrentUser();
+        $donor = $this->getQueriedDonor();
+
+        if (! $currentUser || ! $currentUser->canDeleteDonor($donor)) {
+            return;
+        }
+
+        $em = main()->getEntityManager();
+        $em->remove($donor);
+        $em->flush();
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditDonorsURL(),
+                array('flag-deleted' => 1)
+            )
+        );
     }
 
     /**

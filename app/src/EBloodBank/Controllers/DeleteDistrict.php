@@ -42,10 +42,12 @@ class DeleteDistrict extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('delete_district')) {
+        $currentUser = EBB\getCurrentUser();
+        $district = $this->getQueriedDistrict();
+        if ($currentUser && $currentUser->canDeleteDistrict($district)) {
             $this->doActions();
             $view = View::forge('delete-district', [
-                'district' => $this->getQueriedDistrict(),
+                'district' => $district,
             ]);
         } else {
             $view = View::forge('error-403');
@@ -72,36 +74,39 @@ class DeleteDistrict extends Controller
      */
     protected function doDeleteAction()
     {
-        if (EBB\isCurrentUserCan('delete_district')) {
-            $session = main()->getSession();
-            $sessionToken = $session->getCsrfToken();
-            $actionToken = filter_input(INPUT_POST, 'token');
+        $session = main()->getSession();
+        $sessionToken = $session->getCsrfToken();
+        $actionToken = filter_input(INPUT_POST, 'token');
 
-            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                return;
-            }
-
-            $em = main()->getEntityManager();
-            $district = $this->getQueriedDistrict();
-
-            $donorRepository = $em->getRepository('Entities:Donor');
-            $donorsCount = $donorRepository->countBy(array('district' => $district));
-
-            if ($donorsCount > 0) {
-                Notices::addNotice('linked_donors_exists', __('At first, delete any linked donors with this district.'));
-                return;
-            }
-
-            $em->remove($district);
-            $em->flush();
-
-            EBB\redirect(
-                EBB\addQueryArgs(
-                    EBB\getEditDistrictsURL(),
-                    array('flag-deleted' => 1)
-                )
-            );
+        if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+            return;
         }
+
+        $currentUser = EBB\getCurrentUser();
+        $district = $this->getQueriedDistrict();
+
+        if (! $currentUser || ! $currentUser->canDeleteDistrict($district)) {
+            return;
+        }
+
+        $em = main()->getEntityManager();
+        $donorRepository = $em->getRepository('Entities:Donor');
+        $donorsCount = $donorRepository->countBy(array('district' => $district));
+
+        if ($donorsCount > 0) {
+            Notices::addNotice('linked_donors_exists', __('At first, delete any linked donors with this district.'));
+            return;
+        }
+
+        $em->remove($district);
+        $em->flush();
+
+        EBB\redirect(
+            EBB\addQueryArgs(
+                EBB\getEditDistrictsURL(),
+                array('flag-deleted' => 1)
+            )
+        );
     }
 
     /**

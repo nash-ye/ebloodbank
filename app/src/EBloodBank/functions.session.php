@@ -52,22 +52,3 @@ function getCurrentUserID()
 
     return $userID;
 }
-
-/**
- * @return bool
- * @since 1.0
- */
-function isCurrentUserCan($cap)
-{
-    if (empty($cap)) {
-        return false;
-    }
-
-    $currentUser = getCurrentUser();
-
-    if (empty($currentUser)) {
-        return false;
-    }
-
-    return $currentUser->hasCapability($cap);
-}

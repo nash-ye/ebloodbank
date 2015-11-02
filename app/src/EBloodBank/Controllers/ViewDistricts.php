@@ -25,7 +25,8 @@ class ViewDistricts extends Controller
      */
     public function __invoke()
     {
-        if ('on' === EBB\Options::getOption('site_publication') || EBB\isCurrentUserCan('view_districts')) {
+        $currentUser = EBB\getCurrentUser();
+        if ('on' === EBB\Options::getOption('site_publication') || $currentUser->canViewDistricts()) {
             $view = View::forge('view-districts', array(
                 'districts' => $this->getQueriedDistricts(),
                 'pagination.total' => $this->getPagesTotal(),

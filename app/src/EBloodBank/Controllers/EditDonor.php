@@ -44,17 +44,14 @@ class EditDonor extends Controller
      */
     public function __invoke()
     {
-        if (EBB\isCurrentUserCan('edit_donor')) {
-            $donor = $this->getQueriedDonor();
-            if (! empty($donor)) {
-                $this->doActions();
-                $this->addNotices();
-                $view = View::forge('edit-donor', array(
-                    'donor' => $donor,
-                ));
-            } else {
-                $view = View::forge('error-404');
-            }
+        $currentUser = EBB\getCurrentUser();
+        $donor = $this->getQueriedDonor();
+        if ($currentUser && $currentUser->canEditDonor($donor)) {
+            $this->doActions();
+            $this->addNotices();
+            $view = View::forge('edit-donor', array(
+                'donor' => $donor,
+            ));
         } else {
             $view = View::forge('error-403');
         }
@@ -91,58 +88,66 @@ class EditDonor extends Controller
      */
     protected function doSubmitAction()
     {
-        if (EBB\isCurrentUserCan('edit_donor')) {
-            try {
-                $donor = $this->getQueriedDonor();
-                $donorID = $this->getQueriedDonorID();
+        try {
+            $session = main()->getSession();
+            $sessionToken = $session->getCsrfToken();
+            $actionToken = filter_input(INPUT_POST, 'token');
 
-                $session = main()->getSession();
-                $sessionToken = $session->getCsrfToken();
-                $actionToken = filter_input(INPUT_POST, 'token');
-
-                if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
-                    return;
-                }
-
-                // Set the donor name.
-                $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
-
-                // Set the donor gender.
-                $donor->set('gender', filter_input(INPUT_POST, 'donor_gender'), true);
-
-                // Set the donor birthdate.
-                $donor->set('birthdate', filter_input(INPUT_POST, 'donor_birthdate'), true);
-
-                // Set the donor blood group.
-                $donor->set('blood_group', filter_input(INPUT_POST, 'donor_blood_group'), true);
-
-                // Set the donor district ID.
-                $donor->set('district', filter_input(INPUT_POST, 'donor_district_id'), true);
-
-                // Set the donor weight.
-                $donor->updateMeta('weight', filter_input(INPUT_POST, 'donor_weight'), $donor->getMeta('weight'), true);
-
-                // Set the donor email address.
-                $donor->updateMeta('email', filter_input(INPUT_POST, 'donor_email'), $donor->getMeta('email'), true);
-
-                // Set the donor phone number.
-                $donor->updateMeta('phone', filter_input(INPUT_POST, 'donor_phone'), $donor->getMeta('phone'), true);
-
-                // Set the donor address.
-                $donor->updateMeta('address', filter_input(INPUT_POST, 'donor_address'), $donor->getMeta('address'), true);
-
-                $em = main()->getEntityManager();
-                $em->flush($donor);
-
-                EBB\redirect(
-                    EBB\addQueryArgs(
-                        EBB\getEditDonorURL($donorID),
-                        array('flag-edited' => true)
-                    )
-                );
-            } catch (InvalidArgumentException $ex) {
-                Notices::addNotice('invalid_donor_argument', $ex->getMessage());
+            if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
+                return;
             }
+
+            $currentUser = EBB\getCurrentUser();
+            $donor = $this->getQueriedDonor();
+            $donorID = $this->getQueriedDonorID();
+
+            if (! $currentUser || ! $currentUser->canEditDonor($donor)) {
+                return;
+            }
+
+            // Set the donor name.
+            $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
+
+            // Set the donor gender.
+            $donor->set('gender', filter_input(INPUT_POST, 'donor_gender'), true);
+
+            // Set the donor birthdate.
+            $donor->set('birthdate', filter_input(INPUT_POST, 'donor_birthdate'), true);
+
+            // Set the donor blood group.
+            $donor->set('blood_group', filter_input(INPUT_POST, 'donor_blood_group'), true);
+
+            // Set the donor district ID.
+            $donor->set('district', filter_input(INPUT_POST, 'donor_district_id'), true);
+
+            // Set the donor weight.
+            $donor->updateMeta('weight', filter_input(INPUT_POST, 'donor_weight'), $donor->getMeta('weight'), true);
+
+            // Set the donor email address.
+            $donor->updateMeta('email', filter_input(INPUT_POST, 'donor_email'), $donor->getMeta('email'), true);
+
+            // Set the donor phone number.
+            $donor->updateMeta('phone', filter_input(INPUT_POST, 'donor_phone'), $donor->getMeta('phone'), true);
+
+            // Set the donor address.
+            $donor->updateMeta('address', filter_input(INPUT_POST, 'donor_address'), $donor->getMeta('address'), true);
+
+            // Set the donor status.
+            if ($donor->isApproved() && ! $currentUser->canApproveDonors()) {
+                $donor->set('status', 'pending');
+            }
+
+            $em = main()->getEntityManager();
+            $em->flush($donor);
+
+            EBB\redirect(
+                EBB\addQueryArgs(
+                    EBB\getEditDonorURL($donorID),
+                    array('flag-edited' => true)
+                )
+            );
+        } catch (InvalidArgumentException $ex) {
+            Notices::addNotice('invalid_donor_argument', $ex->getMessage());
         }
     }
 
