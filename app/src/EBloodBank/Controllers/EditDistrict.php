@@ -12,6 +12,7 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Edit district page controller class
@@ -30,10 +31,11 @@ class EditDistrict extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct($id)
+    public function __construct(ContainerInterface $container, $id)
     {
+        parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $districtRepository = main()->getEntityManager()->getRepository('Entities:District');
+            $districtRepository = $container->get('entity_manager')->getRepository('Entities:District');
             $this->district = $districtRepository->find($id);
         }
     }
@@ -89,7 +91,7 @@ class EditDistrict extends Controller
     protected function doSubmitAction()
     {
         try {
-            $session = main()->getSession();
+            $session = $this->getContainer()->get('session');
             $sessionToken = $session->getCsrfToken();
             $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -105,13 +107,15 @@ class EditDistrict extends Controller
                 return;
             }
 
+            $em = $this->getContainer()->get('entity_manager');
+            $cityRepository = $em->getRepository('Entities:City');
+
             // Set the district name.
             $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
 
             // Set the district city ID.
-            $district->set('city', filter_input(INPUT_POST, 'district_city_id'), true);
+            $district->set('city', $cityRepository->find(filter_input(INPUT_POST, 'district_city_id')));
 
-            $em = main()->getEntityManager();
             $em->flush($district);
 
             EBB\redirect(

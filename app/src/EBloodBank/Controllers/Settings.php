@@ -13,6 +13,7 @@ use EBloodBank as EBB;
 use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Settings page controller class

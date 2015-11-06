@@ -15,6 +15,7 @@ use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\User;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Add user page controller class
@@ -33,9 +34,10 @@ class AddUser extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         $this->user = new User();
+        parent::__construct($container);
     }
 
     /**
@@ -95,7 +97,7 @@ class AddUser extends Controller
                 return;
             }
 
-            $session = main()->getSession();
+            $session = $this->getContainer()->get('session');
             $sessionToken = $session->getCsrfToken();
             $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -103,7 +105,7 @@ class AddUser extends Controller
                 return;
             }
 
-            $em = main()->getEntityManager();
+            $em = $this->getContainer()->get('entity_manager');
             $user = $this->getQueriedUser();
             $userRepository = $em->getRepository('Entities:User');
 

@@ -29,12 +29,15 @@ class EditDonors extends ViewDonors
         if ($currentUser && $currentUser->canEditDonors()) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('edit-donors', array(
+            $em = $this->getContainer()->get('entity_manager');
+            $view = View::forge('edit-donors', [
                 'donors' => $this->getQueriedDonors(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
                 'filter.criteria' => $this->getFilterCriteria(),
-            ));
+                'cityRepository' => $em->getRepository('Entities:City'),
+                'districtRepository' => $em->getRepository('Entities:District'),
+            ]);
         } else {
             $view = View::forge('error-403');
         }

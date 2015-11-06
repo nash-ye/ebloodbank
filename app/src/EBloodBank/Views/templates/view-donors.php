@@ -24,7 +24,9 @@ $view->displayView('header', ['title' => __('Donors')]);
     <?php
 
         $view->displayView('form-donors-filter', [
-            'criteria' => $this->get('filter.criteria')
+            'criteria'           => $this->get('filter.criteria'),
+            'cityRepository'     => $this->get('cityRepository'),
+            'districtRepository' => $this->get('districtRepository'),
         ])
 
     ?>

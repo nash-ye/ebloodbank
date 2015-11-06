@@ -4,9 +4,58 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6a885c946ce8405b8358d10a25ebe541",
-    "content-hash": "851150ea398c8e9f62bf87dd90ea4632",
+    "hash": "8084f1ad8057d972d0dbfe0273f2d0b7",
+    "content-hash": "ebce4ab93a20d7a1e119368145ca4563",
     "packages": [
+        {
+            "name": "aura/di",
+            "version": "2.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/auraphp/Aura.Di.git",
+                "reference": "c0d51c15e105c4b6df90d4c29d9e4dac6bee4d5b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/auraphp/Aura.Di/zipball/c0d51c15e105c4b6df90d4c29d9e4dac6bee4d5b",
+                "reference": "c0d51c15e105c4b6df90d4c29d9e4dac6bee4d5b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "aura": {
+                    "type": "library"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Aura\\Di\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aura.Di Contributors",
+                    "homepage": "https://github.com/auraphp/Aura.Di/contributors"
+                }
+            ],
+            "description": "Provides a dependency injection container system with native support for constructor- and setter-based injection, lazy-loading of services, and inheritable configuration of setters and constructor params.",
+            "homepage": "https://github.com/auraphp/Aura.Di",
+            "keywords": [
+                "container",
+                "dependency injection",
+                "dependency injection container",
+                "di",
+                "di container"
+            ],
+            "time": "2015-05-31 20:45:07"
+        },
         {
             "name": "aura/dispatcher",
             "version": "2.0.3",
@@ -245,16 +294,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.4.2",
+            "version": "v1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "8c434000f420ade76a07c64cbe08ca47e5c101ca"
+                "reference": "2b9cec5a5e722010cbebc91713d4c11eaa064d5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/8c434000f420ade76a07c64cbe08ca47e5c101ca",
-                "reference": "8c434000f420ade76a07c64cbe08ca47e5c101ca",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/2b9cec5a5e722010cbebc91713d4c11eaa064d5e",
+                "reference": "2b9cec5a5e722010cbebc91713d4c11eaa064d5e",
                 "shasum": ""
             },
             "require": {
@@ -275,8 +324,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Cache\\": "lib/"
+                "psr-4": {
+                    "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -311,7 +360,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-08-31 12:36:41"
+            "time": "2015-11-02 18:35:48"
         },
         {
             "name": "doctrine/collections",
@@ -777,16 +826,16 @@
         },
         {
             "name": "gettext/gettext",
-            "version": "v3.5.3",
+            "version": "v3.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oscarotero/Gettext.git",
-                "reference": "4f72cc4fcf056aade6155f634d7398ed269db48c"
+                "reference": "6162ad2e43c3f9b829ab8592fe1b9c11e9823129"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oscarotero/Gettext/zipball/4f72cc4fcf056aade6155f634d7398ed269db48c",
-                "reference": "4f72cc4fcf056aade6155f634d7398ed269db48c",
+                "url": "https://api.github.com/repos/oscarotero/Gettext/zipball/6162ad2e43c3f9b829ab8592fe1b9c11e9823129",
+                "reference": "6162ad2e43c3f9b829ab8592fe1b9c11e9823129",
                 "shasum": ""
             },
             "require": {
@@ -832,7 +881,7 @@
                 "po",
                 "translation"
             ],
-            "time": "2015-08-27 17:44:38"
+            "time": "2015-10-28 11:14:14"
         },
         {
             "name": "gettext/languages",

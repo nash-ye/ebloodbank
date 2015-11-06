@@ -1,7 +1,7 @@
 {
     "name": "nash1ye/ebloodbank",
     "description": "A Premium Blood Bank System.",
-    "version": "1.2-alpha-2",
+    "version": "1.2-alpha-3",
     "license": "GPL-3.0+",
     "type": "project",
     "authors": [
@@ -17,11 +17,12 @@
         "ext-PDO": "*",
         "ext-filter": "*",
         "ext-session": "*",
-        "aura/router": "^2.3",
-        "aura/session": "^2.0",
-        "aura/dispatcher": "^2.0",
-        "gettext/gettext": "^3.4",
-        "monolog/monolog": "^1.17",
+		"aura/di": "2.*",
+        "aura/router": "2.*",
+        "aura/session": "2.*",
+        "aura/dispatcher": "2.*",
+        "gettext/gettext": "3.*",
+        "monolog/monolog": "1.*",
         "swiftmailer/swiftmailer": "^5.4",
         "doctrine/orm": "^2.5"
     },

@@ -23,7 +23,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
      */
     public function countAll()
     {
-        return $this->countBy(array());
+        return $this->countBy([]);
     }
 
     /**
@@ -32,7 +32,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository
      * @return int
      * @since 1.0
      */
-    public function countBy($criteria = array())
+    public function countBy($criteria = [])
     {
         $em = $this->getEntityManager();
         $entityName = $this->getEntityName();

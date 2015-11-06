@@ -9,8 +9,6 @@
 
 use EBloodBank as EBB;
 
-$em = main()->getEntityManager();
-$cityRepository = $em->getRepository('Entities:City');
 ?>
 
 <?php $view->displayView('notices') ?>
@@ -31,11 +29,14 @@ $cityRepository = $em->getRepository('Entities:City');
 			<label for="district_city_id"><?= EBB\escHTML(__('City')) ?> <span class="form-required">*</span></label>
 		</div>
 		<div class="col-sm-4">
-			<select name="district_city_id" id="district_city_id" class="form-control" required>
-				<?php foreach ($cityRepository->findAll() as $city) : ?>
-                <option<?= EBB\toAttributes(['value' => $city->get('id'), 'selected' => ($city === $district->get('city'))]) ?>><?php $city->display('name') ?></option>
-				<?php endforeach; ?>
-			</select>
+            <?=
+                EBB\getCitiesDropdown([
+                    'id'       => 'district_city_id',
+                    'name'     => 'district_city_id',
+                    'selected' => $district->get('city'),
+                    'atts'     => ['class' => 'form-control', 'required' => true],
+                ])
+            ?>
 		</div>
 	</div>
 

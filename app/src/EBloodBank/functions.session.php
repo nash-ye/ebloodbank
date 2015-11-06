@@ -25,12 +25,12 @@ function getCurrentUser()
     static $user;
     $userID = 0;
 
-    $session = main()->getSession();
+    $session = Main::getInstance()->getSession();
     $segment = $session->getSegment('EBloodBank');
     $userID = (int) $segment->get('user_id', 0);
 
     if (isValidID($userID) && (! $user || $user->get('id') != $userID)) {
-        $em = main()->getEntityManager();
+        $em = Main::getInstance()->getEntityManager();
         $user = $em->find('Entities:User', $userID);
     }
 

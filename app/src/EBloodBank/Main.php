@@ -13,6 +13,8 @@ use Doctrine\ORM;
 use Doctrine\DBAL;
 use Swift_Mailer;
 use Swift_SmtpTransport;
+use Aura\Di\Factory;
+use Aura\Di\Container;
 use Aura\Router\RouterFactory;
 use Aura\Dispatcher\Dispatcher;
 use Aura\Session\SessionFactory;
@@ -25,76 +27,12 @@ use Aura\Session\SessionFactory;
 class Main
 {
     /**
-     * The main status.
+     * The main container.
      *
-     * @var string
-     * @since 1.0
+     * @var \Aura\Di\Container
+     * @since 1.2
      */
-    protected $status;
-
-    /**
-     * The logger.
-     *
-     * @var \Monolog\Logger
-     * @since 1.0
-     */
-    protected $logger;
-
-    /**
-     * The router.
-     *
-     * @var \Aura\Router\Router
-     * @since 1.0
-     */
-    protected $router;
-
-    /**
-     * The session.
-     *
-     * @var \Aura\Session\Session
-     * @since 1.0.1
-     */
-    protected $session;
-
-    /**
-     * The translator.
-     *
-     * @var \Gettext\Translator
-     * @since 1.0
-     */
-    protected $translator;
-
-    /**
-     * The database connection.
-     *
-     * @var \Doctrine\DBAL\Connection
-     * @since 1.0
-     */
-    protected $DBConnection;
-
-    /**
-     * The entity manager.
-     *
-     * @var \Doctrine\ORM\EntityManager
-     * @since 1.0
-     */
-    protected $entityManager;
-
-    /**
-     * The dispatcher.
-     *
-     * @var \Aura\Dispatcher\Dispatcher
-     * @since 1.0
-     */
-    protected $dispatcher;
-
-    /**
-     * The mailer.
-     *
-     * @var \Swift_Mailer
-     * @since 1.1
-     */
-    protected $mailer;
+    protected $container;
 
     /**
      * @access private
@@ -107,22 +45,42 @@ class Main
     /**
      * @access private
      * @return void
+     * @since 1.2
+     */
+    private function setupContainer()
+    {
+        $this->container = new Container(new Factory());
+    }
+
+    /**
+     * @return \Aura\Di\Container
+     * @since 1.2
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @access private
+     * @return void
      * @since 1.0
      */
     private function setupLogger()
     {
-        $this->logger = new Monolog\Logger('Main Logger');
+        $logger = new Monolog\Logger('Main Logger');
+        $this->getContainer()->set('logger', $logger);
 
         if (EBB_DEV_MODE) {
             $debugHandler = new Monolog\Handler\StreamHandler(EBB_APP_DIR . '/debug.log', Monolog\Logger::DEBUG);
-            $this->logger->pushHandler($debugHandler);
+            $logger->pushHandler($debugHandler);
         }
 
         $warningsHandler = new Monolog\Handler\StreamHandler(EBB_APP_DIR . '/warnings.log', Monolog\Logger::WARNING);
-        $this->logger->pushHandler($warningsHandler);
+        $logger->pushHandler($warningsHandler);
 
         // Register the logger as an exception handler, error handler and fatal error handler.
-        Monolog\ErrorHandler::register($this->logger);
+        Monolog\ErrorHandler::register($logger);
     }
 
     /**
@@ -131,7 +89,7 @@ class Main
      */
     public function getLogger()
     {
-        return $this->logger;
+        return $this->getContainer()->get('logger');
     }
 
     /**
@@ -141,8 +99,10 @@ class Main
      */
     private function setupTranslator()
     {
-        $this->translator = new Gettext\Translator();
-        $this->translator->register();
+        $translator = new Gettext\Translator();
+        $translator->register();
+
+        $this->getContainer()->set('translator', $translator);
     }
 
     /**
@@ -151,7 +111,7 @@ class Main
      */
     public function getTranslator()
     {
-        return $this->translator;
+        return $this->getContainer()->get('translator');
     }
 
     /**
@@ -163,7 +123,7 @@ class Main
     {
         $mysqlDriver = extension_loaded('pdo_mysql') ? 'pdo_mysql' : 'mysqli';
 
-        $this->DBConnection = DBAL\DriverManager::getConnection([
+        $DBConnection = DBAL\DriverManager::getConnection([
             'dbname'    => EBB_DB_NAME,
             'user'      => EBB_DB_USER,
             'password'  => EBB_DB_PASS,
@@ -172,7 +132,9 @@ class Main
             'charset'   => 'utf8',
         ]);
 
-        tryDatabaseConnection($this->DBConnection); // Try to establish the database connection.
+        $this->getContainer()->set('db_connection', $DBConnection);
+
+        tryDatabaseConnection($DBConnection); // Try to establish the database connection.
     }
 
     /**
@@ -181,7 +143,7 @@ class Main
      */
     public function getDBConnection()
     {
-        return $this->DBConnection;
+        return $this->getContainer()->get('db_connection');
     }
 
     /**
@@ -193,7 +155,7 @@ class Main
     {
         $config = ORM\Tools\Setup::createConfiguration((bool) EBB_DEV_MODE);
 
-        $entitiesPaths = array(trimTrailingSlash(EBB_APP_DIR) . '/src/EBloodBank/Models/');
+        $entitiesPaths = [trimTrailingSlash(EBB_APP_DIR) . '/src/EBloodBank/Models/'];
         $driverImpl = $config->newDefaultAnnotationDriver($entitiesPaths, true);
         $config->setMetadataDriverImpl($driverImpl);
 
@@ -203,7 +165,12 @@ class Main
         $config->setProxyNamespace('EBloodBank\Proxies');
         $config->setAutoGenerateProxyClasses(true);
 
-        $this->entityManager = ORM\EntityManager::create($this->getDBConnection(), $config);
+        $entityManager = ORM\EntityManager::create($this->getDBConnection(), $config);
+
+        $eventManager = $entityManager->getEventManager();
+        $eventManager->addEventListener(['postLoad'], new Models\EntityEventListener());
+
+        $this->getContainer()->set('entity_manager', $entityManager);
     }
 
     /**
@@ -212,26 +179,7 @@ class Main
      */
     public function getEntityManager()
     {
-        return $this->entityManager;
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
-    public function checkInstallation()
-    {
-        $connection = $this->getDBConnection();
-
-        if (! isDatabaseSelected($connection)) {
-            $this->status = 'database_not_selected';
-        } elseif (! isDatabaseConnected($connection)) {
-            $this->status = 'database_not_connected';
-        } elseif (! isAllTablesExists($connection)) {
-            $this->status = 'some_tables_not_exists';
-        } else {
-            $this->status = 'installed';
-        }
+        return $this->getContainer()->get('entity_manager');
     }
 
     /**
@@ -244,56 +192,58 @@ class Main
         $basepath = getHomeURL('relative');
 
         $routerFactory = new RouterFactory($basepath);
-        $this->router = $routerFactory->newInstance();
+        $router = $routerFactory->newInstance();
 
-        $this->router->add('home', '/');
-        $this->router->add('login', '/login/');
-        $this->router->add('logout', '/logout/');
-        $this->router->add('signup', '/signup/');
+        $router->add('home', '/');
+        $router->add('login', '/login/');
+        $router->add('logout', '/logout/');
+        $router->add('signup', '/signup/');
 
-        $this->router->add('settings', '/settings/');
+        $router->add('settings', '/settings/');
 
-        $this->router->add('view-donors', '/donors/');
-        $this->router->add('add-donor', '/add/donor/');
-        $this->router->add('view-donor', '/donor/{id}/');
-        $this->router->add('view-donor', '/donor/{id}/');
-        $this->router->add('edit-donors', '/edit/donors/');
-        $this->router->add('edit-donor', '/edit/donor/{id}/');
-        $this->router->add('delete-donors', '/delete/donors/');
-        $this->router->add('delete-donor', '/delete/donor/{id}/');
-        $this->router->add('approve-donors', '/approve/donors/');
-        $this->router->add('approve-donor', '/approve/donor/{id}/');
+        $router->add('view-donors', '/donors/');
+        $router->add('add-donor', '/add/donor/');
+        $router->add('view-donor', '/donor/{id}/');
+        $router->add('view-donor', '/donor/{id}/');
+        $router->add('edit-donors', '/edit/donors/');
+        $router->add('edit-donor', '/edit/donor/{id}/');
+        $router->add('delete-donors', '/delete/donors/');
+        $router->add('delete-donor', '/delete/donor/{id}/');
+        $router->add('approve-donors', '/approve/donors/');
+        $router->add('approve-donor', '/approve/donor/{id}/');
 
-        $this->router->add('view-users', '/users/');
-        $this->router->add('add-user', '/add/user/');
-        $this->router->add('view-user', '/user/{id}/');
-        $this->router->add('edit-users', '/edit/users/');
-        $this->router->add('edit-user', '/edit/user/{id}/');
-        $this->router->add('delete-users', '/delete/users/');
-        $this->router->add('delete-user', '/delete/user/{id}/');
-        $this->router->add('activate-users', '/activate/users/');
-        $this->router->add('activate-user', '/activate/user/{id}/');
+        $router->add('view-users', '/users/');
+        $router->add('add-user', '/add/user/');
+        $router->add('view-user', '/user/{id}/');
+        $router->add('edit-users', '/edit/users/');
+        $router->add('edit-user', '/edit/user/{id}/');
+        $router->add('delete-users', '/delete/users/');
+        $router->add('delete-user', '/delete/user/{id}/');
+        $router->add('activate-users', '/activate/users/');
+        $router->add('activate-user', '/activate/user/{id}/');
 
-        $this->router->add('view-cities', '/cities/');
-        $this->router->add('add-city', '/add/city/');
-        $this->router->add('view-city', '/city/{id}/');
-        $this->router->add('edit-cities', '/edit/cities/');
-        $this->router->add('edit-city', '/edit/city/{id}/');
-        $this->router->add('delete-cities', '/delete/cities/');
-        $this->router->add('delete-city', '/delete/city/{id}/');
+        $router->add('view-cities', '/cities/');
+        $router->add('add-city', '/add/city/');
+        $router->add('view-city', '/city/{id}/');
+        $router->add('edit-cities', '/edit/cities/');
+        $router->add('edit-city', '/edit/city/{id}/');
+        $router->add('delete-cities', '/delete/cities/');
+        $router->add('delete-city', '/delete/city/{id}/');
 
-        $this->router->add('view-districts', '/districts/');
-        $this->router->add('add-district', '/add/district/');
-        $this->router->add('view-district', '/district/{id}/');
-        $this->router->add('edit-districts', '/edit/districts/');
-        $this->router->add('edit-district', '/edit/district/{id}/');
-        $this->router->add('delete-districts', '/delete/districts/');
-        $this->router->add('delete-district', '/delete/district/{id}/');
+        $router->add('view-districts', '/districts/');
+        $router->add('add-district', '/add/district/');
+        $router->add('view-district', '/district/{id}/');
+        $router->add('edit-districts', '/edit/districts/');
+        $router->add('edit-district', '/edit/district/{id}/');
+        $router->add('delete-districts', '/delete/districts/');
+        $router->add('delete-district', '/delete/district/{id}/');
 
-        $this->router->match(
+        $router->match(
             trimTrailingSlash(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) . '/',
             $_SERVER
         );
+
+        $this->getContainer()->set('router', $router);
     }
 
     /**
@@ -302,7 +252,7 @@ class Main
      */
     public function getRouter()
     {
-        return $this->router;
+        return $this->getContainer()->get('router');
     }
 
     /**
@@ -313,7 +263,8 @@ class Main
     private function setupMailer()
     {
         $transport = Swift_SmtpTransport::newInstance();
-        $this->mailer = Swift_Mailer::newInstance($transport);
+        $mailer = Swift_Mailer::newInstance($transport);
+        $this->getContainer()->set('mailer', $mailer);
     }
 
     /**
@@ -322,7 +273,7 @@ class Main
      */
     public function getMailer()
     {
-        return $this->mailer;
+        return $this->getContainer()->get('mailer');
     }
 
     /**
@@ -359,17 +310,19 @@ class Main
     private function setupSession()
     {
         $sessionFactory = new SessionFactory();
-        $this->session = $sessionFactory->newInstance($_COOKIE);
-        if (! $this->session->isStarted()) {
-            $this->session->setName('EBB_SESSION_ID');
-            $this->session->setCookieParams([
+        $session = $sessionFactory->newInstance($_COOKIE);
+        $this->getContainer()->set('session', $session);
+
+        if (! $session->isStarted()) {
+            $session->setName('EBB_SESSION_ID');
+            $session->setCookieParams([
                 'lifetime' => 3600,
                 'path'     => parse_url(getHomeURL(), PHP_URL_PATH),
                 'domain'   => parse_url(getHomeURL(), PHP_URL_HOST),
                 'secure'   => isHTTPS(),
                 'httponly' => true,
             ]);
-            $this->session->start();
+            $session->start();
         }
     }
 
@@ -379,7 +332,7 @@ class Main
      */
     public function getSession()
     {
-        return $this->session;
+        return $this->getContainer()->get('session');
     }
 
     /**
@@ -489,112 +442,114 @@ class Main
      */
     public function setupDispatcher()
     {
+        $container = $this->getContainer();
         $controllers = [
-            'home' => function () {
-                return new Controllers\Home();
+            'home' => function () use ($container) {
+                return new Controllers\Home($container);
             },
-            'login' => function () {
-                return new Controllers\Login();
+            'login' => function () use ($container) {
+                return new Controllers\Login($container);
             },
-            'signup' => function () {
-                return new Controllers\Signup();
+            'signup' => function () use ($container) {
+                return new Controllers\Signup($container);
             },
-            'install' => function () {
-                return new Controllers\Install();
+            'install' => function () use ($container) {
+                return new Controllers\Install($container);
             },
-            'settings' => function () {
-                return new Controllers\Settings();
+            'settings' => function () use ($container) {
+                return new Controllers\Settings($container);
             },
-            'view-users' => function () {
-                return new Controllers\ViewUsers();
+            'view-users' => function () use ($container) {
+                return new Controllers\ViewUsers($container);
             },
-            'view-donors' => function () {
-                return new Controllers\ViewDonors();
+            'view-donors' => function () use ($container) {
+                return new Controllers\ViewDonors($container);
             },
-            'view-cities' => function () {
-                return new Controllers\ViewCities();
+            'view-cities' => function () use ($container) {
+                return new Controllers\ViewCities($container);
             },
-            'view-districts' => function () {
-                return new Controllers\ViewDistricts();
+            'view-districts' => function () use ($container) {
+                return new Controllers\ViewDistricts($container);
             },
-            'view-donor' => function ($id) {
-                return new Controllers\ViewDonor($id);
+            'view-donor' => function ($id) use ($container) {
+                return new Controllers\ViewDonor($container, $id);
             },
-            'add-user' => function () {
-                return new Controllers\AddUser();
+            'add-user' => function () use ($container) {
+                return new Controllers\AddUser($container);
             },
-            'add-donor' => function () {
-                return new Controllers\AddDonor();
+            'add-donor' => function () use ($container) {
+                return new Controllers\AddDonor($container);
             },
-            'add-city' => function () {
-                return new Controllers\AddCity();
+            'add-city' => function () use ($container) {
+                return new Controllers\AddCity($container);
             },
-            'add-district' => function () {
-                return new Controllers\AddDistrict();
+            'add-district' => function () use ($container) {
+                return new Controllers\AddDistrict($container);
             },
-            'edit-user' => function ($id) {
-                return new Controllers\EditUser($id);
+            'edit-user' => function ($id) use ($container) {
+                return new Controllers\EditUser($container, $id);
             },
-            'edit-donor' => function ($id) {
-                return new Controllers\EditDonor($id);
+            'edit-donor' => function ($id) use ($container) {
+                return new Controllers\EditDonor($container, $id);
             },
-            'edit-city' => function ($id) {
-                return new Controllers\EditCity($id);
+            'edit-city' => function ($id) use ($container) {
+                return new Controllers\EditCity($container, $id);
             },
-            'edit-district' => function ($id) {
-                return new Controllers\EditDistrict($id);
+            'edit-district' => function ($id) use ($container) {
+                return new Controllers\EditDistrict($container, $id);
             },
-            'delete-user' => function ($id) {
-                return new Controllers\DeleteUser($id);
+            'delete-user' => function ($id) use ($container) {
+                return new Controllers\DeleteUser($container, $id);
             },
-            'delete-donor' => function ($id) {
-                return new Controllers\DeleteDonor($id);
+            'delete-donor' => function ($id) use ($container) {
+                return new Controllers\DeleteDonor($container, $id);
             },
-            'delete-city' => function ($id) {
-                return new Controllers\DeleteCity($id);
+            'delete-city' => function ($id) use ($container) {
+                return new Controllers\DeleteCity($container, $id);
             },
-            'delete-district' => function ($id) {
-                return new Controllers\DeleteDistrict($id);
+            'delete-district' => function ($id) use ($container) {
+                return new Controllers\DeleteDistrict($container, $id);
             },
-            'activate-user' => function ($id) {
-                return new Controllers\ActivateUser($id);
+            'activate-user' => function ($id) use ($container) {
+                return new Controllers\ActivateUser($container, $id);
             },
-            'approve-donor' => function ($id) {
-                return new Controllers\ApproveDonor($id);
+            'approve-donor' => function ($id) use ($container) {
+                return new Controllers\ApproveDonor($container, $id);
             },
-            'edit-users' => function () {
-                return new Controllers\EditUsers();
+            'edit-users' => function () use ($container) {
+                return new Controllers\EditUsers($container);
             },
-            'edit-donors' => function () {
-                return new Controllers\EditDonors();
+            'edit-donors' => function () use ($container) {
+                return new Controllers\EditDonors($container);
             },
-            'edit-cities' => function () {
-                return new Controllers\EditCities();
+            'edit-cities' => function () use ($container) {
+                return new Controllers\EditCities($container);
             },
-            'edit-districts' => function () {
-                return new Controllers\EditDistricts();
+            'edit-districts' => function () use ($container) {
+                return new Controllers\EditDistricts($container);
             },
-            'delete-users' => function () {
-                return new Controllers\DeleteUsers();
+            'delete-users' => function () use ($container) {
+                return new Controllers\DeleteUsers($container);
             },
-            'delete-donors' => function () {
-                return new Controllers\DeleteDonors();
+            'delete-donors' => function () use ($container) {
+                return new Controllers\DeleteDonors($container);
             },
-            'delete-cities' => function () {
-                return new Controllers\DeleteCities();
+            'delete-cities' => function () use ($container) {
+                return new Controllers\DeleteCities($container);
             },
-            'delete-districts' => function () {
-                return new Controllers\DeleteDistricts();
+            'delete-districts' => function () use ($container) {
+                return new Controllers\DeleteDistricts($container);
             },
-            'activate-users' => function () {
-                return new Controllers\ActivateUsers();
+            'activate-users' => function () use ($container) {
+                return new Controllers\ActivateUsers($container);
             },
-            'approve-donors' => function () {
-                return new Controllers\ApproveDonors();
+            'approve-donors' => function () use ($container) {
+                return new Controllers\ApproveDonors($container);
             },
         ];
 
-        $this->dispatcher = new Dispatcher($controllers);
+        $dispatcher = new Dispatcher($controllers);
+        $this->getContainer()->set('dispatcher', $dispatcher);
     }
 
     /**
@@ -603,7 +558,7 @@ class Main
      */
     public function getDispatcher()
     {
-        return $this->dispatcher;
+        return $this->getContainer()->get('dispatcher');
     }
 
     /**
@@ -616,13 +571,13 @@ class Main
         if (isInstaller()) {
             $dispatcher([], 'install');
         } else {
-            switch ($this->getStatus()) {
-                case 'database_not_selected':
-                case 'some_tables_not_exists':
+            switch (getInstallationStatus($this->getDBConnection())) {
+                case DATABASE_NOT_SELECTED:
+                case DATABASE_TABLE_NOT_EXIST:
                     redirect(getInstallerURL());
                     break;
 
-                case 'database_not_connected':
+                case DATABASE_NOT_CONNECTED:
                     Views\View::display('error-db');
                     break;
 
@@ -642,15 +597,6 @@ class Main
         }
     }
 
-    /**
-     * @return string
-     * @since 1.0
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
     /** Singleton *************************************************************/
 
     /**
@@ -665,6 +611,9 @@ class Main
         if (is_null($instance)) {
             $instance = new self();
 
+            // Sets up the container.
+            $instance->setupContainer();
+
             // Sets up the logger.
             $instance->setupLogger();
 
@@ -676,9 +625,6 @@ class Main
 
             // Sets up the ORM entity manager.
             $instance->setupEntityManager();
-
-            // Checks the installation status.
-            $instance->checkInstallation();
 
             // Sets up the current locale.
             $instance->setupCurrentLocale();

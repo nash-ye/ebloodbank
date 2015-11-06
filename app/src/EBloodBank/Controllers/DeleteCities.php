@@ -11,6 +11,7 @@ namespace EBloodBank\Controllers;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Delete cities page controller class
@@ -29,13 +30,14 @@ class DeleteCities extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         $this->cities = [];
+        parent::__construct($container);
         if (filter_has_var(INPUT_POST, 'cities')) {
             $citiesIDs = filter_input(INPUT_POST, 'cities', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($citiesIDs) && is_array($citiesIDs)) {
-                $cityRepository = main()->getEntityManager()->getRepository('Entities:City');
+                $cityRepository = $container->get('entity_manager')->getRepository('Entities:City');
                 $this->cities = $cityRepository->findBy(['id' => $citiesIDs]);
             }
         }
@@ -84,7 +86,7 @@ class DeleteCities extends Controller
             return;
         }
 
-        $session = main()->getSession();
+        $session = $this->getContainer()->get('session');
         $sessionToken = $session->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -99,7 +101,7 @@ class DeleteCities extends Controller
         }
 
         $deletedCitiesCount = 0;
-        $em = main()->getEntityManager();
+        $em = $this->getContainer()->get('entity_manager');
         $districtRepository = $em->getRepository('Entities:District');
 
         foreach($cities as $city) {

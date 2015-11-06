@@ -10,6 +10,30 @@ namespace EBloodBank;
 use Doctrine\DBAL;
 
 /**
+ * @var int
+ * @since 1.2
+ */
+const DATABASE_INSTALLED = 0;
+
+/**
+ * @var int
+ * @since 1.2
+ */
+const DATABASE_NOT_SELECTED = 2;
+
+/**
+ * @var int
+ * @since 1.2
+ */
+const DATABASE_NOT_CONNECTED = 4;
+
+/**
+ * @var int
+ * @since 1.2
+ */
+const DATABASE_TABLE_NOT_EXIST = 8;
+
+/**
  * Try to establish a connection with the database.
  *
  * @return bool
@@ -70,4 +94,27 @@ function isAllTablesExists(DBAL\Connection $connection)
     }
 
     return true;
+}
+
+/**
+ * @return int
+ * @since 1.2
+ */
+function getInstallationStatus(DBAL\Connection $connection, $forceCheck = false)
+{
+    static $status;
+
+    if (is_null($status) || $forceCheck) {
+        if (! isDatabaseSelected($connection)) {
+            $status = DATABASE_NOT_SELECTED;
+        } elseif (! isDatabaseConnected($connection)) {
+            $status = DATABASE_NOT_CONNECTED;
+        } elseif (! isAllTablesExists($connection)) {
+            $status = DATABASE_TABLE_NOT_EXIST;
+        } else {
+            $status = DATABASE_INSTALLED;
+        }
+    }
+
+    return $status;
 }

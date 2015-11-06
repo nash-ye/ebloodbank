@@ -15,6 +15,7 @@ use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\City;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Add city page controller class
@@ -33,9 +34,10 @@ class AddCity extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         $this->city = new City();
+        parent::__construct($container);
     }
 
     /**
@@ -95,7 +97,7 @@ class AddCity extends Controller
                 return;
             }
 
-            $session = main()->getSession();
+            $session = $this->getContainer()->get('session');
             $sessionToken = $session->getCsrfToken();
             $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -103,7 +105,7 @@ class AddCity extends Controller
                 return;
             }
 
-            $em = main()->getEntityManager();
+            $em = $this->getContainer()->get('entity_manager');
             $city = $this->getQueriedCity();
             $cityRepository = $em->getRepository('Entities:City');
 
@@ -117,10 +119,10 @@ class AddCity extends Controller
             }
 
             // Set the creation date.
-            $city->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
+            $city->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
 
-            // Set the creator ID.
-            $city->set('created_by', EBB\getCurrentUserID(), true);
+            // Set the originator user.
+            $city->set('created_by', EBB\getCurrentUser());
 
             $em->persist($city);
             $em->flush();

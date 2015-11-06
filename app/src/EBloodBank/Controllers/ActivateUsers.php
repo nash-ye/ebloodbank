@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Activate users page controller class
@@ -28,13 +29,14 @@ class ActivateUsers extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         $this->users = [];
+        parent::__construct($container);
         if (filter_has_var(INPUT_POST, 'users')) {
             $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($usersIDs) && is_array($usersIDs)) {
-                $userRepository = main()->getEntityManager()->getRepository('Entities:User');
+                $userRepository = $container->get('entity_manager')->getRepository('Entities:User');
                 $this->users = $userRepository->findBy(['id' => $usersIDs]);
             }
         }
@@ -77,7 +79,7 @@ class ActivateUsers extends Controller
      */
     protected function doActivateAction()
     {
-        $session = main()->getSession();
+        $session = $this->getContainer()->get('session');
         $sessionToken = $session->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -98,7 +100,7 @@ class ActivateUsers extends Controller
         }
 
         $activatedUsersCount = 0;
-        $em = main()->getEntityManager();
+        $em = $this->getContainer()->get('entity_manager');
 
         foreach($users as $user) {
             if (empty($user) || ! $user->isPending()) {

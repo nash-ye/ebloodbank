@@ -30,7 +30,8 @@ class Install extends Controller
      */
     public function __invoke()
     {
-        if ($this->isInstalled()) {
+        $connection = $this->getContainer()->get('db_connection');
+        if (EBB\getInstallationStatus($connection) === EBB\DATABASE_INSTALLED) {
             $view = View::forge('install', array(
                 'status' => 'installed',
             ));
@@ -42,15 +43,6 @@ class Install extends Controller
             ));
         }
         $view();
-    }
-
-    /**
-     * @return bool
-     * @since 1.0
-     */
-    protected function isInstalled()
-    {
-        return (main()->getStatus() === 'installed');
     }
 
     /**
@@ -86,7 +78,7 @@ class Install extends Controller
      */
     protected function doStep1Action()
     {
-        $connection = main()->getDBConnection();
+        $connection = $this->getContainer()->get('db_connection');
         if (EBB\isDatabaseSelected($connection)) {
             EBB\tryDatabaseConnection($connection);
             if (EBB\isDatabaseConnected($connection)) {
@@ -107,7 +99,7 @@ class Install extends Controller
     protected function doStep2Action()
     {
         try {
-            $connection = main()->getDBConnection();
+            $connection = $this->getContainer()->get('db_connection');
 
             $sql = <<<'SQL'
 -- -----------------------------------------------------
@@ -258,9 +250,7 @@ SQL;
 
             $connection->exec($sql);
 
-            main()->checkInstallation();
-
-            if (main()->getStatus() === 'installed') {
+            if (EBB\getInstallationStatus($connection, true) === EBB\DATABASE_INSTALLED) {
                 /* General Options */
                 Options::addOption('site_url', EBB\getHomeURL());
                 Options::addOption('site_name', filter_input(INPUT_POST, 'site_name'), true);
@@ -303,10 +293,10 @@ SQL;
 
                 // Set the user role.
                 $user->set('role', 'administrator');
-                $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
+                $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
                 $user->set('status', 'activated');
 
-                $em = main()->getEntityManager();
+                $em = $this->getContainer()->get('entity_manager');
                 $em->persist($user);
                 $em->flush();
 

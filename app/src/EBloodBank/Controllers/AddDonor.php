@@ -17,6 +17,7 @@ use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Models\Donor;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Add donor page controller class
@@ -35,9 +36,10 @@ class AddDonor extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         $this->donor = new Donor();
+        parent::__construct($container);
     }
 
     /**
@@ -97,7 +99,7 @@ class AddDonor extends Controller
                 return;
             }
 
-            $session = main()->getSession();
+            $session = $this->getContainer()->get('session');
             $sessionToken = $session->getCsrfToken();
             $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -105,8 +107,9 @@ class AddDonor extends Controller
                 return;
             }
 
-            $em = main()->getEntityManager();
             $donor = $this->getQueriedDonor();
+            $em = $this->getContainer()->get('entity_manager');
+            $districtRepository = $em->getRepository('Entities:District');
 
             // Set the donor name.
             $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
@@ -121,10 +124,13 @@ class AddDonor extends Controller
             $donor->set('blood_group', filter_input(INPUT_POST, 'donor_blood_group'), true);
 
             // Set the donor district ID.
-            $donor->set('district', filter_input(INPUT_POST, 'donor_district_id'), true);
+            $donor->set('district', $districtRepository->find(filter_input(INPUT_POST, 'donor_district_id')));
 
-            $donor->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
-            $donor->set('created_by', EBB\getCurrentUserID(), true);
+            // Set the creation date.
+            $donor->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
+
+            // Set the originator user.
+            $donor->set('created_by', EBB\getCurrentUser());
 
             // Set the donor status.
             if ($currentUser->canApproveDonors()) {
@@ -151,7 +157,7 @@ class AddDonor extends Controller
             $added = $donor->isExists();
 
             if ($added) {
-                $mailer = main()->getMailer();
+                $mailer = $this->getContainer()->get('mailer');
                 $message = Swift_Message::newInstance();
 
                 $message->setSubject(sprintf(__('[%s] New Donor'), Options::getOption('site_name')));

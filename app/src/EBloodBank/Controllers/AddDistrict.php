@@ -15,6 +15,7 @@ use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\District;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Add district page controller class
@@ -33,9 +34,10 @@ class AddDistrict extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         $this->district = new District();
+        parent::__construct($container);
     }
 
     /**
@@ -95,7 +97,7 @@ class AddDistrict extends Controller
                 return;
             }
 
-            $session = main()->getSession();
+            $session = $this->getContainer()->get('session');
             $sessionToken = $session->getCsrfToken();
             $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -103,17 +105,21 @@ class AddDistrict extends Controller
                 return;
             }
 
-            $em = main()->getEntityManager();
             $district = $this->getQueriedDistrict();
+            $em = $this->getContainer()->get('entity_manager');
+            $cityRepository = $em->getRepository('Entities:City');
 
             // Set the district name.
             $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
 
             // Set the district city ID.
-            $district->set('city', filter_input(INPUT_POST, 'district_city_id'), true);
+            $district->set('city', $cityRepository->find(filter_input(INPUT_POST, 'district_city_id')));
 
-            $district->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
-            $district->set('created_by', EBB\getCurrentUserID(), true);
+            // Set the creation date.
+            $district->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
+
+            // Set the originator user.
+            $district->set('created_by', EBB\getCurrentUser());
 
             $em->persist($district);
             $em->flush();

@@ -62,8 +62,8 @@ class Signup extends Controller
         try {
             $user = new User();
 
-            $em = main()->getEntityManager();
-            $userRepository = $em->getRepository('Entities:User');
+            $entityManager = $this->getContainer()->get('entity_manager');
+            $userRepository = $entityManager->getRepository('Entities:User');
 
             // Set the user name.
             $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
@@ -104,14 +104,13 @@ class Signup extends Controller
             // Set the user status.
             $user->set('status', Options::getOption('new_user_status'), true);
 
-            $em = main()->getEntityManager();
-            $em->persist($user);
-            $em->flush();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             $signedup = $user->isExists();
 
             if ($signedup) {
-                $mailer = main()->getMailer();
+                $mailer = $this->getContainer()->get('mailer');
                 $message = Swift_Message::newInstance();
 
                 $message->setSubject(sprintf(__('[%s] New User Registration'), Options::getOption('site_name')));

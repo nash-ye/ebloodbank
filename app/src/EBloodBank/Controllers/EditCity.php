@@ -12,6 +12,7 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Edit city page controller class
@@ -30,10 +31,11 @@ class EditCity extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct($id)
+    public function __construct(ContainerInterface $container, $id)
     {
+        parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $cityRepository = main()->getEntityManager()->getRepository('Entities:City');
+            $cityRepository = $container->get('entity_manager')->getRepository('Entities:City');
             $this->city = $cityRepository->find($id);
         }
     }
@@ -89,7 +91,7 @@ class EditCity extends Controller
     protected function doSubmitAction()
     {
         try {
-            $session = main()->getSession();
+            $session = $this->getContainer()->get('session');
             $sessionToken = $session->getCsrfToken();
             $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -105,7 +107,7 @@ class EditCity extends Controller
                 return;
             }
 
-            $em = main()->getEntityManager();
+            $em = $this->getContainer()->get('entity_manager');
             $cityRepository = $em->getRepository('Entities:City');
 
             // Set the city name.

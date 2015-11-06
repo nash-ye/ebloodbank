@@ -21,7 +21,31 @@ trait EntityMeta
      * @var array
      * @since 1.0
      */
-    protected $meta = array();
+    protected $meta = [];
+
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     * @since 1.0
+     */
+    protected $metaEntityManager;
+
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     * @since 1.2
+     */
+    public function getMetaEntityManager()
+    {
+        return $this->metaEntityManager;
+    }
+
+    /**
+     * @return void
+     * @since 1.2
+     */
+    public function setMetaEntityManager($entityManager)
+    {
+        $this->metaEntityManager = $entityManager;
+    }
 
     /**
      * @return mixed
@@ -32,10 +56,15 @@ trait EntityMeta
         if ($single) {
             $metaValue = null;
         } else {
-            $metaValue = array();
+            $metaValue = [];
         }
 
-        $em = main()->getEntityManager();
+        $em = $this->getMetaEntityManager();
+
+        if (empty($em)) {
+            return $metaValue;
+        }
+
         $connection = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
@@ -93,7 +122,12 @@ trait EntityMeta
      */
     public function addMeta($metaKey, $metaValue, $sanitize = false, $validate = true)
     {
-        $em = main()->getEntityManager();
+        $em = $this->getMetaEntityManager();
+
+        if (empty($em)) {
+            return false;
+        }
+
         $connection = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
@@ -115,11 +149,11 @@ trait EntityMeta
             return false;
         }
 
-        $data = array(
+        $data = [
             $eIDColumnName  => $eID,
             'meta_value'    => $metaValue,
             'meta_key'      => $metaKey,
-        );
+        ];
 
         $inserted = (bool) $connection->insert($eMetaTableName, $data);
         $metaID = ($inserted) ? (int) $connection->lastInsertId() : 0;
@@ -133,7 +167,12 @@ trait EntityMeta
      */
     public function updateMeta($metaKey, $metaValue, $currentMetaValue = null, $sanitize = false, $validate = true)
     {
-        $em = main()->getEntityManager();
+        $em = $this->getMetaEntityManager();
+
+        if (empty($em)) {
+            return false;
+        }
+
         $connection = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
@@ -155,14 +194,14 @@ trait EntityMeta
             return false;
         }
 
-        $data = array(
+        $data = [
             'meta_value' => $metaValue,
-        );
+        ];
 
-        $criteria = array(
+        $criteria = [
             $eIDColumnName => $eID,
             'meta_key'     => $metaKey,
-        );
+        ];
 
         if (! is_null($currentMetaValue)) {
             $criteria['meta_value'] = $currentMetaValue;
@@ -179,7 +218,12 @@ trait EntityMeta
      */
     public function deleteMeta($metaKey, $metaValue = null)
     {
-        $em = main()->getEntityManager();
+        $em = $this->getMetaEntityManager();
+
+        if (empty($em)) {
+            return false;
+        }
+
         $connection = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
@@ -193,10 +237,10 @@ trait EntityMeta
             return false;
         }
 
-        $criteria = array(
+        $criteria = [
             $eIDColumnName => $eID,
             'meta_key'     => $metaKey,
-        );
+        ];
 
         if (! is_null($metaValue)) {
             $criteria['meta_value'] = $metaValue;

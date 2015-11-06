@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Delete users page controller class
@@ -28,13 +29,14 @@ class DeleteUsers extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         $this->users = [];
+        parent::__construct($container);
         if (filter_has_var(INPUT_POST, 'users')) {
             $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($usersIDs) && is_array($usersIDs)) {
-                $userRepository = main()->getEntityManager()->getRepository('Entities:User');
+                $userRepository = $container->get('entity_manager')->getRepository('Entities:User');
                 $this->users = $userRepository->findBy(['id' => $usersIDs]);
             }
         }
@@ -83,7 +85,7 @@ class DeleteUsers extends Controller
             return;
         }
 
-        $session = main()->getSession();
+        $session = $this->getContainer()->get('session');
         $sessionToken = $session->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -98,7 +100,7 @@ class DeleteUsers extends Controller
         }
 
         $deletedUsersCount = 0;
-        $em = main()->getEntityManager();
+        $em = $this->getContainer()->get('entity_manager');
         $currentUserID = EBB\getCurrentUserID();
 
         foreach($users as $user) {

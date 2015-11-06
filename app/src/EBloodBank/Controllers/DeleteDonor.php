@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Delete donor page controller class
@@ -28,10 +29,11 @@ class DeleteDonor extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct($id)
+    public function __construct(ContainerInterface $container, $id)
     {
+        parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $donorRepository = main()->getEntityManager()->getRepository('Entities:Donor');
+            $donorRepository = $container->get('entity_manager')->getRepository('Entities:Donor');
             $this->donor = $donorRepository->find($id);
         }
     }
@@ -74,7 +76,7 @@ class DeleteDonor extends Controller
      */
     protected function doDeleteAction()
     {
-        $session = main()->getSession();
+        $session = $this->getContainer()->get('session');
         $sessionToken = $session->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -89,7 +91,7 @@ class DeleteDonor extends Controller
             return;
         }
 
-        $em = main()->getEntityManager();
+        $em = $this->getContainer()->get('entity_manager');
         $em->remove($donor);
         $em->flush();
 

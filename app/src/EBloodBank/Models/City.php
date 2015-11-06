@@ -62,7 +62,7 @@ class City extends Entity
      *
      * @OneToMany(targetEntity="EBloodBank\Models\District", mappedBy="city")
      */
-    protected $districts = array();
+    protected $districts = [];
 
     /**
      * @return bool
@@ -90,10 +90,6 @@ class City extends Entity
             case 'created_at':
                 break;
             case 'created_by':
-                if (EBB\isValidID($value)) {
-                    $em = main()->getEntityManager();
-                    $value = $em->find('Entities:User', $value);
-                }
                 break;
         }
         return $value;

@@ -8,6 +8,8 @@
  */
 namespace EBloodBank\Controllers;
 
+use Aura\Di\ContainerInterface;
+
 /**
  * Abstract controller class
  *
@@ -15,4 +17,27 @@ namespace EBloodBank\Controllers;
  */
 abstract class Controller
 {
+    /**
+     * @var \Aura\Di\ContainerInterface
+     * @since 1.2
+     */
+    protected $container;
+
+    /**
+     * @return void
+     * @since 1.2
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->getContainer = $container;
+    }
+
+    /**
+     * @var \Aura\Di\ContainerInterface
+     * @since 1.2
+     */
+    public function getContainer()
+    {
+        return $this->getContainer;
+    }
 }

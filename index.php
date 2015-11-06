@@ -5,7 +5,7 @@
  * @author    Nashwan Doaqan<nashwan.doaqan@gmail.com>
  * @license   http://www.gnu.org/licenses/gpl.txt GPL-3.0+
  * @copyright (c) 2015, Nashwan Doaqan
- * @version   1.2-alpha-2
+ * @version   1.2-alpha-3
  */
 
 /**
@@ -26,5 +26,3 @@ define('EBB_DIR', dirname(__FILE__));
 
 // Load eBloodBank bootstrapper.
 require EBB_DIR . '/app/bootstrap.php';
-
-main();

@@ -34,11 +34,12 @@ class Options
      */
     public static function getOption($name)
     {
-        if (main()->getStatus() !== 'installed') {
+        $em = Main::getInstance()->getEntityManager();
+
+        if (getInstallationStatus($em->getConnection()) !== DATABASE_INSTALLED) {
             return;
         }
 
-        $em = main()->getEntityManager();
         $var = $em->find('Entities:Variable', $name);
 
         if (! empty($var)) {
@@ -55,10 +56,6 @@ class Options
      */
     public static function addOption($name, $value, $sanitize = false, $validate = true)
     {
-        if (main()->getStatus() !== 'installed') {
-            return false;
-        }
-
         if ($sanitize) {
             $value = self::sanitizeOption($name, $value);
         }
@@ -67,7 +64,12 @@ class Options
             return false;
         }
 
-        $em = main()->getEntityManager();
+        $em = Main::getInstance()->getEntityManager();
+
+        if (getInstallationStatus($em->getConnection()) !== DATABASE_INSTALLED) {
+            return false;
+        }
+
         $var = $em->find('Entities:Variable', $name);
 
         if (! empty($var)) {
@@ -93,10 +95,6 @@ class Options
      */
     public static function updateOption($name, $value, $sanitize = false, $validate = true)
     {
-        if (main()->getStatus() !== 'installed') {
-            return false;
-        }
-
         if ($sanitize) {
             $value = self::sanitizeOption($name, $value);
         }
@@ -105,7 +103,12 @@ class Options
             return false;
         }
 
-        $em = main()->getEntityManager();
+        $em = Main::getInstance()->getEntityManager();
+
+        if (getInstallationStatus($em->getConnection()) !== DATABASE_INSTALLED) {
+            return false;
+        }
+
         $var = $em->find('Entities:Variable', $name);
 
         if (empty($var)) {
@@ -128,12 +131,6 @@ class Options
      */
     public static function submitOption($name, $value, $sanitize = false, $validate = true)
     {
-        if (main()->getStatus() !== 'installed') {
-            return false;
-        }
-
-        $em = main()->getEntityManager();
-
         if ('' === strval($value)) {
             return self::deleteOption($name);
         } else {
@@ -155,11 +152,12 @@ class Options
      */
     public static function deleteOption($name)
     {
-        if (main()->getStatus() !== 'installed') {
+        $em = Main::getInstance()->getEntityManager();
+
+        if (getInstallationStatus($em->getConnection()) !== DATABASE_INSTALLED) {
             return false;
         }
 
-        $em = main()->getEntityManager();
         $var = $em->getReference('Entities:Variable', $name);
 
         if (empty($var)) {

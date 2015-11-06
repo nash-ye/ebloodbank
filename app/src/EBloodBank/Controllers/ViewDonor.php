@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * View donor page controller class
@@ -28,10 +29,11 @@ class ViewDonor extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct($id)
+    public function __construct(ContainerInterface $container, $id)
     {
+        parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $donorRepository = main()->getEntityManager()->getRepository('Entities:Donor');
+            $donorRepository = $container->get('entity_manager')->getRepository('Entities:Donor');
             $this->donor = $donorRepository->find($id);
         }
     }

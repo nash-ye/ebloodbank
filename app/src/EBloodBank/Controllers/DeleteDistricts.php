@@ -11,6 +11,7 @@ namespace EBloodBank\Controllers;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Delete districts page controller class
@@ -29,13 +30,14 @@ class DeleteDistricts extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
+        parent::__construct($container);
         $this->districts = [];
         if (filter_has_var(INPUT_POST, 'districts')) {
             $districtsIDs = filter_input(INPUT_POST, 'districts', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($districtsIDs) && is_array($districtsIDs)) {
-                $districtRepository = main()->getEntityManager()->getRepository('Entities:District');
+                $districtRepository = $container->get('entity_manager')->getRepository('Entities:District');
                 $this->districts = $districtRepository->findBy(['id' => $districtsIDs]);
             }
         }
@@ -84,7 +86,7 @@ class DeleteDistricts extends Controller
             return;
         }
 
-        $session = main()->getSession();
+        $session = $this->getContainer()->get('session');
         $sessionToken = $session->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -99,7 +101,7 @@ class DeleteDistricts extends Controller
         }
 
         $deletedDistrictsCount = 0;
-        $em = main()->getEntityManager();
+        $em = $this->getContainer()->get('entity_manager');
         $donorRepository = $em->getRepository('Entities:Donor');
 
         foreach($districts as $district) {

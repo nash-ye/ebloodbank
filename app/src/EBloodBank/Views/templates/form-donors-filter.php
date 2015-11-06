@@ -8,7 +8,6 @@
  */
 
 use EBloodBank as EBB;
-use EBloodBank\Models\Donor;
 
 $criteria = array_merge([
     'city'                     => -1,
@@ -17,9 +16,8 @@ $criteria = array_merge([
     'blood_group_alternatives' => false,
 ], (array) $view->get('criteria'));
 
-$em = main()->getEntityManager();
-$cityRepository = $em->getRepository('Entities:City');
-$districtRepository = $em->getRepository('Entities:District');
+$cityRepository = $view->get('cityRepository');
+$districtRepository = $view->get('districtRepository');
 
 ?>
 <script>
@@ -68,12 +66,16 @@ $districtRepository = $em->getRepository('Entities:District');
     <div class="form-group">
         <label>
             <?= EBB\escHTML(__('Blood Group')) ?>
-            <select name="blood_group" class="form-control">
-                <option value="any"><?= EBB\escHTML(__('All')) ?></option>
-                <?php foreach (Donor::getBloodGroups() as $bloodGroup) : ?>
-                <option<?= EBB\toAttributes(['selected' => ($bloodGroup === $criteria['blood_group'])]) ?>><?= EBB\escHTML($bloodGroup) ?></option>
-                <?php endforeach; ?>
-            </select>
+            <?=
+                EBB\getBloodGroupsDropdown([
+                    'name'              => 'blood_group',
+                    'selected'          => $criteria['blood_group'],
+                    'atts'              => ['class' => 'form-control'],
+                    'show_placeholder'  => true,
+                    'placeholder_value' => 'any',
+                    'placeholder_text'  => __('All'),
+                ])
+            ?>
         </label>
         <div class="checkbox">
             <label>
@@ -86,12 +88,16 @@ $districtRepository = $em->getRepository('Entities:District');
     <div class="form-group">
         <label>
             <?= EBB\escHTML(__('City')) ?>
-            <select name="city_id" class="form-control">
-                <option value="-1"><?= EBB\escHTML(__('All')) ?></option>
-                <?php foreach ($cityRepository->findAll() as $city) : ?>
-                <option<?= EBB\toAttributes(['value' => $city->get('id'), 'selected' => ($city->get('id') == $criteria['city'])]) ?>><?php $city->display('name') ?></option>
-                <?php endforeach; ?>
-            </select>
+            <?=
+                EBB\getCitiesDropdown([
+                    'name'              => 'city_id',
+                    'selected'          => $criteria['city'],
+                    'atts'              => ['class' => 'form-control'],
+                    'show_placeholder'  => true,
+                    'placeholder_value' => '-1',
+                    'placeholder_text'  => __('All'),
+                ])
+            ?>
         </label>
     </div>
 

@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Delete donors page controller class
@@ -28,13 +29,14 @@ class DeleteDonors extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         $this->donors = [];
+        parent::__construct($container);
         if (filter_has_var(INPUT_POST, 'donors')) {
             $donorsIDs = filter_input(INPUT_POST, 'donors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($donorsIDs) && is_array($donorsIDs)) {
-                $donorRepository = main()->getEntityManager()->getRepository('Entities:Donor');
+                $donorRepository = $container->get('entity_manager')->getRepository('Entities:Donor');
                 $this->donors = $donorRepository->findBy(['id' => $donorsIDs]);
             }
         }
@@ -83,7 +85,7 @@ class DeleteDonors extends Controller
             return;
         }
 
-        $session = main()->getSession();
+        $session = $this->getContainer()->get('session');
         $sessionToken = $session->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -98,7 +100,7 @@ class DeleteDonors extends Controller
         }
 
         $deletedDonorsCount = 0;
-        $em = main()->getEntityManager();
+        $em = $this->getContainer()->get('entity_manager');
 
         foreach($donors as $donor) {
             $em->remove($donor);

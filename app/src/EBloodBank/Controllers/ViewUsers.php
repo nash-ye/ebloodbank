@@ -67,8 +67,8 @@ class ViewUsers extends Controller
      */
     public function getAllUsers()
     {
-        $em = main()->getEntityManager();
-        $userRepository = $em->getRepository('Entities:User');
+        $entityManager = $this->getContainer()->get('entity_manager');
+        $userRepository = $entityManager->getRepository('Entities:User');
 
         return $userRepository->findAll([], ['created_at' => 'DESC']);
     }
@@ -79,8 +79,8 @@ class ViewUsers extends Controller
      */
     public function countAllUsers()
     {
-        $em = main()->getEntityManager();
-        $userRepository = $em->getRepository('Entities:User');
+        $entityManager = $this->getContainer()->get('entity_manager');
+        $userRepository = $entityManager->getRepository('Entities:User');
 
         return $userRepository->countAll();
     }
@@ -91,8 +91,8 @@ class ViewUsers extends Controller
      */
     public function getQueriedUsers()
     {
-        $em = main()->getEntityManager();
-        $userRepository = $em->getRepository('Entities:User');
+        $entityManager = $this->getContainer()->get('entity_manager');
+        $userRepository = $entityManager->getRepository('Entities:User');
 
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;

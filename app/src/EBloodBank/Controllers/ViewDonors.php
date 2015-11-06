@@ -27,11 +27,14 @@ class ViewDonors extends Controller
     {
         $currentUser = EBB\getCurrentUser();
         if ('on' === EBB\Options::getOption('site_publication') || $currentUser->canViewDonors()) {
+            $em = $this->getContainer()->get('entity_manager');
             $view = View::forge('view-donors', array(
                 'donors' => $this->getQueriedDonors(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
                 'filter.criteria' => $this->getFilterCriteria(),
+                'cityRepository' => $em->getRepository('Entities:City'),
+                'districtRepository' => $em->getRepository('Entities:District'),
             ));
         } else {
             $view = View::forge('error-403');
@@ -95,8 +98,8 @@ class ViewDonors extends Controller
      */
     public function getAllDonors()
     {
-        $em = main()->getEntityManager();
-        $donorRepository = $em->getRepository('Entities:Donor');
+        $entityManager = $this->getContainer()->get('entity_manager');
+        $donorRepository = $entityManager->getRepository('Entities:Donor');
 
         return $donorRepository->findAll([], ['created_at' => 'DESC']);
     }
@@ -107,8 +110,8 @@ class ViewDonors extends Controller
      */
     public function countAllDonors()
     {
-        $em = main()->getEntityManager();
-        $donorRepository = $em->getRepository('Entities:Donor');
+        $entityManager = $this->getContainer()->get('entity_manager');
+        $donorRepository = $entityManager->getRepository('Entities:Donor');
 
         return $donorRepository->countAll();
     }
@@ -119,8 +122,8 @@ class ViewDonors extends Controller
      */
     public function getQueriedDonors()
     {
-        $em = main()->getEntityManager();
-        $donorRepository = $em->getRepository('Entities:Donor');
+        $entityManager = $this->getContainer()->get('entity_manager');
+        $donorRepository = $entityManager->getRepository('Entities:Donor');
 
         $criteria = $this->getFilterCriteria();
 

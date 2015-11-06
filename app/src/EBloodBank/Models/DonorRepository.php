@@ -98,7 +98,7 @@ class DonorRepository extends EntityRepository
         }
 
         if (isset($criteria['city']) && empty($criteria['district'])) {
-            $districts = array();
+            $districts = [];
 
             if ($criteria['city'] instanceof City) {
                 $districts = $criteria['city']->get('districts');
@@ -111,7 +111,7 @@ class DonorRepository extends EntityRepository
             }
 
             if (! empty($districts)) {
-                $criteria['district'] = array();
+                $criteria['district'] = [];
 
                 foreach ($districts as $district) {
                     $criteria['district'][] = (int) $district->get('id');

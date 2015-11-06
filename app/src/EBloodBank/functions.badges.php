@@ -33,7 +33,7 @@ function getPendingUsersCountBadge(array $args = [])
         $args['atts']['class'] = 'badge pending-users-badge';
     }
 
-    $usersRepository = main()->getEntityManager()->getRepository('Entities:User');
+    $usersRepository = Main::getInstance()->getEntityManager()->getRepository('Entities:User');
     $usersCount = $usersRepository->countBy(['status' => 'pending']);
 
     if ($usersCount <= 0) {
@@ -70,7 +70,7 @@ function getPendingDonorsCountBadge(array $args = [])
         $args['atts']['class'] = 'badge pending-donors-badge';
     }
 
-    $donorsRepository = main()->getEntityManager()->getRepository('Entities:Donor');
+    $donorsRepository = Main::getInstance()->getEntityManager()->getRepository('Entities:Donor');
     $donorsCount = $donorsRepository->countBy(['status' => 'pending']);
 
     if ($donorsCount <= 0) {

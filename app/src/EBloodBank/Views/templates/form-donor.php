@@ -10,8 +10,6 @@
 use EBloodBank as EBB;
 use EBloodBank\Models\Donor;
 
-$em = main()->getEntityManager();
-$cityRepository = $em->getRepository('Entities:City');
 ?>
 
 <?php $view->displayView('notices') ?>
@@ -54,11 +52,14 @@ $cityRepository = $em->getRepository('Entities:City');
 			<label for="donor_blood_group"><?= EBB\escHTML(__('Blood Group')) ?> <span class="form-required">*</span></label>
 		</div>
 		<div class="col-sm-4">
-			<select name="donor_blood_group" id="donor_blood_group" class="form-control" required>
-				<?php foreach (Donor::getBloodGroups() as $bloodGroup) : ?>
-                <option<?= EBB\toAttributes(['selected' => ($bloodGroup === $donor->get('blood_group'))]) ?>><?= EBB\escHTML($bloodGroup) ?></option>
-				<?php endforeach; ?>
-			</select>
+            <?=
+                EBB\getBloodGroupsDropdown([
+                    'id'       => 'donor_blood_group',
+                    'name'     => 'donor_blood_group',
+                    'selected' => $donor->get('blood_group'),
+                    'atts'     => ['class' => 'form-control', 'required' => true],
+                ])
+            ?>
 		</div>
 	</div>
 
@@ -94,15 +95,14 @@ $cityRepository = $em->getRepository('Entities:City');
 			<label for="donor_district_id"><?= EBB\escHTML(__('District')) ?> <span class="form-required">*</span></label>
 		</div>
 		<div class="col-sm-4">
-			<select name="donor_district_id" id="donor_district_id" class="form-control" required>
-				<?php foreach ($cityRepository->findAll() as $city) : ?>
-					<optgroup label="<?php $city->display('name', 'attr') ?>">
-                        <?php foreach ($city->get('districts') as $district) : ?>
-                        <option<?= EBB\toAttributes(['value' => $district->get('id'), 'selected' => ($district === $donor->get('district'))]) ?>><?php $district->display('name') ?></option>
-                        <?php endforeach; ?>
-					</optgroup>
-                <?php endforeach; ?>
-			</select>
+            <?=
+                EBB\getDistrictsDropdown([
+                    'id'       => 'donor_district_id',
+                    'name'     => 'donor_district_id',
+                    'selected' => $donor->get('district'),
+                    'atts'     => ['class' => 'form-control', 'required' => true],
+                ])
+            ?>
 		</div>
 	</div>
 

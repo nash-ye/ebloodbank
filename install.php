@@ -24,5 +24,3 @@ define('EBB_DIR', dirname(__FILE__));
 
 // Load eBloodBank bootstrapper.
 require EBB_DIR . '/app/bootstrap.php';
-
-main();

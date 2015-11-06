@@ -12,6 +12,7 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
+use Aura\Di\ContainerInterface;
 
 /**
  * Edit donor page controller class
@@ -30,10 +31,11 @@ class EditDonor extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct($id)
+    public function __construct(ContainerInterface $container, $id)
     {
+        parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $donorRepository = main()->getEntityManager()->getRepository('Entities:Donor');
+            $donorRepository = $container->get('entity_manager')->getRepository('Entities:Donor');
             $this->donor = $donorRepository->find($id);
         }
     }
@@ -89,7 +91,7 @@ class EditDonor extends Controller
     protected function doSubmitAction()
     {
         try {
-            $session = main()->getSession();
+            $session = $this->getContainer()->get('session');
             $sessionToken = $session->getCsrfToken();
             $actionToken = filter_input(INPUT_POST, 'token');
 
@@ -105,6 +107,9 @@ class EditDonor extends Controller
                 return;
             }
 
+            $em = $this->getContainer()->get('entity_manager');
+            $districtRepository = $em->getRepository('Entities:District');
+
             // Set the donor name.
             $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
 
@@ -118,7 +123,7 @@ class EditDonor extends Controller
             $donor->set('blood_group', filter_input(INPUT_POST, 'donor_blood_group'), true);
 
             // Set the donor district ID.
-            $donor->set('district', filter_input(INPUT_POST, 'donor_district_id'), true);
+            $donor->set('district', $districtRepository->find(filter_input(INPUT_POST, 'donor_district_id')));
 
             // Set the donor weight.
             $donor->updateMeta('weight', filter_input(INPUT_POST, 'donor_weight'), $donor->getMeta('weight'), true);
@@ -137,7 +142,6 @@ class EditDonor extends Controller
                 $donor->set('status', 'pending');
             }
 
-            $em = main()->getEntityManager();
             $em->flush($donor);
 
             EBB\redirect(

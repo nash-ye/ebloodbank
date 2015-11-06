@@ -12,9 +12,11 @@ return array(
     'Gettext\\' => array($vendorDir . '/gettext/gettext/src'),
     'EBloodBank\\' => array($baseDir . '/src/EBloodBank'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
+    'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
     'Aura\\Session\\_Config\\' => array($vendorDir . '/aura/session/config'),
     'Aura\\Session\\' => array($vendorDir . '/aura/session/src'),
     'Aura\\Router\\_Config\\' => array($vendorDir . '/aura/router/config'),
     'Aura\\Router\\' => array($vendorDir . '/aura/router/src'),
     'Aura\\Dispatcher\\' => array($vendorDir . '/aura/dispatcher/src'),
+    'Aura\\Di\\' => array($vendorDir . '/aura/di/src'),
 );

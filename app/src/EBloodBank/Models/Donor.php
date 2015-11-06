@@ -167,7 +167,7 @@ class Donor extends Entity
      */
     public static function getBloodGroups()
     {
-        return array(
+        return [
             'A+',
             'A-',
             'B+',
@@ -176,7 +176,7 @@ class Donor extends Entity
             'O-',
             'AB+',
             'AB-',
-        );
+        ];
     }
 
     /**
@@ -186,10 +186,10 @@ class Donor extends Entity
      */
     public static function getGenderTitles()
     {
-        return array(
+        return [
             'male'   => __('Male'),
             'female' => __('Female'),
-        );
+        ];
     }
 
     /**
@@ -213,18 +213,10 @@ class Donor extends Entity
                 $value = EBB\sanitizeSlug($value);
                 break;
             case 'district':
-                if (EBB\isValidID($value)) {
-                    $em = main()->getEntityManager();
-                    $value = $em->find('Entities:District', $value);
-                }
                 break;
             case 'created_at':
                 break;
             case 'created_by':
-                if (EBB\isValidID($value)) {
-                    $em = main()->getEntityManager();
-                    $value = $em->find('Entities:User', $value);
-                }
                 break;
         }
         return $value;

@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.2-alpha-2');
+define('EBB_VERSION', '1.2-alpha-3');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
@@ -99,12 +99,9 @@ require EBB_APP_DIR . '/vendor/autoload.php';
 /*** App Instance *************************************************************/
 
 /**
- * return the true EBloodBank main instance.
+ * The true EBloodBank main instance.
  *
- * @return EBloodBank\Main
- * @since 1.0
+ * @var EBloodBank\Main
+ * @since 1.2
  */
-function main()
-{
-    return EBloodBank\Main::getInstance();
-}
+$EBloodBank = EBloodBank\Main::getInstance();

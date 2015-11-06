@@ -76,7 +76,7 @@ class Login extends Controller
             return;
         }
 
-        $em = main()->getEntityManager();
+        $em = $this->getContainer()->get('entity_manager');
         $userRepository = $em->getRepository('Entities:User');
         $user = $userRepository->findOneBy(array('email' => $userEmail, 'status' => 'any'));
 
@@ -90,7 +90,7 @@ class Login extends Controller
             return;
         }
 
-        $session = main()->getSession();
+        $session = $this->getContainer()->get('session');
         $segment = $session->getSegment('EBloodBank');
         $segment->set('user_id', (int) $user->get('id'));
         $session->regenerateId();
@@ -105,7 +105,7 @@ class Login extends Controller
     protected function doLogoutAction()
     {
         if (EBB\isUserLoggedIn()) {
-            $session = main()->getSession();
+            $session = $this->getContainer()->get('session');
             $session->destroy();
             $session->start();
             $session->regenerateId();
