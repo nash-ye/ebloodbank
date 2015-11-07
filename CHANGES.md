@@ -1,3 +1,4 @@
 - New Feature: Add an option to turn on site publication.
 - Enhancement: Improve the RBAC (Role Based Access Control) mechanism.
 - New Feature: Add a form field to search for a blood group alternatives.
+- New Feature: Add an ability to sign up an account and add a donor in the same step.

@@ -167,9 +167,6 @@ class Main
 
         $entityManager = ORM\EntityManager::create($this->getDBConnection(), $config);
 
-        $eventManager = $entityManager->getEventManager();
-        $eventManager->addEventListener(['postLoad'], new Models\EntityEventListener());
-
         $this->getContainer()->set('entity_manager', $entityManager);
     }
 

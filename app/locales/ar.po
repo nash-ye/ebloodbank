@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-07 16:55+0300\n"
-"PO-Revision-Date: 2015-11-07 16:55+0300\n"
+"POT-Creation-Date: 2015-11-07 21:39+0300\n"
+"PO-Revision-Date: 2015-11-07 21:39+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: ar\n"
@@ -30,36 +30,42 @@ msgstr "يرجى إدخال اسم فريد للمدينة."
 msgid "District added."
 msgstr "تم إضافة المديرية."
 
-#: ../src/EBloodBank/Controllers/AddDonor.php:85
+#: ../src/EBloodBank/Controllers/AddDonor.php:84
 msgid "Donor added."
 msgstr "تم إضافة المتبرع."
 
-#: ../src/EBloodBank/Controllers/AddDonor.php:163
+#: ../src/EBloodBank/Controllers/AddDonor.php:162
+#: ../src/EBloodBank/Controllers/Signup.php:180
 #, php-format
 msgid "[%s] New Donor"
 msgstr "[%s] متبرع جديد"
 
-#: ../src/EBloodBank/Controllers/AddDonor.php:167
+#: ../src/EBloodBank/Controllers/AddDonor.php:166
+#: ../src/EBloodBank/Controllers/Signup.php:184
 #, php-format
 msgid "New donor addition on %s:"
 msgstr "إضافة متبرع جديد على %s:"
 
-#: ../src/EBloodBank/Controllers/AddDonor.php:168
+#: ../src/EBloodBank/Controllers/AddDonor.php:167
+#: ../src/EBloodBank/Controllers/Signup.php:185
 #, php-format
 msgid "Name: %s"
 msgstr "الاسم: %s"
 
-#: ../src/EBloodBank/Controllers/AddDonor.php:169
+#: ../src/EBloodBank/Controllers/AddDonor.php:168
+#: ../src/EBloodBank/Controllers/Signup.php:186
 #, php-format
 msgid "Gender: %s"
 msgstr "الجنس: %s"
 
-#: ../src/EBloodBank/Controllers/AddDonor.php:170
+#: ../src/EBloodBank/Controllers/AddDonor.php:169
+#: ../src/EBloodBank/Controllers/Signup.php:187
 #, php-format
 msgid "Blood Group: %s"
 msgstr "فصيلة الدم: %s"
 
-#: ../src/EBloodBank/Controllers/AddDonor.php:171
+#: ../src/EBloodBank/Controllers/AddDonor.php:170
+#: ../src/EBloodBank/Controllers/Signup.php:188
 #, php-format
 msgid "City\\District: %1$s\\%2$s"
 msgstr "المدينة/المديرية: %1$s/%2$s"
@@ -262,19 +268,19 @@ msgstr "ملف الـ MO الخاص باللغة غير قابل للقراءة 
 msgid "Locale PO file is not readable or not exists."
 msgstr "ملف الـ PO الخاص باللغة غير قابل للقراءة أو غير موجود."
 
-#: ../src/EBloodBank/Main.php:345
+#: ../src/EBloodBank/Main.php:342
 msgid "Subscriber"
 msgstr "مشترك"
 
-#: ../src/EBloodBank/Main.php:358
+#: ../src/EBloodBank/Main.php:355
 msgid "Contributor"
 msgstr "مساهم"
 
-#: ../src/EBloodBank/Main.php:374
+#: ../src/EBloodBank/Main.php:371
 msgid "Editor"
 msgstr "محرر"
 
-#: ../src/EBloodBank/Main.php:402
+#: ../src/EBloodBank/Main.php:399
 msgid "Administrator"
 msgstr "مدير"
 
@@ -598,7 +604,7 @@ msgstr "أضف جديد"
 #: ../src/EBloodBank/Views/templates/form-city.php:19
 #: ../src/EBloodBank/Views/templates/form-district.php:20
 #: ../src/EBloodBank/Views/templates/form-donor.php:21
-#: ../src/EBloodBank/Views/templates/form-signup.php:20
+#: ../src/EBloodBank/Views/templates/form-signup.php:35
 #: ../src/EBloodBank/Views/templates/form-user.php:21
 #: ../src/EBloodBank/Views/templates/install.php:117
 #: ../src/EBloodBank/Views/templates/view-cities.php:29
@@ -647,6 +653,7 @@ msgstr "تحرير المتبرعين"
 
 #: ../src/EBloodBank/Views/templates/edit-donors.php:44
 #: ../src/EBloodBank/Views/templates/form-donor.php:30
+#: ../src/EBloodBank/Views/templates/form-signup.php:79
 #: ../src/EBloodBank/Views/templates/view-donor.php:19
 #: ../src/EBloodBank/Views/templates/view-donors.php:40
 msgid "Gender"
@@ -660,6 +667,7 @@ msgstr "العمر"
 #: ../src/EBloodBank/Views/templates/edit-donors.php:46
 #: ../src/EBloodBank/Views/templates/form-donor.php:52
 #: ../src/EBloodBank/Views/templates/form-donors-filter.php:68
+#: ../src/EBloodBank/Views/templates/form-signup.php:101
 #: ../src/EBloodBank/Views/templates/view-donor.php:25
 #: ../src/EBloodBank/Views/templates/view-donors.php:42
 msgid "Blood Group"
@@ -668,6 +676,7 @@ msgstr "فصيلة الدم"
 #: ../src/EBloodBank/Views/templates/edit-donors.php:48
 #: ../src/EBloodBank/Views/templates/form-donor.php:95
 #: ../src/EBloodBank/Views/templates/form-donors-filter.php:106
+#: ../src/EBloodBank/Views/templates/form-signup.php:134
 #: ../src/EBloodBank/Views/templates/view-donors.php:44
 msgid "District"
 msgstr "المديرية"
@@ -691,7 +700,7 @@ msgstr "تحرير المستخدمين"
 #: ../src/EBloodBank/Views/templates/edit-users.php:33
 #: ../src/EBloodBank/Views/templates/form-donor.php:77
 #: ../src/EBloodBank/Views/templates/form-login.php:20
-#: ../src/EBloodBank/Views/templates/form-signup.php:29
+#: ../src/EBloodBank/Views/templates/form-signup.php:44
 #: ../src/EBloodBank/Views/templates/form-user.php:30
 #: ../src/EBloodBank/Views/templates/install.php:126
 #: ../src/EBloodBank/Views/templates/view-donor.php:31
@@ -763,21 +772,25 @@ msgid "Submit"
 msgstr "إرسال"
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:43
+#: ../src/EBloodBank/Views/templates/form-signup.php:92
 #: ../src/EBloodBank/Views/templates/view-donor.php:22
 msgid "Birthdate"
 msgstr "تاريخ الميلاد"
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:68
+#: ../src/EBloodBank/Views/templates/form-signup.php:116
 #: ../src/EBloodBank/Views/templates/view-donor.php:28
 msgid "Weight (kg)"
 msgstr "الوزن (كجم)"
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:86
+#: ../src/EBloodBank/Views/templates/form-signup.php:125
 #: ../src/EBloodBank/Views/templates/view-donor.php:34
 msgid "Phone"
 msgstr "الهاتف"
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:111
+#: ../src/EBloodBank/Views/templates/form-signup.php:149
 #: ../src/EBloodBank/Views/templates/view-donor.php:40
 msgid "Address"
 msgstr "العنوان"
@@ -797,7 +810,7 @@ msgid "Search"
 msgstr "بحث"
 
 #: ../src/EBloodBank/Views/templates/form-login.php:29
-#: ../src/EBloodBank/Views/templates/form-signup.php:38
+#: ../src/EBloodBank/Views/templates/form-signup.php:53
 #: ../src/EBloodBank/Views/templates/form-user.php:42
 #: ../src/EBloodBank/Views/templates/install.php:135
 msgid "Password"
@@ -809,17 +822,25 @@ msgstr "كلمة المرور"
 msgid "Log In"
 msgstr "تسجيل الدخول"
 
-#: ../src/EBloodBank/Views/templates/form-signup.php:41
+#: ../src/EBloodBank/Views/templates/form-signup.php:56
 #: ../src/EBloodBank/Views/templates/install.php:138
 msgid "Type your password"
 msgstr "أكتب كلمة مرورك"
 
-#: ../src/EBloodBank/Views/templates/form-signup.php:43
+#: ../src/EBloodBank/Views/templates/form-signup.php:58
 #: ../src/EBloodBank/Views/templates/install.php:140
 msgid "Type your password again"
 msgstr "أكتب كلمة مرورك مرة أخرى"
 
-#: ../src/EBloodBank/Views/templates/form-signup.php:49
+#: ../src/EBloodBank/Views/templates/form-signup.php:67
+msgid "Add as a donor."
+msgstr "أضف كمتبرع"
+
+#: ../src/EBloodBank/Views/templates/form-signup.php:75
+msgid "Donor Information"
+msgstr "معلومات المتبرع"
+
+#: ../src/EBloodBank/Views/templates/form-signup.php:160
 #: ../src/EBloodBank/Views/templates/signup.php:10
 #: ../src/EBloodBank/functions.hyperlinks.php:205
 msgid "Sign Up"

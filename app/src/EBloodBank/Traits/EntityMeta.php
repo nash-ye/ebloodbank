@@ -24,30 +24,6 @@ trait EntityMeta
     protected $meta = [];
 
     /**
-     * @var \Doctrine\ORM\EntityManager
-     * @since 1.0
-     */
-    protected $metaEntityManager;
-
-    /**
-     * @return \Doctrine\ORM\EntityManager
-     * @since 1.2
-     */
-    public function getMetaEntityManager()
-    {
-        return $this->metaEntityManager;
-    }
-
-    /**
-     * @return void
-     * @since 1.2
-     */
-    public function setMetaEntityManager($entityManager)
-    {
-        $this->metaEntityManager = $entityManager;
-    }
-
-    /**
      * @return mixed
      * @since 1.0
      */
@@ -59,13 +35,8 @@ trait EntityMeta
             $metaValue = [];
         }
 
-        $em = $this->getMetaEntityManager();
-
-        if (empty($em)) {
-            return $metaValue;
-        }
-
-        $connection = $em->getConnection();
+        $em = EBB\Main::getInstance()->getEntityManager();
+        $db = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
@@ -79,7 +50,7 @@ trait EntityMeta
         }
 
         if (! isset($this->meta[$metaKey])) {
-            $rows = $connection->fetchAll("SELECT meta_id, meta_value FROM $eMetaTableName WHERE $eIDColumnName = ? AND meta_key = ?", array( $eID, $metaKey ));
+            $rows = $db->fetchAll("SELECT meta_id, meta_value FROM $eMetaTableName WHERE $eIDColumnName = ? AND meta_key = ?", array( $eID, $metaKey ));
             if (! empty($rows)) {
                 foreach ($rows as $row) {
                     $this->meta[$metaKey][$row['meta_id']] = $row['meta_value'];
@@ -122,13 +93,8 @@ trait EntityMeta
      */
     public function addMeta($metaKey, $metaValue, $sanitize = false, $validate = true)
     {
-        $em = $this->getMetaEntityManager();
-
-        if (empty($em)) {
-            return false;
-        }
-
-        $connection = $em->getConnection();
+        $em = EBB\Main::getInstance()->getEntityManager();
+        $db = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
@@ -155,8 +121,8 @@ trait EntityMeta
             'meta_key'      => $metaKey,
         ];
 
-        $inserted = (bool) $connection->insert($eMetaTableName, $data);
-        $metaID = ($inserted) ? (int) $connection->lastInsertId() : 0;
+        $inserted = (bool) $db->insert($eMetaTableName, $data);
+        $metaID = ($inserted) ? (int) $db->lastInsertId() : 0;
 
         return $metaID;
     }
@@ -167,13 +133,8 @@ trait EntityMeta
      */
     public function updateMeta($metaKey, $metaValue, $currentMetaValue = null, $sanitize = false, $validate = true)
     {
-        $em = $this->getMetaEntityManager();
-
-        if (empty($em)) {
-            return false;
-        }
-
-        $connection = $em->getConnection();
+        $em = EBB\Main::getInstance()->getEntityManager();
+        $db = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
@@ -207,7 +168,7 @@ trait EntityMeta
             $criteria['meta_value'] = $currentMetaValue;
         }
 
-        $updated = (bool) $connection->update($eMetaTableName, $data, $criteria);
+        $updated = (bool) $db->update($eMetaTableName, $data, $criteria);
 
         return $updated;
     }
@@ -218,13 +179,8 @@ trait EntityMeta
      */
     public function deleteMeta($metaKey, $metaValue = null)
     {
-        $em = $this->getMetaEntityManager();
-
-        if (empty($em)) {
-            return false;
-        }
-
-        $connection = $em->getConnection();
+        $em = EBB\Main::getInstance()->getEntityManager();
+        $db = $em->getConnection();
 
         $eMetaData = $em->getClassMetadata(get_class());
         $eMetaTableName = $eMetaData->getTableName() . '_meta';
@@ -246,7 +202,7 @@ trait EntityMeta
             $criteria['meta_value'] = $metaValue;
         }
 
-        $deleted = (bool) $connection->delete($eMetaTableName, $criteria);
+        $deleted = (bool) $db->delete($eMetaTableName, $criteria);
 
         return $deleted;
     }

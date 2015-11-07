@@ -10,7 +10,6 @@ namespace EBloodBank\Controllers;
 
 use DateTime;
 use DateTimeZone;
-use Swift_Message;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Options;
@@ -158,7 +157,7 @@ class AddDonor extends Controller
 
             if ($added) {
                 $mailer = $this->getContainer()->get('mailer');
-                $message = Swift_Message::newInstance();
+                $message = $mailer->createMessage();
 
                 $message->setSubject(sprintf(__('[%s] New Donor'), Options::getOption('site_name')));
                 $message->setFrom(Options::getOption('site_email'));

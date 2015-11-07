@@ -105,8 +105,8 @@ class AddUser extends Controller
                 return;
             }
 
-            $em = $this->getContainer()->get('entity_manager');
             $user = $this->getQueriedUser();
+            $em = $this->getContainer()->get('entity_manager');
             $userRepository = $em->getRepository('Entities:User');
 
             // Set the user name.
