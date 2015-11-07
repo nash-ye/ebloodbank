@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-06 21:48+0300\n"
-"PO-Revision-Date: 2015-11-06 21:48+0300\n"
+"POT-Creation-Date: 2015-11-07 16:55+0300\n"
+"PO-Revision-Date: 2015-11-07 16:55+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: en\n"
@@ -22,7 +22,7 @@ msgid "City added."
 msgstr ""
 
 #: ../src/EBloodBank/Controllers/AddCity.php:118
-#: ../src/EBloodBank/Controllers/EditCity.php:119
+#: ../src/EBloodBank/Controllers/EditCity.php:130
 msgid "Please enter a unique city name."
 msgstr ""
 
@@ -69,7 +69,7 @@ msgid "User added."
 msgstr ""
 
 #: ../src/EBloodBank/Controllers/AddUser.php:121
-#: ../src/EBloodBank/Controllers/EditUser.php:122
+#: ../src/EBloodBank/Controllers/EditUser.php:133
 msgid "Please enter a unique user e-mail."
 msgstr ""
 
@@ -82,26 +82,26 @@ msgid "Please confirm the password."
 msgstr ""
 
 #: ../src/EBloodBank/Controllers/AddUser.php:136
-#: ../src/EBloodBank/Controllers/EditUser.php:134
+#: ../src/EBloodBank/Controllers/EditUser.php:145
 #: ../src/EBloodBank/Controllers/Install.php:288
 #: ../src/EBloodBank/Controllers/Signup.php:92
 msgid "Please enter the same password."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/DeleteCities.php:111
+#: ../src/EBloodBank/Controllers/DeleteCities.php:112
 #, php-format
 msgid "At first, delete any linked districts with city \"%s\"."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/DeleteCity.php:100
+#: ../src/EBloodBank/Controllers/DeleteCity.php:112
 msgid "At first, delete any linked districts with this city."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/DeleteDistrict.php:99
+#: ../src/EBloodBank/Controllers/DeleteDistrict.php:111
 msgid "At first, delete any linked donors with this district."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/DeleteDistricts.php:111
+#: ../src/EBloodBank/Controllers/DeleteDistricts.php:112
 #, php-format
 msgid "At first, delete any linked donors with district \"%s\"."
 msgstr ""
@@ -113,11 +113,11 @@ msgid_plural "%d cities permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EBloodBank/Controllers/EditCity.php:83
+#: ../src/EBloodBank/Controllers/EditCity.php:95
 msgid "City edited."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/EditDistrict.php:83
+#: ../src/EBloodBank/Controllers/EditDistrict.php:95
 msgid "District edited."
 msgstr ""
 
@@ -128,7 +128,7 @@ msgid_plural "%d districts permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EBloodBank/Controllers/EditDonor.php:83
+#: ../src/EBloodBank/Controllers/EditDonor.php:95
 msgid "Donor edited."
 msgstr ""
 
@@ -146,11 +146,11 @@ msgid_plural "%d donors permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EBloodBank/Controllers/EditUser.php:83
+#: ../src/EBloodBank/Controllers/EditUser.php:95
 msgid "User edited."
 msgstr ""
 
-#: ../src/EBloodBank/Controllers/EditUser.php:129
+#: ../src/EBloodBank/Controllers/EditUser.php:140
 msgid "Please enter the password twice."
 msgstr ""
 
@@ -575,7 +575,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/form-district.php:20
 #: ../src/EBloodBank/Views/templates/form-donor.php:21
 #: ../src/EBloodBank/Views/templates/form-signup.php:20
-#: ../src/EBloodBank/Views/templates/form-user.php:20
+#: ../src/EBloodBank/Views/templates/form-user.php:21
 #: ../src/EBloodBank/Views/templates/install.php:117
 #: ../src/EBloodBank/Views/templates/view-cities.php:29
 #: ../src/EBloodBank/Views/templates/view-districts.php:29
@@ -668,7 +668,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/form-donor.php:77
 #: ../src/EBloodBank/Views/templates/form-login.php:20
 #: ../src/EBloodBank/Views/templates/form-signup.php:29
-#: ../src/EBloodBank/Views/templates/form-user.php:29
+#: ../src/EBloodBank/Views/templates/form-user.php:30
 #: ../src/EBloodBank/Views/templates/install.php:126
 #: ../src/EBloodBank/Views/templates/view-donor.php:31
 #: ../src/EBloodBank/Views/templates/view-users.php:29
@@ -676,7 +676,7 @@ msgid "E-mail"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/edit-users.php:34
-#: ../src/EBloodBank/Views/templates/form-user.php:54
+#: ../src/EBloodBank/Views/templates/form-user.php:55
 #: ../src/EBloodBank/Views/templates/view-users.php:30
 msgid "Role"
 msgstr ""
@@ -734,7 +734,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/form-city.php:28
 #: ../src/EBloodBank/Views/templates/form-district.php:45
 #: ../src/EBloodBank/Views/templates/form-donor.php:120
-#: ../src/EBloodBank/Views/templates/form-user.php:68
+#: ../src/EBloodBank/Views/templates/form-user.php:69
 msgid "Submit"
 msgstr ""
 
@@ -774,7 +774,7 @@ msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-login.php:29
 #: ../src/EBloodBank/Views/templates/form-signup.php:38
-#: ../src/EBloodBank/Views/templates/form-user.php:41
+#: ../src/EBloodBank/Views/templates/form-user.php:42
 #: ../src/EBloodBank/Views/templates/install.php:135
 msgid "Password"
 msgstr ""
@@ -801,15 +801,15 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-user.php:39
+#: ../src/EBloodBank/Views/templates/form-user.php:40
 msgid "New Password"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-user.php:45
+#: ../src/EBloodBank/Views/templates/form-user.php:46
 msgid "Type the password"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/form-user.php:47
+#: ../src/EBloodBank/Views/templates/form-user.php:48
 msgid "Type the password again"
 msgstr ""
 

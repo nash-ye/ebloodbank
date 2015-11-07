@@ -49,13 +49,13 @@ class DeleteUsers extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canDeleteUsers()) {
+        if (! $currentUser || ! $currentUser->canDeleteUsers()) {
+            $view = View::forge('error-403');
+        } else {
             $this->doActions();
             $view = View::forge('delete-users', [
                 'users' => $this->getQueriedUsers(),
             ]);
-        } else {
-            $view = View::forge('error-403');
         }
         $view();
     }
@@ -95,21 +95,18 @@ class DeleteUsers extends Controller
 
         $users = $this->getQueriedUsers();
 
-        if (empty($users)) {
+        if (! $users || ! is_array($users)) {
             return;
         }
 
         $deletedUsersCount = 0;
         $em = $this->getContainer()->get('entity_manager');
-        $currentUserID = EBB\getCurrentUserID();
 
-        foreach($users as $user) {
-            if ($user->get('id') == $currentUserID) {
-                return;
+        foreach ($users as $user) {
+            if ($currentUser->canDeleteUser($user)) {
+                $em->remove($user);
+                $deletedUsersCount++;
             }
-
-            $em->remove($user);
-            $deletedUsersCount++;
         }
 
         $em->flush();
@@ -117,7 +114,7 @@ class DeleteUsers extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditUsersURL(),
-                array('flag-deleted' => $deletedUsersCount)
+                ['flag-deleted' => $deletedUsersCount]
             )
         );
     }

@@ -645,7 +645,9 @@ class Main
             $instance->setupDispatcher();
 
             // Dispatch!
-            $instance->dispatch();
+            if (! isCLI()) {
+                $instance->dispatch();
+            }
         }
 
         return $instance;

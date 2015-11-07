@@ -45,37 +45,28 @@ class ViewDonor extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ('on' === EBB\Options::getOption('site_publication') || $currentUser->canViewDonors()) {
-            $donor = $this->getQueriedDonor();
-            if (! empty($donor)) {
-                $this->doActions();
-                $this->addNotices();
-                $view = View::forge('view-donor', array(
-                    'donor' => $donor,
-                ));
-            } else {
-                $view = View::forge('error-404');
-            }
-        } else {
-            $view = View::forge('error-403');
+        $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
+
+        if (! $isSitePublic && (! $currentUser || ! $currentUser->canEditDonors())) {
+            View::display('error-403');
+            return;
         }
-        $view();
-    }
 
-    /**
-     * @return void
-     * @since 1.1
-     */
-    protected function doActions()
-    {
-    }
+        if (! $this->isQueriedDonorExists()) {
+            View::display('error-404');
+            return;
+        }
 
-    /**
-     * @return void
-     * @since 1.1
-     */
-    protected function addNotices()
-    {
+        $donor = $this->getQueriedDonor();
+
+        if ($currentUser && ! $currentUser->canViewDonor($donor)) {
+            View::display('error-403');
+            return;
+        }
+
+        View::display('view-donor', [
+            'donor' => $donor,
+        ]);
     }
 
     /**
@@ -88,12 +79,12 @@ class ViewDonor extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.1
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedDonorID()
+    protected function isQueriedDonorExists()
     {
         $donor = $this->getQueriedDonor();
-        return ($donor) ? (int) $donor->get('id') : 0;
+        return ($donor && $donor->isExists());
     }
 }

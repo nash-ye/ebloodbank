@@ -45,16 +45,28 @@ class DeleteDonor extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        $donor = $this->getQueriedDonor();
-        if ($currentUser && $currentUser->canDeleteDonor($donor)) {
-            $this->doActions();
-            $view = View::forge('delete-donor', [
-                'donor' => $donor,
-            ]);
-        } else {
-            $view = View::forge('error-403');
+
+        if (! $currentUser || ! $currentUser->canDeleteDonors()) {
+            View::display('error-403');
+            return;
         }
-        $view();
+
+        if (! $this->isQueriedDonorExists()) {
+            View::display('error-404');
+            return;
+        }
+
+        $donor = $this->getQueriedDonor();
+
+        if (! $currentUser->canDeleteDonor($donor)) {
+            View::display('error-403');
+            return;
+        }
+
+        $this->doActions();
+        View::display('delete-donor', [
+            'donor' => $donor,
+        ]);
     }
 
     /**
@@ -98,7 +110,7 @@ class DeleteDonor extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditDonorsURL(),
-                array('flag-deleted' => 1)
+                ['flag-deleted' => 1]
             )
         );
     }
@@ -113,12 +125,12 @@ class DeleteDonor extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.0
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedDonorID()
+    protected function isQueriedDonorExists()
     {
         $donor = $this->getQueriedDonor();
-        return ($donor) ? (int) $donor->get('id') : 0;
+        return ($donor && $donor->isExists());
     }
 }

@@ -26,16 +26,16 @@ class ViewCities extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ('on' === EBB\Options::getOption('site_publication') || $currentUser->canViewCities()) {
-            $view = View::forge('view-cities', array(
+        $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
+        if (! $isSitePublic && (! $currentUser || ! $currentUser->canViewCities())) {
+            View::display('error-403');
+        } else {
+            View::display('view-cities', [
                 'cities' => $this->getQueriedCities(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
-            ));
-        } else {
-            $view = View::forge('error-403');
+            ]);
         }
-        $view();
     }
 
     /**

@@ -49,13 +49,13 @@ class ApproveDonors extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canApproveDonors()) {
+        if (! $currentUser || ! $currentUser->canApproveDonors()) {
+            $view = View::forge('error-403');
+        } else {
             $this->doActions();
             $view = View::forge('approve-donors', [
                 'donors' => $this->getQueriedDonors(),
             ]);
-        } else {
-            $view = View::forge('error-403');
         }
         $view();
     }
@@ -79,6 +79,12 @@ class ApproveDonors extends Controller
      */
     protected function doApproveAction()
     {
+        $currentUser = EBB\getCurrentUser();
+
+        if (! $currentUser || ! $currentUser->canApproveDonors()) {
+            return;
+        }
+
         $session = $this->getContainer()->get('session');
         $sessionToken = $session->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
@@ -87,28 +93,23 @@ class ApproveDonors extends Controller
             return;
         }
 
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $currentUser->canApproveDonors()) {
-            return;
-        }
-
         $donors = $this->getQueriedDonors();
 
-        if (empty($donors)) {
+        if (! $donors || ! is_array($donors)) {
             return;
         }
 
         $approvedDonorsCount = 0;
         $em = $this->getContainer()->get('entity_manager');
 
-        foreach($donors as $donor) {
-            if (empty($donor) || ! $donor->isPending()) {
+        foreach ($donors as $donor) {
+            if (! $donor->isPending()) {
                 continue;
             }
-
-            $donor->set('status', 'approved');
-            $approvedDonorsCount++;
+            if ($currentUser->canApproveDonor($donor)) {
+                $donor->set('status', 'approved');
+                $approvedDonorsCount++;
+            }
         }
 
         $em->flush();
@@ -116,7 +117,7 @@ class ApproveDonors extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditDonorsURL(),
-                array('flag-approved' => $approvedDonorsCount)
+                ['flag-approved' => $approvedDonorsCount]
             )
         );
     }

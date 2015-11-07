@@ -129,7 +129,7 @@ class AddDistrict extends Controller
             EBB\redirect(
                 EBB\addQueryArgs(
                     EBB\getAddDistrictURL(),
-                    array('flag-added' => $added)
+                    ['flag-added' => $added]
                 )
             );
         } catch (InvalidArgumentException $ex) {

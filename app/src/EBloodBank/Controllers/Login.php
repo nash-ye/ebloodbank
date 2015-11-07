@@ -78,7 +78,7 @@ class Login extends Controller
 
         $em = $this->getContainer()->get('entity_manager');
         $userRepository = $em->getRepository('Entities:User');
-        $user = $userRepository->findOneBy(array('email' => $userEmail, 'status' => 'any'));
+        $user = $userRepository->findOneBy(['email' => $userEmail, 'status' => 'any']);
 
         if (empty($user) || ! password_verify($userPass, $user->get('pass'))) {
             Notices::addNotice('wrong_login_details', __('No match for user e-mail and/or password.'), 'warning');
@@ -112,7 +112,7 @@ class Login extends Controller
             EBB\redirect(
                 EBB\addQueryArgs(
                     EBB\getLoginURL(),
-                    array('flag-loggedout' => true)
+                    ['flag-loggedout' => true]
                 )
             );
         }

@@ -47,17 +47,29 @@ class EditCity extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        $city = $this->getQueriedCity();
-        if ($currentUser && $currentUser->canEditCity($city)) {
-            $this->doActions();
-            $this->addNotices();
-            $view = View::forge('edit-city', [
-                'city' => $city,
-            ]);
-        } else {
-            $view = View::forge('error-403');
+
+        if (! $currentUser || ! $currentUser->canEditCities()) {
+            View::display('error-403');
+            return;
         }
-        $view();
+
+        if (! $this->isQueriedCityExists()) {
+            View::display('error-404');
+            return;
+        }
+
+        $city = $this->getQueriedCity();
+
+        if (! $currentUser->canEditCity($city)) {
+            View::display('error-403');
+            return;
+        }
+
+        $this->doActions();
+        $this->addNotices();
+        View::display('edit-city', [
+            'city' => $city,
+        ]);
     }
 
     /**
@@ -101,7 +113,6 @@ class EditCity extends Controller
 
             $currentUser = EBB\getCurrentUser();
             $city = $this->getQueriedCity();
-            $cityID = $this->getQueriedCityID();
 
             if (! $currentUser || ! $currentUser->canEditCity($city)) {
                 return;
@@ -115,7 +126,7 @@ class EditCity extends Controller
 
             $duplicateCity = $cityRepository->findOneBy(['name' => $city->get('name')]);
 
-            if (! empty($duplicateCity) && $duplicateCity->get('id') != $cityID) {
+            if (! empty($duplicateCity) && $duplicateCity->get('id') != $city->get('id')) {
                 throw new InvalidArgumentException(__('Please enter a unique city name.'));
             }
 
@@ -123,8 +134,8 @@ class EditCity extends Controller
 
             EBB\redirect(
                 EBB\addQueryArgs(
-                    EBB\getEditCityURL($cityID),
-                    array('flag-edited' => true)
+                    EBB\getEditCityURL($city->get('id')),
+                    ['flag-edited' => true]
                 )
             );
         } catch (InvalidArgumentException $ex) {
@@ -142,12 +153,12 @@ class EditCity extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.0
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedCityID()
+    protected function isQueriedCityExists()
     {
         $city = $this->getQueriedCity();
-        return ($city) ? (int) $city->get('id') : 0;
+        return ($city && $city->isExists());
     }
 }

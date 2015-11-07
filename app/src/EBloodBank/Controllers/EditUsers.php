@@ -29,11 +29,11 @@ class EditUsers extends ViewUsers
         if ($currentUser && $currentUser->canEditUsers()) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('edit-users', array(
+            $view = View::forge('edit-users', [
                 'users' => $this->getQueriedUsers(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
-            ));
+            ]);
         } else {
             $view = View::forge('error-403');
         }

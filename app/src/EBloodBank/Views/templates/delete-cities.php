@@ -19,7 +19,7 @@ $view->displayView('header', ['title' => __('Delete Cities')]);
         <p><?= EBB\escHTML(__('Delete each city in the list below?')) ?></p>
 
         <ul>
-            <?php foreach($view->get('cities') as $city) : ?>
+            <?php foreach ($view->get('cities') as $city) : ?>
             <li>
                 <?php $city->display('name') ?>
                 <input type="hidden" name="cities[]" value="<?php $city->display('id', 'attr') ?>" />

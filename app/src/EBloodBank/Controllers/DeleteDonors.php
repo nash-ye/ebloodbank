@@ -49,13 +49,13 @@ class DeleteDonors extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canDeleteDonors()) {
+        if (! $currentUser || ! $currentUser->canDeleteDonors()) {
+            $view = View::forge('error-403');
+        } else {
             $this->doActions();
             $view = View::forge('delete-donors', [
                 'donors' => $this->getQueriedDonors(),
             ]);
-        } else {
-            $view = View::forge('error-403');
         }
         $view();
     }
@@ -95,16 +95,18 @@ class DeleteDonors extends Controller
 
         $donors = $this->getQueriedDonors();
 
-        if (empty($donors)) {
+        if (! $donors || ! is_array($donors)) {
             return;
         }
 
         $deletedDonorsCount = 0;
         $em = $this->getContainer()->get('entity_manager');
 
-        foreach($donors as $donor) {
-            $em->remove($donor);
-            $deletedDonorsCount++;
+        foreach ($donors as $donor) {
+            if ($currentUser->canDeleteDonor($donor)) {
+                $em->remove($donor);
+                $deletedDonorsCount++;
+            }
         }
 
         $em->flush();
@@ -112,7 +114,7 @@ class DeleteDonors extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditDonorsURL(),
-                array('flag-deleted' => $deletedDonorsCount)
+                ['flag-deleted' => $deletedDonorsCount]
             )
         );
     }

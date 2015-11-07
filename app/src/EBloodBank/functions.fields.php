@@ -7,7 +7,7 @@
  */
 namespace EBloodBank;
 
-USE EBloodBank\Models\Donor;
+use EBloodBank\Models\Donor;
 
 /**
  * @return void
@@ -306,10 +306,10 @@ function getDistrictsDropdown(array $args)
             ];
         }
         if (! empty($groups)) {
-            foreach($groups as $group) {
+            foreach ($groups as $group) {
                 $output .= sprintf('<optgroup%s>', toAttributes($group['atts']));
                 if (! empty($group['options']) && is_array($group['options'])) {
-                    foreach($group['options'] as $option) {
+                    foreach ($group['options'] as $option) {
                         $output .= sprintf(
                             '<option%s>%s</option>',
                             toAttributes($option['atts']),

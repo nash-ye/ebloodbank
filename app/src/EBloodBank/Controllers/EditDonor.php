@@ -47,17 +47,29 @@ class EditDonor extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        $donor = $this->getQueriedDonor();
-        if ($currentUser && $currentUser->canEditDonor($donor)) {
-            $this->doActions();
-            $this->addNotices();
-            $view = View::forge('edit-donor', array(
-                'donor' => $donor,
-            ));
-        } else {
-            $view = View::forge('error-403');
+
+        if (! $currentUser || ! $currentUser->canEditDonors()) {
+            View::display('error-403');
+            return;
         }
-        $view();
+
+        if (! $this->isQueriedDonorExists()) {
+            View::display('error-404');
+            return;
+        }
+
+        $donor = $this->getQueriedDonor();
+
+        if (! $currentUser->canEditDonor($donor)) {
+            View::display('error-403');
+            return;
+        }
+
+        $this->doActions();
+        $this->addNotices();
+        View::display('edit-donor', [
+            'donor' => $donor,
+        ]);
     }
 
     /**
@@ -101,7 +113,6 @@ class EditDonor extends Controller
 
             $currentUser = EBB\getCurrentUser();
             $donor = $this->getQueriedDonor();
-            $donorID = $this->getQueriedDonorID();
 
             if (! $currentUser || ! $currentUser->canEditDonor($donor)) {
                 return;
@@ -146,8 +157,8 @@ class EditDonor extends Controller
 
             EBB\redirect(
                 EBB\addQueryArgs(
-                    EBB\getEditDonorURL($donorID),
-                    array('flag-edited' => true)
+                    EBB\getEditDonorURL($donor->get('id')),
+                    ['flag-edited' => true]
                 )
             );
         } catch (InvalidArgumentException $ex) {
@@ -165,12 +176,12 @@ class EditDonor extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.0
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedDonorID()
+    protected function isQueriedDonorExists()
     {
         $donor = $this->getQueriedDonor();
-        return ($donor) ? (int) $donor->get('id') : 0;
+        return ($donor && $donor->isExists());
     }
 }

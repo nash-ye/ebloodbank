@@ -29,11 +29,11 @@ class EditCities extends ViewCities
         if ($currentUser && $currentUser->canEditCities()) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('edit-cities', array(
+            $view = View::forge('edit-cities', [
                 'cities' => $this->getQueriedCities(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
-            ));
+            ]);
         } else {
             $view = View::forge('error-403');
         }

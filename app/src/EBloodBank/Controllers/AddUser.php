@@ -160,7 +160,7 @@ class AddUser extends Controller
             EBB\redirect(
                 EBB\addQueryArgs(
                     EBB\getAddUserURL(),
-                    array('flag-added' => $added)
+                    ['flag-added' => $added]
                 )
             );
         } catch (InvalidArgumentException $ex) {

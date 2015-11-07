@@ -45,16 +45,28 @@ class ApproveDonor extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        $donor = $this->getQueriedDonor();
-        if ($currentUser && $currentUser->canApproveDonor($donor)) {
-            $this->doActions();
-            $view = View::forge('approve-donor', [
-                'donor' => $donor,
-            ]);
-        } else {
-            $view = View::forge('error-403');
+
+        if (! $currentUser || ! $currentUser->canApproveDonors()) {
+            View::display('error-403');
+            return;
         }
-        $view();
+
+        if (! $this->isQueriedDonorExists()) {
+            View::display('error-404');
+            return;
+        }
+
+        $donor = $this->getQueriedDonor();
+
+        if (! $currentUser->canApproveDonor($donor)) {
+            View::display('error-403');
+            return;
+        }
+
+        $this->doActions();
+        View::display('approve-donor', [
+            'donor' => $donor,
+        ]);
     }
 
     /**
@@ -102,7 +114,7 @@ class ApproveDonor extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditDonorsURL(),
-                array('flag-approved' => 1)
+                ['flag-approved' => 1]
             )
         );
     }
@@ -117,12 +129,12 @@ class ApproveDonor extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.0
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedDonorID()
+    protected function isQueriedDonorExists()
     {
         $donor = $this->getQueriedDonor();
-        return ($donor) ? (int) $donor->get('id') : 0;
+        return ($donor && $donor->isExists());
     }
 }

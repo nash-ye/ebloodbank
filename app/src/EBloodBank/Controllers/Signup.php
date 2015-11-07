@@ -129,7 +129,7 @@ class Signup extends Controller
             EBB\redirect(
                 EBB\addQueryArgs(
                     EBB\getLoginURL(),
-                    array('flag-signedup' => $signedup)
+                    ['flag-signedup' => $signedup]
                 )
             );
         } catch (InvalidArgumentException $ex) {

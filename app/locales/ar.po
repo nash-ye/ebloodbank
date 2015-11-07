@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-06 21:49+0300\n"
-"PO-Revision-Date: 2015-11-06 21:49+0300\n"
+"POT-Creation-Date: 2015-11-07 16:55+0300\n"
+"PO-Revision-Date: 2015-11-07 16:55+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: ar\n"
@@ -22,7 +22,7 @@ msgid "City added."
 msgstr "تم إضافة المدينة."
 
 #: ../src/EBloodBank/Controllers/AddCity.php:118
-#: ../src/EBloodBank/Controllers/EditCity.php:119
+#: ../src/EBloodBank/Controllers/EditCity.php:130
 msgid "Please enter a unique city name."
 msgstr "يرجى إدخال اسم فريد للمدينة."
 
@@ -69,7 +69,7 @@ msgid "User added."
 msgstr "تم إضافة المستخدم."
 
 #: ../src/EBloodBank/Controllers/AddUser.php:121
-#: ../src/EBloodBank/Controllers/EditUser.php:122
+#: ../src/EBloodBank/Controllers/EditUser.php:133
 msgid "Please enter a unique user e-mail."
 msgstr "يرجى إدخال بريد إلكتروني فريد للمستخدم."
 
@@ -82,26 +82,26 @@ msgid "Please confirm the password."
 msgstr "يرجى تأكيد كلمة المرور."
 
 #: ../src/EBloodBank/Controllers/AddUser.php:136
-#: ../src/EBloodBank/Controllers/EditUser.php:134
+#: ../src/EBloodBank/Controllers/EditUser.php:145
 #: ../src/EBloodBank/Controllers/Install.php:288
 #: ../src/EBloodBank/Controllers/Signup.php:92
 msgid "Please enter the same password."
 msgstr "يرجى إدخال نفس كلمة المرور."
 
-#: ../src/EBloodBank/Controllers/DeleteCities.php:111
+#: ../src/EBloodBank/Controllers/DeleteCities.php:112
 #, php-format
 msgid "At first, delete any linked districts with city \"%s\"."
 msgstr "في البداية، احذف أي مديريات مرتبطة مع المدينة \"%s\"."
 
-#: ../src/EBloodBank/Controllers/DeleteCity.php:100
+#: ../src/EBloodBank/Controllers/DeleteCity.php:112
 msgid "At first, delete any linked districts with this city."
 msgstr "في البداية، احذف أي مديريات مرتبطة مع هذه المدينة."
 
-#: ../src/EBloodBank/Controllers/DeleteDistrict.php:99
+#: ../src/EBloodBank/Controllers/DeleteDistrict.php:111
 msgid "At first, delete any linked donors with this district."
 msgstr "في البداية، احذف أي متبرعين مرتبطين مع هذه المديرية."
 
-#: ../src/EBloodBank/Controllers/DeleteDistricts.php:111
+#: ../src/EBloodBank/Controllers/DeleteDistricts.php:112
 #, php-format
 msgid "At first, delete any linked donors with district \"%s\"."
 msgstr "في البداية، احذف أي متبرعين مرتبطين مع مديرية \"%s\"."
@@ -117,11 +117,11 @@ msgstr[3] "تم حذف %d مدن بشكل دائم."
 msgstr[4] "تم حذف %d مدينة بشكل دائم."
 msgstr[5] "تم حذف %d مدينة بشكل دائم."
 
-#: ../src/EBloodBank/Controllers/EditCity.php:83
+#: ../src/EBloodBank/Controllers/EditCity.php:95
 msgid "City edited."
 msgstr "تم تحرير المدينة."
 
-#: ../src/EBloodBank/Controllers/EditDistrict.php:83
+#: ../src/EBloodBank/Controllers/EditDistrict.php:95
 msgid "District edited."
 msgstr "تم تحرير المديرية."
 
@@ -136,7 +136,7 @@ msgstr[3] "تم حذف %d مديريات بشكل دائم."
 msgstr[4] "تم حذف %d مديرية بشكل دائم."
 msgstr[5] "تم حذف %d مديرية بشكل دائم."
 
-#: ../src/EBloodBank/Controllers/EditDonor.php:83
+#: ../src/EBloodBank/Controllers/EditDonor.php:95
 msgid "Donor edited."
 msgstr "تم تحرير المتبرع."
 
@@ -162,11 +162,11 @@ msgstr[3] "تم حذف %d متبرعين بشكل دائم."
 msgstr[4] "تم حذف %d متبرع بشكل دائم."
 msgstr[5] "تم حذف %d متبرع بشكل دائم."
 
-#: ../src/EBloodBank/Controllers/EditUser.php:83
+#: ../src/EBloodBank/Controllers/EditUser.php:95
 msgid "User edited."
 msgstr "تم تحرير المستخدم."
 
-#: ../src/EBloodBank/Controllers/EditUser.php:129
+#: ../src/EBloodBank/Controllers/EditUser.php:140
 msgid "Please enter the password twice."
 msgstr "يرجى إدخال كلمة المرور مرتين."
 
@@ -599,7 +599,7 @@ msgstr "أضف جديد"
 #: ../src/EBloodBank/Views/templates/form-district.php:20
 #: ../src/EBloodBank/Views/templates/form-donor.php:21
 #: ../src/EBloodBank/Views/templates/form-signup.php:20
-#: ../src/EBloodBank/Views/templates/form-user.php:20
+#: ../src/EBloodBank/Views/templates/form-user.php:21
 #: ../src/EBloodBank/Views/templates/install.php:117
 #: ../src/EBloodBank/Views/templates/view-cities.php:29
 #: ../src/EBloodBank/Views/templates/view-districts.php:29
@@ -692,7 +692,7 @@ msgstr "تحرير المستخدمين"
 #: ../src/EBloodBank/Views/templates/form-donor.php:77
 #: ../src/EBloodBank/Views/templates/form-login.php:20
 #: ../src/EBloodBank/Views/templates/form-signup.php:29
-#: ../src/EBloodBank/Views/templates/form-user.php:29
+#: ../src/EBloodBank/Views/templates/form-user.php:30
 #: ../src/EBloodBank/Views/templates/install.php:126
 #: ../src/EBloodBank/Views/templates/view-donor.php:31
 #: ../src/EBloodBank/Views/templates/view-users.php:29
@@ -700,7 +700,7 @@ msgid "E-mail"
 msgstr "البريد الإلكتروني"
 
 #: ../src/EBloodBank/Views/templates/edit-users.php:34
-#: ../src/EBloodBank/Views/templates/form-user.php:54
+#: ../src/EBloodBank/Views/templates/form-user.php:55
 #: ../src/EBloodBank/Views/templates/view-users.php:30
 msgid "Role"
 msgstr "الرتبة"
@@ -758,7 +758,7 @@ msgstr "حدث خطأ أثناء الاتصال بقاعدة البيانات."
 #: ../src/EBloodBank/Views/templates/form-city.php:28
 #: ../src/EBloodBank/Views/templates/form-district.php:45
 #: ../src/EBloodBank/Views/templates/form-donor.php:120
-#: ../src/EBloodBank/Views/templates/form-user.php:68
+#: ../src/EBloodBank/Views/templates/form-user.php:69
 msgid "Submit"
 msgstr "إرسال"
 
@@ -798,7 +798,7 @@ msgstr "بحث"
 
 #: ../src/EBloodBank/Views/templates/form-login.php:29
 #: ../src/EBloodBank/Views/templates/form-signup.php:38
-#: ../src/EBloodBank/Views/templates/form-user.php:41
+#: ../src/EBloodBank/Views/templates/form-user.php:42
 #: ../src/EBloodBank/Views/templates/install.php:135
 msgid "Password"
 msgstr "كلمة المرور"
@@ -825,15 +825,15 @@ msgstr "أكتب كلمة مرورك مرة أخرى"
 msgid "Sign Up"
 msgstr "التسجيل"
 
-#: ../src/EBloodBank/Views/templates/form-user.php:39
+#: ../src/EBloodBank/Views/templates/form-user.php:40
 msgid "New Password"
 msgstr "كلمة المرور الجديدة"
 
-#: ../src/EBloodBank/Views/templates/form-user.php:45
+#: ../src/EBloodBank/Views/templates/form-user.php:46
 msgid "Type the password"
 msgstr "أكتب كلمة المرور"
 
-#: ../src/EBloodBank/Views/templates/form-user.php:47
+#: ../src/EBloodBank/Views/templates/form-user.php:48
 msgid "Type the password again"
 msgstr "أكتب كلمة المرور مرة أخرى"
 

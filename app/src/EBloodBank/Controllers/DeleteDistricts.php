@@ -50,13 +50,13 @@ class DeleteDistricts extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canDeleteDistricts()) {
+        if (! $currentUser || ! $currentUser->canDeleteDistricts()) {
+            $view = View::forge('error-403');
+        } else {
             $this->doActions();
             $view = View::forge('delete-districts', [
                 'districts' => $this->getQueriedDistricts(),
             ]);
-        } else {
-            $view = View::forge('error-403');
         }
         $view();
     }
@@ -96,7 +96,7 @@ class DeleteDistricts extends Controller
 
         $districts = $this->getQueriedDistricts();
 
-        if (empty($districts)) {
+        if (! $districts || ! is_array($districts)) {
             return;
         }
 
@@ -104,16 +104,18 @@ class DeleteDistricts extends Controller
         $em = $this->getContainer()->get('entity_manager');
         $donorRepository = $em->getRepository('Entities:Donor');
 
-        foreach($districts as $district) {
-            $donorsCount = $donorRepository->countBy(array('district' => $districts));
+        foreach ($districts as $district) {
+            if ($currentUser->canDeleteDistrict($district)) {
+                $donorsCount = $donorRepository->countBy(['district' => $districts]);
 
-            if ($donorsCount > 0) {
-                Notices::addNotice('linked_donors_exists', sprintf(__('At first, delete any linked donors with district "%s".'), $district->get('id')));
-                return;
+                if ($donorsCount > 0) {
+                    Notices::addNotice('linked_donors_exists', sprintf(__('At first, delete any linked donors with district "%s".'), $district->get('id')));
+                    return;
+                }
+
+                $em->remove($district);
+                $deletedDistrictsCount++;
             }
-
-            $em->remove($district);
-            $deletedDistrictsCount++;
         }
 
         $em->flush();
@@ -121,7 +123,7 @@ class DeleteDistricts extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditDistrictsURL(),
-                array('flag-deleted' => $deletedDistrictsCount)
+                ['flag-deleted' => $deletedDistrictsCount]
             )
         );
     }

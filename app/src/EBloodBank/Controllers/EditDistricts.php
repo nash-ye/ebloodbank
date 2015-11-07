@@ -29,11 +29,11 @@ class EditDistricts extends ViewDistricts
         if ($currentUser && $currentUser->canEditDistricts()) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('edit-districts', array(
+            $view = View::forge('edit-districts', [
                 'districts' => $this->getQueriedDistricts(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
-            ));
+            ]);
         } else {
             $view = View::forge('error-403');
         }

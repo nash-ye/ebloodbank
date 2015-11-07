@@ -8,6 +8,15 @@
 namespace EBloodBank;
 
 /**
+ * @return bool
+ * @since 1.2
+ */
+function isCLI()
+{
+    return (php_sapi_name() === 'cli');
+}
+
+/**
  * Whether the current page is the installer.
  *
  * @return bool

@@ -45,16 +45,28 @@ class ActivateUser extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        $user = $this->getQueriedUser();
-        if ($currentUser && $currentUser->canActivateUser($user)) {
-            $this->doActions();
-            $view = View::forge('activate-user', [
-                'user' => $user,
-            ]);
-        } else {
-            $view = View::forge('error-403');
+
+        if (! $currentUser || ! $currentUser->canActivateUsers()) {
+            View::display('error-403');
+            return;
         }
-        $view();
+
+        if (! $this->isQueriedUserExists()) {
+            View::display('error-404');
+            return;
+        }
+
+        $user = $this->getQueriedUser();
+
+        if (! $currentUser->canActivateUser($user)) {
+            View::display('error-403');
+            return;
+        }
+
+        $this->doActions();
+        View::display('activate-user', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -102,7 +114,7 @@ class ActivateUser extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditUsersURL(),
-                array('flag-activated' => 1)
+                ['flag-activated' => 1]
             )
         );
     }
@@ -117,12 +129,12 @@ class ActivateUser extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.0
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedUserID()
+    protected function isQueriedUserExists()
     {
         $user = $this->getQueriedUser();
-        return ($user) ? (int) $user->get('id') : 0;
+        return ($user && $user->isExists());
     }
 }

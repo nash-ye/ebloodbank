@@ -47,17 +47,29 @@ class EditUser extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        $user = $this->getQueriedUser();
-        if ($currentUser && $currentUser->canEditUser($user)) {
-            $this->doActions();
-            $this->addNotices();
-            $view = View::forge('edit-user', [
-                'user' => $user,
-            ]);
-        } else {
-            $view = View::forge('error-403');
+
+        if (! $currentUser || ! $currentUser->canEditUsers()) {
+            View::display('error-403');
+            return;
         }
-        $view();
+
+        if (! $this->isQueriedUserExists()) {
+            View::display('error-404');
+            return;
+        }
+
+        $user = $this->getQueriedUser();
+
+        if (! $currentUser->canEditUser($user)) {
+            View::display('error-403');
+            return;
+        }
+
+        $this->doActions();
+        $this->addNotices();
+        View::display('edit-user', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -101,7 +113,6 @@ class EditUser extends Controller
 
             $currentUser = EBB\getCurrentUser();
             $user = $this->getQueriedUser();
-            $userID = $this->getQueriedUserID();
 
             if (! $currentUser || ! $currentUser->canEditUser($user)) {
                 return;
@@ -118,7 +129,7 @@ class EditUser extends Controller
 
             $duplicateUser = $userRepository->findOneBy(['email' => $user->get('email'), 'status' => 'any']);
 
-            if (! empty($duplicateUser) && $duplicateUser->get('id') != $userID) {
+            if (! empty($duplicateUser) && $duplicateUser->get('id') != $user->get('id')) {
                 throw new InvalidArgumentException(__('Please enter a unique user e-mail.'));
             }
 
@@ -139,7 +150,7 @@ class EditUser extends Controller
             }
 
             // Set the user role.
-            if ($userID != EBB\getCurrentUserID()) {
+            if ($user->get('id') != EBB\getCurrentUserID()) {
                 $user->set('role', filter_input(INPUT_POST, 'user_role'), true);
             }
 
@@ -147,8 +158,8 @@ class EditUser extends Controller
 
             EBB\redirect(
                 EBB\addQueryArgs(
-                    EBB\getEditUserURL($userID),
-                    array('flag-edited' => true)
+                    EBB\getEditUserURL($user->get('id')),
+                    ['flag-edited' => true]
                 )
             );
         } catch (InvalidArgumentException $ex) {
@@ -166,12 +177,12 @@ class EditUser extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.0
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedUserID()
+    protected function isQueriedUserExists()
     {
         $user = $this->getQueriedUser();
-        return ($user) ? (int) $user->get('id') : 0;
+        return ($user && $user->isExists());
     }
 }

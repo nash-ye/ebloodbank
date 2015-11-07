@@ -26,16 +26,15 @@ class ViewUsers extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser->canViewUsers()) {
-            $view = View::forge('view-users', array(
+        if (! $currentUser || ! $currentUser->canViewDonors()) {
+            View::display('error-403');
+        } else {
+            View::display('view-users', [
                 'users' => $this->getQueriedUsers(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
-            ));
-        } else {
-            $view = View::forge('error-403');
+            ]);
         }
-        $view();
     }
 
     /**

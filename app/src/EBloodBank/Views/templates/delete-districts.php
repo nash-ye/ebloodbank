@@ -19,7 +19,7 @@ $view->displayView('header', ['title' => __('Delete Districts')]);
         <p><?= EBB\escHTML(__('Delete each district in the list below?')) ?></p>
 
         <ul>
-            <?php foreach($view->get('districts') as $district) : ?>
+            <?php foreach ($view->get('districts') as $district) : ?>
             <li>
                 <?php $district->display('name') ?>
                 <input type="hidden" name="districts[]" value="<?php $district->display('id', 'attr') ?>" />

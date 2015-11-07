@@ -32,15 +32,15 @@ class Install extends Controller
     {
         $connection = $this->getContainer()->get('db_connection');
         if (EBB\getInstallationStatus($connection) === EBB\DATABASE_INSTALLED) {
-            $view = View::forge('install', array(
+            $view = View::forge('install', [
                 'status' => 'installed',
-            ));
+            ]);
         } else {
             $this->doStepAction();
-            $view = View::forge('install', array(
+            $view = View::forge('install', [
                 'step' => $this->getStep(),
                 'status' => 'installing',
-            ));
+            ]);
         }
         $view();
     }
@@ -85,7 +85,7 @@ class Install extends Controller
                 EBB\redirect(
                     EBB\addQueryArgs(
                         EBB\getInstallerURL(),
-                        array('step' => 2)
+                        ['step' => 2]
                     )
                 );
             }

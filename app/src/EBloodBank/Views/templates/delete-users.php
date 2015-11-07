@@ -19,7 +19,7 @@ $view->displayView('header', ['title' => __('Delete Users')]);
         <p><?= EBB\escHTML(__('Delete each user in the list below?')) ?></p>
 
         <ul>
-            <?php foreach($view->get('users') as $user) : ?>
+            <?php foreach ($view->get('users') as $user) : ?>
             <li>
                 <?php $user->display('name') ?>
                 <input type="hidden" name="users[]" value="<?php $user->display('id', 'attr') ?>" />

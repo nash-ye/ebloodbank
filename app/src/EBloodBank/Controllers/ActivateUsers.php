@@ -49,13 +49,13 @@ class ActivateUsers extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canActivateUsers()) {
+        if (! $currentUser || ! $currentUser->canActivateUsers()) {
+            $view = View::forge('error-403');
+        } else {
             $this->doActions();
             $view = View::forge('activate-users', [
                 'users' => $this->getQueriedUsers(),
             ]);
-        } else {
-            $view = View::forge('error-403');
         }
         $view();
     }
@@ -79,6 +79,12 @@ class ActivateUsers extends Controller
      */
     protected function doActivateAction()
     {
+        $currentUser = EBB\getCurrentUser();
+
+        if (! $currentUser || ! $currentUser->canActivateUsers()) {
+            return;
+        }
+
         $session = $this->getContainer()->get('session');
         $sessionToken = $session->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
@@ -87,27 +93,23 @@ class ActivateUsers extends Controller
             return;
         }
 
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $currentUser->canActivateUsers()) {
-            return;
-        }
-
         $users = $this->getQueriedUsers();
 
-        if (empty($users)) {
+        if (! $users || ! is_array($users)) {
             return;
         }
 
         $activatedUsersCount = 0;
         $em = $this->getContainer()->get('entity_manager');
 
-        foreach($users as $user) {
-            if (empty($user) || ! $user->isPending()) {
+        foreach ($users as $user) {
+            if (! $user->isPending()) {
                 continue;
             }
-            $user->set('status', 'activated');
-            $activatedUsersCount++;
+            if ($currentUser->canActivateUser($user)) {
+                $user->set('status', 'activated');
+                $activatedUsersCount++;
+            }
         }
 
         $em->flush();
@@ -115,7 +117,7 @@ class ActivateUsers extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditUsersURL(),
-                array('flag-activated' => $activatedUsersCount)
+                ['flag-activated' => $activatedUsersCount]
             )
         );
     }

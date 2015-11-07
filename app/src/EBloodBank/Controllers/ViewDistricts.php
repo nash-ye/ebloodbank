@@ -26,16 +26,16 @@ class ViewDistricts extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ('on' === EBB\Options::getOption('site_publication') || $currentUser->canViewDistricts()) {
-            $view = View::forge('view-districts', array(
+        $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
+        if (! $isSitePublic && (! $currentUser || ! $currentUser->canViewDistricts())) {
+            View::display('error-403');
+        } else {
+            View::display('view-districts', [
                 'districts' => $this->getQueriedDistricts(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
-            ));
-        } else {
-            $view = View::forge('error-403');
+            ]);
         }
-        $view();
     }
 
     /**

@@ -45,16 +45,28 @@ class DeleteUser extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        $user = $this->getQueriedUser();
-        if ($currentUser && $currentUser->canDeleteUser($user)) {
-            $this->doActions();
-            $view = View::forge('delete-user', [
-                'user' => $this->getQueriedUser(),
-            ]);
-        } else {
-            $view = View::forge('error-403');
+
+        if (! $currentUser || ! $currentUser->canDeleteUsers()) {
+            View::display('error-403');
+            return;
         }
-        $view();
+
+        if (! $this->isQueriedUserExists()) {
+            View::display('error-404');
+            return;
+        }
+
+        $user = $this->getQueriedUser();
+
+        if (! $currentUser->canDeleteUser($user)) {
+            View::display('error-403');
+            return;
+        }
+
+        $this->doActions();
+        View::display('delete-user', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -84,14 +96,10 @@ class DeleteUser extends Controller
             return;
         }
 
-        $currentUser = EBB\getCurrentUser();
         $user = $this->getQueriedUser();
+        $currentUser = EBB\getCurrentUser();
 
         if (! $currentUser || ! $currentUser->canDeleteUser($user)) {
-            return;
-        }
-
-        if ($user->get('id') == $currentUser->get('id')) {
             return;
         }
 
@@ -102,7 +110,7 @@ class DeleteUser extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditUsersURL(),
-                array('flag-deleted' => 1)
+                ['flag-deleted' => 1]
             )
         );
     }
@@ -117,12 +125,12 @@ class DeleteUser extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.0
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedUserID()
+    protected function isQueriedUserExists()
     {
         $user = $this->getQueriedUser();
-        return ($user) ? (int) $user->get('id') : 0;
+        return ($user && $user->isExists());
     }
 }

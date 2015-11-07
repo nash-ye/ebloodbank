@@ -89,7 +89,7 @@ class Settings extends Controller
             EBB\redirect(
                 EBB\addQueryArgs(
                     EBB\getSettingsURL(),
-                    array('flag-saved' => true)
+                    ['flag-saved' => true]
                 )
             );
         } catch (InvalidArgumentException $ex) {

@@ -112,7 +112,7 @@ class AddCity extends Controller
             // Set the city name.
             $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
 
-            $duplicateCity = $cityRepository->findOneBy(array('name' => $city->get('name')));
+            $duplicateCity = $cityRepository->findOneBy(['name' => $city->get('name')]);
 
             if (! empty($duplicateCity)) {
                 throw new InvalidArgumentException(__('Please enter a unique city name.'));
@@ -132,7 +132,7 @@ class AddCity extends Controller
             EBB\redirect(
                 EBB\addQueryArgs(
                     EBB\getAddCityURL(),
-                    array('flag-added' => $added)
+                    ['flag-added' => $added]
                 )
             );
         } catch (InvalidArgumentException $ex) {

@@ -19,7 +19,7 @@ $view->displayView('header', ['title' => __('Delete Donors')]);
         <p><?= EBB\escHTML(__('Delete each donor in the list below?')) ?></p>
 
         <ul>
-            <?php foreach($view->get('donors') as $donor) : ?>
+            <?php foreach ($view->get('donors') as $donor) : ?>
             <li>
                 <?php $donor->display('name') ?>
                 <input type="hidden" name="donors[]" value="<?php $donor->display('id', 'attr') ?>" />

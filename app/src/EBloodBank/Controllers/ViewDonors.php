@@ -26,20 +26,20 @@ class ViewDonors extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ('on' === EBB\Options::getOption('site_publication') || $currentUser->canViewDonors()) {
+        $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
+        if (! $isSitePublic && (! $currentUser || ! $currentUser->canViewDonors())) {
+            View::display('error-403');
+        } else {
             $em = $this->getContainer()->get('entity_manager');
-            $view = View::forge('view-donors', array(
+            View::display('view-donors', [
                 'donors' => $this->getQueriedDonors(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
                 'filter.criteria' => $this->getFilterCriteria(),
                 'cityRepository' => $em->getRepository('Entities:City'),
                 'districtRepository' => $em->getRepository('Entities:District'),
-            ));
-        } else {
-            $view = View::forge('error-403');
+            ]);
         }
-        $view();
     }
 
     /**

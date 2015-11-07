@@ -46,16 +46,28 @@ class DeleteCity extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        $city = $this->getQueriedCity();
-        if ($currentUser && $currentUser->canDeleteCity($city)) {
-            $this->doActions();
-            $view = View::forge('delete-city', [
-                'city' => $city,
-            ]);
-        } else {
-            $view = View::forge('error-403');
+
+        if (! $currentUser || ! $currentUser->canDeleteCities()) {
+            View::display('error-403');
+            return;
         }
-        $view();
+
+        if (! $this->isQueriedCityExists()) {
+            View::display('error-404');
+            return;
+        }
+
+        $city = $this->getQueriedCity();
+
+        if (! $currentUser->canDeleteCity($city)) {
+            View::display('error-403');
+            return;
+        }
+
+        $this->doActions();
+        View::display('delete-city', [
+            'city' => $city,
+        ]);
     }
 
     /**
@@ -94,7 +106,7 @@ class DeleteCity extends Controller
 
         $em = $this->getContainer()->get('entity_manager');
         $districtRepository = $em->getRepository('Entities:District');
-        $districtsCount = $districtRepository->countBy(array('city' => $city));
+        $districtsCount = $districtRepository->countBy(['city' => $city]);
 
         if ($districtsCount > 0) {
             Notices::addNotice('linked_districts_exists', __('At first, delete any linked districts with this city.'));
@@ -107,7 +119,7 @@ class DeleteCity extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditCitiesURL(),
-                array('flag-deleted' => 1)
+                ['flag-deleted' => 1]
             )
         );
     }
@@ -122,12 +134,12 @@ class DeleteCity extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.0
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedCityID()
+    protected function isQueriedCityExists()
     {
         $city = $this->getQueriedCity();
-        return ($city) ? (int) $city->get('id') : 0;
+        return ($city && $city->isExists());
     }
 }

@@ -50,13 +50,13 @@ class DeleteCities extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canDeleteCities()) {
+        if (! $currentUser || ! $currentUser->canDeleteCities()) {
+            $view = View::forge('error-403');
+        } else {
             $this->doActions();
             $view = View::forge('delete-cities', [
                 'cities' => $this->getQueriedCities(),
             ]);
-        } else {
-            $view = View::forge('error-403');
         }
         $view();
     }
@@ -96,7 +96,7 @@ class DeleteCities extends Controller
 
         $cities = $this->getQueriedCities();
 
-        if (empty($cities)) {
+        if (! $cities || ! is_array($cities)) {
             return;
         }
 
@@ -104,16 +104,18 @@ class DeleteCities extends Controller
         $em = $this->getContainer()->get('entity_manager');
         $districtRepository = $em->getRepository('Entities:District');
 
-        foreach($cities as $city) {
-            $districtsCount = $districtRepository->countBy(['city' => $city]);
+        foreach ($cities as $city) {
+            if ($currentUser->canDeleteCity($city)) {
+                $districtsCount = $districtRepository->countBy(['city' => $city]);
 
-            if ($districtsCount > 0) {
-                Notices::addNotice('linked_districts_exists', sprintf(__('At first, delete any linked districts with city "%s".'), $city->get('name')));
-                return;
+                if ($districtsCount > 0) {
+                    Notices::addNotice('linked_districts_exists', sprintf(__('At first, delete any linked districts with city "%s".'), $city->get('name')));
+                    return;
+                }
+
+                $em->remove($city);
+                $deletedCitiesCount++;
             }
-
-            $em->remove($city);
-            $deletedCitiesCount++;
         }
 
         $em->flush();
@@ -121,7 +123,7 @@ class DeleteCities extends Controller
         EBB\redirect(
             EBB\addQueryArgs(
                 EBB\getEditCitiesURL(),
-                array('flag-deleted' => $deletedCitiesCount)
+                ['flag-deleted' => $deletedCitiesCount]
             )
         );
     }

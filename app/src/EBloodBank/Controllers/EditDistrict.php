@@ -47,17 +47,29 @@ class EditDistrict extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        $district = $this->getQueriedDistrict();
-        if ($currentUser && $currentUser->canEditDistrict($district)) {
-            $this->doActions();
-            $this->addNotices();
-            $view = View::forge('edit-district', [
-                'district' => $district,
-            ]);
-        } else {
-            $view = View::forge('error-403');
+
+        if (! $currentUser || ! $currentUser->canEditDistricts()) {
+            View::display('error-403');
+            return;
         }
-        $view();
+
+        if (! $this->isQueriedDistrictExists()) {
+            View::display('error-404');
+            return;
+        }
+
+        $district = $this->getQueriedDistrict();
+
+        if (! $currentUser->canEditDistrict($district)) {
+            View::display('error-403');
+            return;
+        }
+
+        $this->doActions();
+        $this->addNotices();
+        View::display('edit-district', [
+            'district' => $district,
+        ]);
     }
 
     /**
@@ -101,7 +113,6 @@ class EditDistrict extends Controller
 
             $currentUser = EBB\getCurrentUser();
             $district = $this->getQueriedDistrict();
-            $districtID = $this->getQueriedDistrictID();
 
             if (! $currentUser || ! $currentUser->canEditDistrict($district)) {
                 return;
@@ -120,8 +131,8 @@ class EditDistrict extends Controller
 
             EBB\redirect(
                 EBB\addQueryArgs(
-                    EBB\getEditDistrictURL($districtID),
-                    array('flag-edited' => true)
+                    EBB\getEditDistrictURL($district->get('id')),
+                    ['flag-edited' => true]
                 )
             );
         } catch (InvalidArgumentException $ex) {
@@ -139,12 +150,12 @@ class EditDistrict extends Controller
     }
 
     /**
-     * @return int
-     * @since 1.0
+     * @return bool
+     * @since 1.2
      */
-    protected function getQueriedDistrictID()
+    protected function isQueriedDistrictExists()
     {
         $district = $this->getQueriedDistrict();
-        return ($district) ? (int) $district->get('id') : 0;
+        return ($district && $district->isExists());
     }
 }

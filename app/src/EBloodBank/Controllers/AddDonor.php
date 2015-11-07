@@ -178,7 +178,7 @@ class AddDonor extends Controller
             EBB\redirect(
                 EBB\addQueryArgs(
                     EBB\getAddDonorURL(),
-                    array('flag-added' => $added)
+                    ['flag-added' => $added]
                 )
             );
         } catch (InvalidArgumentException $ex) {
