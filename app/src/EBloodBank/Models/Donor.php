@@ -319,7 +319,7 @@ class Donor extends Entity
                 }
                 break;
             case 'phone':
-                if (! empty($metaValue) && ! EBB\isValidInteger($metaValue)) {
+                if (! empty($metaValue) && ! ctype_digit($metaValue)) {
                     throw new InvalidArgumentException(__('Invalid donor phone number.'));
                 }
                 break;

@@ -9,6 +9,7 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
+use EBloodBank\Notices;
 use EBloodBank\Views\View;
 use Aura\Di\ContainerInterface;
 
@@ -64,9 +65,21 @@ class ViewDonor extends Controller
             return;
         }
 
+        $this->addNotices();
         View::display('view-donor', [
             'donor' => $donor,
         ]);
+    }
+
+    /**
+     * @return void
+     * @since 1.2
+     */
+    protected function addNotices()
+    {
+        if ($this->isQueriedDonorExists() && $this->getQueriedDonor()->isPending()) {
+            Notices::addNotice('pending', __('This donor is pendng moderation.'), 'warning');
+        }
     }
 
     /**

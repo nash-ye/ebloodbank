@@ -12,7 +12,7 @@
  * @var string
  * @since 1.0
  */
-define('EBB_DB_NAME', 'ebloodbank');
+define('EBB_DB_NAME', '');
 
 /**
  * MySQL database username.
@@ -20,7 +20,7 @@ define('EBB_DB_NAME', 'ebloodbank');
  * @var string
  * @since 1.0
  */
-define('EBB_DB_USER', 'root');
+define('EBB_DB_USER', '');
 
 /**
  * MySQL database password.
@@ -28,7 +28,7 @@ define('EBB_DB_USER', 'root');
  * @var string
  * @since 1.0
  */
-define('EBB_DB_PASS', 'mysql');
+define('EBB_DB_PASS', '');
 
 /**
  * MySQL database host.

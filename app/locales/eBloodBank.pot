@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-07 21:38+0300\n"
-"PO-Revision-Date: 2015-11-07 21:38+0300\n"
+"POT-Creation-Date: 2015-11-08 12:01+0300\n"
+"PO-Revision-Date: 2015-11-08 12:01+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: en\n"
@@ -136,6 +136,11 @@ msgstr[1] ""
 
 #: ../src/EBloodBank/Controllers/EditDonor.php:95
 msgid "Donor edited."
+msgstr ""
+
+#: ../src/EBloodBank/Controllers/EditDonor.php:98
+#: ../src/EBloodBank/Controllers/ViewDonor.php:81
+msgid "This donor is pendng moderation."
 msgstr ""
 
 #: ../src/EBloodBank/Controllers/EditDonors.php:63
@@ -585,7 +590,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/install.php:117
 #: ../src/EBloodBank/Views/templates/view-cities.php:29
 #: ../src/EBloodBank/Views/templates/view-districts.php:29
-#: ../src/EBloodBank/Views/templates/view-donor.php:16
+#: ../src/EBloodBank/Views/templates/view-donor.php:20
 #: ../src/EBloodBank/Views/templates/view-donors.php:39
 #: ../src/EBloodBank/Views/templates/view-users.php:28
 msgid "Name"
@@ -630,7 +635,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/edit-donors.php:44
 #: ../src/EBloodBank/Views/templates/form-donor.php:30
 #: ../src/EBloodBank/Views/templates/form-signup.php:79
-#: ../src/EBloodBank/Views/templates/view-donor.php:19
+#: ../src/EBloodBank/Views/templates/view-donor.php:23
 #: ../src/EBloodBank/Views/templates/view-donors.php:40
 msgid "Gender"
 msgstr ""
@@ -644,7 +649,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/form-donor.php:52
 #: ../src/EBloodBank/Views/templates/form-donors-filter.php:68
 #: ../src/EBloodBank/Views/templates/form-signup.php:101
-#: ../src/EBloodBank/Views/templates/view-donor.php:25
+#: ../src/EBloodBank/Views/templates/view-donor.php:29
 #: ../src/EBloodBank/Views/templates/view-donors.php:42
 msgid "Blood Group"
 msgstr ""
@@ -679,7 +684,7 @@ msgstr ""
 #: ../src/EBloodBank/Views/templates/form-signup.php:44
 #: ../src/EBloodBank/Views/templates/form-user.php:30
 #: ../src/EBloodBank/Views/templates/install.php:126
-#: ../src/EBloodBank/Views/templates/view-donor.php:31
+#: ../src/EBloodBank/Views/templates/view-donor.php:35
 #: ../src/EBloodBank/Views/templates/view-users.php:29
 msgid "E-mail"
 msgstr ""
@@ -749,25 +754,25 @@ msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:43
 #: ../src/EBloodBank/Views/templates/form-signup.php:92
-#: ../src/EBloodBank/Views/templates/view-donor.php:22
+#: ../src/EBloodBank/Views/templates/view-donor.php:26
 msgid "Birthdate"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:68
 #: ../src/EBloodBank/Views/templates/form-signup.php:116
-#: ../src/EBloodBank/Views/templates/view-donor.php:28
+#: ../src/EBloodBank/Views/templates/view-donor.php:32
 msgid "Weight (kg)"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:86
 #: ../src/EBloodBank/Views/templates/form-signup.php:125
-#: ../src/EBloodBank/Views/templates/view-donor.php:34
+#: ../src/EBloodBank/Views/templates/view-donor.php:38
 msgid "Phone"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/form-donor.php:111
 #: ../src/EBloodBank/Views/templates/form-signup.php:149
-#: ../src/EBloodBank/Views/templates/view-donor.php:40
+#: ../src/EBloodBank/Views/templates/view-donor.php:44
 msgid "Address"
 msgstr ""
 
@@ -1065,11 +1070,11 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/view-donor.php:37
+#: ../src/EBloodBank/Views/templates/view-donor.php:41
 msgid "City\\District"
 msgstr ""
 
-#: ../src/EBloodBank/Views/templates/view-donor.php:38
+#: ../src/EBloodBank/Views/templates/view-donor.php:42
 #, php-format
 msgid "%1$s\\%2$s"
 msgstr ""

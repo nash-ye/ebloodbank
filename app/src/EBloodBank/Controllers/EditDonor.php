@@ -94,6 +94,9 @@ class EditDonor extends Controller
         if (filter_has_var(INPUT_GET, 'flag-edited')) {
             Notices::addNotice('edited', __('Donor edited.'), 'success');
         }
+        if ($this->isQueriedDonorExists() && $this->getQueriedDonor()->isPending()) {
+            Notices::addNotice('pending', __('This donor is pendng moderation.'), 'warning');
+        }
     }
 
     /**

@@ -69,6 +69,10 @@ h6 {
 #form-donors-filter {
     margin: 15px 0;
 }
+.view-donor .dl-horizontal dt,
+.view-donor .dl-horizontal dd {
+    text-align: inherit;
+}
 
 /**
  * The Footer
