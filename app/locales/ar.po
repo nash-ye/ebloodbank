@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-08 12:02+0300\n"
-"PO-Revision-Date: 2015-11-08 12:02+0300\n"
+"POT-Creation-Date: 2015-11-13 20:19+0300\n"
+"PO-Revision-Date: 2015-11-13 20:19+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: ar\n"
@@ -273,19 +273,19 @@ msgstr "ملف الـ MO الخاص باللغة غير قابل للقراءة 
 msgid "Locale PO file is not readable or not exists."
 msgstr "ملف الـ PO الخاص باللغة غير قابل للقراءة أو غير موجود."
 
-#: ../src/EBloodBank/Main.php:342
+#: ../src/EBloodBank/Main.php:341
 msgid "Subscriber"
 msgstr "مشترك"
 
-#: ../src/EBloodBank/Main.php:355
+#: ../src/EBloodBank/Main.php:354
 msgid "Contributor"
 msgstr "مساهم"
 
-#: ../src/EBloodBank/Main.php:371
+#: ../src/EBloodBank/Main.php:370
 msgid "Editor"
 msgstr "محرر"
 
-#: ../src/EBloodBank/Main.php:399
+#: ../src/EBloodBank/Main.php:398
 msgid "Administrator"
 msgstr "مدير"
 

@@ -315,7 +315,6 @@ class Main
             $session->setCookieParams([
                 'lifetime' => 3600,
                 'path'     => parse_url(getHomeURL(), PHP_URL_PATH),
-                'domain'   => parse_url(getHomeURL(), PHP_URL_HOST),
                 'secure'   => isHTTPS(),
                 'httponly' => true,
             ]);

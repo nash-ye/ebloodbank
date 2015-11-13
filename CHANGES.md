@@ -1,4 +1,1 @@
-- New Feature: Add an option to turn on site publication.
-- Enhancement: Improve the RBAC (Role Based Access Control) mechanism.
-- New Feature: Add a form field to search for a blood group alternatives.
-- New Feature: Add an ability to sign up an account and add a donor in the same step.
+- Bug Fix: Use the default cookies domain to fix the compatibility bugs with RFC 2109.
