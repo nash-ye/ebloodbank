@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.2.2-alpha-3');
+define('EBB_VERSION', '1.2.2');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
@@ -41,9 +41,9 @@ foreach (['spl', 'date', 'filter', 'session'] as $ext) {
 }
 
 if (function_exists('apache_get_modules')) {
-	if (! in_array('mod_rewrite', apache_get_modules())) {
+    if (! in_array('mod_rewrite', apache_get_modules())) {
         die('eBloodBank requires Apache mod_rewrite module.');
-	}
+    }
 }
 
 /*** PHP Configurations *******************************************************/
