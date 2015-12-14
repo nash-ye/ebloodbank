@@ -41,14 +41,14 @@ $view->displayView('header', ['title' => $donor->get('name')]); ?>
         <dt><?= EBB\escHTML(__('E-mail')) ?></dt>
 		<?php if (EBB\isUserLoggedIn() && EBB\getCurrentUser()->canViewDonor($donor)) : ?>
         <dd><?= EBB\escHTML($donor->getMeta('email')) ?></dd>
-		<?php else: ?>
+		<?php else : ?>
 		<dd><span class="text-warning"><?= EBB\escHTML(__('Only site members can view this donor e-mail address.')) ?></span></dd>
 		<?php endif; ?>
 		<?php elseif ('staff' === $donorEmailVisibility) : ?>
         <dt><?= EBB\escHTML(__('E-mail')) ?></dt>
 		<?php if (EBB\isUserLoggedIn() && EBB\getCurrentUser()->canEditDonor($donor)) : ?>
         <dd><?= EBB\escHTML($donor->getMeta('email')) ?></dd>
-		<?php else: ?>
+		<?php else : ?>
 		<dd><span class="text-warning"><?= EBB\escHTML(__('Only site staff can view this donor e-mail address.')) ?></span></dd>
 		<?php endif; ?>
 		<?php endif; ?>
@@ -62,14 +62,14 @@ $view->displayView('header', ['title' => $donor->get('name')]); ?>
         <dt><?= EBB\escHTML(__('Phone')) ?></dt>
 		<?php if (EBB\isUserLoggedIn() && EBB\getCurrentUser()->canViewDonor($donor)) : ?>
         <dd><?= EBB\escHTML($donor->getMeta('phone')) ?></dd>
-		<?php else: ?>
+		<?php else : ?>
 		<dd><span class="text-warning"><?= EBB\escHTML(__('Only site members can view this donor phone number.')) ?></span></dd>
 		<?php endif; ?>
 		<?php elseif ('staff' === $donorPhoneVisibility) : ?>
         <dt><?= EBB\escHTML(__('Phone')) ?></dt>
 		<?php if (EBB\isUserLoggedIn() && EBB\getCurrentUser()->canEditDonor($donor)) : ?>
         <dd><?= EBB\escHTML($donor->getMeta('phone')) ?></dd>
-		<?php else: ?>
+		<?php else : ?>
 		<dd><span class="text-warning"><?= EBB\escHTML(__('Only site staff can view this donor phone number.')) ?></span></dd>
 		<?php endif; ?>
 		<?php endif; ?>

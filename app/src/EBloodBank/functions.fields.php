@@ -284,10 +284,10 @@ function getDistrictsDropdown(array $args)
  */
 function getGenders()
 {
-	return [
-		'male'   => __('Male'),
-		'female' => __('Female'),
-	];
+    return [
+        'male'   => __('Male'),
+        'female' => __('Female'),
+    ];
 }
 
 /**
@@ -296,11 +296,11 @@ function getGenders()
  */
 function getVisibilities()
 {
-	return [
-		'everyone' => __('Everyone'),
-		'members'  => __('Members'),
-		'staff'    => __('Staff'),
-	];
+    return [
+        'everyone' => __('Everyone'),
+        'members'  => __('Members'),
+        'staff'    => __('Staff'),
+    ];
 }
 
 /**
@@ -322,7 +322,7 @@ function getVisibilitiesDropdown(array $args)
 
     $visibilities = getVisibilities();
 
-	$args['selected'] = (array) $args['selected'];
+    $args['selected'] = (array) $args['selected'];
 
     $args['atts'] = array_merge((array) $args['atts'], [
         'name' => $args['name'],
@@ -360,16 +360,16 @@ function getVisibilitiesDropdown(array $args)
  */
 function getBloodGroups()
 {
-	return [
-		'A+',
-		'A-',
-		'B+',
-		'B+',
-		'O+',
-		'O-',
-		'AB+',
-		'AB-',
-	];
+    return [
+        'A+',
+        'A-',
+        'B+',
+        'B+',
+        'O+',
+        'O-',
+        'AB+',
+        'AB-',
+    ];
 }
 
 /**
@@ -391,7 +391,7 @@ function getBloodGroupsDropdown(array $args)
 
     $bloodGroups = getBloodGroups();
 
-	$args['selected'] = (array) $args['selected'];
+    $args['selected'] = (array) $args['selected'];
 
     $args['atts'] = array_merge((array) $args['atts'], [
         'name' => $args['name'],

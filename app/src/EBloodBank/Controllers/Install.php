@@ -262,8 +262,8 @@ SQL;
                 Options::addOption('new_user_status', 'pending');
 
                 /* Donors Options */
-				Options::submitOption('default_donor_email_visibility', 'members');
-				Options::submitOption('default_donor_phone_visibility', 'staff');
+                Options::submitOption('default_donor_email_visibility', 'members');
+                Options::submitOption('default_donor_phone_visibility', 'staff');
 
                 /* Reading Options */
                 Options::addOption('site_publication', 'on');

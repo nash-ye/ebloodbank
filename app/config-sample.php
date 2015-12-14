@@ -3,7 +3,7 @@
  * eBloodBank configurations
  *
  * @package EBloodBank
- * @since   1.0
+ * @since   1.2.2
  */
 
 /**
