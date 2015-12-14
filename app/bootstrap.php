@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.2.2-alpha-1');
+define('EBB_VERSION', '1.2.2-alpha-2');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
@@ -59,8 +59,22 @@ ini_set('filter.default_flags', '');
 
 if (file_exists(EBB_APP_DIR . '/config.php')) {
     require_once EBB_APP_DIR . '/config.php';
-} else {
-    die('The configuration file is not exist.');
+}
+
+if (! defined('EBB_DB_NAME')) {
+    define('EBB_DB_NAME', '');
+}
+
+if (! defined('EBB_DB_USER')) {
+    define('EBB_DB_USER', '');
+}
+
+if (! defined('EBB_DB_PASS')) {
+    define('EBB_DB_PASS', '');
+}
+
+if (! defined('EBB_DB_HOST')) {
+    define('EBB_DB_HOST', 'localhost');
 }
 
 if (! defined('EBB_DEFAULT_LOCALE')) {

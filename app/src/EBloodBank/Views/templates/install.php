@@ -60,7 +60,7 @@ use EBloodBank as EBB;
                         <li><?= EBB\escHTML(__('Database host')) ?></li>
                     </ol>
 
-                    <p><?= EBB\escHTML(__('We’re going to use this information to setup the database. You should open "app/config.php" file in a text editor, fill in your information, and save it.')) ?></p>
+                    <p><?php printf(EBB\escHTML(__('We’re going to use this information to setup the database. You should open %1$s file in a text editor, fill in your information, and save it as %2$s.')), '<code>app/config-sample.php</code>', '<code>app/config.php</code>') ?></p>
 
                     <form id="form-install" class="form-horizontal" method="POST">
 

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-14 17:15+0300\n"
-"PO-Revision-Date: 2015-12-14 17:15+0300\n"
+"POT-Creation-Date: 2015-12-14 20:57+0300\n"
+"PO-Revision-Date: 2015-12-14 20:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: en\n"
@@ -949,10 +949,10 @@ msgid "Database host"
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/install.php:63
+#, php-format
 msgid ""
 "We’re going to use this information to setup the database. You should open "
-"\"app/config.php\" file in a text editor, fill in your information, and save "
-"it."
+"%1$s file in a text editor, fill in your information, and save it as %2$s."
 msgstr ""
 
 #: ../src/EBloodBank/Views/templates/install.php:69

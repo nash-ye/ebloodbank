@@ -39,17 +39,17 @@ define('EBB_DB_PASS', '');
 define('EBB_DB_HOST', 'localhost');
 
 /**
- * eBloodBank Development Mode.
- *
- * @var bool
- * @since 1.0
- */
-define('EBB_DEV_MODE', false);
-
-/**
  * eBloodBank default locale.
  *
  * @var string
  * @since 1.0
  */
 define('EBB_DEFAULT_LOCALE', '');
+
+/**
+ * eBloodBank Development Mode.
+ *
+ * @var bool
+ * @since 1.0
+ */
+define('EBB_DEV_MODE', false);
