@@ -8,7 +8,6 @@
  */
 
 use EBloodBank as EBB;
-use EBloodBank\Models\Donor;
 
 ?>
 
@@ -80,7 +79,7 @@ use EBloodBank\Models\Donor;
             </div>
             <div class="col-sm-4">
                 <select name="donor_gender" id="donor_gender" class="form-control" data-required="true">
-                    <?php foreach (Donor::getGenderTitles() as $key => $label) : ?>
+                    <?php foreach (EBB\getGenders() as $key => $label) : ?>
                     <option value="<?= EBB\escAttr($key) ?>"><?= EBB\escHTML($label) ?></option>
                     <?php endforeach; ?>
                 </select>

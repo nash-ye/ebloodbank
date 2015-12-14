@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.2.1');
+define('EBB_VERSION', '1.2.2-alpha-1');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
@@ -29,15 +29,21 @@ if (version_compare(PHP_VERSION, EBB_MIN_PHP_VERSION, '<')) {
     );
 }
 
-foreach (['spl', 'date', 'filter', 'session'] as $extension) {
-    if (! extension_loaded($extension)) {
+foreach (['spl', 'date', 'filter', 'session'] as $ext) {
+    if (! extension_loaded($ext)) {
         die(
             sprintf(
                 'eBloodBank requires the PHP extension %s.',
-                $extension
+                $ext
             )
         );
     }
+}
+
+if (function_exists('apache_get_modules')) {
+	if (! in_array('mod_rewrite', apache_get_modules())) {
+        die('eBloodBank requires Apache mod_rewrite module.');
+	}
 }
 
 /*** PHP Configurations *******************************************************/

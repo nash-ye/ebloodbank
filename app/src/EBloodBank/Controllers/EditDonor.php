@@ -140,16 +140,22 @@ class EditDonor extends Controller
             $donor->set('district', $districtRepository->find(filter_input(INPUT_POST, 'donor_district_id')));
 
             // Set the donor weight.
-            $donor->updateMeta('weight', filter_input(INPUT_POST, 'donor_weight'), $donor->getMeta('weight'), true);
+            $donor->submitMeta('weight', filter_input(INPUT_POST, 'donor_weight'), $donor->getMeta('weight'), true);
 
             // Set the donor email address.
-            $donor->updateMeta('email', filter_input(INPUT_POST, 'donor_email'), $donor->getMeta('email'), true);
+            $donor->submitMeta('email', filter_input(INPUT_POST, 'donor_email'), $donor->getMeta('email'), true);
+
+            // Set the donor email address visibility.
+            $donor->submitMeta('email_visibility', filter_input(INPUT_POST, 'donor_email_visibility'), true);
 
             // Set the donor phone number.
-            $donor->updateMeta('phone', filter_input(INPUT_POST, 'donor_phone'), $donor->getMeta('phone'), true);
+            $donor->submitMeta('phone', filter_input(INPUT_POST, 'donor_phone'), $donor->getMeta('phone'), true);
+
+            // Set the donor phone number visibility.
+            $donor->submitMeta('phone_visibility', filter_input(INPUT_POST, 'donor_phone_visibility'), true);
 
             // Set the donor address.
-            $donor->updateMeta('address', filter_input(INPUT_POST, 'donor_address'), $donor->getMeta('address'), true);
+            $donor->submitMeta('address', filter_input(INPUT_POST, 'donor_address'), $donor->getMeta('address'), true);
 
             // Set the donor status.
             if ($donor->isApproved() && ! $currentUser->canApproveDonors()) {

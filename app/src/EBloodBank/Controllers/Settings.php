@@ -13,7 +13,6 @@ use EBloodBank as EBB;
 use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Views\View;
-use Aura\Di\ContainerInterface;
 
 /**
  * Settings page controller class
@@ -77,10 +76,14 @@ class Settings extends Controller
             Options::submitOption('site_locale', filter_input(INPUT_POST, 'site_locale'), true);
             Options::submitOption('site_email', filter_input(INPUT_POST, 'site_email'), true);
 
-            /* Accounts Options */
+            /* Users Options */
             Options::submitOption('self_registration', filter_input(INPUT_POST, 'self_registration'), true);
             Options::submitOption('new_user_role', filter_input(INPUT_POST, 'new_user_role'), true);
             Options::submitOption('new_user_status', filter_input(INPUT_POST, 'new_user_status'), true);
+
+            /* Donors Options */
+            Options::submitOption('default_donor_email_visibility', filter_input(INPUT_POST, 'default_donor_email_visibility'), true);
+            Options::submitOption('default_donor_phone_visibility', filter_input(INPUT_POST, 'default_donor_phone_visibility'), true);
 
             /* Reading Options */
             Options::submitOption('site_publication', filter_input(INPUT_POST, 'site_publication'), true);

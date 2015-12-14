@@ -7,56 +7,9 @@
  */
 namespace EBloodBank;
 
-use EBloodBank\Models\Donor;
-
-/**
- * @return void
- * @since 1.2
- */
-function getBloodGroupsDropdown(array $args)
-{
-    $output = '';
-    $args = array_merge([
-        'id'                => '',
-        'name'              => '',
-        'atts'              => [],
-        'selected'          => [],
-        'show_placeholder'  => false,
-        'placeholder_value' => '',
-        'placeholder_text'  => '',
-    ], $args);
-
-    $bloodGroups = Donor::getBloodGroups();
-
-    $args['atts'] = array_merge((array) $args['atts'], [
-        'name' => $args['name'],
-        'id'   => $args['id'],
-    ]);
-
-    $output .= sprintf('<select%s>', toAttributes($args['atts']));
-
-    if ($args['show_placeholder']) {
-        $output .= sprintf(
-            '<option%s>%s</option>',
-            toAttributes(['value' => $args['placeholder_value']]),
-            escHTML($args['placeholder_text'])
-        );
-    }
-
-    foreach ($bloodGroups as $bloodGroup) {
-        $output .= sprintf(
-            '<option%s>%s</option>',
-            toAttributes([
-                'selected' => in_array($bloodGroup, (array) $args['selected']),
-            ]),
-            escHTML($bloodGroup)
-        );
-    }
-
-    $output .= '</select>';
-
-    return $output;
-}
+use EBloodBank\Models\User;
+use EBloodBank\Models\City;
+use EBloodBank\Models\District;
 
 /**
  * @return string
@@ -110,21 +63,21 @@ function getUsersDropdown(array $args)
     $args['selected'] = (array) $args['selected'];
 
     array_walk($args['selected'], function ($value) {
-        if ($value instanceof Models\User) {
+        if ($value instanceof User) {
             return $value->get('id');
         }
     });
-
-    if ('all' === $args['users']) {
-        $em = Main::getInstance()->getEntityManager();
-        $userRepository = $em->getRepository('Entities:User');
-        $args['users'] = (array) $userRepository->findAll();
-    }
 
     $args['atts'] = array_merge((array) $args['atts'], [
         'name' => $args['name'],
         'id'   => $args['id'],
     ]);
+
+    if (is_string($args['users']) && 'all' === $args['users']) {
+        $em = Main::getInstance()->getEntityManager();
+        $userRepository = $em->getRepository('Entities:User');
+        $args['users'] = (array) $userRepository->findAll();
+    }
 
     $output .= sprintf('<select%s>', toAttributes($args['atts']));
 
@@ -175,21 +128,21 @@ function getCitiesDropdown(array $args)
     $args['selected'] = (array) $args['selected'];
 
     array_walk($args['selected'], function ($value) {
-        if ($value instanceof Models\City) {
+        if ($value instanceof City) {
             return $value->get('id');
         }
     });
-
-    if ('all' === $args['cities']) {
-        $em = Main::getInstance()->getEntityManager();
-        $cityRepository = $em->getRepository('Entities:City');
-        $args['cities'] = (array) $cityRepository->findAll();
-    }
 
     $args['atts'] = array_merge((array) $args['atts'], [
         'name' => $args['name'],
         'id'   => $args['id'],
     ]);
+
+    if (is_string($args['cities']) && 'all' === $args['cities']) {
+        $em = Main::getInstance()->getEntityManager();
+        $cityRepository = $em->getRepository('Entities:City');
+        $args['cities'] = (array) $cityRepository->findAll();
+    }
 
     $output .= sprintf('<select%s>', toAttributes($args['atts']));
 
@@ -241,23 +194,21 @@ function getDistrictsDropdown(array $args)
     $args['selected'] = (array) $args['selected'];
 
     array_walk($args['selected'], function ($value) {
-        if ($value instanceof Models\User) {
+        if ($value instanceof District) {
             return $value->get('id');
         }
     });
-
-    $args['selected'] = (array) $args['selected'];
-
-    if ('all' === $args['districts']) {
-        $em = Main::getInstance()->getEntityManager();
-        $districtRepository = $em->getRepository('Entities:District');
-        $args['districts'] = (array) $districtRepository->findAll();
-    }
 
     $args['atts'] = array_merge((array) $args['atts'], [
         'name' => $args['name'],
         'id'   => $args['id'],
     ]);
+
+    if (is_string($args['districts']) && 'all' === $args['districts']) {
+        $em = Main::getInstance()->getEntityManager();
+        $districtRepository = $em->getRepository('Entities:District');
+        $args['districts'] = (array) $districtRepository->findAll();
+    }
 
     $output .= sprintf('<select%s>', toAttributes($args['atts']));
 
@@ -277,7 +228,7 @@ function getDistrictsDropdown(array $args)
                 toAttributes([
                     'value'        => $districtID,
                     'data-city-id' => $district->get('city')->get('id'),
-                    'selected'     => in_array($districtID, (array) $args['selected']),
+                    'selected'     => in_array($districtID, $args['selected']),
                 ]),
                 escHTML($district->get('name'))
             );
@@ -300,7 +251,7 @@ function getDistrictsDropdown(array $args)
                 'atts'  => [
                     'value'        => $districtID,
                     'data-city-id' => $district->get('city')->get('id'),
-                    'selected'     => in_array($districtID, (array) $args['selected']),
+                    'selected'     => in_array($districtID, $args['selected']),
                 ],
                 'text'  => $district->get('name'),
             ];
@@ -320,6 +271,151 @@ function getDistrictsDropdown(array $args)
                 $output .= '</optgroup>';
             }
         }
+    }
+
+    $output .= '</select>';
+
+    return $output;
+}
+
+/**
+ * @return array
+ * @since 1.2.2
+ */
+function getGenders()
+{
+	return [
+		'male'   => __('Male'),
+		'female' => __('Female'),
+	];
+}
+
+/**
+ * @return array
+ * @since 1.2.2
+ */
+function getVisibilities()
+{
+	return [
+		'everyone' => __('Everyone'),
+		'members'  => __('Members'),
+		'staff'    => __('Staff'),
+	];
+}
+
+/**
+ * @return void
+ * @since 1.2.2
+ */
+function getVisibilitiesDropdown(array $args)
+{
+    $output = '';
+    $args = array_merge([
+        'id'                => '',
+        'name'              => '',
+        'atts'              => [],
+        'selected'          => [],
+        'show_placeholder'  => false,
+        'placeholder_value' => '',
+        'placeholder_text'  => '',
+    ], $args);
+
+    $visibilities = getVisibilities();
+
+	$args['selected'] = (array) $args['selected'];
+
+    $args['atts'] = array_merge((array) $args['atts'], [
+        'name' => $args['name'],
+        'id'   => $args['id'],
+    ]);
+
+    $output .= sprintf('<select%s>', toAttributes($args['atts']));
+
+    if ($args['show_placeholder']) {
+        $output .= sprintf(
+            '<option%s>%s</option>',
+            toAttributes(['value' => $args['placeholder_value']]),
+            escHTML($args['placeholder_text'])
+        );
+    }
+
+    foreach ($visibilities as $key => $label) {
+        $output .= sprintf(
+            '<option%s>%s</option>',
+            toAttributes([
+                'selected' => in_array($key, $args['selected']),
+            ]),
+            escHTML($label)
+        );
+    }
+
+    $output .= '</select>';
+
+    return $output;
+}
+
+/**
+ * @return array
+ * @since 1.2.2
+ */
+function getBloodGroups()
+{
+	return [
+		'A+',
+		'A-',
+		'B+',
+		'B+',
+		'O+',
+		'O-',
+		'AB+',
+		'AB-',
+	];
+}
+
+/**
+ * @return void
+ * @since 1.2
+ */
+function getBloodGroupsDropdown(array $args)
+{
+    $output = '';
+    $args = array_merge([
+        'id'                => '',
+        'name'              => '',
+        'atts'              => [],
+        'selected'          => [],
+        'show_placeholder'  => false,
+        'placeholder_value' => '',
+        'placeholder_text'  => '',
+    ], $args);
+
+    $bloodGroups = getBloodGroups();
+
+	$args['selected'] = (array) $args['selected'];
+
+    $args['atts'] = array_merge((array) $args['atts'], [
+        'name' => $args['name'],
+        'id'   => $args['id'],
+    ]);
+
+    $output .= sprintf('<select%s>', toAttributes($args['atts']));
+
+    if ($args['show_placeholder']) {
+        $output .= sprintf(
+            '<option%s>%s</option>',
+            toAttributes(['value' => $args['placeholder_value']]),
+            escHTML($args['placeholder_text'])
+        );
+    }
+
+    foreach ($bloodGroups as $bloodGroup) {
+        $output .= sprintf(
+            '<option%s>%s</option>',
+            toAttributes([
+                'selected' => in_array($bloodGroup, $args['selected']),
+            ]),
+            escHTML($bloodGroup)
+        );
     }
 
     $output .= '</select>';

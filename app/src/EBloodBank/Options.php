@@ -260,6 +260,20 @@ class Options
                 }
                 break;
 
+            /* Donors Options */
+
+            case 'default_donor_email_visibility':
+                if (! empty($value) && ! array_key_exists($value, getVisibilities())) {
+                    throw new InvalidArgumentException(__('Invalid donor e-mail address visibility.'));
+                }
+                break;
+
+            case 'default_donor_phone_visibility':
+                if (! empty($value) && ! array_key_exists($value, getVisibilities())) {
+                    throw new InvalidArgumentException(__('Invalid donor phone number visibility.'));
+                }
+                break;
+
             /* Reading Options */
 
             case 'site_publication':

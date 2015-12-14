@@ -136,8 +136,8 @@ class Donor extends Entity
      */
     public function getGenderTitle()
     {
+        $genders = EBB\getGenders();
         $gender = $this->get('gender');
-        $genders = self::getGenderTitles();
         if (isset($genders[$gender])) {
             $gender = $genders[$gender];
         }
@@ -158,38 +158,6 @@ class Donor extends Entity
         }
 
         return $currentDate->diff($birthdate)->format($format);
-    }
-
-    /**
-     * @return array
-     * @since 1.0
-     * @static
-     */
-    public static function getBloodGroups()
-    {
-        return [
-            'A+',
-            'A-',
-            'B+',
-            'B+',
-            'O+',
-            'O-',
-            'AB+',
-            'AB-',
-        ];
-    }
-
-    /**
-     * @return array
-     * @since 1.0
-     * @static
-     */
-    public static function getGenderTitles()
-    {
-        return [
-            'male'   => __('Male'),
-            'female' => __('Female'),
-        ];
     }
 
     /**
@@ -242,14 +210,14 @@ class Donor extends Entity
                 }
                 break;
             case 'gender':
-                if (! array_key_exists($value, self::getGenderTitles())) {
+                if (! array_key_exists($value, EBB\getGenders())) {
                     throw new InvalidArgumentException(__('Invalid donor gender.'));
                 }
                 break;
             case 'birthdate':
                 break;
             case 'blood_group':
-                if (! in_array($value, self::getBloodGroups(), true)) {
+                if (! in_array($value, EBB\getBloodGroups(), true)) {
                     throw new InvalidArgumentException(__('Invalid donor blood group.'));
                 }
                 break;
@@ -315,12 +283,22 @@ class Donor extends Entity
                 break;
             case 'email':
                 if (! empty($metaValue) && ! EBB\isValidEmail($metaValue)) {
-                    throw new InvalidArgumentException(__('Invalid donor e-mail.'));
+                    throw new InvalidArgumentException(__('Invalid donor e-mail address.'));
+                }
+                break;
+            case 'email_visibility':
+                if (! empty($metaValue) && ! array_key_exists($metaValue, EBB\getVisibilities())) {
+                    throw new InvalidArgumentException(__('Invalid donor e-mail address visibility.'));
                 }
                 break;
             case 'phone':
                 if (! empty($metaValue) && ! ctype_digit($metaValue)) {
                     throw new InvalidArgumentException(__('Invalid donor phone number.'));
+                }
+                break;
+            case 'phone_visibility':
+                if (! empty($metaValue) && ! array_key_exists($metaValue, EBB\getVisibilities())) {
+                    throw new InvalidArgumentException(__('Invalid donor phone number visibility.'));
                 }
                 break;
         }

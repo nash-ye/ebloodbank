@@ -1,7 +1,7 @@
 {
     "name": "nash1ye/ebloodbank",
     "description": "A Premium Blood Bank System.",
-    "version": "1.2.1",
+    "version": "1.2.2-alpha-1",
     "license": "GPL-3.0+",
     "type": "project",
     "authors": [
@@ -17,7 +17,7 @@
         "ext-PDO": "*",
         "ext-filter": "*",
         "ext-session": "*",
-		"aura/di": "2.*",
+        "aura/di": "2.*",
         "aura/router": "2.*",
         "aura/session": "2.*",
         "aura/dispatcher": "2.*",

@@ -8,7 +8,7 @@
  */
 
 use EBloodBank as EBB;
-use EBloodBank\Models\Donor;
+use EBloodBank\Options;
 
 ?>
 
@@ -31,7 +31,7 @@ use EBloodBank\Models\Donor;
 		</div>
 		<div class="col-sm-4">
 			<select name="donor_gender" id="donor_gender" class="form-control" required>
-				<?php foreach (Donor::getGenderTitles() as $key => $label) : ?>
+				<?php foreach (EBB\getGenders() as $key => $label) : ?>
 				<option<?= EBB\toAttributes(['value' => $key, 'selected' => ($key === $donor->get('gender'))]) ?>><?= EBB\escHTML($label) ?></option>
 				<?php endforeach; ?>
 			</select>
@@ -78,6 +78,20 @@ use EBloodBank\Models\Donor;
 		</div>
 		<div class="col-sm-4">
             <input type="email" name="donor_email" id="donor_email" class="form-control" value="<?= EBB\escAttr($donor->getMeta('email')) ?>" />
+			<div id="donor-email-visibilities">
+				<?php
+					$donorEmailVisibility = $donor->getMeta('email_visibility');
+					if (empty($donorEmailVisibility) && ! $donor->isExists()) {
+						$donorEmailVisibility = Options::getOption('default_donor_email_visibility');
+					}
+				?>
+				<?php foreach (EBB\getVisibilities() as $visibilityKey => $visibilityTitle) : ?>
+				<label class="radio-inline">
+					<input<?= EBB\toAttributes(['type' => 'radio', 'name' => 'donor_email_visibility', 'value' => $visibilityKey, 'checked' => $visibilityKey === $donorEmailVisibility]) ?>/>
+					<?= EBB\escHTML($visibilityTitle) ?>
+				</label>
+				<?php endforeach; ?>
+			</div>
 		</div>
 	</div>
 
@@ -87,6 +101,20 @@ use EBloodBank\Models\Donor;
 		</div>
 		<div class="col-sm-4">
 			<input type="phone" name="donor_phone" id="donor_phone" class="form-control" value="<?= EBB\escAttr($donor->getMeta('phone')) ?>" />
+			<div id="donor-phone-visibilities">
+				<?php
+					$donorPhoneVisibility = $donor->getMeta('phone_visibility');
+					if (empty($donorPhoneVisibility) && ! $donor->isExists()) {
+						$donorPhoneVisibility = Options::getOption('default_donor_phone_visibility');
+					}
+				?>
+				<?php foreach (EBB\getVisibilities() as $visibilityKey => $visibilityTitle) : ?>
+				<label class="radio-inline">
+					<input<?= EBB\toAttributes(['type' => 'radio', 'name' => 'donor_phone_visibility', 'value' => $visibilityKey, 'checked' => $visibilityKey === $donorPhoneVisibility]) ?>/>
+					<?= EBB\escHTML($visibilityTitle) ?>
+				</label>
+				<?php endforeach; ?>
+			</div>
 		</div>
 	</div>
 

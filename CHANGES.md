@@ -1,1 +1,3 @@
-- Bug Fix: Use the default cookies domain to fix the compatibility bugs with RFC 2109.
+- New Feature: Donor contact visibility.
+- Enhancement: Update Bootstrap to v3.3.6.
+- Enhancement: Check whether Apache mod_rewrite module is loaded.

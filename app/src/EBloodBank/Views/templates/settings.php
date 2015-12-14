@@ -122,6 +122,40 @@ $view->displayView('header', ['title' => __('Settings')]);
 
         <fieldset>
 
+            <legend><?= EBB\escHTML(__('Donors Options')) ?></legend>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="new_user_role"><?= EBB\escHTML(__('Default E-mail Visibility')) ?></label>
+                </div>
+                <div class="col-sm-4">
+                    <select name="default_donor_email_visibility" id="default_donor_email_visibility" class="form-control">
+                        <?php $defaultDonorEmailVisibility = Options::getOption('default_donor_email_visibility') ?>
+                        <?php foreach (EBB\getVisibilities() as $visibilityKey => $visibilityTitle) : ?>
+                        <option<?= EBB\toAttributes(['value' => $visibilityKey, 'selected' => $visibilityKey === $defaultDonorEmailVisibility]) ?>><?= EBB\escHTML($visibilityTitle) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="new_user_role"><?= EBB\escHTML(__('Default Phone Visibility')) ?></label>
+                </div>
+                <div class="col-sm-4">
+                    <select name="default_donor_phone_visibility" id="default_donor_phone_visibility" class="form-control">
+                        <?php $defaultDonorPhoneVisibility = Options::getOption('default_donor_phone_visibility') ?>
+                        <?php foreach (EBB\getVisibilities() as $visibilityKey => $visibilityTitle) : ?>
+                        <option<?= EBB\toAttributes(['value' => $visibilityKey, 'selected' => $visibilityKey === $defaultDonorPhoneVisibility]) ?>><?= EBB\escHTML($visibilityTitle) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset>
+
             <legend><?= EBB\escHTML(__('Reading Options')) ?></legend>
 
             <div class="form-group">

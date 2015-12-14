@@ -256,10 +256,14 @@ SQL;
                 Options::addOption('site_name', filter_input(INPUT_POST, 'site_name'), true);
                 Options::addOption('site_email', filter_input(INPUT_POST, 'site_email'), true);
 
-                /* Accounts Options */
+                /* Users Options */
                 Options::addOption('self_registration', 'on');
                 Options::addOption('new_user_role', 'contributor');
                 Options::addOption('new_user_status', 'pending');
+
+                /* Donors Options */
+				Options::submitOption('default_donor_email_visibility', 'members');
+				Options::submitOption('default_donor_phone_visibility', 'staff');
 
                 /* Reading Options */
                 Options::addOption('site_publication', 'on');
