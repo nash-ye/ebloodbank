@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.2.4-alpha-1');
+define('EBB_VERSION', '1.2.4');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
