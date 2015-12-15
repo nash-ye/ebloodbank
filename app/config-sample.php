@@ -39,6 +39,14 @@ define('EBB_DB_PASS', '');
 define('EBB_DB_HOST', 'localhost');
 
 /**
+ * MySQL database driver.
+ *
+ * @var string
+ * @since 1.2.3
+ */
+define('EBB_DB_DRIVER', 'mysqli');
+
+/**
  * eBloodBank default locale.
  *
  * @var string

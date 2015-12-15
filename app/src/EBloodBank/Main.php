@@ -121,14 +121,12 @@ class Main
      */
     private function setupDBConnection()
     {
-        $mysqlDriver = extension_loaded('pdo_mysql') ? 'pdo_mysql' : 'mysqli';
-
         $DBConnection = DBAL\DriverManager::getConnection([
             'dbname'    => EBB_DB_NAME,
             'user'      => EBB_DB_USER,
             'password'  => EBB_DB_PASS,
             'host'      => EBB_DB_HOST,
-            'driver'    => $mysqlDriver,
+            'driver'    => EBB_DB_DRIVER,
             'charset'   => 'utf8',
         ]);
 

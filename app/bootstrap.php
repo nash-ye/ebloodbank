@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.2.2');
+define('EBB_VERSION', '1.2.3');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
@@ -75,6 +75,10 @@ if (! defined('EBB_DB_PASS')) {
 
 if (! defined('EBB_DB_HOST')) {
     define('EBB_DB_HOST', 'localhost');
+}
+
+if (! defined('EBB_DB_DRIVER')) {
+    define('EBB_DB_DRIVER', 'mysqli');
 }
 
 if (! defined('EBB_DEFAULT_LOCALE')) {

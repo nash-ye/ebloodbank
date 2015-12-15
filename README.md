@@ -34,7 +34,7 @@ Requirements
 Installation
 ------------------
 
-1. Open up app/config.php file with a text editor, fill in your database connection details and save it.
+1. Open app/config-sample.php file in a text editor, fill in your information, and save it as app/config.php.
 2. Open install.php in your browser and follow up the installer instructions.
 3. Sign in with the user e-mail and password you chose during the installation.
 
