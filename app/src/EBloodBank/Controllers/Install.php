@@ -60,7 +60,7 @@ class Install extends Controller
      */
     protected function doStepAction()
     {
-        if ('POST' === filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
+        if ('install' === filter_input(INPUT_POST, 'action')) {
             switch ($this->getStep()) {
                 case 1:
                     $this->doStep1Action();
@@ -99,12 +99,12 @@ class Install extends Controller
     protected function doStep2Action()
     {
         try {
+            $stmts = [];
             $connection = $this->getContainer()->get('db_connection');
 
-            $sql = <<<'SQL'
--- -----------------------------------------------------
--- Table `user`
--- -----------------------------------------------------
+            /*** Users Table **************************************************/
+
+            $stmts[] = <<<'SQL'
 CREATE  TABLE IF NOT EXISTS `user` (
   `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `user_name` VARCHAR(255) NOT NULL ,
@@ -114,14 +114,16 @@ CREATE  TABLE IF NOT EXISTS `user` (
   `user_created_at` DATETIME NOT NULL ,
   `user_status` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`user_id`) )
-ENGINE = InnoDB;
+ENGINE = InnoDB
+SQL;
 
-CREATE UNIQUE INDEX `user_email_UNIQUE` ON `user` (`user_email` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE UNIQUE INDEX `user_email_UNIQUE` ON `user` (`user_email` ASC)
+SQL;
 
+            /*** Cities Table *************************************************/
 
--- -----------------------------------------------------
--- Table `city`
--- -----------------------------------------------------
+            $stmts[] = <<<'SQL'
 CREATE  TABLE IF NOT EXISTS `city` (
   `city_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `city_name` VARCHAR(255) NOT NULL ,
@@ -133,16 +135,20 @@ CREATE  TABLE IF NOT EXISTS `city` (
     REFERENCES `user` (`user_id` )
     ON DELETE SET NULL
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+SQL;
 
-CREATE INDEX `city_created_by_idx` ON `city` (`city_created_by` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE INDEX `city_created_by_idx` ON `city` (`city_created_by` ASC)
+SQL;
 
-CREATE UNIQUE INDEX `city_name_UNIQUE` ON `city` (`city_name` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE UNIQUE INDEX `city_name_UNIQUE` ON `city` (`city_name` ASC)
+SQL;
 
+            /*** Districts Table **********************************************/
 
--- -----------------------------------------------------
--- Table `district`
--- -----------------------------------------------------
+            $stmts[] = <<<'SQL'
 CREATE  TABLE IF NOT EXISTS `district` (
   `district_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `district_name` VARCHAR(255) NOT NULL ,
@@ -160,18 +166,24 @@ CREATE  TABLE IF NOT EXISTS `district` (
     REFERENCES `user` (`user_id` )
     ON DELETE SET NULL
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+SQL;
 
-CREATE INDEX `district_city_id_idx` ON `district` (`district_city_id` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE INDEX `district_city_id_idx` ON `district` (`district_city_id` ASC)
+SQL;
 
-CREATE INDEX `district_created_by_idx` ON `district` (`district_created_by` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE INDEX `district_created_by_idx` ON `district` (`district_created_by` ASC)
+SQL;
 
-CREATE UNIQUE INDEX `district_name_UNIQUE` ON `district` (`district_name` ASC, `district_city_id` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE UNIQUE INDEX `district_name_UNIQUE` ON `district` (`district_name` ASC, `district_city_id` ASC)
+SQL;
 
+            /*** Donors Table *************************************************/
 
--- -----------------------------------------------------
--- Table `donor`
--- -----------------------------------------------------
+            $stmts[] = <<<'SQL'
 CREATE  TABLE IF NOT EXISTS `donor` (
   `donor_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `donor_name` VARCHAR(255) NOT NULL ,
@@ -193,16 +205,20 @@ CREATE  TABLE IF NOT EXISTS `donor` (
     REFERENCES `user` (`user_id` )
     ON DELETE SET NULL
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+SQL;
 
-CREATE INDEX `donor_district_id_idx` ON `donor` (`donor_district_id` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE INDEX `donor_district_id_idx` ON `donor` (`donor_district_id` ASC)
+SQL;
 
-CREATE INDEX `donor_created_by_idx` ON `donor` (`donor_created_by` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE INDEX `donor_created_by_idx` ON `donor` (`donor_created_by` ASC)
+SQL;
 
+            /*** Donor Meta Table *********************************************/
 
--- -----------------------------------------------------
--- Table `donor_meta`
--- -----------------------------------------------------
+            $stmts[] = <<<'SQL'
 CREATE  TABLE IF NOT EXISTS `donor_meta` (
   `meta_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `donor_id` INT UNSIGNED NOT NULL ,
@@ -214,14 +230,16 @@ CREATE  TABLE IF NOT EXISTS `donor_meta` (
     REFERENCES `donor` (`donor_id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+SQL;
 
-CREATE INDEX `dm_donor_id_idx` ON `donor_meta` (`donor_id` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE INDEX `dm_donor_id_idx` ON `donor_meta` (`donor_id` ASC)
+SQL;
 
+            /*** User Meta Table **********************************************/
 
--- -----------------------------------------------------
--- Table `user_meta`
--- -----------------------------------------------------
+            $stmts[] = <<<'SQL'
 CREATE  TABLE IF NOT EXISTS `user_meta` (
   `meta_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `user_id` INT UNSIGNED NOT NULL ,
@@ -233,22 +251,26 @@ CREATE  TABLE IF NOT EXISTS `user_meta` (
     REFERENCES `user` (`user_id` )
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+SQL;
 
-CREATE INDEX `um_user_id_idx` ON `user_meta` (`user_id` ASC) ;
+            $stmts[] = <<<'SQL'
+CREATE INDEX `um_user_id_idx` ON `user_meta` (`user_id` ASC)
+SQL;
 
+            /*** Variables Table **********************************************/
 
--- -----------------------------------------------------
--- Table `variable`
--- -----------------------------------------------------
+            $stmts[] = <<<'SQL'
 CREATE  TABLE IF NOT EXISTS `variable` (
   `variable_name` VARCHAR(45) NOT NULL ,
   `variable_value` LONGTEXT NULL ,
   PRIMARY KEY (`variable_name`) )
-ENGINE = InnoDB;
+ENGINE = InnoDB
 SQL;
 
-            $connection->exec($sql);
+            foreach ($stmts as $stmt) {
+                $connection->exec($stmt);
+            }
 
             if (EBB\getInstallationStatus($connection, true) === EBB\DATABASE_INSTALLED) {
                 /* General Options */

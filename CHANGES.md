@@ -1,5 +1,2 @@
-- New Feature: Donor Contact Visibility.
-- Enhancement: Update Bootstrap to v3.3.6.
-- Enhancement: Check if Apache mod_rewrite module is loaded on bootstrapping.
-- Enhancement: Add config-sample.php file to make the upgrade process easier.
-- Enhancement: Add EBB_DB_DRIVER constant to select the database driver manualy.
+- Bug Fix: Fix some FastCGI compatability bugs.
+- Bug Fix: Use single SQL statements only during the installation.

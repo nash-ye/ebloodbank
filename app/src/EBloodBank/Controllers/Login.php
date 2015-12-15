@@ -37,17 +37,10 @@ class Login extends Controller
      */
     protected function doActions()
     {
-        switch (filter_input(INPUT_SERVER, 'REQUEST_METHOD')) {
-            case 'GET':
-                if ('logout' === filter_input(INPUT_GET, 'action')) {
-                    $this->doLogoutAction();
-                }
-                break;
-            case 'POST':
-                if ('login' === filter_input(INPUT_POST, 'action')) {
-                    $this->doLoginAction();
-                }
-                break;
+        if ('logout' === filter_input(INPUT_GET, 'action')) {
+            $this->doLogoutAction();
+        } elseif ('login' === filter_input(INPUT_POST, 'action')) {
+            $this->doLoginAction();
         }
     }
 

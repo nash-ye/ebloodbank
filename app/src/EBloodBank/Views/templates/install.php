@@ -70,6 +70,8 @@ use EBloodBank as EBB;
                             </div>
                         </div>
 
+						<input type="hidden" name="action" value="install" />
+
                     </form>
 
                 <?php elseif ($view->get('step') === 2) : ?>
@@ -148,6 +150,8 @@ use EBloodBank as EBB;
                                 <button type="submit" class="btn btn-primary"><?= EBB\escHTML(__('Install eBloodBank')) ?></button>
                             </div>
                         </div>
+
+						<input type="hidden" name="action" value="install" />
 
                     </form>
 
