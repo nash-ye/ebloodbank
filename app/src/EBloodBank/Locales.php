@@ -123,17 +123,47 @@ class Locales
     }
 
     /**
+     * Find a locale.
+     *
+     * @return Locale|null
+     * @since 1.3
+     * @static
+     */
+    public static function findLocale($code, $dirPath = '')
+    {
+        if (empty($code)) {
+            return;
+        }
+
+        if (empty($dirPath)) {
+            $dirPath = EBB_LOCALES_DIR;
+        }
+
+        $dirPath = trimTrailingSlash($dirPath);
+
+        if (is_readable("{$dirPath}/{$code}.mo")) {
+            return new Locale($code, "{$dirPath}/{$code}.mo");
+        }
+    }
+
+    /**
      * Get the available locales.
      *
      * @return Locale[]
      * @since 1.0
      * @static
      */
-    public static function getAvailableLocales()
+    public static function getAvailableLocales($dirPath = '')
     {
-        $locales = array();
+        $locales = [];
 
-        foreach (new GlobIterator(EBB_LOCALES_DIR . '/*.mo') as $moFile) {
+        if (empty($dirPath)) {
+            $dirPath = EBB_LOCALES_DIR;
+        }
+
+        $dirPath = trimTrailingSlash($dirPath);
+
+        foreach (new GlobIterator("{$dirPath}/*.mo") as $moFile) {
             if ($moFile->isFile() && $moFile->isReadable()) {
                 $moFilePath = $moFile->getRealPath();
                 $localeCode = $moFile->getBasename('.mo');

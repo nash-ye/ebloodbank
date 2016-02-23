@@ -9,12 +9,12 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'winry');
-define('EBB_VERSION', '1.3-alpha-1');
+define('EBB_VERSION', '1.3-alpha-2');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
 
-/*** Early Checks *************************************************************/
+/*** Requirements *************************************************************/
 
 if (version_compare(PHP_VERSION, EBB_MIN_PHP_VERSION, '<')) {
     die(
@@ -25,20 +25,6 @@ if (version_compare(PHP_VERSION, EBB_MIN_PHP_VERSION, '<')) {
         )
     );
 }
-
-/*** Paths Constants **********************************************************/
-
-define('EBB_APP_DIR', dirname(__FILE__));
-
-if (! defined('EBB_DIR')) {
-    define('EBB_DIR', dirname(__DIR__));
-}
-
-define('EBB_THEMES_DIR', EBB_DIR . '/themes');
-define('EBB_PLUGINS_DIR', EBB_DIR . '/plugins');
-define('EBB_LOCALES_DIR', EBB_DIR . '/locales');
-
-/*** Requirements *************************************************************/
 
 foreach (['spl', 'date', 'filter', 'session'] as $ext) {
     if (! extension_loaded($ext)) {
@@ -56,6 +42,18 @@ if (function_exists('apache_get_modules')) {
         die('eBloodBank requires Apache mod_rewrite module.');
     }
 }
+
+/*** Paths Constants **********************************************************/
+
+define('EBB_APP_DIR', dirname(__FILE__));
+
+if (! defined('EBB_DIR')) {
+    define('EBB_DIR', dirname(__DIR__));
+}
+
+define('EBB_THEMES_DIR', EBB_DIR . '/themes');
+define('EBB_PLUGINS_DIR', EBB_DIR . '/plugins');
+define('EBB_LOCALES_DIR', EBB_DIR . '/locales');
 
 /*** PHP Configurations *******************************************************/
 
@@ -108,12 +106,16 @@ if (! defined('EBB_REDIS_HOST')) {
     define('EBB_REDIS_HOST', 'localhost');
 }
 
-if (! defined('EBB_REDIS_PASS')) {
-    define('EBB_REDIS_PASS', '');
-}
-
 if (! defined('EBB_REDIS_PORT')) {
     define('EBB_REDIS_PORT', 6379);
+}
+
+if (! defined('EBB_REDIS_DB')) {
+    define('EBB_REDIS_DB', '');
+}
+
+if (! defined('EBB_REDIS_PASS')) {
+    define('EBB_REDIS_PASS', '');
 }
 
 if (! defined('EBB_APC_CACHE')) {

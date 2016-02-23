@@ -131,6 +131,26 @@ class Themes
     }
 
     /**
+     * Find a theme.
+     *
+     * @return Theme
+     * @since 1.3
+     * @static
+     */
+    public static function findTheme($name)
+    {
+        if (empty($name)) {
+            return;
+        }
+
+        $themePath = EBB_THEMES_DIR . "/{$name}";
+
+        if (is_dir($themePath)) {
+            return new Theme($name, $themePath);
+        }
+    }
+
+    /**
      * Get the available themes.
      *
      * @return Theme[]

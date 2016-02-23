@@ -8,6 +8,8 @@
  */
 namespace EBloodBank\Views;
 
+use DirectoryIterator;
+use EBloodBank AS EEB;
 use EBloodBank\Themes;
 
 /**
@@ -123,13 +125,23 @@ class View
      */
     public function getPath()
     {
+        $templatePath = '';
         $currentTheme = Themes::getCurrentTheme();
 
         if (empty($currentTheme)) {
-            // @TODO: Throw an exception.
+            return $templatePath;
         }
 
-        return $currentTheme->getPath() . '/templates/' . $this->getName() . '.php';
+        $stacks = $currentTheme->getAvailableTemplateStacks();
+
+        foreach ($stacks as $stackPath) {
+            $templatePath = $stackPath . '/' . $this->getName() . '.php';
+            if (file_exists($templatePath)) {
+                break;
+            }
+        }
+
+        return $templatePath;
     }
 
     /**

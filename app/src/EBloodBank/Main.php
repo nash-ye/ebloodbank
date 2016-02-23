@@ -195,8 +195,11 @@ class Main
         if (! EBB_DEV_MODE && EBB_REDIS_CACHE && extension_loaded('redis')) {
             $redis = new Redis();
             $redis->connect(EBB_REDIS_HOST, EBB_REDIS_PORT);
-            if (! EBB_REDIS_PASS) {
+            if (EBB_REDIS_PASS !== '') {
                 $redis->auth(EBB_REDIS_PASS);
+            }
+            if (EBB_REDIS_DB !== '') {
+                $redis->select(EBB_REDIS_DB);
             }
             $cacheDriver = new Doctrine\Common\Cache\RedisCache();
             $cacheDriver->setRedis($redis);
@@ -329,16 +332,14 @@ class Main
      */
     private function setupCurrentLocale()
     {
-        $locales = Locales::getAvailableLocales();
-
-        $defaultLocale = EBB_DEFAULT_LOCALE;
-        if (! empty($defaultLocale) && isset($locales[$defaultLocale])) {
-            Locales::setDefaultLocale($locales[$defaultLocale]);
+        $defaultLocale = Locales::findLocale(EBB_DEFAULT_LOCALE);
+        if (! empty($defaultLocale)) {
+            Locales::setDefaultLocale($defaultLocale);
         }
 
-        $siteLocale = Options::getOption('site_locale');
-        if (! empty($siteLocale) && isset($locales[$siteLocale])) {
-            Locales::setCurrentLocale($locales[$siteLocale]);
+        $siteLocale = Locales::findLocale(Options::getOption('site_locale'));
+        if (! empty($siteLocale)) {
+            Locales::setCurrentLocale($siteLocale);
         }
 
         $currentLocale = Locales::getCurrentLocale();
@@ -355,16 +356,27 @@ class Main
      */
     private function setupCurrentTheme()
     {
-        $themes = Themes::getAvailableThemes();
-
-        $defaultTheme = EBB_DEFAULT_THEME;
-        if (! empty($defaultTheme) && isset($themes[$defaultTheme])) {
-            Themes::setDefaultTheme($themes[$defaultTheme]);
+        $defaultTheme = Themes::findTheme(EBB_DEFAULT_THEME);
+        if (! empty($defaultTheme)) {
+            Themes::setDefaultTheme($defaultTheme);
         }
 
-        $siteTheme = Options::getOption('site_theme');
-        if (! empty($siteTheme) && isset($themes[$siteTheme])) {
-            Themes::setCurrentTheme($themes[$siteTheme]);
+        $siteTheme = Themes::findTheme(Options::getOption('site_theme'));
+        if (! empty($siteTheme)) {
+            Themes::setCurrentTheme($siteTheme);
+        }
+
+        $currentLocale = Locales::getCurrentLocale();
+
+        if (! empty($currentLocale)) {
+            $currentTheme = Themes::getCurrentTheme();
+            $themeLocale = $currentTheme->findLocale($currentLocale->getCode());
+            if (! empty($themeLocale)) {
+                $themeTranslations = $themeLocale->getTranslations();
+                $themeDomain = $currentTheme->getData('Textdomain', $currentTheme->getName());
+                $themeTranslations->setDomain($themeDomain);
+                $this->getTranslator()->loadTranslations($themeTranslations);
+            }
         }
     }
 
