@@ -1,14 +1,12 @@
 <?php
 /**
  *
- * This file is part of the Aura for PHP.
+ * This file is part of Aura for PHP.
  *
  * @license http://opensource.org/licenses/bsd-license.php BSD
  *
  */
 namespace Aura\Router;
-
-use ArrayObject;
 
 /**
  *
@@ -21,7 +19,16 @@ class Generator
 {
     /**
      *
-     * The route from which the path is being generated.
+     * The map of all routes.
+     *
+     * @var Map
+     *
+     */
+    protected $map;
+
+    /**
+     *
+     * The route from which the URL is being generated.
      *
      * @var Route
      *
@@ -30,16 +37,16 @@ class Generator
 
     /**
      *
-     * The path being generated.
+     * The URL being generated.
      *
      * @var string
      *
      */
-    protected $path;
+    protected $url;
 
     /**
      *
-     * Data being interpolated into the path.
+     * Data being interpolated into the URL.
      *
      * @var array
      *
@@ -66,96 +73,122 @@ class Generator
 
     /**
      *
-     * Gets the path for a Route with **encoded** data replacements for param
-     * tokens.
+     * The basepath to prefix to generated paths.
      *
-     * @param Route $route The route to generate a path for.
-     *
-     * @param array $data An array of key-value pairs to interpolate into the
-     * param tokens in the path for the Route. Keys that do not map to
-     * params are discarded; param tokens that have no mapped key are left in
-     * place. All values are rawurlencoded.
-     *
-     * @return string
+     * @var string
      *
      */
-    public function generate(Route $route, $data = array())
+    protected $basepath;
+
+    /**
+     *
+     * Constructor.
+     *
+     * @param Map $map A route collection object.
+     *
+     * @param string $basepath The basepath to prefix to generated paths.
+     *
+     */
+    public function __construct(Map $map, $basepath = null)
     {
-        $this->raw = false;
-        return $this->buildPath($route, $data);
+        $this->map = $map;
+        $this->basepath = $basepath;
     }
 
     /**
      *
-     * Gets the path for a Route with **raw** data replacements for param
-     * tokens.
+     * Looks up a route by name, and interpolates data into it to return
+     * a URI path.
      *
-     * @param Route $route The route to generate a path for.
+     * @param string $name The route name to look up.
      *
-     * @param array $data An array of key-value pairs to interpolate into the
-     * param tokens in the path for the Route. Keys that do not map to
-     * params are discarded; param tokens that have no mapped key are left in
-     * place. All values are left raw; you will need to encode them yourself.
+     * @param array $data The data to interpolate into the URI; data keys
+     * map to attribute tokens in the path.
      *
-     * @return string
+     * @return string|false A URI path string if the route name is found, or
+     * boolean false if not.
+     *
+     * @throws Exception\RouteNotFound
      *
      */
-    public function generateRaw(Route $route, $data = array())
+    public function generate($name, $data = [])
     {
-        $this->raw = true;
-        return $this->buildPath($route, $data);
+        return $this->build($name, $data, false);
     }
 
     /**
      *
-     * Gets the path for a Route.
+     * Generate the route without url encoding.
      *
-     * @param Route $route The route to generate a path for.
+     * @param string $name The route name to look up.
+     *
+     * @param array $data The data to interpolate into the URI; data keys
+     * map to attribute tokens in the path.
+     *
+     * @return string|false A URI path string if the route name is found, or
+     * boolean false if not.
+     *
+     * @throws Exception\RouteNotFound
+     *
+     */
+    public function generateRaw($name, $data = [])
+    {
+        return $this->build($name, $data, true);
+    }
+
+    /**
+     *
+     * Gets the URL for a Route.
+     *
+     * @param string $name The route name to look up.
      *
      * @param array $data An array of key-value pairs to interpolate into the
-     * param tokens in the path for the Route.
+     * attribute tokens in the path for the Route.
+     *
+     * @param bool $raw Leave the data unencoded?
      *
      * @return string
      *
      */
-    protected function buildPath(Route $route, $data = array())
+    protected function build($name, $data, $raw)
     {
-        $this->route = $route;
-        $this->data = $data;
-        $this->path = $this->route->path;
-        $this->repl = array();
+        $this->raw = $raw;
+        $this->route = $this->map->getRoute($name);
+        $this->buildUrl();
+        $this->repl = [];
+        $this->data = array_merge($this->route->defaults, $data);
 
-        $this->buildData();
         $this->buildTokenReplacements();
         $this->buildOptionalReplacements();
-        $this->path = strtr($this->path, $this->repl);
+        $this->url = strtr($this->url, $this->repl);
         $this->buildWildcardReplacement();
 
-        return $this->path;
+        return $this->url;
     }
 
     /**
      *
-     * Builds the data for token replacements.
+     * Builds the URL property.
      *
-     * @return array
+     * @return null
      *
      */
-    protected function buildData()
+    protected function buildUrl()
     {
-        // the data for replacements
-        $this->data = array_merge($this->route->values, $this->data);
+        $this->url = $this->basepath . $this->route->path;
 
-        // use a callable to modify the data?
-        if ($this->route->generate) {
-            // pass the data as an object, not as an array, so we can avoid
-            // tricky hacks for references
-            $arrobj = new ArrayObject($this->data);
-            // modify
-            call_user_func($this->route->generate, $arrobj);
-            // convert back to array
-            $this->data = $arrobj->getArrayCopy();
+        $host = $this->route->host;
+        if (! $host) {
+            return;
         }
+        $this->url = '//' . $host . $this->url;
+
+        $secure = $this->route->secure;
+        if ($secure === null) {
+            return;
+        }
+        $protocol = $secure ? 'https:' : 'http:';
+        $this->url = $protocol . $this->url;
     }
 
     /**
@@ -174,36 +207,52 @@ class Generator
 
     /**
      *
-     * Builds replacements for params in the generated path.
+     * Builds replacements for attributes in the generated path.
      *
      * @return string
      *
      */
     protected function buildOptionalReplacements()
     {
-        // replacements for optional params, if any
-        preg_match('#{/([a-z][a-zA-Z0-9_,]*)}#', $this->path, $matches);
+        // replacements for optional attributes, if any
+        preg_match('#{/([a-z][a-zA-Z0-9_,]*)}#', $this->url, $matches);
         if (! $matches) {
             return;
         }
 
+        // the optional attribute names in the token
+        $names = explode(',', $matches[1]);
+
         // this is the full token to replace in the path
         $key = $matches[0];
-        // start with an empty replacement
-        $this->repl[$key] = '';
-        // the optional param names in the token
-        $names = explode(',', $matches[1]);
-        // look for data for each of the param names
+
+        // build the replacement string
+        $this->repl[$key] = $this->buildOptionalReplacement($names);
+    }
+
+    /**
+     *
+     * Builds the optional replacement for attribute names.
+     *
+     * @param array $names The optional replacement names.
+     *
+     * @return string
+     *
+     */
+    protected function buildOptionalReplacement($names)
+    {
+        $repl = '';
         foreach ($names as $name) {
-            // is there data for this optional param?
+            // is there data for this optional attribute?
             if (! isset($this->data[$name])) {
                 // options are *sequentially* optional, so if one is
                 // missing, we're done
-                break;
+                return $repl;
             }
             // encode the optional value
-            $this->repl[$key] .= '/' . $this->encode($this->data[$name]);
+            $repl .= '/' . $this->encode($this->data[$name]);
         }
+        return $repl;
     }
 
     /**
@@ -217,9 +266,9 @@ class Generator
     {
         $wildcard = $this->route->wildcard;
         if ($wildcard && isset($this->data[$wildcard])) {
-            $this->path = rtrim($this->path, '/');
+            $this->url = rtrim($this->url, '/');
             foreach ($this->data[$wildcard] as $val) {
-                $this->path .= '/' . $this->encode($val);
+                $this->url .= '/' . $this->encode($val);
             }
         }
     }

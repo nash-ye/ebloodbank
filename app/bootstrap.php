@@ -8,16 +8,13 @@
 
 /*** Constants ****************************************************************/
 
-define('EBB_CODENAME', 'EBloodBank');
-define('EBB_VERSION', '1.2.4');
+define('EBB_CODENAME', 'winry');
+define('EBB_VERSION', '1.3-alpha-1');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
 
-define('EBB_APP_DIR', dirname(__FILE__));
-define('EBB_LOCALES_DIR', EBB_APP_DIR . '/locales');
-
-/*** Requirements **************************************************************/
+/*** Early Checks *************************************************************/
 
 if (version_compare(PHP_VERSION, EBB_MIN_PHP_VERSION, '<')) {
     die(
@@ -28,6 +25,20 @@ if (version_compare(PHP_VERSION, EBB_MIN_PHP_VERSION, '<')) {
         )
     );
 }
+
+/*** Paths Constants **********************************************************/
+
+define('EBB_APP_DIR', dirname(__FILE__));
+
+if (! defined('EBB_DIR')) {
+    define('EBB_DIR', dirname(__DIR__));
+}
+
+define('EBB_THEMES_DIR', EBB_DIR . '/themes');
+define('EBB_PLUGINS_DIR', EBB_DIR . '/plugins');
+define('EBB_LOCALES_DIR', EBB_DIR . '/locales');
+
+/*** Requirements *************************************************************/
 
 foreach (['spl', 'date', 'filter', 'session'] as $ext) {
     if (! extension_loaded($ext)) {
@@ -81,8 +92,32 @@ if (! defined('EBB_DB_DRIVER')) {
     define('EBB_DB_DRIVER', 'mysqli');
 }
 
+if (! defined('EBB_DEFAULT_THEME')) {
+    define('EBB_DEFAULT_THEME', 'winry');
+}
+
 if (! defined('EBB_DEFAULT_LOCALE')) {
     define('EBB_DEFAULT_LOCALE', '');
+}
+
+if (! defined('EBB_REDIS_CACHE')) {
+    define('EBB_REDIS_CACHE', false);
+}
+
+if (! defined('EBB_REDIS_HOST')) {
+    define('EBB_REDIS_HOST', 'localhost');
+}
+
+if (! defined('EBB_REDIS_PASS')) {
+    define('EBB_REDIS_PASS', '');
+}
+
+if (! defined('EBB_REDIS_PORT')) {
+    define('EBB_REDIS_PORT', 6379);
+}
+
+if (! defined('EBB_APC_CACHE')) {
+    define('EBB_APC_CACHE', true);
 }
 
 if (! defined('EBB_DEV_MODE')) {

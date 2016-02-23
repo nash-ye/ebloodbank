@@ -7,17 +7,20 @@
  */
 namespace EBloodBank;
 
+use Redis;
 use Monolog;
 use Gettext;
+use Doctrine;
 use Doctrine\ORM;
 use Doctrine\DBAL;
 use Swift_Mailer;
 use Swift_SmtpTransport;
 use Aura\Di\Factory;
 use Aura\Di\Container;
-use Aura\Router\RouterFactory;
 use Aura\Dispatcher\Dispatcher;
+use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
+use Zend\Diactoros\ServerRequestFactory;
 
 /**
  * Main class
@@ -95,6 +98,33 @@ class Main
     /**
      * @access private
      * @return void
+     * @since 1.3
+     */
+    private function setupServerRequest()
+    {
+        $request = ServerRequestFactory::fromGlobals(
+            $_SERVER,
+            $_GET,
+            $_POST,
+            $_COOKIE,
+            $_FILES
+        );
+
+        $this->getContainer()->set('request', $request);
+    }
+
+    /**
+     * @return \Zend\Diactoros\ServerRequest
+     * @since 1.3
+     */
+    public function getServerRequest()
+    {
+        return $this->getContainer()->get('request');
+    }
+
+    /**
+     * @access private
+     * @return void
      * @since 1.0
      */
     private function setupTranslator()
@@ -155,13 +185,30 @@ class Main
 
         $entitiesPaths = [trimTrailingSlash(EBB_APP_DIR) . '/src/EBloodBank/Models/'];
         $driverImpl = $config->newDefaultAnnotationDriver($entitiesPaths, true);
+        $config->addEntityNamespace('Entities', 'EBloodBank\Models');
         $config->setMetadataDriverImpl($driverImpl);
 
-        $config->addEntityNamespace('Entities', 'EBloodBank\Models');
-
         $config->setProxyDir(trimTrailingSlash(EBB_APP_DIR) . '/src/EBloodBank/Proxies/');
+        $config->setAutoGenerateProxyClasses((bool) EBB_DEV_MODE);
         $config->setProxyNamespace('EBloodBank\Proxies');
-        $config->setAutoGenerateProxyClasses(true);
+
+        if (! EBB_DEV_MODE && EBB_REDIS_CACHE && extension_loaded('redis')) {
+            $redis = new Redis();
+            $redis->connect(EBB_REDIS_HOST, EBB_REDIS_PORT);
+            if (! EBB_REDIS_PASS) {
+                $redis->auth(EBB_REDIS_PASS);
+            }
+            $cacheDriver = new Doctrine\Common\Cache\RedisCache();
+            $cacheDriver->setRedis($redis);
+        } elseif (! EBB_DEV_MODE && EBB_APC_CACHE && extension_loaded('apc')) {
+            $cacheDriver = new Doctrine\Common\Cache\ApcCache();
+        } else {
+            $cacheDriver = new Doctrine\Common\Cache\ArrayCache();
+        }
+
+        $config->setMetadataCacheImpl($cacheDriver);
+        $config->setResultCacheImpl($cacheDriver);
+        $config->setQueryCacheImpl($cacheDriver);
 
         $entityManager = ORM\EntityManager::create($this->getDBConnection(), $config);
 
@@ -186,63 +233,67 @@ class Main
     {
         $basepath = getHomeURL('relative');
 
-        $routerFactory = new RouterFactory($basepath);
-        $router = $routerFactory->newInstance();
+        $routerContainer = new RouterContainer($basepath);
+        $this->getContainer()->set('router', $routerContainer);
 
-        $router->add('home', '/');
-        $router->add('login', '/login/');
-        $router->add('logout', '/logout/');
-        $router->add('signup', '/signup/');
+        $routerMap = $routerContainer->getMap();
 
-        $router->add('settings', '/settings/');
+        /*
+         * The application accepts the trailing slash for now
+         * but this behavior may be changed in the near future.
+         *
+         * Please use one version of URLs in your content and templates.
+         */
 
-        $router->add('view-donors', '/donors/');
-        $router->add('add-donor', '/add/donor/');
-        $router->add('view-donor', '/donor/{id}/');
-        $router->add('view-donor', '/donor/{id}/');
-        $router->add('edit-donors', '/edit/donors/');
-        $router->add('edit-donor', '/edit/donor/{id}/');
-        $router->add('delete-donors', '/delete/donors/');
-        $router->add('delete-donor', '/delete/donor/{id}/');
-        $router->add('approve-donors', '/approve/donors/');
-        $router->add('approve-donor', '/approve/donor/{id}/');
+        $routerMap->route('home', '(/)?');
+        $routerMap->route('login', '/login(/)?');
+        $routerMap->route('logout', '/logout(/)?');
+        $routerMap->route('signup', '/signup(/)?');
 
-        $router->add('view-users', '/users/');
-        $router->add('add-user', '/add/user/');
-        $router->add('view-user', '/user/{id}/');
-        $router->add('edit-users', '/edit/users/');
-        $router->add('edit-user', '/edit/user/{id}/');
-        $router->add('delete-users', '/delete/users/');
-        $router->add('delete-user', '/delete/user/{id}/');
-        $router->add('activate-users', '/activate/users/');
-        $router->add('activate-user', '/activate/user/{id}/');
+        $routerMap->route('settings', '/settings(/)?');
 
-        $router->add('view-cities', '/cities/');
-        $router->add('add-city', '/add/city/');
-        $router->add('view-city', '/city/{id}/');
-        $router->add('edit-cities', '/edit/cities/');
-        $router->add('edit-city', '/edit/city/{id}/');
-        $router->add('delete-cities', '/delete/cities/');
-        $router->add('delete-city', '/delete/city/{id}/');
+        $routerMap->route('view-donors', '/donors(/)?');
+        $routerMap->route('add-donor', '/add/donor(/)?');
+        $routerMap->route('view-donor', '/donor/{id}(/)?');
+        $routerMap->route('edit-donors', '/edit/donors(/)?');
+        $routerMap->route('edit-donor', '/edit/donor/{id}(/)?');
+        $routerMap->route('delete-donors', '/delete/donors(/)?');
+        $routerMap->route('delete-donor', '/delete/donor/{id}(/)?');
+        $routerMap->route('approve-donors', '/approve/donors(/)?');
+        $routerMap->route('approve-donor', '/approve/donor/{id}(/)?');
 
-        $router->add('view-districts', '/districts/');
-        $router->add('add-district', '/add/district/');
-        $router->add('view-district', '/district/{id}/');
-        $router->add('edit-districts', '/edit/districts/');
-        $router->add('edit-district', '/edit/district/{id}/');
-        $router->add('delete-districts', '/delete/districts/');
-        $router->add('delete-district', '/delete/district/{id}/');
+        $routerMap->route('view-users', '/users(/)?');
+        $routerMap->route('add-user', '/add/user(/)?');
+        $routerMap->route('view-user', '/user/{id}(/)?');
+        $routerMap->route('edit-users', '/edit/users(/)?');
+        $routerMap->route('edit-user', '/edit/user/{id}(/)?');
+        $routerMap->route('delete-users', '/delete/users(/)?');
+        $routerMap->route('delete-user', '/delete/user/{id}(/)?');
+        $routerMap->route('activate-users', '/activate/users(/)?');
+        $routerMap->route('activate-user', '/activate/user/{id}(/)?');
 
-        $router->match(
-            trimTrailingSlash(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) . '/',
-            $_SERVER
-        );
+        $routerMap->route('view-cities', '/cities(/)?');
+        $routerMap->route('add-city', '/add/city(/)?');
+        $routerMap->route('view-city', '/city/{id}(/)?');
+        $routerMap->route('edit-cities', '/edit/cities(/)?');
+        $routerMap->route('edit-city', '/edit/city/{id}(/)?');
+        $routerMap->route('delete-cities', '/delete/cities(/)?');
+        $routerMap->route('delete-city', '/delete/city/{id}(/)?');
 
-        $this->getContainer()->set('router', $router);
+        $routerMap->route('view-districts', '/districts(/)?');
+        $routerMap->route('add-district', '/add/district(/)?');
+        $routerMap->route('view-district', '/district/{id}(/)?');
+        $routerMap->route('edit-districts', '/edit/districts(/)?');
+        $routerMap->route('edit-district', '/edit/district/{id}(/)?');
+        $routerMap->route('delete-districts', '/delete/districts(/)?');
+        $routerMap->route('delete-district', '/delete/district/{id}(/)?');
+
+        $routerMatcher = $routerContainer->getMatcher();
+        $routerMatcher->match($this->getServerRequest());
     }
 
     /**
-     * @return \Aura\Router\Router
+     * @return \Aura\Router\RouterContainer
      * @since 1.0
      */
     public function getRouter()
@@ -294,6 +345,26 @@ class Main
 
         if (! empty($currentLocale)) {
             $this->getTranslator()->loadTranslations($currentLocale->getTranslations());
+        }
+    }
+
+    /**
+     * @access private
+     * @return void
+     * @since 1.3
+     */
+    private function setupCurrentTheme()
+    {
+        $themes = Themes::getAvailableThemes();
+
+        $defaultTheme = EBB_DEFAULT_THEME;
+        if (! empty($defaultTheme) && isset($themes[$defaultTheme])) {
+            Themes::setDefaultTheme($themes[$defaultTheme]);
+        }
+
+        $siteTheme = Options::getOption('site_theme');
+        if (! empty($siteTheme) && isset($themes[$siteTheme])) {
+            Themes::setCurrentTheme($themes[$siteTheme]);
         }
     }
 
@@ -576,12 +647,12 @@ class Main
                     break;
 
                 default:
-                    $matchedRoute = $this->getRouter()->getMatchedRoute();
+                    $matchedRoute = $this->getRouter()->getMatcher()->getMatchedRoute();
                     if (empty($matchedRoute)) {
                         Views\View::display('error-404');
                     } else {
                         try {
-                            $dispatcher($matchedRoute->params, $matchedRoute->name);
+                            $dispatcher($matchedRoute->attributes, $matchedRoute->name);
                         } catch (\Aura\Dispatcher\Exception\ObjectNotDefined $ex) {
                             Views\View::display('error-404');
                         }
@@ -611,6 +682,9 @@ class Main
             // Sets up the logger.
             $instance->setupLogger();
 
+            // Sets up the server request.
+            $instance->setupServerRequest();
+
             // Sets up the translator.
             $instance->setupTranslator();
 
@@ -622,6 +696,9 @@ class Main
 
             // Sets up the current locale.
             $instance->setupCurrentLocale();
+
+            // Sets up the current theme.
+            $instance->setupCurrentTheme();
 
             // Sets up the mailer.
             $instance->setupMailer();

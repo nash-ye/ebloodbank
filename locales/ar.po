@@ -1,0 +1,944 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: eBloodBank 1.2.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-23 16:25+0300\n"
+"PO-Revision-Date: 2016-02-23 16:25+0300\n"
+"Last-Translator: \n"
+"Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;__e;n__:1,2;n__e:1,2;p__:1c,2;p__e:1c,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n"
+"%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: EBloodBank/Controllers/AddCity.php:83
+msgid "City added."
+msgstr "تم إضافة المدينة."
+
+#: EBloodBank/Controllers/AddCity.php:118 EBloodBank/Controllers/EditCity.php:130
+msgid "Please enter a unique city name."
+msgstr "يرجى إدخال اسم فريد للمدينة."
+
+#: EBloodBank/Controllers/AddDistrict.php:83
+msgid "District added."
+msgstr "تم إضافة المديرية."
+
+#: EBloodBank/Controllers/AddDonor.php:84
+msgid "Donor added."
+msgstr "تم إضافة المتبرع."
+
+#: EBloodBank/Controllers/AddDonor.php:168 EBloodBank/Controllers/Signup.php:186
+#, php-format
+msgid "[%s] New Donor"
+msgstr "[%s] متبرع جديد"
+
+#: EBloodBank/Controllers/AddDonor.php:172 EBloodBank/Controllers/Signup.php:190
+#, php-format
+msgid "New donor addition on %s:"
+msgstr "إضافة متبرع جديد على %s:"
+
+#: EBloodBank/Controllers/AddDonor.php:173 EBloodBank/Controllers/Signup.php:191
+#, php-format
+msgid "Name: %s"
+msgstr "الاسم: %s"
+
+#: EBloodBank/Controllers/AddDonor.php:174 EBloodBank/Controllers/Signup.php:192
+#, php-format
+msgid "Gender: %s"
+msgstr "الجنس: %s"
+
+#: EBloodBank/Controllers/AddDonor.php:175 EBloodBank/Controllers/Signup.php:193
+#, php-format
+msgid "Blood Group: %s"
+msgstr "فصيلة الدم: %s"
+
+#: EBloodBank/Controllers/AddDonor.php:176 EBloodBank/Controllers/Signup.php:194
+#, php-format
+msgid "City\\District: %1$s\\%2$s"
+msgstr "المدينة/المديرية: %1$s/%2$s"
+
+#: EBloodBank/Controllers/AddUser.php:83
+msgid "User added."
+msgstr "تم إضافة المستخدم."
+
+#: EBloodBank/Controllers/AddUser.php:121 EBloodBank/Controllers/EditUser.php:133
+msgid "Please enter a unique user e-mail."
+msgstr "يرجى إدخال بريد إلكتروني فريد للمستخدم."
+
+#: EBloodBank/Controllers/AddUser.php:128
+msgid "Please enter the password."
+msgstr "يرجى إدخال كلمة المرور."
+
+#: EBloodBank/Controllers/AddUser.php:132
+msgid "Please confirm the password."
+msgstr "يرجى تأكيد كلمة المرور."
+
+#: EBloodBank/Controllers/AddUser.php:136 EBloodBank/Controllers/EditUser.php:145
+#: EBloodBank/Controllers/Install.php:314 EBloodBank/Controllers/Signup.php:92
+msgid "Please enter the same password."
+msgstr "يرجى إدخال نفس كلمة المرور."
+
+#: EBloodBank/Controllers/DeleteCities.php:112
+#, php-format
+msgid "At first, delete any linked districts with city \"%s\"."
+msgstr "في البداية، احذف أي مديريات مرتبطة مع المدينة \"%s\"."
+
+#: EBloodBank/Controllers/DeleteCity.php:112
+msgid "At first, delete any linked districts with this city."
+msgstr "في البداية، احذف أي مديريات مرتبطة مع هذه المدينة."
+
+#: EBloodBank/Controllers/DeleteDistrict.php:111
+msgid "At first, delete any linked donors with this district."
+msgstr "في البداية، احذف أي متبرعين مرتبطين مع هذه المديرية."
+
+#: EBloodBank/Controllers/DeleteDistricts.php:112
+#, php-format
+msgid "At first, delete any linked donors with district \"%s\"."
+msgstr "في البداية، احذف أي متبرعين مرتبطين مع مديرية \"%s\"."
+
+#: EBloodBank/Controllers/EditCities.php:59
+#, php-format
+msgid "%d city permanently deleted."
+msgid_plural "%d cities permanently deleted."
+msgstr[0] "لم يتم حذف أي مدينة بشكل دائم."
+msgstr[1] "تم حذف مدينة واحدة بشكل دائم."
+msgstr[2] "تم حذف مدينتان بشكل دائم."
+msgstr[3] "تم حذف %d مدن بشكل دائم."
+msgstr[4] "تم حذف %d مدينة بشكل دائم."
+msgstr[5] "تم حذف %d مدينة بشكل دائم."
+
+#: EBloodBank/Controllers/EditCity.php:95
+msgid "City edited."
+msgstr "تم تحرير المدينة."
+
+#: EBloodBank/Controllers/EditDistrict.php:95
+msgid "District edited."
+msgstr "تم تحرير المديرية."
+
+#: EBloodBank/Controllers/EditDistricts.php:59
+#, php-format
+msgid "%d district permanently deleted."
+msgid_plural "%d districts permanently deleted."
+msgstr[0] "لم يتم حذف أي مديرية بشكل دائم."
+msgstr[1] "تم حذف مديرية واحدة بشكل دائم."
+msgstr[2] "تم حذف مديريتان بشكل دائم."
+msgstr[3] "تم حذف %d مديريات بشكل دائم."
+msgstr[4] "تم حذف %d مديرية بشكل دائم."
+msgstr[5] "تم حذف %d مديرية بشكل دائم."
+
+#: EBloodBank/Controllers/EditDonor.php:95
+msgid "Donor edited."
+msgstr "تم تحرير المتبرع."
+
+#: EBloodBank/Controllers/EditDonor.php:98 EBloodBank/Controllers/ViewDonor.php:81
+msgid "This donor is pendng moderation."
+msgstr "هذا المتبرع بانتظار الموافقة."
+
+#: EBloodBank/Controllers/EditDonors.php:63
+#, php-format
+msgid "%d donor approved."
+msgid_plural "%d donors approved."
+msgstr[0] "لم تتم الموافقة على أي متبرع."
+msgstr[1] "تمت الموافقة على متبرع واحد."
+msgstr[2] "تمت الموافقة على متبرعان."
+msgstr[3] "تمت الموافقة على %d متبرعين."
+msgstr[4] "تمت الموافقة على %d متبرع."
+msgstr[5] "تمت الموافقة على %d متبرع."
+
+#: EBloodBank/Controllers/EditDonors.php:67
+#, php-format
+msgid "%d donor permanently deleted."
+msgid_plural "%d donors permanently deleted."
+msgstr[0] "لم يتم حذف أي متبرع بشكل دائم."
+msgstr[1] "تم حذف متبرع واحد بشكل دائم."
+msgstr[2] "تم حذف متبرعان بشكل دائم."
+msgstr[3] "تم حذف %d متبرعين بشكل دائم."
+msgstr[4] "تم حذف %d متبرع بشكل دائم."
+msgstr[5] "تم حذف %d متبرع بشكل دائم."
+
+#: EBloodBank/Controllers/EditUser.php:95
+msgid "User edited."
+msgstr "تم تحرير المستخدم."
+
+#: EBloodBank/Controllers/EditUser.php:140
+msgid "Please enter the password twice."
+msgstr "يرجى إدخال كلمة المرور مرتين."
+
+#: EBloodBank/Controllers/EditUsers.php:59
+#, php-format
+msgid "%d user activated."
+msgid_plural "%d users activated."
+msgstr[0] "لم يتم تفعيل أي مستخدم."
+msgstr[1] "تم تفعيل مستخدم واحد."
+msgstr[2] "تم تفعيل مستخدمان."
+msgstr[3] "تم تفعيل %d مستخدمين."
+msgstr[4] "تم تفعيل %d مستخدم."
+msgstr[5] "تم تفعيل %d مستخدم."
+
+#: EBloodBank/Controllers/EditUsers.php:63
+#, php-format
+msgid "%d user permanently deleted."
+msgid_plural "%d users permanently deleted."
+msgstr[0] "لم يتم حذف أي مستخدم بشكل دائم."
+msgstr[1] "تم حذف مستخدم واحد بشكل دائم."
+msgstr[2] "تم حذف مستخدمان بشكل دائم."
+msgstr[3] "تم حذف %d مستخدمين بشكل دائم."
+msgstr[4] "تم حذف %d مستخدم بشكل دائم."
+msgstr[5] "تم حذف %d مستخدم بشكل دائم."
+
+#: EBloodBank/Controllers/Install.php:306 EBloodBank/Controllers/Signup.php:84
+msgid "Please enter your password."
+msgstr "يرجى إدخال كلمة مرورك"
+
+#: EBloodBank/Controllers/Install.php:310 EBloodBank/Controllers/Signup.php:88
+msgid "Please confirm your password."
+msgstr "يرجى تأكييد كلمة مرورك"
+
+#: EBloodBank/Controllers/Install.php:334
+msgid "An unexpected error occurred while installing eBloodBank."
+msgstr "حدث خطأ غير متوقع أثناء تنصيب eBloodBank."
+
+#: EBloodBank/Controllers/Login.php:54
+msgid "You are now logged out."
+msgstr "تم الآن تسجيل خروجك."
+
+#: EBloodBank/Controllers/Login.php:68
+msgid "Please enter your login details."
+msgstr "يرجى إدخال بيانات تسجيل الدخول الخاصة بك."
+
+#: EBloodBank/Controllers/Login.php:77
+msgid "No match for user e-mail and/or password."
+msgstr "لا تطابق لمستخدم بالبريد الإلكتروني و/أو كلمة المرور."
+
+#: EBloodBank/Controllers/Login.php:82
+msgid "Your account is pending moderation."
+msgstr "حسابك بانتظار الموافقة. "
+
+#: EBloodBank/Controllers/Settings.php:61
+msgid "Settings saved."
+msgstr "تم حفظ الإعدادات."
+
+#: EBloodBank/Controllers/Signup.php:77
+msgid "Please enter another e-mail address."
+msgstr "يرجى إدخال عنوان بريد إلكتروني آخر."
+
+#: EBloodBank/Controllers/Signup.php:116
+#, php-format
+msgid "[%s] New User Registration"
+msgstr "[%s] تسجيل مستخدم جديد"
+
+#: EBloodBank/Controllers/Signup.php:120
+#, php-format
+msgid "New user registration on %s:"
+msgstr "تسجيل مستخدم جديد على %s:"
+
+#: EBloodBank/Controllers/Signup.php:121
+#, php-format
+msgid "Username: %s"
+msgstr "اسم المستخدم: %s"
+
+#: EBloodBank/Controllers/Signup.php:122
+#, php-format
+msgid "E-mail: %s"
+msgstr "البريد الإلكتروني: %s:"
+
+#: EBloodBank/Locale.php:78
+msgid "Invalid locale code."
+msgstr "رمز اللغة غير صالح."
+
+#: EBloodBank/Locale.php:84
+msgid "Locale MO file is not readable or not exists."
+msgstr "ملف الـ MO الخاص باللغة غير قابل للقراءة أو غير موجود."
+
+#: EBloodBank/Locale.php:91
+msgid "Locale PO file is not readable or not exists."
+msgstr "ملف الـ PO الخاص باللغة غير قابل للقراءة أو غير موجود."
+
+#: EBloodBank/Main.php:410
+msgid "Subscriber"
+msgstr "مشترك"
+
+#: EBloodBank/Main.php:423
+msgid "Contributor"
+msgstr "مساهم"
+
+#: EBloodBank/Main.php:439
+msgid "Editor"
+msgstr "محرر"
+
+#: EBloodBank/Main.php:467
+msgid "Administrator"
+msgstr "مدير"
+
+#: EBloodBank/Models/City.php:108
+msgid "Invalid city ID."
+msgstr "الرقم المعرف للمدينة غير صالح."
+
+#: EBloodBank/Models/City.php:113
+msgid "Invalid city name."
+msgstr "اسم المدينة غير صالح."
+
+#: EBloodBank/Models/City.php:120
+msgid "Invalid city originator."
+msgstr "مُنشئ المدينة غير صالح."
+
+#: EBloodBank/Models/District.php:121
+msgid "Invalid district ID."
+msgstr "الرقم المعرف للمديرية غير صالح."
+
+#: EBloodBank/Models/District.php:126
+msgid "Invalid district name."
+msgstr "اسم المديرية غير صالح."
+
+#: EBloodBank/Models/District.php:131
+msgid "Invalid district city."
+msgstr "مدينة المديرية غير صالحة."
+
+#: EBloodBank/Models/District.php:138
+msgid "Invalid district originator."
+msgstr "مُنشئ المديرية غير صالح."
+
+#: EBloodBank/Models/Donor.php:204
+msgid "Invalid donor ID."
+msgstr "الرقم المعرف للمتبرع غير صالح."
+
+#: EBloodBank/Models/Donor.php:209
+msgid "Invalid donor name."
+msgstr "اسم المتبرع غير صالح."
+
+#: EBloodBank/Models/Donor.php:214
+msgid "Invalid donor gender."
+msgstr "جنس المتبرع غير صالح."
+
+#: EBloodBank/Models/Donor.php:221
+msgid "Invalid donor blood group."
+msgstr "فصيلة دم المتبرع غير صالحة."
+
+#: EBloodBank/Models/Donor.php:226
+msgid "Invalid donor district."
+msgstr "مديرية المتبرع غير صالحة."
+
+#: EBloodBank/Models/Donor.php:233
+msgid "Invalid donor originator."
+msgstr "مُنشئ المتبرع غير صالح."
+
+#: EBloodBank/Models/Donor.php:238
+msgid "Invalid donor status."
+msgstr "حالة المتبرع غير صالحة."
+
+#: EBloodBank/Models/Donor.php:281
+msgid "Invalid donor weight."
+msgstr "وزن المتبرع غير صالح."
+
+#: EBloodBank/Models/Donor.php:286
+msgid "Invalid donor e-mail address."
+msgstr "عنوان بريد المتبرع الإلكتروني غير صالح."
+
+#: EBloodBank/Models/Donor.php:291 EBloodBank/Options.php:267
+msgid "Invalid donor e-mail address visibility."
+msgstr "نوع رؤية عنوان بريد المتبرع الإلكتروني غير صالحة."
+
+#: EBloodBank/Models/Donor.php:296
+msgid "Invalid donor phone number."
+msgstr "رقم هاتف المتبرع غير صالح."
+
+#: EBloodBank/Models/Donor.php:301 EBloodBank/Options.php:273
+msgid "Invalid donor phone number visibility."
+msgstr "نوع رؤية رقم تلفون المتبرع غير صالحة."
+
+#: EBloodBank/Models/User.php:508
+msgid "Invalid user ID."
+msgstr "الرقم المعرف للمستخدم غير صالح."
+
+#: EBloodBank/Models/User.php:513
+msgid "Invalid user name."
+msgstr "اسم المستخدم غير صالح."
+
+#: EBloodBank/Models/User.php:518
+msgid "Invalid user e-mail."
+msgstr "البريد الإلكتروني للمستخدم غير صالح."
+
+#: EBloodBank/Models/User.php:523
+msgid "Invalid user password."
+msgstr "كلمة مرور المستخدم غير صالحة."
+
+#: EBloodBank/Models/User.php:528
+msgid "Invalid user role."
+msgstr "رتبة المستخدم غير صالحة."
+
+#: EBloodBank/Models/User.php:535
+msgid "Invalid user status."
+msgstr "حالة المستخدم غير صالحة."
+
+#: EBloodBank/Models/Variable.php:79
+msgid "Invalid variable name."
+msgstr "اسم المتغير غير صالح."
+
+#: EBloodBank/Options.php:221
+msgid "Invalid site URL."
+msgstr "رابط الموقع غير صالح."
+
+#: EBloodBank/Options.php:226
+msgid "Invalid site name."
+msgstr "اسم الموقع غير صالح."
+
+#: EBloodBank/Options.php:235
+msgid "Invalid site locale."
+msgstr "لغة الموقع غير صالحة."
+
+#: EBloodBank/Options.php:241
+msgid "Invalid site e-mail address."
+msgstr "عنوان البريد الإلكتروني للموقع غير صالحة."
+
+#: EBloodBank/Options.php:249
+msgid "Invalid self-registration status."
+msgstr "حالة التسجيل-الذاتي غير صالحة."
+
+#: EBloodBank/Options.php:254
+msgid "Invalid new user role."
+msgstr "رتبة المستخدم الجديد غير صالحة."
+
+#: EBloodBank/Options.php:259
+msgid "Invalid new user status."
+msgstr "حالة المستخدم الجديد غير صالحة."
+
+#: EBloodBank/Options.php:281
+msgid "Invalid site publication status."
+msgstr "حالة نشر الموقع غير صالحة."
+
+#: EBloodBank/Options.php:286
+msgid "Invalid entities per page count."
+msgstr "عدد الكيانات في الصفحة الواحدة غير صالح."
+
+#: EBloodBank/functions.fields.php:288
+msgid "Male"
+msgstr "ذكر"
+
+#: EBloodBank/functions.fields.php:289
+msgid "Female"
+msgstr "أنثى"
+
+#: EBloodBank/functions.fields.php:300
+msgid "Everyone"
+msgstr "الجميع"
+
+#: EBloodBank/functions.fields.php:301
+msgid "Members"
+msgstr "الأعضاء"
+
+#: EBloodBank/functions.fields.php:302
+msgid "Staff"
+msgstr "الموظفون"
+
+#: EBloodBank/functions.hyperlinks.php:75
+msgid "Home"
+msgstr "الرئيسية"
+
+#: EBloodBank/functions.hyperlinks.php:124
+msgid "Log In"
+msgstr "تسجيل الدخول"
+
+#: EBloodBank/functions.hyperlinks.php:166
+msgid "Log Out"
+msgstr "تسجيل الخروج"
+
+#: EBloodBank/functions.hyperlinks.php:205
+msgid "Sign Up"
+msgstr "التسجيل"
+
+#: EBloodBank/functions.hyperlinks.php:318
+msgid "Users"
+msgstr "المستخدمين"
+
+#: EBloodBank/functions.hyperlinks.php:349 EBloodBank/functions.hyperlinks.php:692
+#: EBloodBank/functions.hyperlinks.php:960
+#: EBloodBank/functions.hyperlinks.php:1192
+msgid "Add"
+msgstr "إضافة"
+
+#: EBloodBank/functions.hyperlinks.php:380 EBloodBank/functions.hyperlinks.php:412
+#: EBloodBank/functions.hyperlinks.php:723 EBloodBank/functions.hyperlinks.php:755
+#: EBloodBank/functions.hyperlinks.php:991
+#: EBloodBank/functions.hyperlinks.php:1023
+#: EBloodBank/functions.hyperlinks.php:1223
+#: EBloodBank/functions.hyperlinks.php:1255
+msgid "Edit"
+msgstr "تحرير"
+
+#: EBloodBank/functions.hyperlinks.php:448 EBloodBank/functions.hyperlinks.php:791
+#: EBloodBank/functions.hyperlinks.php:1059
+#: EBloodBank/functions.hyperlinks.php:1291
+msgid "Delete"
+msgstr "حذف"
+
+#: EBloodBank/functions.hyperlinks.php:484
+msgid "Activate"
+msgstr "تفعيل"
+
+#: EBloodBank/functions.hyperlinks.php:621
+msgid "Donors"
+msgstr "المتبرعين"
+
+#: EBloodBank/functions.hyperlinks.php:827
+msgid "Approve"
+msgstr "وافق"
+
+#: EBloodBank/functions.hyperlinks.php:929
+msgid "Cities"
+msgstr "المدن"
+
+#: EBloodBank/functions.hyperlinks.php:1161
+msgid "Districts"
+msgstr "المديريات"
+
+#: EBloodBank/functions.hyperlinks.php:1339
+msgid "Settings"
+msgstr "الإعدادات"
+
+#~ msgid "Activate User"
+#~ msgstr "تفعيل مستخدم"
+
+#~ msgid "Activate user \"%s\"?"
+#~ msgstr "تفعيل المستخدم \"%s\"؟"
+
+#~ msgid "Activate Users"
+#~ msgstr "تفعيل المستخدمين"
+
+#~ msgid "Activate each user in the list below?"
+#~ msgstr "تفعيل كل مستخدم في القائمة أدناه؟"
+
+#~ msgid "Add New City"
+#~ msgstr "أضف مدينة جديدة"
+
+#~ msgid "Add New District"
+#~ msgstr "أضف مديرية جديدة"
+
+#~ msgid "Add New Donor"
+#~ msgstr "أضف متبرع جديد"
+
+#~ msgid "Add New User"
+#~ msgstr "أضف مستخدم جديد"
+
+#~ msgid "Approve Donor"
+#~ msgstr "الموافقة على متبرع"
+
+#~ msgid "Approve donor \"%s\"?"
+#~ msgstr "الموافقة على المتبرع \"%s\"؟"
+
+#~ msgid "Approve Donors"
+#~ msgstr "الموافقة على المتبرعين"
+
+#~ msgid "Approve each donor in the list below?"
+#~ msgstr "الموافقة على كل متبرع في القائمة أدناه؟"
+
+#~ msgid "Delete Cities"
+#~ msgstr "حذف مدن"
+
+#~ msgid "Delete each city in the list below?"
+#~ msgstr "حذف كل مدينة في القائمة أدناه؟"
+
+#~ msgid "Delete City"
+#~ msgstr "حذف مدينة"
+
+#~ msgid "Delete city \"%s\"?"
+#~ msgstr "حذف المدينة \"%s\"؟"
+
+#~ msgid "Delete District"
+#~ msgstr "حذف مديرية"
+
+#~ msgid "Delete district \"%s\"?"
+#~ msgstr "حذف المديرية \"%s\"؟"
+
+#~ msgid "Delete Districts"
+#~ msgstr "حذف مديريات"
+
+#~ msgid "Delete each district in the list below?"
+#~ msgstr "حذف كل مديرية في القائمة أدناه؟"
+
+#~ msgid "Delete Donor"
+#~ msgstr "حذف متبرع"
+
+#~ msgid "Delete donor \"%s\"?"
+#~ msgstr "حذف المتبرع \"%s\"؟"
+
+#~ msgid "Delete Donors"
+#~ msgstr "حذف متبرعين"
+
+#~ msgid "Delete each donor in the list below?"
+#~ msgstr "حذف كل متبرع في القائمة أدناه؟"
+
+#~ msgid "Delete User"
+#~ msgstr "حذف مستخدم"
+
+#~ msgid "Delete user \"%s\"?"
+#~ msgstr "حذف المستخدم \"%s\"؟"
+
+#~ msgid "Delete Users"
+#~ msgstr "حذف مستخدمين"
+
+#~ msgid "Delete each user in the list below?"
+#~ msgstr "حذف كل مستخدم في القائمة أدناه؟"
+
+#~ msgid "Edit Cities"
+#~ msgstr "تحرير المدن"
+
+#~ msgid "View"
+#~ msgstr "عرض"
+
+#~ msgid "Add New"
+#~ msgstr "أضف جديد"
+
+#~ msgid "Name"
+#~ msgstr "الاسم"
+
+#~ msgid "Actions"
+#~ msgstr "الإجراءات"
+
+#~ msgid "Edit City"
+#~ msgstr "تحرير المدينة"
+
+#~ msgid "Edit District"
+#~ msgstr "تحرير المديرية"
+
+#~ msgid "Edit Districts"
+#~ msgstr "تحرير المديريات"
+
+#~ msgid "City"
+#~ msgstr "المدينة"
+
+#~ msgid "Edit Donor"
+#~ msgstr "تحرير المتبرع"
+
+#~ msgid "Edit Donors"
+#~ msgstr "تحرير المتبرعين"
+
+#~ msgid "Gender"
+#~ msgstr "الجنس"
+
+#~ msgid "Age"
+#~ msgstr "العمر"
+
+#~ msgid "Blood Group"
+#~ msgstr "فصيلة الدم"
+
+#~ msgid "District"
+#~ msgstr "المديرية"
+
+#~ msgid "Pending"
+#~ msgstr "بإنتظار الموافقة"
+
+#~ msgid "Edit User"
+#~ msgstr "تحرير المستخدم"
+
+#~ msgid "Edit Users"
+#~ msgstr "تحرير المستخدمين"
+
+#~ msgid "E-mail"
+#~ msgstr "البريد الإلكتروني"
+
+#~ msgid "Role"
+#~ msgstr "الرتبة"
+
+#~ msgid "Error: Access denied"
+#~ msgstr "خطأ: تم رفض الوصول"
+
+#~ msgid "Sorry, you are not authorized to access this page."
+#~ msgstr "المعذرة، أنت غير مصرح لك بالوصول إلى هذه الصفحة."
+
+#~ msgid "Error: Not Found"
+#~ msgstr "خطأ: غير موجود"
+
+#~ msgid "Sorry, the page you requested was not found."
+#~ msgstr "المعذرة، الصفحة التي طلبتها غير موجودة."
+
+#~ msgctxt "language code"
+#~ msgid "en"
+#~ msgstr "ar"
+
+#~ msgctxt "text direction"
+#~ msgid "ltr"
+#~ msgstr "rtl"
+
+#~ msgid "eBloodBank &rsaquo; Database Error"
+#~ msgstr "eBloodBank &rsaquo; خطأ في قاعدة البيانات"
+
+#~ msgid "eBloodBank"
+#~ msgstr "eBloodBank"
+
+#~ msgid "Error: Database Connection Failed"
+#~ msgstr "خطأ: فشل الاتصال بقاعدة البيانات."
+
+#~ msgid "An error occurred while establishing the database connection."
+#~ msgstr "حدث خطأ أثناء الاتصال بقاعدة البيانات."
+
+#~ msgid "Submit"
+#~ msgstr "إرسال"
+
+#~ msgid "Birthdate"
+#~ msgstr "تاريخ الميلاد"
+
+#~ msgid "Weight (kg)"
+#~ msgstr "الوزن (كجم)"
+
+#~ msgid "Phone"
+#~ msgstr "الهاتف"
+
+#~ msgid "Address"
+#~ msgstr "العنوان"
+
+#~ msgid "All"
+#~ msgstr "الكل"
+
+#~ msgid "Include alternatives?"
+#~ msgstr "تضمين البدائل؟"
+
+#~ msgid "Search"
+#~ msgstr "بحث"
+
+#~ msgid "Password"
+#~ msgstr "كلمة المرور"
+
+#~ msgid "Type your password"
+#~ msgstr "أكتب كلمة مرورك"
+
+#~ msgid "Type your password again"
+#~ msgstr "أكتب كلمة مرورك مرة أخرى"
+
+#~ msgid "Add as a donor."
+#~ msgstr "أضف كمتبرع"
+
+#~ msgid "Donor Information"
+#~ msgstr "معلومات المتبرع"
+
+#~ msgid "New Password"
+#~ msgstr "كلمة المرور الجديدة"
+
+#~ msgid "Type the password"
+#~ msgstr "أكتب كلمة المرور"
+
+#~ msgid "Type the password again"
+#~ msgstr "أكتب كلمة المرور مرة أخرى"
+
+#~ msgid "Toggle navigation"
+#~ msgstr "تبديل التنقل"
+
+#~ msgid "Hello, <b>%s</b>!"
+#~ msgstr "مرحبًا، <b>%s</b>!"
+
+#~ msgid "Anonymous, Log In?"
+#~ msgstr "مجهول، تسجيل الدخول؟"
+
+#~ msgid "Hello, life savers!"
+#~ msgstr "مرحبًا، منقذو الحياة!"
+
+#~ msgid ""
+#~ "Blood transfusion helps save millions of lives every year. Optimistically, "
+#~ "we will help to save more."
+#~ msgstr ""
+#~ "نقل الدم يساعد على إنقاذ حياة ملايين الأشخاص كل عام. بتفائل، نحن سنساعد على "
+#~ "إنقاذ المزيد."
+
+#~ msgid "Add Donor"
+#~ msgstr "أضف متبرع"
+
+#~ msgid "Add City"
+#~ msgstr "أضف مدينة"
+
+#~ msgid "Add District"
+#~ msgstr "أضف مديرية"
+
+#~ msgid "Add User"
+#~ msgstr "أضف مستخدم"
+
+#~ msgid "eBloodBank &rsaquo; Installation"
+#~ msgstr "eBloodBank &rsaquo; التنصيب"
+
+#~ msgid "Configuration"
+#~ msgstr "الإعدادات"
+
+#~ msgid ""
+#~ "Welcome to eBloodBank, Before getting started, we need some information on "
+#~ "the database. You will need to know the following items before proceeding."
+#~ msgstr ""
+#~ "مرحبًا بك في eBloodBank، قبل الشروع في العمل، نحن بحاجة لبعض المعلومات عن "
+#~ "قاعدة البيانات. عليك معرفة العناصر التالية قبل المتابعة. "
+
+#~ msgid "Database name"
+#~ msgstr "اسم قاعدة البيانات"
+
+#~ msgid "Database username"
+#~ msgstr "اسم مستخدم قاعدة البيانات"
+
+#~ msgid "Database password"
+#~ msgstr "كلمة مرور قاعدة البيانات"
+
+#~ msgid "Database host"
+#~ msgstr "مُضيف قاعدة البيانات"
+
+#~ msgid ""
+#~ "We’re going to use this information to setup the database. You should open "
+#~ "%1$s file in a text editor, fill in your information, and save it as %2$s."
+#~ msgstr ""
+#~ "نحن في طريقنا لاستخدام هذه المعلومات لإعداد قاعدة البيانات. يجب عليك فتح ملف "
+#~ "%1$s بواسطة محرّر نصوص، ثمّ ملئه بالمعلومات الخاصة بك، ومن ثمّ حفظ الملف باسم "
+#~ "%2$s."
+
+#~ msgid "Run the install"
+#~ msgstr "شغل معالج التنصيب"
+
+#~ msgid "Installation"
+#~ msgstr "التنصيب"
+
+#~ msgid ""
+#~ "Welcome to the installation process! Just fill in the information below and "
+#~ "you’ll be on your way to using the eBloodBank premium system."
+#~ msgstr ""
+#~ "مرحبًا بك في معالج التنصيب! فقط قم بملء المعلومات المطلوبة أدناه لتصبح على "
+#~ "طريقك في استخدام نظام eBloodBank المُمتاز."
+
+#~ msgid "Site Information"
+#~ msgstr "معلومات الموقع"
+
+#~ msgid "Site Name"
+#~ msgstr "اسم الموقع"
+
+#~ msgid "Site E-mail"
+#~ msgstr "بريد الموقع الإلكتروني"
+
+#~ msgid "Administrator Account"
+#~ msgstr "حساب المدير"
+
+#~ msgid "Install eBloodBank"
+#~ msgstr "تنصيب eBloodBank"
+
+#~ msgid "Already Installed"
+#~ msgstr "منصب بالفعل"
+
+#~ msgid "You have already installed eBloodBank."
+#~ msgstr "لقد قمت بتنصيب eBloodBank بالفعل."
+
+#~ msgid "&laquo;"
+#~ msgstr "&laquo;"
+
+#~ msgid "&raquo;"
+#~ msgstr "&raquo;"
+
+#~ msgid "Site Options"
+#~ msgstr "خيارات الموقع"
+
+#~ msgid "Site URL"
+#~ msgstr "رابط الموقع"
+
+#~ msgid "Site Slogan"
+#~ msgstr "شعار الموقع"
+
+#~ msgid "Site Locale"
+#~ msgstr "لغة الموقع"
+
+#~ msgid "Users Options"
+#~ msgstr "خيارات المستخدمين"
+
+#~ msgid "Enable self-registration."
+#~ msgstr "تمكين التسجيل-الذاتي."
+
+#~ msgid "New User Role"
+#~ msgstr "رتبة المستخدم الجديد"
+
+#~ msgid "New User Status"
+#~ msgstr "حالة المستخدم الجديد"
+
+#~ msgid "Activated"
+#~ msgstr "مُفعل"
+
+#~ msgid "Donors Options"
+#~ msgstr "خيارات المتبرعين"
+
+#~ msgid "Default E-mail Visibility"
+#~ msgstr "الرؤية الافتراضية للبريد الإلكتروني"
+
+#~ msgid "Default Phone Visibility"
+#~ msgstr "الرؤية الافتراضية لرقم التلفون"
+
+#~ msgid "Reading Options"
+#~ msgstr "خيارات القراءة"
+
+#~ msgid "Publicly accessible."
+#~ msgstr "متاح للجمهور."
+
+#~ msgid "Entities Per Page"
+#~ msgstr "عدد الكيانات لكل صفحة"
+
+#~ msgid "Save Settings"
+#~ msgstr "حفظ الإعدادات"
+
+#~ msgid "Only site members can view this donor e-mail address."
+#~ msgstr "الأعضاء هم فقط من يمكنهم مشاهدة عنوان البريد الإلكتروني لهذا المتبرع."
+
+#~ msgid "Only site staff can view this donor e-mail address."
+#~ msgstr "الموظفون هم فقط من يمكنهم مشاهدة عنوان البريد الإلكتروني لهذا المتبرع."
+
+#~ msgid "Only site members can view this donor phone number."
+#~ msgstr "الأعضاء هم فقط من يمكنهم مشاهدة رقم التلفون لهذا  المتبرع."
+
+#~ msgid "Only site staff can view this donor phone number."
+#~ msgstr "الموظفون هم فقط من يمكنهم مشاهدة عنوان البريد الإلكتروني لهذا المتبرع."
+
+#~ msgid "City\\District"
+#~ msgstr "المدينة/المديرية"
+
+#~ msgid "%1$s\\%2$s"
+#~ msgstr "%1$s/%2$s"
+
+#~ msgid ""
+#~ "We’re going to use this information to setup the database. You should open "
+#~ "\"app/config.php\" file in a text editor, fill in your information, and save "
+#~ "it."
+#~ msgstr ""
+#~ "نحن في طريقنا لاستخدام هذه المعلومات لإعداد قاعدة البيانات. يجب عليك فتح ملف "
+#~ "<code>app/config.php</code> بواسطة محرّر نصوص، ثمّ ملئه بالمعلومات الخاصة بك، "
+#~ "ومن ثمّ حفظ الملف."
+
+#~ msgid "Invalid donor e-mail."
+#~ msgstr "البريد الإلكتروني للمتبرع غير صالح."
+
+#~ msgid "%s\\%s"
+#~ msgstr "%s/%s"
+
+#~ msgid "Welcome to eBloodBank!"
+#~ msgstr "مرحبًا بك في eBloodBank!"
+
+#~ msgid "Invalid default user role."
+#~ msgstr "رتبة المستخدم الافتراضية غير صالحة."
+
+#~ msgid "Invalid default user status."
+#~ msgstr "حالة المستخدم الافتراضية غير صالحة."
+
+#~ msgid "Phone Number"
+#~ msgstr "رقم الهاتف"
+
+#~ msgid "Accounts Options"
+#~ msgstr "خيارات الحسابات"
+
+#~ msgid "Copyright &copy; eBloodBank 2015"
+#~ msgstr "الحقوق محفوظة &copy; eBloodBank 2015"
+
+#~ msgid "Invalid variable value."
+#~ msgstr "قيمة المتغير غير صالحة."
+
+#~ msgid "Step 1"
+#~ msgstr "الخطوة 1"
+
+#~ msgid "Step 2"
+#~ msgstr "الخطوة 2"
+
+#~ msgid "Finish!"
+#~ msgstr "انتهى!"
+
+#~ msgid "eBloodBank has been installed successfully."
+#~ msgstr "تم تنصيب eBloodBank بنجاح."

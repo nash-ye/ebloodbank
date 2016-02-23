@@ -8,6 +8,8 @@
  */
 namespace EBloodBank\Views;
 
+use EBloodBank\Themes;
+
 /**
  * View class
  *
@@ -121,7 +123,13 @@ class View
      */
     public function getPath()
     {
-        return __DIR__ . '/templates/' . $this->getName() . '.php';
+        $currentTheme = Themes::getCurrentTheme();
+
+        if (empty($currentTheme)) {
+            // @TODO: Throw an exception.
+        }
+
+        return $currentTheme->getPath() . '/templates/' . $this->getName() . '.php';
     }
 
     /**

@@ -1,22 +1,18 @@
 <?php
 /**
  *
- * This file is part of the Aura for PHP.
+ * This file is part of Aura for PHP.
  *
  * @license http://opensource.org/licenses/bsd-license.php BSD
  *
  */
 namespace Aura\Router;
 
-use ArrayObject;
-use Closure;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  *
- * Represents an individual route with a name, path, params, values, etc.
- *
- * In general, you should never need to instantiate a Route directly. Use the
- * RouteFactory instead, or the Router.
+ * An individual route with a name, path, attributes, defaults, etc.
  *
  * @package Aura.Router
  *
@@ -24,91 +20,122 @@ use Closure;
  *
  * @property-read string $path The route path.
  *
- * @property-read array $values Default values for params.
+ * @property-read string $namePrefix
  *
- * @property-read array $params The matched params.
+ * @property-read string $pathPrefix
  *
- * @property-read Regex $regex The regular expression for the route.
+ * @property-read string $host
  *
- * @property-read array $tokens The regular expression for the route.
+ * @property-read array $defaults Default values for attributes.
  *
- * @property-read ArrayObject $matches All params found during `isMatch()`.
+ * @property-read array $attributes Attribute values added by the rules.
  *
- * @property-read array $debug Debugging messages.
+ * @property-read array $tokens Plceholder token names and regexes.
  *
- * @property-read callable $generate A callable for generating a link.
+ * @property-read string $wildcard The name of the wildcard token.
  *
- * @property-read string $wildcard The name of the wildcard param.
+ * @property-read array $accept
+ *
+ * @property-read array $extras
+ *
+ * @property-read bool $secure
+ *
+ * @property-read array $allows
+ *
+ * @property-read bool $routable
+ *
+ * @property-read string $failedRule
+ *
+ * @property-read mixed $handler
  *
  */
-class Route extends AbstractSpec
+class Route
 {
     /**
      *
-     * The route failed to match at isRoutableMatch().
+     * Accepts these content types.
      *
-     * @const string
+     * @var array
      *
      */
-    const FAILED_ROUTABLE = 'FAILED_ROUTABLE';
+    protected $accepts = [];
 
     /**
      *
-     * The route failed to match at isSecureMatch().
+     * Allows these HTTP methods.
      *
-     * @const string
+     * @var array
      *
      */
-    const FAILED_SECURE = 'FAILED_SECURE';
+    protected $allows = [];
 
     /**
      *
-     * The route failed to match at isRegexMatch().
+     * Attribute values added by the rules.
      *
-     * @const string
+     * @var array
      *
      */
-    const FAILED_REGEX = 'FAILED_REGEX';
+    protected $attributes = [];
 
     /**
      *
-     * The route failed to match at isMethodMatch().
+     * Authentication/authorization values.
      *
-     * @const string
+     * @var mixed
      *
      */
-    const FAILED_METHOD = 'FAILED_METHOD';
+    protected $auth;
 
     /**
      *
-     * The route failed to match at isAcceptMatch().
+     * Default attribute values.
      *
-     * @const string
+     * @var array
      *
      */
-    const FAILED_ACCEPT = 'FAILED_ACCEPT';
+    protected $defaults = [];
 
     /**
      *
-     * The route failed to match at isServerMatch().
+     * Extra key-value pairs to attach to the route; intended for use by
+     * custom matching rules.
      *
-     * @const string
+     * @var array
      *
      */
-    const FAILED_SERVER = 'FAILED_SERVER';
+    protected $extras = [];
 
     /**
      *
-     * The route failed to match at isCustomMatch().
+     * The rule that failed, if any, during matching.
      *
-     * @const string
+     * @var string
      *
      */
-    const FAILED_CUSTOM = 'FAILED_CUSTOM';
+    protected $failedRule;
 
     /**
      *
-     * The name for this Route.
+     * The action, controller, callable, closure, etc. this route points to.
+     *
+     * @var mixed
+     *
+     */
+    protected $handler;
+
+    /**
+     *
+     * The host string this route responds to.
+     *
+     * @var string
+     *
+     */
+    protected $host;
+
+    /**
+     *
+     * The name for this route.
      *
      * @var string
      *
@@ -117,7 +144,16 @@ class Route extends AbstractSpec
 
     /**
      *
-     * The path for this Route with param tokens.
+     * Prefix the route name with this string.
+     *
+     * @var string
+     *
+     */
+    protected $namePrefix;
+
+    /**
+     *
+     * The path for this route.
      *
      * @var string
      *
@@ -126,83 +162,65 @@ class Route extends AbstractSpec
 
     /**
      *
-     * Matched param values.
-     *
-     * @var array
-     *
-     */
-    protected $params = array();
-
-    /**
-     *
-     * A Regex object for the path.
-     *
-     * @var Regex
-     *
-     */
-    protected $regex;
-
-    /**
-     *
-     * All params found during the `isMatch()` process, both from the path
-     * tokens and from matched server values.
-     *
-     * @var ArrayObject
-     *
-     * @see isMatch()
-     *
-     */
-    protected $matches;
-
-    /**
-     *
-     * Debugging information about why the route did not match.
-     *
-     * @var array
-     *
-     */
-    protected $debug;
-
-    /**
-     *
-     * The matching score for this route (+1 for each is*Match() that passes).
-     *
-     * @var int
-     *
-     */
-    protected $score = 0;
-
-    /**
-     *
-     * The failure code, if any, during matching.
+     * Prefix the route path with this string.
      *
      * @var string
      *
      */
-    protected $failed = null;
+    protected $pathPrefix;
 
     /**
      *
-     * Constructor.
+     * Should this route be used for matching?
      *
-     * @param Regex $regex A regular expression support object.
-     *
-     * @param string $path The path for this Route with param token
-     * placeholders.
-     *
-     * @param string $name The name for this route.
+     * @var bool
      *
      */
-    public function __construct(Regex $regex, $path, $name = null)
+    protected $isRoutable = true;
+
+    /**
+     *
+     * Should this route respond on a secure protocol?
+     *
+     * @var bool
+     *
+     */
+    protected $secure = null;
+
+    /**
+     *
+     * Placeholder token names and regexes.
+     *
+     * @var array
+     *
+     */
+    protected $tokens = [];
+
+    /**
+     *
+     * Wildcard token name, if any.
+     *
+     * @var string
+     *
+     */
+    protected $wildcard = null;
+
+    /**
+     *
+     * When cloning the Route, reset the `$attributes` to an empty array, and
+     * clear the `$failedRule`.
+     *
+     */
+    public function __clone()
     {
-        $this->regex = $regex;
-        $this->path = $path;
-        $this->name = $name;
+        // $this is the cloned instance, not the original
+        $this->attributes = $this->defaults;
+        $this->failedRule = null;
     }
 
     /**
      *
-     * Magic read-only for all properties and spec keys.
+     * Magic read-only for all properties.
      *
      * @param string $key The property to read from.
      *
@@ -216,412 +234,287 @@ class Route extends AbstractSpec
 
     /**
      *
-     * Magic isset() for all properties.
+     * Merges with the existing content types.
      *
-     * @param string $key The property to check if isset().
+     * @param string|array $accepts The content types.
      *
-     * @return bool
+     * @return $this
      *
      */
-    public function __isset($key)
+    public function accepts($accepts)
     {
-        return isset($this->$key);
+        $this->accepts = array_merge($this->accepts, (array) $accepts);
+        return $this;
     }
 
     /**
      *
-     * Checks if a given path and server values are a match for this
-     * Route.
+     * Merges with the existing allowed methods.
      *
-     * @param string $path The path to check against this Route.
+     * @param string|array $allows The allowed HTTP methods.
      *
-     * @param array $server A copy of $_SERVER so that this Route can check
-     * against the server values.
-     *
-     * @param string $basepath A basepath to prefix to the route path.
-     *
-     * @return bool
+     * @return $this
      *
      */
-    public function isMatch($path, array $server, $basepath = null)
+    public function allows($allows)
     {
-        $this->debug = array();
-        $this->params = array();
-        $this->score = 0;
-        $this->failed = null;
-        if ($this->isFullMatch($path, $server, $basepath)) {
-            $this->setParams();
-            return true;
+        $this->allows = array_merge($this->allows, (array) $allows);
+        return $this;
+    }
+
+    /**
+     *
+     * Merges with the existing attributes.
+     *
+     * @param array $attributes The attributes to add.
+     *
+     * @return $this
+     *
+     */
+    public function attributes(array $attributes)
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
+        return $this;
+    }
+
+    /**
+     *
+     * Sets the auth value.
+     *
+     * @param mixed $auth The auth value to set.
+     *
+     * @return $this
+     *
+     */
+    public function auth($auth)
+    {
+        $this->auth = $auth;
+        return $this;
+    }
+
+    /**
+     *
+     * Merges with the existing default values for attributes.
+     *
+     * @param array $defaults Default values for attributes.
+     *
+     * @return $this
+     *
+     */
+    public function defaults(array $defaults)
+    {
+        $this->defaults = array_merge($this->defaults, $defaults);
+        return $this;
+    }
+
+    /**
+     *
+     * Merges with the existing extra key-value pairs; this merge is recursive,
+     * so the values can be arbitrarily deep.
+     *
+     * @param array $extras The extra key-value pairs.
+     *
+     * @return $this
+     *
+     */
+    public function extras(array $extras)
+    {
+        $this->extras = array_merge_recursive($this->extras, $extras);
+        return $this;
+    }
+
+    /**
+     *
+     * Sets the failed rule.
+     *
+     * @param mixed $failedRule The failed rule.
+     *
+     * @return $this
+     *
+     */
+    public function failedRule($failedRule)
+    {
+        $this->failedRule = $failedRule;
+        return $this;
+    }
+
+    /**
+     *
+     * The route leads to this handler.
+     *
+     * @param mixed $handler The handler for this route; if null, uses the
+     * route name.
+     *
+     * @return $this
+     *
+     */
+    public function handler($handler)
+    {
+        if ($handler === null) {
+            $handler = $this->name;
         }
-        return false;
+        $this->handler = $handler;
+        return $this;
     }
 
     /**
      *
-     * Is the route a full match?
+     * Sets the host.
      *
-     * @param string $path The path to check against this route
+     * @param mixed $host The host.
      *
-     * @param array $server A copy of $_SERVER so that this Route can check
-     * against the server values.
-     *
-     * @param string $basepath A basepath to prefix to the route path.
-     *
-     * @return bool
+     * @return $this
      *
      */
-    protected function isFullMatch($path, array $server, $basepath = null)
+    public function host($host)
     {
-        return $this->isRoutableMatch()
-            && $this->isSecureMatch($server)
-            && $this->isRegexMatch($path, $basepath)
-            && $this->isMethodMatch($server)
-            && $this->isAcceptMatch($server)
-            && $this->isServerMatch($server)
-            && $this->isCustomMatch($server);
+        $this->host = $host;
+        return $this;
     }
 
     /**
      *
-     * A partial match passed.
+     * Sets whether or not this route should be used for matching.
      *
-     * @return bool
+     * @param bool $isRoutable If true, this route can be matched; if not, it
+     * can be used only to generate a path.
+     *
+     * @return $this
      *
      */
-    protected function pass()
+    public function isRoutable($isRoutable = true)
     {
-        $this->score ++;
-        return true;
+        $this->isRoutable = (bool) $isRoutable;
+        return $this;
     }
 
     /**
      *
-     * A partial match failed.
+     * Sets the route name; immutable once set.
      *
-     * @param string $failed The reason of failure
+     * @param string $name The route name.
      *
-     * @param string $append
-     *
-     * @return bool
-     *
-     */
-    protected function fail($failed, $append = null)
-    {
-        $this->debug[] = $failed . $append;
-        $this->failed = $failed;
-        return false;
-    }
-
-    /**
-     *
-     * Check whether a failure happened due to accept header
-     *
-     * @return bool
+     * @return $this
+     * 
+     * @throws Exception\ImmutableProperty when the name has already been set.
      *
      */
-    public function failedAccept()
+    public function name($name)
     {
-        return $this->failed == self::FAILED_ACCEPT;
-    }
-
-    /**
-     *
-     * Check whether a failure happened due to http method
-     *
-     * @return bool
-     *
-     */
-    public function failedMethod()
-    {
-        return $this->failed == self::FAILED_METHOD;
-    }
-
-    /**
-     *
-     * Check whether a failure happened due to route not match
-     *
-     * @return bool
-     *
-     */
-    protected function isRoutableMatch()
-    {
-        if ($this->routable) {
-            return $this->pass();
+        if ($this->name !== null) {
+            $message = __CLASS__ . '::$name is immutable once set';
+            throw new Exception\ImmutableProperty($message);
         }
-
-        return $this->fail(self::FAILED_ROUTABLE);
+        $this->name = $this->namePrefix . $name;
+        return $this;
     }
 
     /**
      *
-     * Checks that the Route `$secure` matches the corresponding server values.
+     * Appends to the existing name prefix; immutable once $name is set.
      *
-     * @param array $server A copy of $_SERVER.
+     * @param string $namePrefix The name prefix to append.
      *
-     * @return bool True on a match, false if not.
+     * @return $this
+     *
+     * @throws Exception\ImmutableProperty when the name has already been set.
      *
      */
-    protected function isSecureMatch($server)
+    public function namePrefix($namePrefix)
     {
-        if ($this->secure === null) {
-            return $this->pass();
+        if ($this->name !== null) {
+            $message = __CLASS__ . '::$namePrefix is immutable once $name is set';
+            throw new Exception\ImmutableProperty($message);
         }
-
-        if ($this->secure != $this->serverIsSecure($server)) {
-            return $this->fail(self::FAILED_SECURE);
-        }
-
-        return $this->pass();
+        $this->namePrefix = $namePrefix;
+        return $this;
     }
 
     /**
      *
-     * Check whether the server is in secure mode
+     * Sets the route path; immutable once set.
      *
-     * @param array $server
+     * @param string $path The route path.
      *
-     * @return bool
+     * @return $this
+     *
+     * @throws Exception\ImmutableProperty when the name has already been set.
      *
      */
-    protected function serverIsSecure($server)
+    public function path($path)
     {
-        return (isset($server['HTTPS']) && $server['HTTPS'] == 'on')
-            || (isset($server['SERVER_PORT']) && $server['SERVER_PORT'] == 443);
+        if ($this->path !== null) {
+            $message = __CLASS__ . '::$path is immutable once set';
+            throw new Exception\ImmutableProperty($message);
+        }
+        $this->path = $this->pathPrefix . $path;
+        return $this;
     }
 
     /**
      *
-     * Checks that the path matches the Route regex.
+     * Appends to the existing path prefix; immutable once $path is set.
      *
-     * @param string $path The path to match against.
+     * @param string $pathPrefix The path prefix to append.
      *
-     * @param string $basepath A basepath to prefix to the route path.
+     * @return $this
      *
-     * @return bool True on a match, false if not.
-     *
-     */
-    protected function isRegexMatch($path, $basepath = null)
-    {
-        $regex = clone $this->regex;
-        $match = $regex->match($this, $path, $basepath);
-        if (! $match) {
-            return $this->fail(self::FAILED_REGEX);
-        }
-        $this->matches = new ArrayObject($regex->getMatches());
-        return $this->pass();
-    }
-
-
-    /**
-     *
-     * Is the requested method matching
-     *
-     * @param array $server
-     *
-     * @return bool
+     * @throws Exception\ImmutableProperty when the path has already been set.
      *
      */
-    protected function isMethodMatch($server)
+    public function pathPrefix($pathPrefix)
     {
-        if (! $this->method) {
-            return $this->pass();
+        if ($this->path !== null) {
+            $message = __CLASS__ . '::$pathPrefix is immutable once $path is set';
+            throw new Exception\ImmutableProperty($message);
         }
-
-        $pass = isset($server['REQUEST_METHOD'])
-             && in_array($server['REQUEST_METHOD'], $this->method);
-
-        return $pass
-             ? $this->pass()
-             : $this->fail(self::FAILED_METHOD);
+        $this->pathPrefix = $pathPrefix;
+        return $this;
     }
 
     /**
      *
-     * Is the Accept header a match.
+     * Sets whether or not the route must be secure.
      *
-     * @param array $server
+     * @param bool $secure If true, the server must indicate an HTTPS request;
+     * if false, it must *not* be HTTPS; if null, it doesn't matter.
      *
-     * @return bool
+     * @return $this
      *
      */
-    protected function isAcceptMatch($server)
+    public function secure($secure = true)
     {
-        if (! $this->accept || ! isset($server['HTTP_ACCEPT'])) {
-            return $this->pass();
-        }
-
-        $header = str_replace(' ', '', $server['HTTP_ACCEPT']);
-
-        if ($this->isAcceptMatchHeader('*/*', $header)) {
-            return $this->pass();
-        }
-
-        foreach ($this->accept as $type) {
-            if ($this->isAcceptMatchHeader($type, $header)) {
-                return $this->pass();
-            }
-        }
-
-        return $this->fail(self::FAILED_ACCEPT);
+        $this->secure = ($secure === null) ? null : (bool) $secure;
+        return $this;
     }
 
     /**
      *
-     * Is the accept method matching
+     * Merges with the existing tokens.
      *
-     * @param string $type
+     * @param array $tokens The tokens.
      *
-     * @param string $header
-     *
-     * @return bool
+     * @return $this
      *
      */
-    protected function isAcceptMatchHeader($type, $header)
+    public function tokens(array $tokens)
     {
-        list($type, $subtype) = explode('/', $type);
-        $type = preg_quote($type);
-        $subtype = preg_quote($subtype);
-        $regex = "#$type/($subtype|\*)(;q=(\d\.\d))?#";
-
-        $found = preg_match($regex, $header, $matches);
-        if (! $found) {
-            return false;
-        }
-
-        if (isset($matches[3])) {
-            return $matches[3] !== '0.0';
-        }
-
-        return true;
+        $this->tokens = array_merge($this->tokens, $tokens);
+        return $this;
     }
 
     /**
      *
-     * Checks that $_SERVER values match their related regular expressions.
+     * Sets the name of the wildcard token, if any.
      *
-     * @param array $server A copy of $_SERVER.
+     * @param string $wildcard The name of the wildcard token, if any.
      *
-     * @return bool True if they all match, false if not.
-     *
-     */
-    protected function isServerMatch($server)
-    {
-        foreach ($this->server as $name => $regex) {
-            $matches = $this->isServerMatchRegex($server, $name, $regex);
-            if (! $matches) {
-                return $this->fail(self::FAILED_SERVER, " ($name)");
-            }
-            $this->matches[$name] = $matches[$name];
-        }
-
-        return $this->pass();
-    }
-
-    /**
-     *
-     * Does a server key match a regex?
-     *
-     * @param array $server The server values.
-     *
-     * @param string $name The server key.
-     *
-     * @param string $regex The regex to match against.
-     *
-     * @return array
+     * @return $this
      *
      */
-    protected function isServerMatchRegex($server, $name, $regex)
+    public function wildcard($wildcard)
     {
-        $value = isset($server[$name])
-               ? $server[$name]
-               : '';
-        $regex = "#(?P<{$name}>{$regex})#";
-        preg_match($regex, $value, $matches);
-        return $matches;
-    }
-
-    /**
-     *
-     * Checks that the custom Route `$is_match` callable returns true, given
-     * the server values.
-     *
-     * @param array $server A copy of $_SERVER.
-     *
-     * @return bool True on a match, false if not.
-     *
-     */
-    protected function isCustomMatch($server)
-    {
-        if (! $this->is_match) {
-            return $this->pass();
-        }
-
-        // attempt the match
-        $result = call_user_func($this->is_match, $server, $this->matches);
-
-        // did it match?
-        if (! $result) {
-            return $this->fail(self::FAILED_CUSTOM);
-        }
-
-        return $this->pass();
-    }
-
-    /**
-     *
-     * Sets the route params from the matched values.
-     *
-     * @return null
-     *
-     */
-    protected function setParams()
-    {
-        $this->params = $this->values;
-        $this->setParamsWithMatches();
-        $this->setParamsWithWildcard();
-
-    }
-
-    /**
-     *
-     * Set the params with their matched values.
-     *
-     * @return null
-     *
-     */
-    protected function setParamsWithMatches()
-    {
-        // populate the path matches into the route values. if the path match
-        // is exactly an empty string, treat it as missing/unset. (this is
-        // to support optional ".format" param values.)
-        foreach ($this->matches as $key => $val) {
-            if (is_string($key) && $val !== '') {
-                $this->params[$key] = rawurldecode($val);
-            }
-        }
-    }
-
-    /**
-     *
-     * Set the wildcard param value.
-     *
-     * @return null
-     *
-     */
-    protected function setParamsWithWildcard()
-    {
-        if (! $this->wildcard) {
-            return;
-        }
-
-        if (empty($this->params[$this->wildcard])) {
-            $this->params[$this->wildcard] = array();
-            return;
-        }
-
-        $this->params[$this->wildcard] = array_map(
-            'rawurldecode',
-            explode('/', $this->params[$this->wildcard])
-        );
+        $this->wildcard = $wildcard;
+        return $this;
     }
 }

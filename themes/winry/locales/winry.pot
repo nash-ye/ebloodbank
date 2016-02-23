@@ -1,0 +1,606 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: eBloodBank Winry Theme 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-23 16:21+0300\n"
+"PO-Revision-Date: 2016-02-23 16:21+0300\n"
+"Last-Translator: \n"
+"Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;__e;n__:1,2;n__e:1,2;p__:1c,2;p__e:1c,2\n"
+"X-Poedit-Basepath: ../templates\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: activate-user.php:12
+msgid "Activate User"
+msgstr ""
+
+#: activate-user.php:19
+#, php-format
+msgid "Activate user \"%s\"?"
+msgstr ""
+
+#: activate-user.php:23 activate-users.php:32 edit-users.php:72
+msgid "Activate"
+msgstr ""
+
+#: activate-users.php:12
+msgid "Activate Users"
+msgstr ""
+
+#: activate-users.php:19
+msgid "Activate each user in the list below?"
+msgstr ""
+
+#: add-city.php:10
+msgid "Add New City"
+msgstr ""
+
+#: add-district.php:10
+msgid "Add New District"
+msgstr ""
+
+#: add-donor.php:10
+msgid "Add New Donor"
+msgstr ""
+
+#: add-user.php:10
+msgid "Add New User"
+msgstr ""
+
+#: approve-donor.php:12
+msgid "Approve Donor"
+msgstr ""
+
+#: approve-donor.php:19
+#, php-format
+msgid "Approve donor \"%s\"?"
+msgstr ""
+
+#: approve-donor.php:23 approve-donors.php:32 edit-donors.php:96
+msgid "Approve"
+msgstr ""
+
+#: approve-donors.php:12
+msgid "Approve Donors"
+msgstr ""
+
+#: approve-donors.php:19
+msgid "Approve each donor in the list below?"
+msgstr ""
+
+#: delete-cities.php:12
+msgid "Delete Cities"
+msgstr ""
+
+#: delete-cities.php:19
+msgid "Delete each city in the list below?"
+msgstr ""
+
+#: delete-cities.php:32 delete-city.php:23 delete-district.php:23
+#: delete-districts.php:32 delete-donor.php:23 delete-donors.php:32
+#: delete-user.php:23 delete-users.php:32 edit-cities.php:63
+#: edit-districts.php:67 edit-donors.php:93 edit-users.php:69
+msgid "Delete"
+msgstr ""
+
+#: delete-city.php:12
+msgid "Delete City"
+msgstr ""
+
+#: delete-city.php:19
+#, php-format
+msgid "Delete city \"%s\"?"
+msgstr ""
+
+#: delete-district.php:12
+msgid "Delete District"
+msgstr ""
+
+#: delete-district.php:19
+#, php-format
+msgid "Delete district \"%s\"?"
+msgstr ""
+
+#: delete-districts.php:12
+msgid "Delete Districts"
+msgstr ""
+
+#: delete-districts.php:19
+msgid "Delete each district in the list below?"
+msgstr ""
+
+#: delete-donor.php:12
+msgid "Delete Donor"
+msgstr ""
+
+#: delete-donor.php:19
+#, php-format
+msgid "Delete donor \"%s\"?"
+msgstr ""
+
+#: delete-donors.php:12
+msgid "Delete Donors"
+msgstr ""
+
+#: delete-donors.php:19
+msgid "Delete each donor in the list below?"
+msgstr ""
+
+#: delete-user.php:12
+msgid "Delete User"
+msgstr ""
+
+#: delete-user.php:19
+#, php-format
+msgid "Delete user \"%s\"?"
+msgstr ""
+
+#: delete-users.php:12
+msgid "Delete Users"
+msgstr ""
+
+#: delete-users.php:19
+msgid "Delete each user in the list below?"
+msgstr ""
+
+#: edit-cities.php:12
+msgid "Edit Cities"
+msgstr ""
+
+#: edit-cities.php:17 edit-districts.php:17 edit-donors.php:17
+#: edit-users.php:17
+msgid "View"
+msgstr ""
+
+#: edit-cities.php:18 edit-districts.php:18 edit-donors.php:18
+#: edit-users.php:18 view-cities.php:18 view-districts.php:18
+#: view-donors.php:18 view-users.php:18
+msgid "Add New"
+msgstr ""
+
+#: edit-cities.php:33 edit-districts.php:33 edit-donors.php:43
+#: edit-users.php:32 form-city.php:19 form-district.php:20 form-donor.php:30
+#: form-signup.php:34 form-user.php:21 install.php:119 view-cities.php:29
+#: view-districts.php:29 view-donor.php:20 view-donors.php:39 view-users.php:28
+msgid "Name"
+msgstr ""
+
+#: edit-cities.php:34 edit-districts.php:35 edit-donors.php:49
+#: edit-users.php:35
+msgid "Actions"
+msgstr ""
+
+#: edit-city.php:10
+msgid "Edit City"
+msgstr ""
+
+#: edit-district.php:10
+msgid "Edit District"
+msgstr ""
+
+#: edit-districts.php:12
+msgid "Edit Districts"
+msgstr ""
+
+#: edit-districts.php:34 edit-donors.php:47 form-district.php:29
+#: form-donors-filter.php:90 view-districts.php:30 view-donors.php:43
+msgid "City"
+msgstr ""
+
+#: edit-donor.php:10
+msgid "Edit Donor"
+msgstr ""
+
+#: edit-donors.php:12
+msgid "Edit Donors"
+msgstr ""
+
+#: edit-donors.php:44 form-donor.php:39 form-signup.php:78 view-donor.php:23
+#: view-donors.php:40
+msgid "Gender"
+msgstr ""
+
+#: edit-donors.php:45 view-donors.php:41
+msgid "Age"
+msgstr ""
+
+#: edit-donors.php:46 form-donor.php:61 form-donors-filter.php:68
+#: form-signup.php:100 view-donor.php:29 view-donors.php:42
+msgid "Blood Group"
+msgstr ""
+
+#: edit-donors.php:48 form-donor.php:120 form-donors-filter.php:106
+#: form-signup.php:133 view-donors.php:44
+msgid "District"
+msgstr ""
+
+#: edit-donors.php:64 edit-users.php:49 settings.php:114 view-donors.php:57
+#: view-users.php:42
+msgid "Pending"
+msgstr ""
+
+#: edit-user.php:10
+msgid "Edit User"
+msgstr ""
+
+#: edit-users.php:12
+msgid "Edit Users"
+msgstr ""
+
+#: edit-users.php:33 form-donor.php:86 form-login.php:20 form-signup.php:43
+#: form-user.php:30 install.php:128 view-donor.php:38 view-donor.php:41
+#: view-donor.php:48 view-users.php:29
+msgid "E-mail"
+msgstr ""
+
+#: edit-users.php:34 form-user.php:55 view-users.php:30
+msgid "Role"
+msgstr ""
+
+#: error-403.php:14
+msgid "Error: Access denied"
+msgstr ""
+
+#: error-403.php:18
+msgid "Sorry, you are not authorized to access this page."
+msgstr ""
+
+#: error-404.php:14
+msgid "Error: Not Found"
+msgstr ""
+
+#: error-404.php:18
+msgid "Sorry, the page you requested was not found."
+msgstr ""
+
+#: error-db.php:14 header.php:15 install.php:14
+msgctxt "language code"
+msgid "en"
+msgstr ""
+
+#: error-db.php:14 error-db.php:22 header.php:15 header.php:23 install.php:14
+#: install.php:22
+msgctxt "text direction"
+msgid "ltr"
+msgstr ""
+
+#: error-db.php:17
+msgid "eBloodBank &rsaquo; Database Error"
+msgstr ""
+
+#: error-db.php:35 install.php:35
+msgid "eBloodBank"
+msgstr ""
+
+#: error-db.php:45
+msgid "Error: Database Connection Failed"
+msgstr ""
+
+#: error-db.php:49
+msgid "An error occurred while establishing the database connection."
+msgstr ""
+
+#: form-city.php:28 form-district.php:45 form-donor.php:145 form-user.php:69
+msgid "Submit"
+msgstr ""
+
+#: form-donor.php:52 form-signup.php:91 view-donor.php:26
+msgid "Birthdate"
+msgstr ""
+
+#: form-donor.php:77 form-signup.php:115 view-donor.php:32
+msgid "Weight (kg)"
+msgstr ""
+
+#: form-donor.php:103 form-signup.php:124 view-donor.php:59 view-donor.php:62
+#: view-donor.php:69
+msgid "Phone"
+msgstr ""
+
+#: form-donor.php:136 form-signup.php:148 view-donor.php:80
+msgid "Address"
+msgstr ""
+
+#: form-donors-filter.php:76 form-donors-filter.php:98
+#: form-donors-filter.php:108
+msgid "All"
+msgstr ""
+
+#: form-donors-filter.php:83
+msgid "Include alternatives?"
+msgstr ""
+
+#: form-donors-filter.php:117
+msgid "Search"
+msgstr ""
+
+#: form-login.php:29 form-signup.php:52 form-user.php:42 install.php:137
+msgid "Password"
+msgstr ""
+
+#: form-login.php:38 login.php:10
+msgid "Log In"
+msgstr ""
+
+#: form-signup.php:55 install.php:140
+msgid "Type your password"
+msgstr ""
+
+#: form-signup.php:57 install.php:142
+msgid "Type your password again"
+msgstr ""
+
+#: form-signup.php:66
+msgid "Add as a donor."
+msgstr ""
+
+#: form-signup.php:74
+msgid "Donor Information"
+msgstr ""
+
+#: form-signup.php:159 signup.php:10
+msgid "Sign Up"
+msgstr ""
+
+#: form-user.php:40
+msgid "New Password"
+msgstr ""
+
+#: form-user.php:46
+msgid "Type the password"
+msgstr ""
+
+#: form-user.php:48
+msgid "Type the password again"
+msgstr ""
+
+#: header.php:38
+msgid "Toggle navigation"
+msgstr ""
+
+#: header.php:47 home.php:12
+msgid "Home"
+msgstr ""
+
+#: header.php:48 view-donors.php:12
+msgid "Donors"
+msgstr ""
+
+#: header.php:49 view-cities.php:12
+msgid "Cities"
+msgstr ""
+
+#: header.php:50 view-districts.php:12
+msgid "Districts"
+msgstr ""
+
+#: header.php:51 view-users.php:12
+msgid "Users"
+msgstr ""
+
+#: header.php:52 settings.php:15
+msgid "Settings"
+msgstr ""
+
+#: header.php:56
+#, php-format
+msgid "Hello, <b>%s</b>!"
+msgstr ""
+
+#: header.php:59
+msgid "Anonymous, Log In?"
+msgstr ""
+
+#: home.php:15
+msgid "Hello, life savers!"
+msgstr ""
+
+#: home.php:16
+msgid ""
+"Blood transfusion helps save millions of lives every year. Optimistically, "
+"we will help to save more."
+msgstr ""
+
+#: home.php:19
+msgid "Add Donor"
+msgstr ""
+
+#: home.php:20
+msgid "Add City"
+msgstr ""
+
+#: home.php:21
+msgid "Add District"
+msgstr ""
+
+#: home.php:22
+msgid "Add User"
+msgstr ""
+
+#: install.php:17
+msgid "eBloodBank &rsaquo; Installation"
+msgstr ""
+
+#: install.php:49
+msgid "Configuration"
+msgstr ""
+
+#: install.php:54
+msgid ""
+"Welcome to eBloodBank, Before getting started, we need some information on "
+"the database. You will need to know the following items before proceeding."
+msgstr ""
+
+#: install.php:57
+msgid "Database name"
+msgstr ""
+
+#: install.php:58
+msgid "Database username"
+msgstr ""
+
+#: install.php:59
+msgid "Database password"
+msgstr ""
+
+#: install.php:60
+msgid "Database host"
+msgstr ""
+
+#: install.php:63
+#, php-format
+msgid ""
+"We’re going to use this information to setup the database. You should open "
+"%1$s file in a text editor, fill in your information, and save it as %2$s."
+msgstr ""
+
+#: install.php:69
+msgid "Run the install"
+msgstr ""
+
+#: install.php:80
+msgid "Installation"
+msgstr ""
+
+#: install.php:85
+msgid ""
+"Welcome to the installation process! Just fill in the information below and "
+"you’ll be on your way to using the eBloodBank premium system."
+msgstr ""
+
+#: install.php:91
+msgid "Site Information"
+msgstr ""
+
+#: install.php:95 settings.php:37
+msgid "Site Name"
+msgstr ""
+
+#: install.php:104 settings.php:55
+msgid "Site E-mail"
+msgstr ""
+
+#: install.php:115
+msgid "Administrator Account"
+msgstr ""
+
+#: install.php:150
+msgid "Install eBloodBank"
+msgstr ""
+
+#: install.php:163
+msgid "Already Installed"
+msgstr ""
+
+#: install.php:166
+msgid "You have already installed eBloodBank."
+msgstr ""
+
+#: pagination.php:24
+msgid "&laquo;"
+msgstr ""
+
+#: pagination.php:42
+msgid "&raquo;"
+msgstr ""
+
+#: settings.php:24
+msgid "Site Options"
+msgstr ""
+
+#: settings.php:28
+msgid "Site URL"
+msgstr ""
+
+#: settings.php:46
+msgid "Site Slogan"
+msgstr ""
+
+#: settings.php:64
+msgid "Site Locale"
+msgstr ""
+
+#: settings.php:80
+msgid "Users Options"
+msgstr ""
+
+#: settings.php:87
+msgid "Enable self-registration."
+msgstr ""
+
+#: settings.php:95
+msgid "New User Role"
+msgstr ""
+
+#: settings.php:109
+msgid "New User Status"
+msgstr ""
+
+#: settings.php:114
+msgid "Activated"
+msgstr ""
+
+#: settings.php:125
+msgid "Donors Options"
+msgstr ""
+
+#: settings.php:129
+msgid "Default E-mail Visibility"
+msgstr ""
+
+#: settings.php:143
+msgid "Default Phone Visibility"
+msgstr ""
+
+#: settings.php:159
+msgid "Reading Options"
+msgstr ""
+
+#: settings.php:166
+msgid "Publicly accessible."
+msgstr ""
+
+#: settings.php:174
+msgid "Entities Per Page"
+msgstr ""
+
+#: settings.php:185
+msgid "Save Settings"
+msgstr ""
+
+#: view-cities.php:17 view-districts.php:17 view-donors.php:17
+#: view-users.php:17
+msgid "Edit"
+msgstr ""
+
+#: view-donor.php:45
+msgid "Only site members can view this donor e-mail address."
+msgstr ""
+
+#: view-donor.php:52
+msgid "Only site staff can view this donor e-mail address."
+msgstr ""
+
+#: view-donor.php:66
+msgid "Only site members can view this donor phone number."
+msgstr ""
+
+#: view-donor.php:73
+msgid "Only site staff can view this donor phone number."
+msgstr ""
+
+#: view-donor.php:77
+msgid "City\\District"
+msgstr ""
+
+#: view-donor.php:78
+#, php-format
+msgid "%1$s\\%2$s"
+msgstr ""

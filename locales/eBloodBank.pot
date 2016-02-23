@@ -1,0 +1,492 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: eBloodBank 1.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-23 16:24+0300\n"
+"PO-Revision-Date: 2016-02-23 16:25+0300\n"
+"Last-Translator: \n"
+"Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;__e;n__:1,2;n__e:1,2;p__:1c,2;p__e:1c,2\n"
+"X-Poedit-Basepath: ../app/src\n"
+"X-Generator: Poedit 1.8.7\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: EBloodBank/Controllers/AddCity.php:83
+msgid "City added."
+msgstr ""
+
+#: EBloodBank/Controllers/AddCity.php:118
+#: EBloodBank/Controllers/EditCity.php:130
+msgid "Please enter a unique city name."
+msgstr ""
+
+#: EBloodBank/Controllers/AddDistrict.php:83
+msgid "District added."
+msgstr ""
+
+#: EBloodBank/Controllers/AddDonor.php:84
+msgid "Donor added."
+msgstr ""
+
+#: EBloodBank/Controllers/AddDonor.php:168
+#: EBloodBank/Controllers/Signup.php:186
+#, php-format
+msgid "[%s] New Donor"
+msgstr ""
+
+#: EBloodBank/Controllers/AddDonor.php:172
+#: EBloodBank/Controllers/Signup.php:190
+#, php-format
+msgid "New donor addition on %s:"
+msgstr ""
+
+#: EBloodBank/Controllers/AddDonor.php:173
+#: EBloodBank/Controllers/Signup.php:191
+#, php-format
+msgid "Name: %s"
+msgstr ""
+
+#: EBloodBank/Controllers/AddDonor.php:174
+#: EBloodBank/Controllers/Signup.php:192
+#, php-format
+msgid "Gender: %s"
+msgstr ""
+
+#: EBloodBank/Controllers/AddDonor.php:175
+#: EBloodBank/Controllers/Signup.php:193
+#, php-format
+msgid "Blood Group: %s"
+msgstr ""
+
+#: EBloodBank/Controllers/AddDonor.php:176
+#: EBloodBank/Controllers/Signup.php:194
+#, php-format
+msgid "City\\District: %1$s\\%2$s"
+msgstr ""
+
+#: EBloodBank/Controllers/AddUser.php:83
+msgid "User added."
+msgstr ""
+
+#: EBloodBank/Controllers/AddUser.php:121
+#: EBloodBank/Controllers/EditUser.php:133
+msgid "Please enter a unique user e-mail."
+msgstr ""
+
+#: EBloodBank/Controllers/AddUser.php:128
+msgid "Please enter the password."
+msgstr ""
+
+#: EBloodBank/Controllers/AddUser.php:132
+msgid "Please confirm the password."
+msgstr ""
+
+#: EBloodBank/Controllers/AddUser.php:136
+#: EBloodBank/Controllers/EditUser.php:145
+#: EBloodBank/Controllers/Install.php:314 EBloodBank/Controllers/Signup.php:92
+msgid "Please enter the same password."
+msgstr ""
+
+#: EBloodBank/Controllers/DeleteCities.php:112
+#, php-format
+msgid "At first, delete any linked districts with city \"%s\"."
+msgstr ""
+
+#: EBloodBank/Controllers/DeleteCity.php:112
+msgid "At first, delete any linked districts with this city."
+msgstr ""
+
+#: EBloodBank/Controllers/DeleteDistrict.php:111
+msgid "At first, delete any linked donors with this district."
+msgstr ""
+
+#: EBloodBank/Controllers/DeleteDistricts.php:112
+#, php-format
+msgid "At first, delete any linked donors with district \"%s\"."
+msgstr ""
+
+#: EBloodBank/Controllers/EditCities.php:59
+#, php-format
+msgid "%d city permanently deleted."
+msgid_plural "%d cities permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: EBloodBank/Controllers/EditCity.php:95
+msgid "City edited."
+msgstr ""
+
+#: EBloodBank/Controllers/EditDistrict.php:95
+msgid "District edited."
+msgstr ""
+
+#: EBloodBank/Controllers/EditDistricts.php:59
+#, php-format
+msgid "%d district permanently deleted."
+msgid_plural "%d districts permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: EBloodBank/Controllers/EditDonor.php:95
+msgid "Donor edited."
+msgstr ""
+
+#: EBloodBank/Controllers/EditDonor.php:98
+#: EBloodBank/Controllers/ViewDonor.php:81
+msgid "This donor is pendng moderation."
+msgstr ""
+
+#: EBloodBank/Controllers/EditDonors.php:63
+#, php-format
+msgid "%d donor approved."
+msgid_plural "%d donors approved."
+msgstr[0] ""
+msgstr[1] ""
+
+#: EBloodBank/Controllers/EditDonors.php:67
+#, php-format
+msgid "%d donor permanently deleted."
+msgid_plural "%d donors permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: EBloodBank/Controllers/EditUser.php:95
+msgid "User edited."
+msgstr ""
+
+#: EBloodBank/Controllers/EditUser.php:140
+msgid "Please enter the password twice."
+msgstr ""
+
+#: EBloodBank/Controllers/EditUsers.php:59
+#, php-format
+msgid "%d user activated."
+msgid_plural "%d users activated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: EBloodBank/Controllers/EditUsers.php:63
+#, php-format
+msgid "%d user permanently deleted."
+msgid_plural "%d users permanently deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: EBloodBank/Controllers/Install.php:306 EBloodBank/Controllers/Signup.php:84
+msgid "Please enter your password."
+msgstr ""
+
+#: EBloodBank/Controllers/Install.php:310 EBloodBank/Controllers/Signup.php:88
+msgid "Please confirm your password."
+msgstr ""
+
+#: EBloodBank/Controllers/Install.php:334
+msgid "An unexpected error occurred while installing eBloodBank."
+msgstr ""
+
+#: EBloodBank/Controllers/Login.php:54
+msgid "You are now logged out."
+msgstr ""
+
+#: EBloodBank/Controllers/Login.php:68
+msgid "Please enter your login details."
+msgstr ""
+
+#: EBloodBank/Controllers/Login.php:77
+msgid "No match for user e-mail and/or password."
+msgstr ""
+
+#: EBloodBank/Controllers/Login.php:82
+msgid "Your account is pending moderation."
+msgstr ""
+
+#: EBloodBank/Controllers/Settings.php:61
+msgid "Settings saved."
+msgstr ""
+
+#: EBloodBank/Controllers/Signup.php:77
+msgid "Please enter another e-mail address."
+msgstr ""
+
+#: EBloodBank/Controllers/Signup.php:116
+#, php-format
+msgid "[%s] New User Registration"
+msgstr ""
+
+#: EBloodBank/Controllers/Signup.php:120
+#, php-format
+msgid "New user registration on %s:"
+msgstr ""
+
+#: EBloodBank/Controllers/Signup.php:121
+#, php-format
+msgid "Username: %s"
+msgstr ""
+
+#: EBloodBank/Controllers/Signup.php:122
+#, php-format
+msgid "E-mail: %s"
+msgstr ""
+
+#: EBloodBank/Locale.php:78
+msgid "Invalid locale code."
+msgstr ""
+
+#: EBloodBank/Locale.php:84
+msgid "Locale MO file is not readable or not exists."
+msgstr ""
+
+#: EBloodBank/Locale.php:91
+msgid "Locale PO file is not readable or not exists."
+msgstr ""
+
+#: EBloodBank/Main.php:410
+msgid "Subscriber"
+msgstr ""
+
+#: EBloodBank/Main.php:423
+msgid "Contributor"
+msgstr ""
+
+#: EBloodBank/Main.php:439
+msgid "Editor"
+msgstr ""
+
+#: EBloodBank/Main.php:467
+msgid "Administrator"
+msgstr ""
+
+#: EBloodBank/Models/City.php:108
+msgid "Invalid city ID."
+msgstr ""
+
+#: EBloodBank/Models/City.php:113
+msgid "Invalid city name."
+msgstr ""
+
+#: EBloodBank/Models/City.php:120
+msgid "Invalid city originator."
+msgstr ""
+
+#: EBloodBank/Models/District.php:121
+msgid "Invalid district ID."
+msgstr ""
+
+#: EBloodBank/Models/District.php:126
+msgid "Invalid district name."
+msgstr ""
+
+#: EBloodBank/Models/District.php:131
+msgid "Invalid district city."
+msgstr ""
+
+#: EBloodBank/Models/District.php:138
+msgid "Invalid district originator."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:204
+msgid "Invalid donor ID."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:209
+msgid "Invalid donor name."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:214
+msgid "Invalid donor gender."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:221
+msgid "Invalid donor blood group."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:226
+msgid "Invalid donor district."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:233
+msgid "Invalid donor originator."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:238
+msgid "Invalid donor status."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:281
+msgid "Invalid donor weight."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:286
+msgid "Invalid donor e-mail address."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:291 EBloodBank/Options.php:267
+msgid "Invalid donor e-mail address visibility."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:296
+msgid "Invalid donor phone number."
+msgstr ""
+
+#: EBloodBank/Models/Donor.php:301 EBloodBank/Options.php:273
+msgid "Invalid donor phone number visibility."
+msgstr ""
+
+#: EBloodBank/Models/User.php:508
+msgid "Invalid user ID."
+msgstr ""
+
+#: EBloodBank/Models/User.php:513
+msgid "Invalid user name."
+msgstr ""
+
+#: EBloodBank/Models/User.php:518
+msgid "Invalid user e-mail."
+msgstr ""
+
+#: EBloodBank/Models/User.php:523
+msgid "Invalid user password."
+msgstr ""
+
+#: EBloodBank/Models/User.php:528
+msgid "Invalid user role."
+msgstr ""
+
+#: EBloodBank/Models/User.php:535
+msgid "Invalid user status."
+msgstr ""
+
+#: EBloodBank/Models/Variable.php:79
+msgid "Invalid variable name."
+msgstr ""
+
+#: EBloodBank/Options.php:221
+msgid "Invalid site URL."
+msgstr ""
+
+#: EBloodBank/Options.php:226
+msgid "Invalid site name."
+msgstr ""
+
+#: EBloodBank/Options.php:235
+msgid "Invalid site locale."
+msgstr ""
+
+#: EBloodBank/Options.php:241
+msgid "Invalid site e-mail address."
+msgstr ""
+
+#: EBloodBank/Options.php:249
+msgid "Invalid self-registration status."
+msgstr ""
+
+#: EBloodBank/Options.php:254
+msgid "Invalid new user role."
+msgstr ""
+
+#: EBloodBank/Options.php:259
+msgid "Invalid new user status."
+msgstr ""
+
+#: EBloodBank/Options.php:281
+msgid "Invalid site publication status."
+msgstr ""
+
+#: EBloodBank/Options.php:286
+msgid "Invalid entities per page count."
+msgstr ""
+
+#: EBloodBank/functions.fields.php:288
+msgid "Male"
+msgstr ""
+
+#: EBloodBank/functions.fields.php:289
+msgid "Female"
+msgstr ""
+
+#: EBloodBank/functions.fields.php:300
+msgid "Everyone"
+msgstr ""
+
+#: EBloodBank/functions.fields.php:301
+msgid "Members"
+msgstr ""
+
+#: EBloodBank/functions.fields.php:302
+msgid "Staff"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:75
+msgid "Home"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:124
+msgid "Log In"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:166
+msgid "Log Out"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:205
+msgid "Sign Up"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:318
+msgid "Users"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:349
+#: EBloodBank/functions.hyperlinks.php:692
+#: EBloodBank/functions.hyperlinks.php:960
+#: EBloodBank/functions.hyperlinks.php:1192
+msgid "Add"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:380
+#: EBloodBank/functions.hyperlinks.php:412
+#: EBloodBank/functions.hyperlinks.php:723
+#: EBloodBank/functions.hyperlinks.php:755
+#: EBloodBank/functions.hyperlinks.php:991
+#: EBloodBank/functions.hyperlinks.php:1023
+#: EBloodBank/functions.hyperlinks.php:1223
+#: EBloodBank/functions.hyperlinks.php:1255
+msgid "Edit"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:448
+#: EBloodBank/functions.hyperlinks.php:791
+#: EBloodBank/functions.hyperlinks.php:1059
+#: EBloodBank/functions.hyperlinks.php:1291
+msgid "Delete"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:484
+msgid "Activate"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:621
+msgid "Donors"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:827
+msgid "Approve"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:929
+msgid "Cities"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:1161
+msgid "Districts"
+msgstr ""
+
+#: EBloodBank/functions.hyperlinks.php:1339
+msgid "Settings"
+msgstr ""
