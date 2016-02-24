@@ -73,8 +73,9 @@ class Settings extends Controller
             Options::submitOption('site_url', filter_input(INPUT_POST, 'site_url'), true);
             Options::submitOption('site_name', filter_input(INPUT_POST, 'site_name'), true);
             Options::submitOption('site_slogan', filter_input(INPUT_POST, 'site_slogan'), true);
-            Options::submitOption('site_locale', filter_input(INPUT_POST, 'site_locale'), true);
             Options::submitOption('site_email', filter_input(INPUT_POST, 'site_email'), true);
+            Options::submitOption('site_locale', filter_input(INPUT_POST, 'site_locale'), true);
+            Options::submitOption('site_theme', filter_input(INPUT_POST, 'site_theme'), true);
 
             /* Users Options */
             Options::submitOption('self_registration', filter_input(INPUT_POST, 'self_registration'), true);

@@ -95,7 +95,7 @@ class Themes
      * @since 1.3
      * @static
      */
-    public static function isCurrentLocale(Theme $theme)
+    public static function isCurrentTheme(Theme $theme)
     {
         $currentTheme = self::getCurrentTheme();
 
@@ -143,9 +143,14 @@ class Themes
             return;
         }
 
-        $themePath = EBB_THEMES_DIR . "/{$name}";
+        $themesDir = EBB_THEMES_DIR;
+        $themePath = realpath("{$themesDir}/{$name}");
 
-        if (is_dir($themePath)) {
+        if (empty($themePath)) {
+            return;
+        }
+
+        if (is_dir($themePath) && dirname($themePath) === $themesDir) {
             return new Theme($name, $themePath);
         }
     }

@@ -16,6 +16,25 @@ h5,
 h6 {
     color: #212121;
 }
+html[lang="ar"] body {
+    font-family: Tahoma, sans-serif;
+}
+html[lang="ar"] legend,
+html[lang="ar"] .h1,
+html[lang="ar"] .h2,
+html[lang="ar"] .h3,
+html[lang="ar"] .h4,
+html[lang="ar"] .h5,
+html[lang="ar"] .h6,
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6 {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
 
 /**
  * The Header

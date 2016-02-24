@@ -186,6 +186,7 @@ class Options
             case 'site_name':
             case 'site_slogan':
             case 'site_locale':
+            case 'site_theme':
                 $value = sanitizeTitle($value);
                 break;
             case 'site_email':
@@ -228,17 +229,25 @@ class Options
                 break;
             case 'site_slogan':
                 break;
-            case 'site_locale':
-                if (! empty($value)) {
-                    $locales = Locales::getAvailableLocales();
-                    if (empty($locales) || ! isset($locales[$value])) {
-                        throw new InvalidArgumentException(__('Invalid site locale.'));
-                    }
-                }
-                break;
             case 'site_email':
                 if (empty($value) || ! isValidEmail($value)) {
                     throw new InvalidArgumentException(__('Invalid site e-mail address.'));
+                }
+                break;
+            case 'site_locale':
+                if (! empty($value)) {
+                    $locale = Locales::findLocale($value);
+                    if (empty($locale)) {
+                        throw new InvalidArgumentException(__('Could not find the locale.'));
+                    }
+                }
+                break;
+            case 'site_theme':
+                if (! empty($value)) {
+                    $theme = Themes::findTheme($value);
+                    if (empty($theme)) {
+                        throw new InvalidArgumentException(__('Could not find the theme.'));
+                    }
                 }
                 break;
 

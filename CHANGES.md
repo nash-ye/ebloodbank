@@ -1,2 +1,5 @@
-- Bug Fix: Fix some FastCGI compatability bugs.
-- Bug Fix: Use single SQL statements only during the installation.
+- New Feature: Theming functionality.
+- Enhancement: Update jQuery to v2.2.1.
+- Enhancement: Use Tahoma and Arial fonts in the Arabic UI.
+- New Feature: Add support for Redis, APCu and File System cache.
+- Enhancement: Update Composer dependencies to the latest versions.

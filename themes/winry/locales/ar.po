@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank Winry Theme 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-23 21:31+0300\n"
-"PO-Revision-Date: 2016-02-23 21:34+0300\n"
+"POT-Creation-Date: 2016-02-24 17:07+0300\n"
+"PO-Revision-Date: 2016-02-24 17:08+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: ar\n"
@@ -15,389 +15,394 @@ msgstr ""
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: activate-user.php:12
+#: 0/activate-user.php:12
 msgid "Activate User"
 msgstr "تفعيل مستخدم"
 
-#: activate-user.php:19
+#: 0/activate-user.php:19
 #, php-format
 msgid "Activate user \"%s\"?"
 msgstr "تفعيل المستخدم \"%s\"؟"
 
-#: activate-user.php:23 activate-users.php:32 edit-users.php:72
+#: 0/activate-user.php:23 0/activate-users.php:32 0/edit-users.php:72
 msgid "Activate"
 msgstr "تفعيل"
 
-#: activate-users.php:12
+#: 0/activate-users.php:12
 msgid "Activate Users"
 msgstr "تفعيل المستخدمين"
 
-#: activate-users.php:19
+#: 0/activate-users.php:19
 msgid "Activate each user in the list below?"
 msgstr "تفعيل كل مستخدم في القائمة أدناه؟"
 
-#: add-city.php:10
+#: 0/add-city.php:10
 msgid "Add New City"
 msgstr "أضف مدينة جديدة"
 
-#: add-district.php:10
+#: 0/add-district.php:10
 msgid "Add New District"
 msgstr "أضف مديرية جديدة"
 
-#: add-donor.php:10
+#: 0/add-donor.php:10
 msgid "Add New Donor"
 msgstr "أضف متبرع جديد"
 
-#: add-user.php:10
+#: 0/add-user.php:10
 msgid "Add New User"
 msgstr "أضف مستخدم جديد"
 
-#: approve-donor.php:12
+#: 0/approve-donor.php:12
 msgid "Approve Donor"
 msgstr "الموافقة على متبرع"
 
-#: approve-donor.php:19
+#: 0/approve-donor.php:19
 #, php-format
 msgid "Approve donor \"%s\"?"
 msgstr "الموافقة على المتبرع \"%s\"؟"
 
-#: approve-donor.php:23 approve-donors.php:32 edit-donors.php:96
+#: 0/approve-donor.php:23 0/approve-donors.php:32 0/edit-donors.php:96
 msgid "Approve"
 msgstr "وافق"
 
-#: approve-donors.php:12
+#: 0/approve-donors.php:12
 msgid "Approve Donors"
 msgstr "الموافقة على المتبرعين"
 
-#: approve-donors.php:19
+#: 0/approve-donors.php:19
 msgid "Approve each donor in the list below?"
 msgstr "الموافقة على كل متبرع في القائمة أدناه؟"
 
-#: delete-cities.php:12
+#: 0/delete-cities.php:12
 msgid "Delete Cities"
 msgstr "حذف مدن"
 
-#: delete-cities.php:19
+#: 0/delete-cities.php:19
 msgid "Delete each city in the list below?"
 msgstr "حذف كل مدينة في القائمة أدناه؟"
 
-#: delete-cities.php:32 delete-city.php:23 delete-district.php:23
-#: delete-districts.php:32 delete-donor.php:23 delete-donors.php:32
-#: delete-user.php:23 delete-users.php:32 edit-cities.php:63
-#: edit-districts.php:67 edit-donors.php:93 edit-users.php:69
+#: 0/delete-cities.php:32 0/delete-city.php:23 0/delete-district.php:23
+#: 0/delete-districts.php:32 0/delete-donor.php:23 0/delete-donors.php:32
+#: 0/delete-user.php:23 0/delete-users.php:32 0/edit-cities.php:63
+#: 0/edit-districts.php:67 0/edit-donors.php:93 0/edit-users.php:69
 msgid "Delete"
 msgstr "حذف"
 
-#: delete-city.php:12
+#: 0/delete-city.php:12
 msgid "Delete City"
 msgstr "حذف مدينة"
 
-#: delete-city.php:19
+#: 0/delete-city.php:19
 #, php-format
 msgid "Delete city \"%s\"?"
 msgstr "حذف المدينة \"%s\"؟"
 
-#: delete-district.php:12
+#: 0/delete-district.php:12
 msgid "Delete District"
 msgstr "حذف مديرية"
 
-#: delete-district.php:19
+#: 0/delete-district.php:19
 #, php-format
 msgid "Delete district \"%s\"?"
 msgstr "حذف المديرية \"%s\"؟"
 
-#: delete-districts.php:12
+#: 0/delete-districts.php:12
 msgid "Delete Districts"
 msgstr "حذف مديريات"
 
-#: delete-districts.php:19
+#: 0/delete-districts.php:19
 msgid "Delete each district in the list below?"
 msgstr "حذف كل مديرية في القائمة أدناه؟"
 
-#: delete-donor.php:12
+#: 0/delete-donor.php:12
 msgid "Delete Donor"
 msgstr "حذف متبرع"
 
-#: delete-donor.php:19
+#: 0/delete-donor.php:19
 #, php-format
 msgid "Delete donor \"%s\"?"
 msgstr "حذف المتبرع \"%s\"؟"
 
-#: delete-donors.php:12
+#: 0/delete-donors.php:12
 msgid "Delete Donors"
 msgstr "حذف متبرعين"
 
-#: delete-donors.php:19
+#: 0/delete-donors.php:19
 msgid "Delete each donor in the list below?"
 msgstr "حذف كل متبرع في القائمة أدناه؟"
 
-#: delete-user.php:12
+#: 0/delete-user.php:12
 msgid "Delete User"
 msgstr "حذف مستخدم"
 
-#: delete-user.php:19
+#: 0/delete-user.php:19
 #, php-format
 msgid "Delete user \"%s\"?"
 msgstr "حذف المستخدم \"%s\"؟"
 
-#: delete-users.php:12
+#: 0/delete-users.php:12
 msgid "Delete Users"
 msgstr "حذف مستخدمين"
 
-#: delete-users.php:19
+#: 0/delete-users.php:19
 msgid "Delete each user in the list below?"
 msgstr "حذف كل مستخدم في القائمة أدناه؟"
 
-#: edit-cities.php:12
+#: 0/edit-cities.php:12
 msgid "Edit Cities"
 msgstr "تحرير المدن"
 
-#: edit-cities.php:17 edit-districts.php:17 edit-donors.php:17 edit-users.php:17
+#: 0/edit-cities.php:17 0/edit-districts.php:17 0/edit-donors.php:17
+#: 0/edit-users.php:17
 msgid "View"
 msgstr "عرض"
 
-#: edit-cities.php:18 edit-districts.php:18 edit-donors.php:18 edit-users.php:18
-#: view-cities.php:18 view-districts.php:18 view-donors.php:18 view-users.php:18
+#: 0/edit-cities.php:18 0/edit-districts.php:18 0/edit-donors.php:18
+#: 0/edit-users.php:18 0/view-cities.php:18 0/view-districts.php:18
+#: 0/view-donors.php:18 0/view-users.php:18
 msgid "Add New"
 msgstr "أضف جديد"
 
-#: edit-cities.php:33 edit-districts.php:33 edit-donors.php:43 edit-users.php:32
-#: form-city.php:19 form-district.php:20 form-donor.php:30 form-signup.php:34
-#: form-user.php:21 install.php:119 view-cities.php:29 view-districts.php:29
-#: view-donor.php:20 view-donors.php:39 view-users.php:28
+#: 0/edit-cities.php:33 0/edit-districts.php:33 0/edit-donors.php:43
+#: 0/edit-users.php:32 0/form-city.php:19 0/form-district.php:20
+#: 0/form-donor.php:30 0/form-signup.php:34 0/form-user.php:21 0/install.php:119
+#: 0/view-cities.php:29 0/view-districts.php:29 0/view-donor.php:20
+#: 0/view-donors.php:39 0/view-users.php:28
 msgid "Name"
 msgstr "الاسم"
 
-#: edit-cities.php:34 edit-districts.php:35 edit-donors.php:49 edit-users.php:35
+#: 0/edit-cities.php:34 0/edit-districts.php:35 0/edit-donors.php:49
+#: 0/edit-users.php:35
 msgid "Actions"
 msgstr "الإجراءات"
 
-#: edit-city.php:10
+#: 0/edit-city.php:10
 msgid "Edit City"
 msgstr "تحرير المدينة"
 
-#: edit-district.php:10
+#: 0/edit-district.php:10
 msgid "Edit District"
 msgstr "تحرير المديرية"
 
-#: edit-districts.php:12
+#: 0/edit-districts.php:12
 msgid "Edit Districts"
 msgstr "تحرير المديريات"
 
-#: edit-districts.php:34 edit-donors.php:47 form-district.php:29
-#: form-donors-filter.php:90 view-districts.php:30 view-donors.php:43
+#: 0/edit-districts.php:34 0/edit-donors.php:47 0/form-district.php:29
+#: 0/form-donors-filter.php:90 0/view-districts.php:30 0/view-donors.php:43
 msgid "City"
 msgstr "المدينة"
 
-#: edit-donor.php:10
+#: 0/edit-donor.php:10
 msgid "Edit Donor"
 msgstr "تحرير المتبرع"
 
-#: edit-donors.php:12
+#: 0/edit-donors.php:12
 msgid "Edit Donors"
 msgstr "تحرير المتبرعين"
 
-#: edit-donors.php:44 form-donor.php:39 form-signup.php:78 view-donor.php:23
-#: view-donors.php:40
+#: 0/edit-donors.php:44 0/form-donor.php:39 0/form-signup.php:78
+#: 0/view-donor.php:23 0/view-donors.php:40
 msgid "Gender"
 msgstr "الجنس"
 
-#: edit-donors.php:45 view-donors.php:41
+#: 0/edit-donors.php:45 0/view-donors.php:41
 msgid "Age"
 msgstr "العمر"
 
-#: edit-donors.php:46 form-donor.php:61 form-donors-filter.php:68
-#: form-signup.php:100 view-donor.php:29 view-donors.php:42
+#: 0/edit-donors.php:46 0/form-donor.php:61 0/form-donors-filter.php:68
+#: 0/form-signup.php:100 0/view-donor.php:29 0/view-donors.php:42
 msgid "Blood Group"
 msgstr "فصيلة الدم"
 
-#: edit-donors.php:48 form-donor.php:120 form-donors-filter.php:106
-#: form-signup.php:133 view-donors.php:44
+#: 0/edit-donors.php:48 0/form-donor.php:120 0/form-donors-filter.php:106
+#: 0/form-signup.php:133 0/view-donors.php:44
 msgid "District"
 msgstr "المديرية"
 
-#: edit-donors.php:64 edit-users.php:49 settings.php:114 view-donors.php:57
-#: view-users.php:42
+#: 0/edit-donors.php:64 0/edit-users.php:49 0/settings.php:128
+#: 0/view-donors.php:57 0/view-users.php:42
 msgid "Pending"
 msgstr "بإنتظار الموافقة"
 
-#: edit-user.php:10
+#: 0/edit-user.php:10
 msgid "Edit User"
 msgstr "تحرير المستخدم"
 
-#: edit-users.php:12
+#: 0/edit-users.php:12
 msgid "Edit Users"
 msgstr "تحرير المستخدمين"
 
-#: edit-users.php:33 form-donor.php:86 form-login.php:20 form-signup.php:43
-#: form-user.php:30 install.php:128 view-donor.php:38 view-donor.php:41
-#: view-donor.php:48 view-users.php:29
+#: 0/edit-users.php:33 0/form-donor.php:86 0/form-login.php:20
+#: 0/form-signup.php:43 0/form-user.php:30 0/install.php:128 0/view-donor.php:38
+#: 0/view-donor.php:41 0/view-donor.php:48 0/view-users.php:29
 msgid "E-mail"
 msgstr "البريد الإلكتروني"
 
-#: edit-users.php:34 form-user.php:55 view-users.php:30
+#: 0/edit-users.php:34 0/form-user.php:55 0/view-users.php:30
 msgid "Role"
 msgstr "الرتبة"
 
-#: error-403.php:14
+#: 0/error-403.php:14
 msgid "Error: Access denied"
 msgstr "خطأ: تم رفض الوصول"
 
-#: error-403.php:18
+#: 0/error-403.php:18
 msgid "Sorry, you are not authorized to access this page."
 msgstr "المعذرة، أنت غير مصرح لك بالوصول إلى هذه الصفحة."
 
-#: error-404.php:14
+#: 0/error-404.php:14
 msgid "Error: Not Found"
 msgstr "خطأ: غير موجود"
 
-#: error-404.php:18
+#: 0/error-404.php:18
 msgid "Sorry, the page you requested was not found."
 msgstr "المعذرة، الصفحة التي طلبتها غير موجودة."
 
-#: error-db.php:14 header.php:15 install.php:14
+#: 0/error-db.php:14 0/header.php:15 0/install.php:14
 msgctxt "language code"
 msgid "en"
 msgstr "ar"
 
-#: error-db.php:14 error-db.php:22 header.php:15 header.php:23 install.php:14
-#: install.php:22
+#: 0/error-db.php:14 0/error-db.php:22 0/header.php:15 0/header.php:23
+#: 0/install.php:14 0/install.php:22
 msgctxt "text direction"
 msgid "ltr"
 msgstr "rtl"
 
-#: error-db.php:17
+#: 0/error-db.php:17
 msgid "eBloodBank &rsaquo; Database Error"
 msgstr "eBloodBank &rsaquo; خطأ في قاعدة البيانات"
 
-#: error-db.php:35 install.php:35
+#: 0/error-db.php:35 0/install.php:35
 msgid "eBloodBank"
 msgstr "eBloodBank"
 
-#: error-db.php:45
+#: 0/error-db.php:45
 msgid "Error: Database Connection Failed"
 msgstr "خطأ: فشل الاتصال بقاعدة البيانات."
 
-#: error-db.php:49
+#: 0/error-db.php:49
 msgid "An error occurred while establishing the database connection."
 msgstr "حدث خطأ أثناء الاتصال بقاعدة البيانات."
 
-#: form-city.php:28 form-district.php:45 form-donor.php:145 form-user.php:69
+#: 0/form-city.php:28 0/form-district.php:45 0/form-donor.php:145
+#: 0/form-user.php:69
 msgid "Submit"
 msgstr "إرسال"
 
-#: form-donor.php:52 form-signup.php:91 view-donor.php:26
+#: 0/form-donor.php:52 0/form-signup.php:91 0/view-donor.php:26
 msgid "Birthdate"
 msgstr "تاريخ الميلاد"
 
-#: form-donor.php:77 form-signup.php:115 view-donor.php:32
+#: 0/form-donor.php:77 0/form-signup.php:115 0/view-donor.php:32
 msgid "Weight (kg)"
 msgstr "الوزن (كجم)"
 
-#: form-donor.php:103 form-signup.php:124 view-donor.php:59 view-donor.php:62
-#: view-donor.php:69
+#: 0/form-donor.php:103 0/form-signup.php:124 0/view-donor.php:59
+#: 0/view-donor.php:62 0/view-donor.php:69
 msgid "Phone"
 msgstr "الهاتف"
 
-#: form-donor.php:136 form-signup.php:148 view-donor.php:80
+#: 0/form-donor.php:136 0/form-signup.php:148 0/view-donor.php:80
 msgid "Address"
 msgstr "العنوان"
 
-#: form-donors-filter.php:76 form-donors-filter.php:98
-#: form-donors-filter.php:108
+#: 0/form-donors-filter.php:76 0/form-donors-filter.php:98
+#: 0/form-donors-filter.php:108
 msgid "All"
 msgstr "الكل"
 
-#: form-donors-filter.php:83
+#: 0/form-donors-filter.php:83
 msgid "Include alternatives?"
 msgstr "تضمين البدائل؟"
 
-#: form-donors-filter.php:117
+#: 0/form-donors-filter.php:117
 msgid "Search"
 msgstr "بحث"
 
-#: form-login.php:29 form-signup.php:52 form-user.php:42 install.php:137
+#: 0/form-login.php:29 0/form-signup.php:52 0/form-user.php:42 0/install.php:137
 msgid "Password"
 msgstr "كلمة المرور"
 
-#: form-login.php:38 login.php:10
+#: 0/form-login.php:38 0/login.php:10
 msgid "Log In"
 msgstr "تسجيل الدخول"
 
-#: form-signup.php:55 install.php:140
+#: 0/form-signup.php:55 0/install.php:140
 msgid "Type your password"
 msgstr "أكتب كلمة مرورك"
 
-#: form-signup.php:57 install.php:142
+#: 0/form-signup.php:57 0/install.php:142
 msgid "Type your password again"
 msgstr "أكتب كلمة مرورك مرة أخرى"
 
-#: form-signup.php:66
+#: 0/form-signup.php:66
 msgid "Add as a donor."
 msgstr "أضف كمتبرع"
 
-#: form-signup.php:74
+#: 0/form-signup.php:74
 msgid "Donor Information"
 msgstr "معلومات المتبرع"
 
-#: form-signup.php:159 signup.php:10
+#: 0/form-signup.php:159 0/signup.php:10
 msgid "Sign Up"
 msgstr "التسجيل"
 
-#: form-user.php:40
+#: 0/form-user.php:40
 msgid "New Password"
 msgstr "كلمة المرور الجديدة"
 
-#: form-user.php:46
+#: 0/form-user.php:46
 msgid "Type the password"
 msgstr "أكتب كلمة المرور"
 
-#: form-user.php:48
+#: 0/form-user.php:48
 msgid "Type the password again"
 msgstr "أكتب كلمة المرور مرة أخرى"
 
-#: header.php:38
+#: 0/header.php:38
 msgid "Toggle navigation"
 msgstr "تبديل التنقل"
 
-#: header.php:47 home.php:12
+#: 0/header.php:47 0/home.php:12
 msgid "Home"
 msgstr "الرئيسية"
 
-#: header.php:48 view-donors.php:12
+#: 0/header.php:48 0/view-donors.php:12
 msgid "Donors"
 msgstr "المتبرعين"
 
-#: header.php:49 view-cities.php:12
+#: 0/header.php:49 0/view-cities.php:12
 msgid "Cities"
 msgstr "المدن"
 
-#: header.php:50 view-districts.php:12
+#: 0/header.php:50 0/view-districts.php:12
 msgid "Districts"
 msgstr "المديريات"
 
-#: header.php:51 view-users.php:12
+#: 0/header.php:51 0/view-users.php:12
 msgid "Users"
 msgstr "المستخدمين"
 
-#: header.php:52 settings.php:15
+#: 0/header.php:52 0/settings.php:16
 msgid "Settings"
 msgstr "الإعدادات"
 
-#: header.php:56
+#: 0/header.php:56
 #, php-format
 msgid "Hello, <b>%s</b>!"
 msgstr "مرحبًا، <b>%s</b>!"
 
-#: header.php:59
+#: 0/header.php:59
 msgid "Anonymous, Log In?"
 msgstr "مجهول، تسجيل الدخول؟"
 
-#: home.php:15
+#: 0/home.php:15
 msgid "Hello, life savers!"
 msgstr "مرحبًا، منقذو الحياة!"
 
-#: home.php:16
+#: 0/home.php:16
 msgid ""
 "Blood transfusion helps save millions of lives every year. Optimistically, we "
 "will help to save more."
@@ -405,31 +410,31 @@ msgstr ""
 "نقل الدم يساعد على إنقاذ حياة ملايين الأشخاص كل عام. بتفائل، نحن سنساعد على "
 "إنقاذ المزيد."
 
-#: home.php:19
+#: 0/home.php:19
 msgid "Add Donor"
 msgstr "أضف متبرع"
 
-#: home.php:20
+#: 0/home.php:20
 msgid "Add City"
 msgstr "أضف مدينة"
 
-#: home.php:21
+#: 0/home.php:21
 msgid "Add District"
 msgstr "أضف مديرية"
 
-#: home.php:22
+#: 0/home.php:22
 msgid "Add User"
 msgstr "أضف مستخدم"
 
-#: install.php:17
+#: 0/install.php:17
 msgid "eBloodBank &rsaquo; Installation"
 msgstr "eBloodBank &rsaquo; التنصيب"
 
-#: install.php:49
+#: 0/install.php:49
 msgid "Configuration"
 msgstr "الإعدادات"
 
-#: install.php:54
+#: 0/install.php:54
 msgid ""
 "Welcome to eBloodBank, Before getting started, we need some information on "
 "the database. You will need to know the following items before proceeding."
@@ -437,23 +442,23 @@ msgstr ""
 "مرحبًا بك في eBloodBank، قبل الشروع في العمل، نحن بحاجة لبعض المعلومات عن "
 "قاعدة البيانات. عليك معرفة العناصر التالية قبل المتابعة. "
 
-#: install.php:57
+#: 0/install.php:57
 msgid "Database name"
 msgstr "اسم قاعدة البيانات"
 
-#: install.php:58
+#: 0/install.php:58
 msgid "Database username"
 msgstr "اسم مستخدم قاعدة البيانات"
 
-#: install.php:59
+#: 0/install.php:59
 msgid "Database password"
 msgstr "كلمة مرور قاعدة البيانات"
 
-#: install.php:60
+#: 0/install.php:60
 msgid "Database host"
 msgstr "مُضيف قاعدة البيانات"
 
-#: install.php:63
+#: 0/install.php:63
 #, php-format
 msgid ""
 "We’re going to use this information to setup the database. You should open "
@@ -463,15 +468,15 @@ msgstr ""
 "%1$s بواسطة محرّر نصوص، ثمّ ملئه بالمعلومات الخاصة بك، ومن ثمّ حفظ الملف باسم "
 "%2$s."
 
-#: install.php:69
+#: 0/install.php:69
 msgid "Run the install"
 msgstr "شغل معالج التنصيب"
 
-#: install.php:80
+#: 0/install.php:80
 msgid "Installation"
 msgstr "التنصيب"
 
-#: install.php:85
+#: 0/install.php:85
 msgid ""
 "Welcome to the installation process! Just fill in the information below and "
 "you’ll be on your way to using the eBloodBank premium system."
@@ -479,131 +484,136 @@ msgstr ""
 "مرحبًا بك في معالج التنصيب! فقط قم بملء المعلومات المطلوبة أدناه لتصبح على "
 "طريقك في استخدام نظام eBloodBank المُمتاز."
 
-#: install.php:91
+#: 0/install.php:91
 msgid "Site Information"
 msgstr "معلومات الموقع"
 
-#: install.php:95 settings.php:37
+#: 0/install.php:95 0/settings.php:38
 msgid "Site Name"
 msgstr "اسم الموقع"
 
-#: install.php:104 settings.php:55
+#: 0/install.php:104 0/settings.php:56
 msgid "Site E-mail"
 msgstr "بريد الموقع الإلكتروني"
 
-#: install.php:115
+#: 0/install.php:115
 msgid "Administrator Account"
 msgstr "حساب المدير"
 
-#: install.php:150
+#: 0/install.php:150
 msgid "Install eBloodBank"
 msgstr "تنصيب eBloodBank"
 
-#: install.php:163
+#: 0/install.php:163
 msgid "Already Installed"
 msgstr "منصب بالفعل"
 
-#: install.php:166
+#: 0/install.php:166
 msgid "You have already installed eBloodBank."
 msgstr "لقد قمت بتنصيب eBloodBank بالفعل."
 
-#: pagination.php:24
+#: 0/pagination.php:24
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: pagination.php:42
+#: 0/pagination.php:42
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: settings.php:24
+#: 0/settings.php:25
 msgid "Site Options"
 msgstr "خيارات الموقع"
 
-#: settings.php:28
+#: 0/settings.php:29
 msgid "Site URL"
 msgstr "رابط الموقع"
 
-#: settings.php:46
+#: 0/settings.php:47
 msgid "Site Slogan"
 msgstr "شعار الموقع"
 
-#: settings.php:64
+#: 0/settings.php:65
 msgid "Site Locale"
 msgstr "لغة الموقع"
 
-#: settings.php:80
+#: 0/settings.php:79
+msgid "Site Theme"
+msgstr "قالب الموقع"
+
+#: 0/settings.php:94
 msgid "Users Options"
 msgstr "خيارات المستخدمين"
 
-#: settings.php:87
+#: 0/settings.php:101
 msgid "Enable self-registration."
 msgstr "تمكين التسجيل-الذاتي."
 
-#: settings.php:95
+#: 0/settings.php:109
 msgid "New User Role"
 msgstr "رتبة المستخدم الجديد"
 
-#: settings.php:109
+#: 0/settings.php:123
 msgid "New User Status"
 msgstr "حالة المستخدم الجديد"
 
-#: settings.php:114
+#: 0/settings.php:128
 msgid "Activated"
 msgstr "مُفعل"
 
-#: settings.php:125
+#: 0/settings.php:139
 msgid "Donors Options"
 msgstr "خيارات المتبرعين"
 
-#: settings.php:129
+#: 0/settings.php:143
 msgid "Default E-mail Visibility"
 msgstr "الرؤية الافتراضية للبريد الإلكتروني"
 
-#: settings.php:143
+#: 0/settings.php:157
 msgid "Default Phone Visibility"
 msgstr "الرؤية الافتراضية لرقم التلفون"
 
-#: settings.php:159
+#: 0/settings.php:173
 msgid "Reading Options"
 msgstr "خيارات القراءة"
 
-#: settings.php:166
+#: 0/settings.php:180
 msgid "Publicly accessible."
 msgstr "متاح للجمهور."
 
-#: settings.php:174
+#: 0/settings.php:188
 msgid "Entities Per Page"
 msgstr "عدد الكيانات لكل صفحة"
 
-#: settings.php:185
+#: 0/settings.php:199
 msgid "Save Settings"
 msgstr "حفظ الإعدادات"
 
-#: view-cities.php:17 view-districts.php:17 view-donors.php:17 view-users.php:17
+#: 0/view-cities.php:17 0/view-districts.php:17 0/view-donors.php:17
+#: 0/view-users.php:17
 msgid "Edit"
 msgstr "تحرير"
 
-#: view-donor.php:45
+#: 0/view-donor.php:45
 msgid "Only site members can view this donor e-mail address."
 msgstr "الأعضاء هم فقط من يمكنهم مشاهدة عنوان البريد الإلكتروني لهذا المتبرع."
 
-#: view-donor.php:52
+#: 0/view-donor.php:52
 msgid "Only site staff can view this donor e-mail address."
 msgstr "الموظفون هم فقط من يمكنهم مشاهدة عنوان البريد الإلكتروني لهذا المتبرع."
 
-#: view-donor.php:66
+#: 0/view-donor.php:66
 msgid "Only site members can view this donor phone number."
 msgstr "الأعضاء هم فقط من يمكنهم مشاهدة رقم التلفون لهذا  المتبرع."
 
-#: view-donor.php:73
+#: 0/view-donor.php:73
 msgid "Only site staff can view this donor phone number."
 msgstr "الموظفون هم فقط من يمكنهم مشاهدة عنوان البريد الإلكتروني لهذا المتبرع."
 
-#: view-donor.php:77
+#: 0/view-donor.php:77
 msgid "City\\District"
 msgstr "المدينة/المديرية"
 
-#: view-donor.php:78
+#: 0/view-donor.php:78
 #, php-format
 msgid "%1$s\\%2$s"
 msgstr "%1$s/%2$s"

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-23 16:24+0300\n"
-"PO-Revision-Date: 2016-02-23 16:25+0300\n"
+"POT-Creation-Date: 2016-02-24 17:04+0300\n"
+"PO-Revision-Date: 2016-02-24 17:04+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: en\n"
@@ -246,19 +246,19 @@ msgstr ""
 msgid "Locale PO file is not readable or not exists."
 msgstr ""
 
-#: EBloodBank/Main.php:410
+#: EBloodBank/Main.php:445
 msgid "Subscriber"
 msgstr ""
 
-#: EBloodBank/Main.php:423
+#: EBloodBank/Main.php:458
 msgid "Contributor"
 msgstr ""
 
-#: EBloodBank/Main.php:439
+#: EBloodBank/Main.php:474
 msgid "Editor"
 msgstr ""
 
-#: EBloodBank/Main.php:467
+#: EBloodBank/Main.php:502
 msgid "Administrator"
 msgstr ""
 
@@ -326,7 +326,7 @@ msgstr ""
 msgid "Invalid donor e-mail address."
 msgstr ""
 
-#: EBloodBank/Models/Donor.php:291 EBloodBank/Options.php:267
+#: EBloodBank/Models/Donor.php:291 EBloodBank/Options.php:276
 msgid "Invalid donor e-mail address visibility."
 msgstr ""
 
@@ -334,7 +334,7 @@ msgstr ""
 msgid "Invalid donor phone number."
 msgstr ""
 
-#: EBloodBank/Models/Donor.php:301 EBloodBank/Options.php:273
+#: EBloodBank/Models/Donor.php:301 EBloodBank/Options.php:282
 msgid "Invalid donor phone number visibility."
 msgstr ""
 
@@ -366,40 +366,52 @@ msgstr ""
 msgid "Invalid variable name."
 msgstr ""
 
-#: EBloodBank/Options.php:221
+#: EBloodBank/Options.php:222
 msgid "Invalid site URL."
 msgstr ""
 
-#: EBloodBank/Options.php:226
+#: EBloodBank/Options.php:227
 msgid "Invalid site name."
 msgstr ""
 
-#: EBloodBank/Options.php:235
-msgid "Invalid site locale."
-msgstr ""
-
-#: EBloodBank/Options.php:241
+#: EBloodBank/Options.php:234
 msgid "Invalid site e-mail address."
 msgstr ""
 
+#: EBloodBank/Options.php:241
+msgid "Could not find the locale."
+msgstr ""
+
 #: EBloodBank/Options.php:249
+msgid "Could not find the theme."
+msgstr ""
+
+#: EBloodBank/Options.php:258
 msgid "Invalid self-registration status."
 msgstr ""
 
-#: EBloodBank/Options.php:254
+#: EBloodBank/Options.php:263
 msgid "Invalid new user role."
 msgstr ""
 
-#: EBloodBank/Options.php:259
+#: EBloodBank/Options.php:268
 msgid "Invalid new user status."
 msgstr ""
 
-#: EBloodBank/Options.php:281
+#: EBloodBank/Options.php:290
 msgid "Invalid site publication status."
 msgstr ""
 
-#: EBloodBank/Options.php:286
+#: EBloodBank/Options.php:295
 msgid "Invalid entities per page count."
+msgstr ""
+
+#: EBloodBank/Theme.php:41
+msgid "Invalid theme name."
+msgstr ""
+
+#: EBloodBank/Theme.php:45
+msgid "Invalid theme directory path."
 msgstr ""
 
 #: EBloodBank/functions.fields.php:288
@@ -426,67 +438,67 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:124
+#: EBloodBank/functions.hyperlinks.php:151
 msgid "Log In"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:166
+#: EBloodBank/functions.hyperlinks.php:193
 msgid "Log Out"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:205
+#: EBloodBank/functions.hyperlinks.php:232
 msgid "Sign Up"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:318
+#: EBloodBank/functions.hyperlinks.php:345
 msgid "Users"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:349
-#: EBloodBank/functions.hyperlinks.php:692
-#: EBloodBank/functions.hyperlinks.php:960
-#: EBloodBank/functions.hyperlinks.php:1192
+#: EBloodBank/functions.hyperlinks.php:376
+#: EBloodBank/functions.hyperlinks.php:719
+#: EBloodBank/functions.hyperlinks.php:987
+#: EBloodBank/functions.hyperlinks.php:1219
 msgid "Add"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:380
-#: EBloodBank/functions.hyperlinks.php:412
-#: EBloodBank/functions.hyperlinks.php:723
-#: EBloodBank/functions.hyperlinks.php:755
-#: EBloodBank/functions.hyperlinks.php:991
-#: EBloodBank/functions.hyperlinks.php:1023
-#: EBloodBank/functions.hyperlinks.php:1223
-#: EBloodBank/functions.hyperlinks.php:1255
+#: EBloodBank/functions.hyperlinks.php:407
+#: EBloodBank/functions.hyperlinks.php:439
+#: EBloodBank/functions.hyperlinks.php:750
+#: EBloodBank/functions.hyperlinks.php:782
+#: EBloodBank/functions.hyperlinks.php:1018
+#: EBloodBank/functions.hyperlinks.php:1050
+#: EBloodBank/functions.hyperlinks.php:1250
+#: EBloodBank/functions.hyperlinks.php:1282
 msgid "Edit"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:448
-#: EBloodBank/functions.hyperlinks.php:791
-#: EBloodBank/functions.hyperlinks.php:1059
-#: EBloodBank/functions.hyperlinks.php:1291
+#: EBloodBank/functions.hyperlinks.php:475
+#: EBloodBank/functions.hyperlinks.php:818
+#: EBloodBank/functions.hyperlinks.php:1086
+#: EBloodBank/functions.hyperlinks.php:1318
 msgid "Delete"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:484
+#: EBloodBank/functions.hyperlinks.php:511
 msgid "Activate"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:621
+#: EBloodBank/functions.hyperlinks.php:648
 msgid "Donors"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:827
+#: EBloodBank/functions.hyperlinks.php:854
 msgid "Approve"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:929
+#: EBloodBank/functions.hyperlinks.php:956
 msgid "Cities"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:1161
+#: EBloodBank/functions.hyperlinks.php:1188
 msgid "Districts"
 msgstr ""
 
-#: EBloodBank/functions.hyperlinks.php:1339
+#: EBloodBank/functions.hyperlinks.php:1366
 msgid "Settings"
 msgstr ""

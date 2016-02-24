@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'winry');
-define('EBB_VERSION', '1.3-alpha-3');
+define('EBB_VERSION', '1.3-alpha-4');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');

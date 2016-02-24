@@ -11,6 +11,7 @@ use EBloodBank as EBB;
 use EBloodBank\Roles;
 use EBloodBank\Options;
 use EBloodBank\Locales;
+use EBloodBank\Themes;
 
 $view->displayView('header', ['title' => d__('winry', 'Settings')]);
 ?>
@@ -68,6 +69,19 @@ $view->displayView('header', ['title' => d__('winry', 'Settings')]);
                         <option></option>
                         <?php foreach (Locales::getAvailableLocales() as $locale) : ?>
                         <option<?= EBB\toAttributes(['selected' => Locales::isCurrentLocale($locale)]) ?>><?= EBB\escHTML($locale->getCode()) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="site_theme"><?= EBB\escHTML(d__('winry', 'Site Theme')) ?></label>
+                </div>
+                <div class="col-sm-4">
+                    <select name="site_theme" id="site_theme" class="form-control">
+                        <?php foreach (Themes::getAvailableThemes() as $theme) : ?>
+                        <option<?= EBB\toAttributes(['selected' => Themes::isCurrentTheme($theme)]) ?>><?= EBB\escHTML($theme->getName()) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
