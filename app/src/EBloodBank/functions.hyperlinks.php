@@ -88,6 +88,33 @@ function getHomeLink(array $args = [])
     return $args['before'] . $link . $args['after'];
 }
 
+/*** Theme Template Tags ******************************************************/
+
+/**
+ * @return string
+ * @since 1.3
+ */
+function getThemeURL($path = '', $theme = '')
+{
+    $url = '';
+
+    if (empty($theme)) {
+        $theme = Themes::getCurrentTheme();
+    } else if (is_string($theme)) {
+        $theme = Themes::findTheme($theme);
+    }
+
+    if(empty($theme) || ! $theme instanceof Theme) {
+        return $url;
+    }
+
+    $path = ltrim($path, '/');
+    $themeName = $theme->getName();
+    $url = getSiteURL("/themes/{$themeName}/{$path}");
+
+    return $url;
+}
+
 /*** Installer Template Tags **************************************************/
 
 /**

@@ -81,7 +81,7 @@ $view->displayView('header', ['title' => d__('winry', 'Edit Districts')]);
 
     ?>
 
-    <script src="<?= EBB\escURL(EBB\getSiteURl('/themes/winry/assets/js/edit-entities.js')) ?>"></script>
+    <script src="<?= EBB\escURL(EBB\getThemeURL('/assets/js/edit-entities.js')) ?>"></script>
 
 <?php
 $view->displayView('footer');

@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Views;
 
-use DirectoryIterator;
-use EBloodBank AS EEB;
 use EBloodBank\Themes;
 
 /**

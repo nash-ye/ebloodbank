@@ -9,7 +9,7 @@
 /*** Constants ****************************************************************/
 
 define('EBB_CODENAME', 'winry');
-define('EBB_VERSION', '1.3-alpha-2');
+define('EBB_VERSION', '1.3-alpha-3');
 
 define('EBB_MIN_PHP_VERSION', '5.5');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
@@ -51,6 +51,7 @@ if (! defined('EBB_DIR')) {
     define('EBB_DIR', dirname(__DIR__));
 }
 
+define('EBB_CACHE_DIR', EBB_DIR . '/cache');
 define('EBB_THEMES_DIR', EBB_DIR . '/themes');
 define('EBB_PLUGINS_DIR', EBB_DIR . '/plugins');
 define('EBB_LOCALES_DIR', EBB_DIR . '/locales');
@@ -118,8 +119,12 @@ if (! defined('EBB_REDIS_PASS')) {
     define('EBB_REDIS_PASS', '');
 }
 
-if (! defined('EBB_APC_CACHE')) {
-    define('EBB_APC_CACHE', true);
+if (! defined('EBB_APCU_CACHE')) {
+    define('EBB_APCU_CACHE', true);
+}
+
+if (! defined('EBB_FS_CACHE')) {
+    define('EBB_FS_CACHE', true);
 }
 
 if (! defined('EBB_DEV_MODE')) {

@@ -19,13 +19,13 @@ use EBloodBank\Options;
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="<?= EBB\escURL(EBB\getSiteURL('/themes/winry/assets/components/bootstrap/css/bootstrap.min.css')) ?>" />
+        <link rel="stylesheet" href="<?= EBB\escURL(EBB\getThemeURL('/assets/components/bootstrap/css/bootstrap.min.css')) ?>" />
         <?php if ('rtl' === dp__('winry', 'text direction', 'ltr')) : ?>
-        <link rel="stylesheet" href="<?= EBB\escURL(EBB\getSiteURL('/themes/winry/assets/components/bootstrap-rtl/css/bootstrap-rtl.min.css')) ?>" />
+        <link rel="stylesheet" href="<?= EBB\escURL(EBB\getThemeURL('/assets/components/bootstrap-rtl/css/bootstrap-rtl.min.css')) ?>" />
         <?php endif; ?>
-		<link rel="stylesheet" href="<?= EBB\escURL(EBB\getSiteURL('/themes/winry/assets/css/style.css')) ?>" />
+		<link rel="stylesheet" href="<?= EBB\escURL(EBB\getThemeURL('/assets/css/style.css')) ?>" />
 
-        <script src="<?= EBB\escURL(EBB\getSiteURl('/themes/winry/assets/components/jquery/jquery.min.js')) ?>"></script>
+        <script src="<?= EBB\escURL(EBB\getThemeURL('/assets/components/jquery/jquery.min.js')) ?>"></script>
 	</head>
 
 	<body>

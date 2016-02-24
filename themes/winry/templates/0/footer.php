@@ -14,7 +14,7 @@ use EBloodBank as EBB;
 		</div>
 		<!-- /.container -->
 
-		<script src="<?= EBB\escURL(EBB\getSiteURl('/themes/winry/assets/components/bootstrap/js/bootstrap.min.js')) ?>"></script>
+		<script src="<?= EBB\escURL(EBB\getThemeURL('/assets/components/bootstrap/js/bootstrap.min.js')) ?>"></script>
 
 	</body>
 

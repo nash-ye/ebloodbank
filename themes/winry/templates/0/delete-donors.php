@@ -4,7 +4,7 @@
  *
  * @package    Winry Theme
  * @subpackage Templates
- * @since      1.1
+ * @since      1.0
  */
 
 use EBloodBank as EBB;

@@ -125,6 +125,46 @@ class Main
     /**
      * @access private
      * @return void
+     * @since 1.3
+     */
+    private function setupCacheDriver()
+    {
+        if (EBB_DEV_MODE) {
+            $cacheDriver = new Doctrine\Common\Cache\ArrayCache();
+        } else {
+            if (EBB_REDIS_CACHE && extension_loaded('redis')) {
+                $redis = new Redis();
+                $redis->connect(EBB_REDIS_HOST, EBB_REDIS_PORT);
+                if (EBB_REDIS_PASS) {
+                    $redis->auth(EBB_REDIS_PASS);
+                }
+                if (EBB_REDIS_DB) {
+                    $redis->select(EBB_REDIS_DB);
+                }
+                $cacheDriver = new Doctrine\Common\Cache\RedisCache();
+                $cacheDriver->setRedis($redis);
+            } elseif (EBB_APCU_CACHE && extension_loaded('apcu')) {
+                $cacheDriver = new Doctrine\Common\Cache\ApcuCache();
+            } elseif (EBB_FS_CACHE && is_writable(EBB_CACHE_DIR)) {
+                $cacheDriver = new Doctrine\Common\Cache\FilesystemCache(EBB_CACHE_DIR, '.ebb.data');
+            }
+        }
+
+        $this->getContainer()->set('cache_driver', $cacheDriver ?: new Doctrine\Common\Cache\ArrayCache());
+    }
+
+    /**
+     * @return \Doctrine\Common\Cache\Cache
+     * @since 1.3
+     */
+    public function getCacheDriver()
+    {
+        return $this->getContainer()->get('cache_driver');
+    }
+
+    /**
+     * @access private
+     * @return void
      * @since 1.0
      */
     private function setupTranslator()
@@ -192,26 +232,9 @@ class Main
         $config->setAutoGenerateProxyClasses((bool) EBB_DEV_MODE);
         $config->setProxyNamespace('EBloodBank\Proxies');
 
-        if (! EBB_DEV_MODE && EBB_REDIS_CACHE && extension_loaded('redis')) {
-            $redis = new Redis();
-            $redis->connect(EBB_REDIS_HOST, EBB_REDIS_PORT);
-            if (EBB_REDIS_PASS !== '') {
-                $redis->auth(EBB_REDIS_PASS);
-            }
-            if (EBB_REDIS_DB !== '') {
-                $redis->select(EBB_REDIS_DB);
-            }
-            $cacheDriver = new Doctrine\Common\Cache\RedisCache();
-            $cacheDriver->setRedis($redis);
-        } elseif (! EBB_DEV_MODE && EBB_APC_CACHE && extension_loaded('apc')) {
-            $cacheDriver = new Doctrine\Common\Cache\ApcCache();
-        } else {
-            $cacheDriver = new Doctrine\Common\Cache\ArrayCache();
-        }
-
-        $config->setMetadataCacheImpl($cacheDriver);
-        $config->setResultCacheImpl($cacheDriver);
-        $config->setQueryCacheImpl($cacheDriver);
+        $config->setMetadataCacheImpl($this->getCacheDriver());
+        $config->setResultCacheImpl($this->getCacheDriver());
+        $config->setQueryCacheImpl($this->getCacheDriver());
 
         $entityManager = ORM\EntityManager::create($this->getDBConnection(), $config);
 
@@ -696,6 +719,9 @@ class Main
 
             // Sets up the server request.
             $instance->setupServerRequest();
+
+            // Sets up the cache driver.
+            $instance->setupCacheDriver();
 
             // Sets up the translator.
             $instance->setupTranslator();
