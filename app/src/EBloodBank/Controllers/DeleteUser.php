@@ -2,7 +2,7 @@
 /**
  * Delete user page controller class file
  *
- * @package    EBloodBank
+ * @package    eBloodBank
  * @subpackage Controllers
  * @since      1.0
  */

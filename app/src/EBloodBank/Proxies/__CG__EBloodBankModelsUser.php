@@ -58,7 +58,7 @@ class User extends \EBloodBank\Models\User implements \Doctrine\ORM\Proxy\Proxy
 
 
     /**
-     * 
+     *
      * @return array
      */
     public function __sleep()
@@ -71,11 +71,11 @@ class User extends \EBloodBank\Models\User implements \Doctrine\ORM\Proxy\Proxy
     }
 
     /**
-     * 
+     *
      */
     public function __wakeup()
     {
-        if ( ! $this->__isInitialized__) {
+        if (! $this->__isInitialized__) {
             $this->__initializer__ = function (User $proxy) {
                 $proxy->__setInitializer(null);
                 $proxy->__setCloner(null);
@@ -83,7 +83,7 @@ class User extends \EBloodBank\Models\User implements \Doctrine\ORM\Proxy\Proxy
                 $existingProperties = get_object_vars($proxy);
 
                 foreach ($proxy->__getLazyProperties() as $property => $defaultValue) {
-                    if ( ! array_key_exists($property, $existingProperties)) {
+                    if (! array_key_exists($property, $existingProperties)) {
                         $proxy->$property = $defaultValue;
                     }
                 }
@@ -93,7 +93,7 @@ class User extends \EBloodBank\Models\User implements \Doctrine\ORM\Proxy\Proxy
     }
 
     /**
-     * 
+     *
      */
     public function __clone()
     {
@@ -172,7 +172,7 @@ class User extends \EBloodBank\Models\User implements \Doctrine\ORM\Proxy\Proxy
         return self::$lazyPropertiesDefaults;
     }
 
-    
+
     /**
      * {@inheritDoc}
      */
@@ -671,7 +671,7 @@ class User extends \EBloodBank\Models\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function updateMeta($metaKey, $metaValue, $currentMetaValue = NULL, $sanitize = false, $validate = true)
+    public function updateMeta($metaKey, $metaValue, $currentMetaValue = null, $sanitize = false, $validate = true)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'updateMeta', [$metaKey, $metaValue, $currentMetaValue, $sanitize, $validate]);
@@ -682,12 +682,11 @@ class User extends \EBloodBank\Models\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function deleteMeta($metaKey, $metaValue = NULL)
+    public function deleteMeta($metaKey, $metaValue = null)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'deleteMeta', [$metaKey, $metaValue]);
 
         return parent::deleteMeta($metaKey, $metaValue);
     }
-
 }

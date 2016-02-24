@@ -2,7 +2,7 @@
 /**
  * eBloodBank installer
  *
- * @package EBloodBank
+ * @package eBloodBank
  * @since   1.0
  */
 

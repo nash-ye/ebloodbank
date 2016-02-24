@@ -2,7 +2,7 @@
 /**
  * Blank index file
  *
- * @package    EBloodBank
+ * @package    eBloodBank
  * @subpackage Controllers
  * @since      1.0
  */

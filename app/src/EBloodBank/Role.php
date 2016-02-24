@@ -2,7 +2,7 @@
 /**
  * Role class file
  *
- * @package EBloodBank
+ * @package eBloodBank
  * @since   1.0
  */
 namespace EBloodBank;

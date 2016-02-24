@@ -1,8 +1,8 @@
 <?php
 /**
- * CLI configurations
+ * eBloodBank CLI configurations
  *
- * @package EBloodBank
+ * @package eBloodBank
  * @since   1.2
  */
 

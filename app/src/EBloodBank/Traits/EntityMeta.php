@@ -2,7 +2,7 @@
 /**
  * Entity meta trait file
  *
- * @package    EBloodBank
+ * @package    eBloodBank
  * @subpackage Models
  * @since      1.0
  */

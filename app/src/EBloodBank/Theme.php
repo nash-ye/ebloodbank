@@ -2,7 +2,7 @@
 /**
  * Theme class file
  *
- * @package EBloodBank
+ * @package eBloodBank
  * @since   1.3
  */
 namespace EBloodBank;
@@ -59,7 +59,7 @@ class Theme
 
     /**
      * Get the theme path.
-     * 
+     *
      * @return string
      * @since 1.3
      */

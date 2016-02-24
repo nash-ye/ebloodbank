@@ -4,8 +4,8 @@
  *
  * @author    Nashwan Doaqan<nashwan.doaqan@gmail.com>
  * @license   http://www.gnu.org/licenses/gpl.txt GPL-3.0+
- * @copyright (c) 2015, Nashwan Doaqan
- * @version   1.2.4
+ * @copyright (c) 2015 - 2016, Nashwan Doaqan
+ * @version   1.3-alpha-5
  */
 
 /**

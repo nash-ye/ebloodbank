@@ -8,7 +8,7 @@
  */
 
 use EBloodBank as EBB;
-d__
+
 ?>
 <!doctype html>
 <html lang="<?= EBB\escAttr(dp__('winry', 'language code', 'en')) ?>" dir="<?= EBB\escAttr(dp__('winry', 'text direction', 'ltr')) ?>">

@@ -2,7 +2,7 @@
 /**
  * Template dropdowns helpers file
  *
- * @package EBloodBank
+ * @package eBloodBank
  * @since   1.0.1
  */
 namespace EBloodBank;

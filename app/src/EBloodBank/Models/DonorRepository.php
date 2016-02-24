@@ -2,7 +2,7 @@
 /**
  * Donor entity repository class file
  *
- * @package    EBloodBank
+ * @package    eBloodBank
  * @subpackage Models
  * @since      1.0
  */

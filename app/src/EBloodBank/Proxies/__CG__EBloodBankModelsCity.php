@@ -58,7 +58,7 @@ class City extends \EBloodBank\Models\City implements \Doctrine\ORM\Proxy\Proxy
 
 
     /**
-     * 
+     *
      * @return array
      */
     public function __sleep()
@@ -71,11 +71,11 @@ class City extends \EBloodBank\Models\City implements \Doctrine\ORM\Proxy\Proxy
     }
 
     /**
-     * 
+     *
      */
     public function __wakeup()
     {
-        if ( ! $this->__isInitialized__) {
+        if (! $this->__isInitialized__) {
             $this->__initializer__ = function (City $proxy) {
                 $proxy->__setInitializer(null);
                 $proxy->__setCloner(null);
@@ -83,7 +83,7 @@ class City extends \EBloodBank\Models\City implements \Doctrine\ORM\Proxy\Proxy
                 $existingProperties = get_object_vars($proxy);
 
                 foreach ($proxy->__getLazyProperties() as $property => $defaultValue) {
-                    if ( ! array_key_exists($property, $existingProperties)) {
+                    if (! array_key_exists($property, $existingProperties)) {
                         $proxy->$property = $defaultValue;
                     }
                 }
@@ -93,7 +93,7 @@ class City extends \EBloodBank\Models\City implements \Doctrine\ORM\Proxy\Proxy
     }
 
     /**
-     * 
+     *
      */
     public function __clone()
     {
@@ -172,7 +172,7 @@ class City extends \EBloodBank\Models\City implements \Doctrine\ORM\Proxy\Proxy
         return self::$lazyPropertiesDefaults;
     }
 
-    
+
     /**
      * {@inheritDoc}
      */
@@ -216,5 +216,4 @@ class City extends \EBloodBank\Models\City implements \Doctrine\ORM\Proxy\Proxy
 
         return parent::set($key, $value, $sanitize, $validate);
     }
-
 }

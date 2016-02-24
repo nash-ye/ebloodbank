@@ -2,7 +2,7 @@
 /**
  * Template hyperlinks helpers file
  *
- * @package EBloodBank
+ * @package eBloodBank
  * @since   1.0
  */
 namespace EBloodBank;
@@ -100,11 +100,11 @@ function getThemeURL($path = '', $theme = '')
 
     if (empty($theme)) {
         $theme = Themes::getCurrentTheme();
-    } else if (is_string($theme)) {
+    } elseif (is_string($theme)) {
         $theme = Themes::findTheme($theme);
     }
 
-    if(empty($theme) || ! $theme instanceof Theme) {
+    if (empty($theme) || ! $theme instanceof Theme) {
         return $url;
     }
 

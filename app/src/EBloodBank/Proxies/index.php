@@ -2,7 +2,7 @@
 /**
  * Blank index file
  *
- * @package    EBloodBank
+ * @package    eBloodBank
  * @subpackage Proxies
  * @since      1.0.3
  */

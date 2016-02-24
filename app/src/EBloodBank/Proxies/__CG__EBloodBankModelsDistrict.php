@@ -58,7 +58,7 @@ class District extends \EBloodBank\Models\District implements \Doctrine\ORM\Prox
 
 
     /**
-     * 
+     *
      * @return array
      */
     public function __sleep()
@@ -71,11 +71,11 @@ class District extends \EBloodBank\Models\District implements \Doctrine\ORM\Prox
     }
 
     /**
-     * 
+     *
      */
     public function __wakeup()
     {
-        if ( ! $this->__isInitialized__) {
+        if (! $this->__isInitialized__) {
             $this->__initializer__ = function (District $proxy) {
                 $proxy->__setInitializer(null);
                 $proxy->__setCloner(null);
@@ -83,7 +83,7 @@ class District extends \EBloodBank\Models\District implements \Doctrine\ORM\Prox
                 $existingProperties = get_object_vars($proxy);
 
                 foreach ($proxy->__getLazyProperties() as $property => $defaultValue) {
-                    if ( ! array_key_exists($property, $existingProperties)) {
+                    if (! array_key_exists($property, $existingProperties)) {
                         $proxy->$property = $defaultValue;
                     }
                 }
@@ -93,7 +93,7 @@ class District extends \EBloodBank\Models\District implements \Doctrine\ORM\Prox
     }
 
     /**
-     * 
+     *
      */
     public function __clone()
     {
@@ -172,7 +172,7 @@ class District extends \EBloodBank\Models\District implements \Doctrine\ORM\Prox
         return self::$lazyPropertiesDefaults;
     }
 
-    
+
     /**
      * {@inheritDoc}
      */
@@ -216,5 +216,4 @@ class District extends \EBloodBank\Models\District implements \Doctrine\ORM\Prox
 
         return parent::set($key, $value, $sanitize, $validate);
     }
-
 }
