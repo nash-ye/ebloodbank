@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 17:04+0300\n"
-"PO-Revision-Date: 2016-02-24 17:04+0300\n"
+"POT-Creation-Date: 2016-02-25 15:32+0300\n"
+"PO-Revision-Date: 2016-02-25 15:32+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: en\n"
@@ -89,7 +89,7 @@ msgstr ""
 
 #: EBloodBank/Controllers/AddUser.php:136
 #: EBloodBank/Controllers/EditUser.php:145
-#: EBloodBank/Controllers/Install.php:314 EBloodBank/Controllers/Signup.php:92
+#: EBloodBank/Controllers/Install.php:328 EBloodBank/Controllers/Signup.php:92
 msgid "Please enter the same password."
 msgstr ""
 
@@ -178,15 +178,15 @@ msgid_plural "%d users permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: EBloodBank/Controllers/Install.php:306 EBloodBank/Controllers/Signup.php:84
+#: EBloodBank/Controllers/Install.php:320 EBloodBank/Controllers/Signup.php:84
 msgid "Please enter your password."
 msgstr ""
 
-#: EBloodBank/Controllers/Install.php:310 EBloodBank/Controllers/Signup.php:88
+#: EBloodBank/Controllers/Install.php:324 EBloodBank/Controllers/Signup.php:88
 msgid "Please confirm your password."
 msgstr ""
 
-#: EBloodBank/Controllers/Install.php:334
+#: EBloodBank/Controllers/Install.php:367
 msgid "An unexpected error occurred while installing eBloodBank."
 msgstr ""
 

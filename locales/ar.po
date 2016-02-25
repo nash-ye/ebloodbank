@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eBloodBank 1.2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-24 17:04+0300\n"
-"PO-Revision-Date: 2016-02-24 17:05+0300\n"
+"POT-Creation-Date: 2016-02-25 15:33+0300\n"
+"PO-Revision-Date: 2016-02-25 15:33+0300\n"
 "Last-Translator: \n"
 "Language-Team: Nashwan Doaqan <nashwan.doaqan@gmail.com>\n"
 "Language: ar\n"
@@ -80,7 +80,7 @@ msgid "Please confirm the password."
 msgstr "يرجى تأكيد كلمة المرور."
 
 #: EBloodBank/Controllers/AddUser.php:136 EBloodBank/Controllers/EditUser.php:145
-#: EBloodBank/Controllers/Install.php:314 EBloodBank/Controllers/Signup.php:92
+#: EBloodBank/Controllers/Install.php:328 EBloodBank/Controllers/Signup.php:92
 msgid "Please enter the same password."
 msgstr "يرجى إدخال نفس كلمة المرور."
 
@@ -192,15 +192,15 @@ msgstr[3] "تم حذف %d مستخدمين بشكل دائم."
 msgstr[4] "تم حذف %d مستخدم بشكل دائم."
 msgstr[5] "تم حذف %d مستخدم بشكل دائم."
 
-#: EBloodBank/Controllers/Install.php:306 EBloodBank/Controllers/Signup.php:84
+#: EBloodBank/Controllers/Install.php:320 EBloodBank/Controllers/Signup.php:84
 msgid "Please enter your password."
 msgstr "يرجى إدخال كلمة مرورك"
 
-#: EBloodBank/Controllers/Install.php:310 EBloodBank/Controllers/Signup.php:88
+#: EBloodBank/Controllers/Install.php:324 EBloodBank/Controllers/Signup.php:88
 msgid "Please confirm your password."
 msgstr "يرجى تأكييد كلمة مرورك"
 
-#: EBloodBank/Controllers/Install.php:334
+#: EBloodBank/Controllers/Install.php:367
 msgid "An unexpected error occurred while installing eBloodBank."
 msgstr "حدث خطأ غير متوقع أثناء تنصيب eBloodBank."
 
