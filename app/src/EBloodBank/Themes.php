@@ -146,13 +146,15 @@ class Themes
         $themesDir = EBB_THEMES_DIR;
         $themePath = realpath("{$themesDir}/{$name}");
 
-        if (empty($themePath)) {
+        if (! $themePath || ! is_dir($themePath)) {
             return;
         }
 
-        if (is_dir($themePath) && dirname($themePath) === $themesDir) {
-            return new Theme($name, $themePath);
+        if (dirname($themePath) !== realpath($themesDir)) {
+            return;
         }
+
+        return new Theme($name, $themePath);
     }
 
     /**

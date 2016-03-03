@@ -141,7 +141,7 @@ class Theme
                 $stacks[] = trimTrailingSlash($stackDir->getRealPath());
             }
 
-            arsort($stacks); // Sort the stacks, High priority stack at first.
+            arsort($stacks); // Sort the stacks, high priority stack at first.
         }
 
         return $stacks;

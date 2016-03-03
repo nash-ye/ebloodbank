@@ -1,5 +1,1 @@
-- New Feature: Theming functionality.
-- Enhancement: Update jQuery to v2.2.1.
-- Enhancement: Use Tahoma and Arial fonts in the Arabic UI.
-- New Feature: Add support for Redis, APCu and File System cache.
-- Enhancement: Update Composer dependencies to the latest versions.
+- Bug Fix: Fix a bug related to files paths on Windows hosts.

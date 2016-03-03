@@ -142,13 +142,15 @@ class Locales
         $dirPath = trimTrailingSlash($dirPath);
         $localePath = realpath("{$dirPath}/{$code}.mo");
 
-        if (empty($localePath)) {
+        if (! $localePath || ! is_readable($localePath)) {
             return;
         }
 
-        if (dirname($localePath) === $dirPath&& is_readable($localePath)) {
-            return new Locale($code, "{$dirPath}/{$code}.mo");
+        if (dirname($localePath) !== realpath($dirPath)) {
+            return;
         }
+
+        return new Locale($code, $localePath);
     }
 
     /**
