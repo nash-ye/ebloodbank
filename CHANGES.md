@@ -1,1 +1,3 @@
-- Bug Fix: Fix a bug related to files paths on Windows hosts.
+- Bug Fix: Rename the duplicated "B+" blood group to "B-"
+- Enhancement: Update Composer dependencies.
+

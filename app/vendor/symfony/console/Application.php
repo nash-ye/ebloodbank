@@ -232,11 +232,21 @@ class Application
     /**
      * Gets the help message.
      *
-     * @return string A help message.
+     * @return string A help message
      */
     public function getHelp()
     {
         return $this->getLongVersion();
+    }
+
+    /**
+     * Gets whether to catch exceptions or not during commands execution.
+     *
+     * @return bool Whether to catch exceptions or not during commands execution
+     */
+    public function areExceptionsCaught()
+    {
+        return $this->catchExceptions;
     }
 
     /**
@@ -247,6 +257,16 @@ class Application
     public function setCatchExceptions($boolean)
     {
         $this->catchExceptions = (bool) $boolean;
+    }
+
+    /**
+     * Gets whether to automatically exit after a command execution or not.
+     *
+     * @return bool Whether to automatically exit after a command execution or not
+     */
+    public function isAutoExitEnabled()
+    {
+        return $this->autoExit;
     }
 
     /**
@@ -588,7 +608,11 @@ class Application
         $output->writeln('', OutputInterface::VERBOSITY_QUIET);
 
         do {
-            $title = sprintf('  [%s]  ', get_class($e));
+            $title = sprintf(
+                '  [%s%s]  ',
+                get_class($e),
+                $output->isVerbose() && 0 !== ($code = $e->getCode()) ? ' ('.$code.')' : ''
+            );
 
             $len = $this->stringWidth($title);
 
