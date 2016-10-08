@@ -257,7 +257,7 @@ class Main
      */
     private function setupRouter()
     {
-        $basepath = getHomeURL('relative');
+        $basepath = trimTrailingSlash(getHomeURL('relative'));
 
         $routerContainer = new RouterContainer($basepath);
         $this->getContainer()->set('router', $routerContainer);

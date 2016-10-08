@@ -8,8 +8,6 @@
  */
 namespace Aura\Router;
 
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
  *
  * An individual route with a name, path, attributes, defaults, etc.
@@ -30,11 +28,13 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @property-read array $attributes Attribute values added by the rules.
  *
- * @property-read array $tokens Plceholder token names and regexes.
+ * @property-read array $tokens Placeholder token names and regexes.
  *
  * @property-read string $wildcard The name of the wildcard token.
  *
  * @property-read array $accept
+ *
+ * @property-read mixed $auth The auth value.
  *
  * @property-read array $extras
  *
@@ -476,7 +476,7 @@ class Route
      *
      * Sets whether or not the route must be secure.
      *
-     * @param bool $secure If true, the server must indicate an HTTPS request;
+     * @param bool|null $secure If true, the server must indicate an HTTPS request;
      * if false, it must *not* be HTTPS; if null, it doesn't matter.
      *
      * @return $this

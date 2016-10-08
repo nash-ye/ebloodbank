@@ -54,6 +54,10 @@ class Randval implements RandvalInterface
     {
         $bytes = 32;
 
+        if ($this->phpfunc->function_exists('random_bytes')) {
+            return $this->phpfunc->random_bytes($bytes);
+        }
+
         if ($this->phpfunc->extension_loaded('openssl')) {
             return $this->phpfunc->openssl_random_pseudo_bytes($bytes);
         }
