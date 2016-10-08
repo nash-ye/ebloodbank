@@ -1,3 +1,4 @@
 /cache/
+/app/vendor/
 /app/config.php
 /nbproject/private/
