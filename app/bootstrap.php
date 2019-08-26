@@ -11,7 +11,7 @@
 define('EBB_CODENAME', 'winry');
 define('EBB_VERSION', '1.4-alpha-1');
 
-define('EBB_MIN_PHP_VERSION', '5.5');
+define('EBB_MIN_PHP_VERSION', '7.2');
 define('EBB_MIN_MYSQL_VERSION', '5.0');
 
 /*** Requirements *************************************************************/

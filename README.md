@@ -1,7 +1,7 @@
 eBloodBank
 ==========
 
-A Premium Blood Bank System.
+A premium blood bank system.
 
 Feature Highlights
 ------------------
@@ -20,13 +20,10 @@ Feature Highlights
 
 - **Pretty Permalinks** eBloodBank add support for the Pretty Permalinks which make sense and not filled with incomprehensible parameters.
 
-- **Secure** eBloodBank is protected from the common security vulnerabilities such as SQL Injection, XSS and CSRF...etc.
-
-
 Requirements
 ------------------
 
-- PHP version 5.5 or higher.
+- PHP version 7.2 or higher.
 - MySQL version 5.0 or higher.
 - The mod_rewrite Apache module.
 

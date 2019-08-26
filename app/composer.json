@@ -1,6 +1,6 @@
 {
-    "name": "nash1ye/ebloodbank",
-    "description": "A Premium Blood Bank System.",
+    "name": "nash-ye/ebloodbank",
+    "description": "A premium blood bank system.",
     "version": "1.4-alpha-1",
     "license": "GPL-3.0+",
     "type": "project",
@@ -8,12 +8,12 @@
         {
             "name": "Nashwan Doaqan",
             "email": "nashwan.doaqan@gmail.com",
-            "homepage": "http://nashwan-d.com",
+            "homepage": "https://github.com/nash-ye",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": ">5.5",
+        "php": ">7.2",
         "ext-PDO": "*",
         "ext-filter": "*",
         "ext-session": "*",
