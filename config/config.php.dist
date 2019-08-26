@@ -11,7 +11,7 @@
  * @var   string
  * @since 1.0
  */
-define('EBB_DB_NAME', 'ebb_demo');
+define('EBB_DB_NAME', '');
 
 /**
  * MySQL database username.
@@ -19,7 +19,7 @@ define('EBB_DB_NAME', 'ebb_demo');
  * @var string
  * @since 1.0
  */
-define('EBB_DB_USER', 'nash1ye');
+define('EBB_DB_USER', '');
 
 /**
  * Database password.
@@ -27,7 +27,7 @@ define('EBB_DB_USER', 'nash1ye');
  * @var   string
  * @since 1.0
  */
-define('EBB_DB_PASS', 'mysql');
+define('EBB_DB_PASS', '');
 
 /**
  * Database host.
@@ -35,7 +35,7 @@ define('EBB_DB_PASS', 'mysql');
  * @var   string
  * @since 1.0
  */
-define('EBB_DB_HOST', 'db.test');
+define('EBB_DB_HOST', 'localhost');
 
 /**
  * Database driver.
