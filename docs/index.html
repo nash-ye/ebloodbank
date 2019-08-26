@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<meta charset="UTF-8">
+	<title>eBloodBank Documentation</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css" type="text/css">
+</head>
+
+<body>
+	<div class="container">
+
+		<h1 class="text-center">eBloodBank v1.3.3 Documentation</h1>
+		<hr>
+
+		<div class="row">
+			<div class="col-sm-4 well well-sm">
+				<p>
+					By: <strong>Nashwan Doaqan</strong><br>
+					Email: <a href="mailto:nashwan.doaqan@gmail.com">nashwan.doaqan@gmail.com</a>
+				</p>
+			</div>
+			<div class="col-sm-8">
+				<p>Thank you for purchasing eBloodBank. If you have any questions that are beyond the scope of this help file, please feel free to email via my user page contact form <a href="https://codecanyon.net/user/nash-ye/">here</a>. Thanks so much!</p>
+			</div>
+		</div>
+
+		<hr>
+
+		<h2 id="toc">Table of Contents</h2>
+
+		<ol style="list-style-type: upper-alpha;">
+			<li><a href="#features">Feature Highlights</a></li>
+			<li><a href="#requirements">Requirements</a></li>
+			<li><a href="#installation">Installation</a></li>
+			<li><a href="#customization">Customization</a></li>
+			<li><a href="#credits">Credits</a></li>
+			<li><a href="#license">License</a></li>
+		</ol>
+
+		<hr>
+
+		<h3 id="features"><strong>A) Feature Highlights</strong></h3>
+
+		<ul>
+			<li><b>Customizable</b>: eBloodBank code is nicely organized to make the customization process a piece of cake.</li>
+			<li><b>Ease to Use</b>: eBloodBank designed with usability in mind, it's efficient to use and easy to learn.</li>
+			<li><b>Translation Ready</b>: Not an English user? Never mind, eBloodBank is ready for translation to your language.</li>
+			<li><b>Users Management</b>: eBloodBank ships with a straightforward users management system which includes, but is not limited to, the authentication, session and role-based-access-control mechanisms.</li>
+			<li><b>Donors Management</b>: Storing blood donors data is not a messy process anymore, eBloodBank offers a simple user-interface to add, edit, approve, remove and search by a specific criteria.</li>
+			<li><b>City\District Taxonomy</b>: Being organized is being in control, eBloodBank provides an ability to categorize the donors by a manageable cities and districts list.</li>
+			<li><b>Pretty Permalinks</b>: eBloodBank add support for the Pretty Permalinks, which make sense and not filled with incomprehensible parameters.</li>
+			<li><b>Secure</b>: eBloodBank is protected from the common security vulnerabilities such as SQL Injection, XSS and CSRF...etc</li>
+		</ul>
+
+		<hr>
+
+		<h3 id="requirements"><strong>B) Requirements</strong></h3>
+
+		<ul>
+			<li>PHP version 5.5 or higher.</li>
+			<li>MySQL version 5.0 or higher.</li>
+			<li>The mod_rewrite Apache module.</li>
+		</ul>
+
+		<hr>
+
+		<h3 id="installation"><strong>C) Installation</strong></h3>
+
+		<ol>
+			<li>
+			Open <code>app/config-sample.php</code> file in a text editor, fill in your information, and save it as <code>app/config.php</code>.
+			<figure class="figure">
+				<img src="assets/images/install-1.png" class="img-responsive" alt="">
+			</figure>
+			</li>
+			<li>
+			Open install.php in your browser and follow up the installer instructions.
+			<figure class="figure">
+				<img src="assets/images/install-2.png" class="img-responsive" alt="">
+			</figure>
+			<figure class="figure">
+				<img src="assets/images/install-3.png" class="img-responsive" alt="">
+			</figure>
+			</li>
+			<li>
+			Sign in with the user e-mail and password you chose during the installation.
+			<figure class="figure">
+				<img src="assets/images/install-4.png" class="img-responsive" alt="">
+			</figure>
+			<figure class="figure">
+				<img src="assets/images/install-5.png" class="img-responsive" alt="">
+			</figure>
+			</li>
+		</ol>
+
+		<hr>
+
+		<h3 id="customization"><strong>D) Customization</strong></h3>
+
+		<p>eBloodBank v1.3 ships with a straightforward theming system to let the developers customize their website appearance.</p>
+		
+		<h3>Creating a new theme</h3>
+		
+		<ol>
+			<li>Create a new folder in the <code>themes</code> directory, let's name it <code>my-winry</code> for an example.</li>
+			<li>Create the <code>theme.yml</code> file inside it to store the theme information, for an example:<pre><code>Name: My Winry<br>Version: 1.0<br>Textdomain: winry<br>Author Name: Nashwan Doaqan<br>Author URL: http://nashwan-d.com<br>Description: My eBloodbank theme.</code></pre></li>
+			<li>Copy the <code>templates</code>, <code>locales</code> and <code>assets</code> directories from the default theme <code>winry</code> and then start editing any template or stylesheet you want to modify. The default theme is a great start point, you can learn a lot from it.</li>
+		</ol>
+		
+		<h3>Creating a new template stack</h3>
+		
+		<p>Sometimes you don't need a new whole theme, maybe you just want to modify a few templates like <code>header.php</code>, <code>footer.php</code> or <code>home.php</code>. The template stacks feature could be very helpful in this case.</p>
+
+		<ol>
+			<li>Create a new folder in the <code>templates</code> directory, it's recommended to use numerical names greater than <code>0</code>.</li>
+			<li>Copy the template you want to modify from the <code>0</code> stack to your new created one and start editing it's contents.</li>
+		</ol>
+		
+		<hr>
+
+		<h3 id="credits"><strong>E) Credits</strong></h3>
+
+		<ul>
+			<li><a href="https://jquery.com/">jQuery</a></li>
+			<li><a href="http://getbootstrap.com/">Twitter Bootstrap</a></li>
+			<li><a href="https://github.com/morteza/bootstrap-rtl">Twitter Bootstrap RTL</a></li>
+			<li><a href="https://getcomposer.org/">Composer</a></li>
+			<li><a href="https://github.com/auraphp/Aura.Router">Aura Router</a></li>
+			<li><a href="https://github.com/auraphp/Aura.Session">Aura Session</a></li>
+			<li><a href="https://github.com/auraphp/Aura.Dispatcher">Aura Dispatcher</a></li>
+			<li><a href="http://www.doctrine-project.org/projects/orm.html">Doctrine ORM</a></li>
+			<li><a href="https://github.com/zendframework/zend-diactoros">Zend Diactoros</a></li>
+			<li><a href="https://github.com/Seldaek/monolog">Monolog</a></li>
+			<li><a href="https://github.com/oscarotero/Gettext">Gettext</a></li>
+			<li><a href="http://swiftmailer.org/">SwiftMailer</a></li>
+		</ul>
+
+		<hr>
+
+		<h3 id="license"><strong>F) License</strong></h3>
+
+		<p>eBloodBank is released under the terms of the GPL version 3 or (at your option) any later version.</p>
+
+		<hr>
+
+		<p><a href="#toc">Go To Table of Contents</a></p>
+
+	</div>
+</body>
+</html>
