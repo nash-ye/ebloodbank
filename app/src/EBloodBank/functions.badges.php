@@ -2,7 +2,7 @@
 /**
  * Template badges helpers file
  *
- * @package eBloodBank
+ * @package EBloodBank
  * @since   1.1
  */
 namespace EBloodBank;

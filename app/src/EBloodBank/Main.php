@@ -2,7 +2,7 @@
 /**
  * Main class file
  *
- * @package eBloodBank
+ * @package EBloodBank
  * @since   1.0
  */
 namespace EBloodBank;

@@ -2,7 +2,7 @@
 /**
  * Theme class file
  *
- * @package eBloodBank
+ * @package EBloodBank
  * @since   1.3
  */
 namespace EBloodBank;
