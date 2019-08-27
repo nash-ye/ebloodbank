@@ -53,10 +53,10 @@ function toAttributes(array $atts, array $args = null)
     }
 
     $args = array_merge(
-        array(
+        [
             'after' => '',
             'before' => ' ',
-        ),
+        ],
         (array) $args
     );
 

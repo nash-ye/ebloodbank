@@ -36,7 +36,7 @@ class Role
      * @var array
      * @since 1.0
      */
-    protected $caps = array();
+    protected $caps = [];
 
     /**
      * @return void

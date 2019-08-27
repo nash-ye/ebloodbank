@@ -21,7 +21,7 @@ class Roles
      * @since 1.0
      * @static
      */
-    private static $roles = array();
+    private static $roles = [];
 
     /**
      * @access private

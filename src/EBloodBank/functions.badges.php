@@ -17,11 +17,11 @@ function getPendingUsersCountBadge(array $args = [])
 {
     $badge = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'atts' => [],
         'before' => ' ',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -54,11 +54,11 @@ function getPendingDonorsCountBadge(array $args = [])
 {
     $badge = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'atts' => [],
         'before' => ' ',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 

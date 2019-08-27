@@ -71,12 +71,12 @@ function getHomeLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Home'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $args['atts']['href'] = getHomeURL();
 
@@ -147,12 +147,12 @@ function getLoginLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Log In'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     if (isUserLoggedIn()) {
         return $link;
@@ -175,9 +175,9 @@ function getLoginLink(array $args = [])
 function getLogoutURL()
 {
     $url = getLoginURL();
-    $url = addQueryArgs($url, array(
+    $url = addQueryArgs($url, [
         'action' => 'logout',
-    ));
+    ]);
     return $url;
 }
 
@@ -189,12 +189,12 @@ function getLogoutLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Log Out'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     if (! isUserLoggedIn()) {
         return $link;
@@ -228,12 +228,12 @@ function getSignupLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Sign Up'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     if ('on' !== Options::getOption('self_registration')) {
         return $link;
@@ -341,12 +341,12 @@ function getUsersLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Users'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -372,12 +372,12 @@ function getAddUserLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Add'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -403,12 +403,12 @@ function getEditUsersLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -434,14 +434,14 @@ function getEditUserLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'fallbackContent' => false,
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'user' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['user'] instanceof User) {
         return $args['fallbackContent'] ? $args['content'] : $link;
@@ -471,13 +471,13 @@ function getDeleteUserLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Delete'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'user' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['user'] instanceof User) {
         return $link;
@@ -507,13 +507,13 @@ function getActivateUserLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Activate'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'user' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['user'] instanceof User || ! $args['user']->isPending()) {
         return $link;
@@ -644,12 +644,12 @@ function getDonorsLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Donors'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -675,13 +675,13 @@ function getDonorLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => '',
         'atts' => [],
         'before' => '',
         'after' => '',
         'donor' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['donor'] instanceof Donor) {
         return $link;
@@ -715,12 +715,12 @@ function getAddDonorLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Add'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -746,12 +746,12 @@ function getEditDonorsLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -777,14 +777,14 @@ function getEditDonorLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'fallbackContent' => false,
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'donor' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['donor'] instanceof Donor) {
         return $args['fallbackContent'] ? $args['content'] : $link;
@@ -814,13 +814,13 @@ function getDeleteDonorLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Delete'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'donor' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['donor'] instanceof Donor) {
         return $link;
@@ -850,13 +850,13 @@ function getApproveDonorLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Approve'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'donor' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['donor'] instanceof Donor || ! $args['donor']->isPending()) {
         return $link;
@@ -952,12 +952,12 @@ function getCitiesLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Cities'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -983,12 +983,12 @@ function getAddCityLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Add'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -1014,12 +1014,12 @@ function getEditCitiesLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -1045,14 +1045,14 @@ function getEditCityLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'fallbackContent' => false,
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'city' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['city'] instanceof City) {
         return $args['fallbackContent'] ? $args['content'] : $link;
@@ -1082,13 +1082,13 @@ function getDeleteCityLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Delete'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'city' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['city'] instanceof City) {
         return $link;
@@ -1184,12 +1184,12 @@ function getDistrictsLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Districts'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -1215,12 +1215,12 @@ function getAddDistrictLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Add'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -1246,12 +1246,12 @@ function getEditDistrictsLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -1277,14 +1277,14 @@ function getEditDistrictLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'fallbackContent' => false,
         'content' => __('Edit'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'district' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['district'] instanceof District) {
         return $args['fallbackContent'] ? $args['content'] : $link;
@@ -1314,13 +1314,13 @@ function getDeleteDistrictLink(array $args)
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Delete'),
         'atts' => [],
         'before' => '',
         'after' => '',
         'district' => null,
-    ), $args);
+    ], $args);
 
     if (! $args['district'] instanceof District) {
         return $link;
@@ -1362,12 +1362,12 @@ function getSettingsLink(array $args = [])
 {
     $link = '';
 
-    $args = array_merge(array(
+    $args = array_merge([
         'content' => __('Settings'),
         'atts' => [],
         'before' => '',
         'after' => '',
-    ), $args);
+    ], $args);
 
     $currentUser = getCurrentUser();
 
@@ -1393,13 +1393,13 @@ function getSettingsLink(array $args = [])
  */
 function getPaginationURLs(array $args)
 {
-    $urls = array();
+    $urls = [];
 
-    $args = array_merge(array(
+    $args = array_merge([
         'total'    => 1,
         'base_url' => '',
         'page_url' => '',
-    ), $args);
+    ], $args);
 
     $args['total'] = (int) $args['total'];
 

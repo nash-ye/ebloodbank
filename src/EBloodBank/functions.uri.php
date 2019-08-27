@@ -72,7 +72,7 @@ function addQueryArgs($uri, array $query_args)
         $query = '';
     }
 
-    $query_array = array();
+    $query_array = [];
     parse_str($query, $query_array);
 
     foreach ($query_args as $key => $value) {

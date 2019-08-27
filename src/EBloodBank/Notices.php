@@ -21,7 +21,7 @@ class Notices
      * @since 1.0
      * @static
      */
-    private static $notices = array();
+    private static $notices = [];
 
     /**
      * @access private
@@ -82,11 +82,11 @@ class Notices
             return false;
         }
 
-        self::$notices[$code] = (object) array(
+        self::$notices[$code] = (object) [
             'code' => $code,
             'type' => $type,
             'msg'  => $msg,
-        );
+        ];
 
         return true;
     }
