@@ -2,7 +2,7 @@
 /**
  * Error 404 page template
  *
- * @package    Winry Theme
+ * @package    WinryTheme
  * @subpackage Templates
  * @since      1.0
  */

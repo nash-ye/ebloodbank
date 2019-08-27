@@ -2,7 +2,7 @@
 /**
  * Add user page template
  *
- * @package    Winry Theme
+ * @package    WinryTheme
  * @subpackage Templates
  * @since      1.0
  */

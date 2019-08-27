@@ -2,7 +2,7 @@
 /**
  * Page header template
  *
- * @package    Winry Theme
+ * @package    WinryTheme
  * @subpackage Templates
  * @since      1.0
  */
@@ -19,13 +19,13 @@ use EBloodBank\Options;
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="<?= EBB\escURL(EBB\getThemeURL('/assets/components/bootstrap/css/bootstrap.min.css')) ?>" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
         <?php if ('rtl' === dp__('winry', 'text direction', 'ltr')) : ?>
-        <link rel="stylesheet" href="<?= EBB\escURL(EBB\getThemeURL('/assets/components/bootstrap-rtl/css/bootstrap-rtl.min.css')) ?>" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-rtl@3.3.4/dist/css/bootstrap-rtl.min.css">
         <?php endif; ?>
 		<link rel="stylesheet" href="<?= EBB\escURL(EBB\getThemeURL('/assets/css/style.css')) ?>" />
 
-        <script src="<?= EBB\escURL(EBB\getThemeURL('/assets/components/jquery/jquery.min.js')) ?>"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
 	</head>
 
 	<body>

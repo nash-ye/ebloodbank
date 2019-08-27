@@ -2,20 +2,15 @@
 /**
  * Page footer template
  *
- * @package    Winry Theme
+ * @package    WinryTheme
  * @subpackage Templates
  * @since      1.0
  */
-
-use EBloodBank as EBB;
-
 ?>
 
 		</div>
 		<!-- /.container -->
 
-		<script src="<?= EBB\escURL(EBB\getThemeURL('/assets/components/bootstrap/js/bootstrap.min.js')) ?>"></script>
-
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 	</body>
-
 </html>
