@@ -12,7 +12,7 @@
 <body>
 	<div class="container">
 
-		<h1 class="text-center">eBloodBank v1.3.3 Documentation</h1>
+		<h1 class="text-center">eBloodBank v1.4 Documentation</h1>
 		<hr>
 
 		<div class="row">
@@ -23,7 +23,7 @@
 				</p>
 			</div>
 			<div class="col-sm-8">
-				<p>Thank you for purchasing eBloodBank. If you have any questions that are beyond the scope of this help file, please feel free to email via my user page contact form <a href="https://codecanyon.net/user/nash-ye/">here</a>. Thanks so much!</p>
+				<p>Thank you for using eBloodBank. If you have any questions that are beyond the scope of this help file, please feel free to email me. Thanks so much!</p>
 			</div>
 		</div>
 
@@ -52,7 +52,6 @@
 			<li><b>Donors Management</b>: Storing blood donors data is not a messy process anymore, eBloodBank offers a simple user-interface to add, edit, approve, remove and search by a specific criteria.</li>
 			<li><b>City\District Taxonomy</b>: Being organized is being in control, eBloodBank provides an ability to categorize the donors by a manageable cities and districts list.</li>
 			<li><b>Pretty Permalinks</b>: eBloodBank add support for the Pretty Permalinks, which make sense and not filled with incomprehensible parameters.</li>
-			<li><b>Secure</b>: eBloodBank is protected from the common security vulnerabilities such as SQL Injection, XSS and CSRF...etc</li>
 		</ul>
 
 		<hr>
@@ -60,9 +59,9 @@
 		<h3 id="requirements"><strong>B) Requirements</strong></h3>
 
 		<ul>
-			<li>PHP version 5.5 or higher.</li>
-			<li>MySQL version 5.0 or higher.</li>
-			<li>The mod_rewrite Apache module.</li>
+			<li>PHP version 7.2 or higher.</li>
+			<li>MySQL version 5.7 or higher.</li>
+			<li>Apache HTTP server (with mod_rewrite module) or Nginx.</li>
 		</ul>
 
 		<hr>
@@ -71,7 +70,7 @@
 
 		<ol>
 			<li>
-			Open <code>app/config-sample.php</code> file in a text editor, fill in your information, and save it as <code>app/config.php</code>.
+			Open <code>config/config.php.dist</code> file in a text editor, fill in your information, and save it as <code>config/config.php</code>.
 			<figure class="figure">
 				<img src="assets/images/install-1.png" class="img-responsive" alt="">
 			</figure>
@@ -100,7 +99,7 @@
 
 		<h3 id="customization"><strong>D) Customization</strong></h3>
 
-		<p>eBloodBank v1.3 ships with a straightforward theming system to let the developers customize their website appearance.</p>
+		<p>eBloodBank ships with a straightforward theming system to let the developers customize their website appearance.</p>
 		
 		<h3>Creating a new theme</h3>
 		

@@ -24,7 +24,7 @@ Requirements
 ------------------
 
 - PHP version 7.2 or higher.
-- MySQL version 5.0 or higher.
+- MySQL version 5.7 or higher.
 - Apache HTTP server (with mod_rewrite module) or Nginx.
 
 

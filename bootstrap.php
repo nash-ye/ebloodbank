@@ -1,6 +1,6 @@
 <?php
 /**
- * eBloodBank bootstrapper
+ * System bootstrapper
  *
  * @package EBloodBank
  * @since   1.0
@@ -12,7 +12,7 @@ define('EBB_CODENAME', 'winry');
 define('EBB_VERSION', '1.4-alpha-1');
 
 define('EBB_MIN_PHP_VERSION', '7.2');
-define('EBB_MIN_MYSQL_VERSION', '5.0');
+define('EBB_MIN_MYSQL_VERSION', '5.7');
 
 /*** Requirements *************************************************************/
 
@@ -165,7 +165,7 @@ require EBB_DIR . '/vendor/autoload.php';
 /**
  * The true EBloodBank main instance.
  *
- * @var EBloodBank\Main
+ * @var   EBloodBank\Main
  * @since 1.2
  */
 $EBloodBank = EBloodBank\Main::getInstance();
