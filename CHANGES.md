@@ -1,3 +1,4 @@
-- Bug Fix: Remove the trailing slash from the base path to fix wrong 404 pages bug.
-- Enhancement: Update Composer dependencies.
-
+- Update code architecture.
+- Load jQuery and Bootstrap from jsDelivr CDN.
+- Raise PHP and MySQL versions requirement.
+- Use JSON column type instead of separated tables. 
