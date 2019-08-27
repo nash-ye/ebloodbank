@@ -2,7 +2,7 @@
 /**
  * Donor entity class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Models
  * @since      1.0
  */
@@ -27,7 +27,9 @@ class Donor extends Entity
     use EntityMeta;
 
     /**
-     * @var int
+     * Donor ID
+     * 
+     * @var   int
      * @since 1.0
      *
      * @Id
@@ -37,7 +39,9 @@ class Donor extends Entity
     protected $id = 0;
 
     /**
-     * @var string
+     * Donor name
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="donor_name")
@@ -45,7 +49,9 @@ class Donor extends Entity
     protected $name;
 
     /**
-     * @var string
+     * Donor gender
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="donor_gender")
@@ -53,7 +59,9 @@ class Donor extends Entity
     protected $gender;
 
     /**
-     * @var string
+     * Donor birthdate
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="donor_birthdate")
@@ -61,7 +69,9 @@ class Donor extends Entity
     protected $birthdate;
 
     /**
-     * @var string
+     * Donor blood group
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="donor_blood_group")
@@ -69,16 +79,20 @@ class Donor extends Entity
     protected $blood_group;
 
     /**
-     * @var District
+     * Donor district
+     * 
+     * @var   District
      * @since 1.0
      *
-     * @ManyToOne(targetEntity="EBloodBank\Models\District")
+     * @ManyToOne(targetEntity="EBloodBank\Models\District", inversedBy="donors")
      * @JoinColumn(name="donor_district_id", referencedColumnName="district_id")
      */
     protected $district;
 
     /**
-     * @var string
+     * Donor creation datetime
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="datetime", name="donor_created_at")
@@ -86,7 +100,9 @@ class Donor extends Entity
     protected $created_at;
 
     /**
-     * @var User
+     * Donor created by
+     * 
+     * @var   User
      * @since 1.0
      *
      * @ManyToOne(targetEntity="EBloodBank\Models\User")
@@ -95,12 +111,24 @@ class Donor extends Entity
     protected $created_by;
 
     /**
-     * @var string
+     * Donor status
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="donor_status")
      */
     protected $status;
+
+    /**
+     * Donor meta
+     * 
+     * @var   array
+     * @since 1.0
+     *
+     * @Column(type="json", name="donor_meta")
+     */
+    protected $meta = [];
 
     /**
      * @return bool
@@ -247,23 +275,24 @@ class Donor extends Entity
      * @since 1.0
      * @static
      */
-    public static function sanitizeMeta($metaKey, $metaValue)
+    public static function sanitizeMeta(string $key, $value)
     {
-        switch ($metaKey) {
+        switch ($key) {
             case 'weight':
-                $metaValue = EBB\sanitizeFloat($metaValue);
+                $value = EBB\sanitizeFloat($value);
                 break;
             case 'email':
-                $metaValue = EBB\sanitizeEmail($metaValue);
+                $value = EBB\sanitizeEmail($value);
                 break;
             case 'phone':
-                $metaValue = EBB\sanitizeInteger($metaValue);
+                $value = EBB\sanitizeInteger($value);
                 break;
             case 'address':
-                $metaValue = EBB\sanitizeTitle($metaValue);
+                $value = EBB\sanitizeTitle($value);
                 break;
         }
-        return $metaValue;
+
+        return $value;
     }
 
     /**
@@ -272,32 +301,32 @@ class Donor extends Entity
      * @since 1.0
      * @static
      */
-    public static function validateMeta($metaKey, $metaValue)
+    public static function validateMeta(string $key, $value)
     {
-        switch ($metaKey) {
+        switch ($key) {
             case 'weight':
-                if (! empty($metaValue) && ! EBB\isValidFloat($metaValue)) {
+                if (! empty($value) && ! EBB\isValidFloat($value)) {
                     // TODO: Check Min and Max weight.
                     throw new InvalidArgumentException(__('Invalid donor weight.'));
                 }
                 break;
             case 'email':
-                if (! empty($metaValue) && ! EBB\isValidEmail($metaValue)) {
+                if (! empty($value) && ! EBB\isValidEmail($value)) {
                     throw new InvalidArgumentException(__('Invalid donor e-mail address.'));
                 }
                 break;
             case 'email_visibility':
-                if (! empty($metaValue) && ! array_key_exists($metaValue, EBB\getVisibilities())) {
+                if (! empty($value) && ! array_key_exists($value, EBB\getVisibilities())) {
                     throw new InvalidArgumentException(__('Invalid donor e-mail address visibility.'));
                 }
                 break;
             case 'phone':
-                if (! empty($metaValue) && ! ctype_digit($metaValue)) {
+                if (! empty($value) && ! ctype_digit($value)) {
                     throw new InvalidArgumentException(__('Invalid donor phone number.'));
                 }
                 break;
             case 'phone_visibility':
-                if (! empty($metaValue) && ! array_key_exists($metaValue, EBB\getVisibilities())) {
+                if (! empty($value) && ! array_key_exists($value, EBB\getVisibilities())) {
                     throw new InvalidArgumentException(__('Invalid donor phone number visibility.'));
                 }
                 break;

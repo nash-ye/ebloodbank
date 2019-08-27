@@ -2,7 +2,7 @@
 /**
  * View users page controller class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
  * @since      1.0
  */

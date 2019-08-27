@@ -2,7 +2,7 @@
 /**
  * Log-in page controller class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
  * @since      1.0
  */

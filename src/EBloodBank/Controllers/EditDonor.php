@@ -2,7 +2,7 @@
 /**
  * Edit donor page controller class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
  * @since      1.0
  */
@@ -140,22 +140,22 @@ class EditDonor extends Controller
             $donor->set('district', $districtRepository->find(filter_input(INPUT_POST, 'donor_district_id')));
 
             // Set the donor weight.
-            $donor->submitMeta('weight', filter_input(INPUT_POST, 'donor_weight'), $donor->getMeta('weight'), true);
+            $donor->setMeta('weight', filter_input(INPUT_POST, 'donor_weight'), true);
 
             // Set the donor email address.
-            $donor->submitMeta('email', filter_input(INPUT_POST, 'donor_email'), $donor->getMeta('email'), true);
+            $donor->setMeta('email', filter_input(INPUT_POST, 'donor_email'), true);
 
             // Set the donor email address visibility.
-            $donor->submitMeta('email_visibility', filter_input(INPUT_POST, 'donor_email_visibility'), true);
+            $donor->setMeta('email_visibility', filter_input(INPUT_POST, 'donor_email_visibility'), true);
 
             // Set the donor phone number.
-            $donor->submitMeta('phone', filter_input(INPUT_POST, 'donor_phone'), $donor->getMeta('phone'), true);
+            $donor->setMeta('phone', filter_input(INPUT_POST, 'donor_phone'), true);
 
             // Set the donor phone number visibility.
-            $donor->submitMeta('phone_visibility', filter_input(INPUT_POST, 'donor_phone_visibility'), true);
+            $donor->setMeta('phone_visibility', filter_input(INPUT_POST, 'donor_phone_visibility'), true);
 
             // Set the donor address.
-            $donor->submitMeta('address', filter_input(INPUT_POST, 'donor_address'), $donor->getMeta('address'), true);
+            $donor->setMeta('address', filter_input(INPUT_POST, 'donor_address'), true);
 
             // Set the donor status.
             if ($donor->isApproved() && ! $currentUser->canApproveDonors()) {

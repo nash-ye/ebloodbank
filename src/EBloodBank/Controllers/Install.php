@@ -2,7 +2,7 @@
 /**
  * Install page controller class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
  * @since      1.0
  */
@@ -105,15 +105,16 @@ class Install extends Controller
         /*** Users Table **************************************************/
 
         $stmts[] = <<<'SQL'
-CREATE  TABLE IF NOT EXISTS `user` (
-  `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `user_name` VARCHAR(255) NOT NULL ,
-  `user_email` VARCHAR(100) NOT NULL ,
-  `user_pass` VARCHAR(128) NOT NULL ,
-  `user_role` VARCHAR(45) NOT NULL ,
-  `user_created_at` DATETIME NOT NULL ,
-  `user_status` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`user_id`) )
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_name` VARCHAR(255) NOT NULL,
+  `user_email` VARCHAR(100) NOT NULL,
+  `user_pass` VARCHAR(128) NOT NULL,
+  `user_role` VARCHAR(45) NOT NULL,
+  `user_created_at` DATETIME NOT NULL,
+  `user_status` VARCHAR(45) NOT NULL,
+  `user_meta` JSON NULL,
+  PRIMARY KEY (`user_id`))
 ENGINE = InnoDB
 SQL;
 
@@ -124,15 +125,15 @@ SQL;
         /*** Cities Table *************************************************/
 
         $stmts[] = <<<'SQL'
-CREATE  TABLE IF NOT EXISTS `city` (
-  `city_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `city_name` VARCHAR(255) NOT NULL ,
-  `city_created_at` DATETIME NOT NULL ,
-  `city_created_by` INT UNSIGNED NULL ,
-  PRIMARY KEY (`city_id`) ,
+CREATE TABLE IF NOT EXISTS `city` (
+  `city_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `city_name` VARCHAR(255) NOT NULL,
+  `city_created_at` DATETIME NOT NULL,
+  `city_created_by` INT UNSIGNED NULL,
+  PRIMARY KEY (`city_id`),
   CONSTRAINT `city_created_by`
-    FOREIGN KEY (`city_created_by` )
-    REFERENCES `user` (`user_id` )
+    FOREIGN KEY (`city_created_by`)
+    REFERENCES `user` (`user_id`)
     ON DELETE SET NULL
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -149,21 +150,21 @@ SQL;
         /*** Districts Table **********************************************/
 
         $stmts[] = <<<'SQL'
-CREATE  TABLE IF NOT EXISTS `district` (
-  `district_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `district_name` VARCHAR(255) NOT NULL ,
-  `district_city_id` INT UNSIGNED NOT NULL ,
-  `district_created_at` DATETIME NOT NULL ,
-  `district_created_by` INT UNSIGNED NULL ,
-  PRIMARY KEY (`district_id`) ,
+CREATE TABLE IF NOT EXISTS `district` (
+  `district_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `district_name` VARCHAR(255) NOT NULL,
+  `district_city_id` INT UNSIGNED NOT NULL,
+  `district_created_at` DATETIME NOT NULL,
+  `district_created_by` INT UNSIGNED NULL,
+  PRIMARY KEY (`district_id`),
   CONSTRAINT `district_city_id`
-    FOREIGN KEY (`district_city_id` )
-    REFERENCES `city` (`city_id` )
+    FOREIGN KEY (`district_city_id`)
+    REFERENCES `city` (`city_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `district_created_by`
-    FOREIGN KEY (`district_created_by` )
-    REFERENCES `user` (`user_id` )
+    FOREIGN KEY (`district_created_by`)
+    REFERENCES `user` (`user_id`)
     ON DELETE SET NULL
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -184,25 +185,26 @@ SQL;
         /*** Donors Table *************************************************/
 
         $stmts[] = <<<'SQL'
-CREATE  TABLE IF NOT EXISTS `donor` (
-  `donor_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `donor_name` VARCHAR(255) NOT NULL ,
-  `donor_gender` VARCHAR(45) NOT NULL ,
-  `donor_birthdate` DATE NOT NULL ,
-  `donor_blood_group` VARCHAR(45) NOT NULL ,
-  `donor_district_id` INT UNSIGNED NOT NULL ,
-  `donor_created_at` DATETIME NOT NULL ,
-  `donor_created_by` INT UNSIGNED NULL ,
-  `donor_status` VARCHAR(45) NOT NULL ,
-  PRIMARY KEY (`donor_id`) ,
+CREATE TABLE IF NOT EXISTS `donor` (
+  `donor_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `donor_name` VARCHAR(255) NOT NULL,
+  `donor_gender` VARCHAR(45) NOT NULL,
+  `donor_birthdate` DATE NOT NULL,
+  `donor_blood_group` VARCHAR(45) NOT NULL,
+  `donor_district_id` INT UNSIGNED NOT NULL,
+  `donor_created_at` DATETIME NOT NULL,
+  `donor_created_by` INT UNSIGNED NULL,
+  `donor_status` VARCHAR(45) NOT NULL,
+  `donor_meta` JSON NULL,
+  PRIMARY KEY (`donor_id`),
   CONSTRAINT `donor_district_id`
-    FOREIGN KEY (`donor_district_id` )
-    REFERENCES `district` (`district_id` )
+    FOREIGN KEY (`donor_district_id`)
+    REFERENCES `district` (`district_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `donor_created_by`
-    FOREIGN KEY (`donor_created_by` )
-    REFERENCES `user` (`user_id` )
+    FOREIGN KEY (`donor_created_by`)
+    REFERENCES `user` (`user_id`)
     ON DELETE SET NULL
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -216,55 +218,13 @@ SQL;
 CREATE INDEX `donor_created_by_idx` ON `donor` (`donor_created_by` ASC)
 SQL;
 
-        /*** Donor Meta Table *********************************************/
-
-        $stmts[] = <<<'SQL'
-CREATE  TABLE IF NOT EXISTS `donor_meta` (
-  `meta_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `donor_id` INT UNSIGNED NOT NULL ,
-  `meta_key` VARCHAR(45) NOT NULL ,
-  `meta_value` LONGTEXT NULL ,
-  PRIMARY KEY (`meta_id`) ,
-  CONSTRAINT `dm_donor_id`
-    FOREIGN KEY (`donor_id` )
-    REFERENCES `donor` (`donor_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-SQL;
-
-        $stmts[] = <<<'SQL'
-CREATE INDEX `dm_donor_id_idx` ON `donor_meta` (`donor_id` ASC)
-SQL;
-
-        /*** User Meta Table **********************************************/
-
-        $stmts[] = <<<'SQL'
-CREATE  TABLE IF NOT EXISTS `user_meta` (
-  `meta_id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `user_id` INT UNSIGNED NOT NULL ,
-  `meta_key` VARCHAR(45) NOT NULL ,
-  `meta_value` LONGTEXT NULL ,
-  PRIMARY KEY (`meta_id`) ,
-  CONSTRAINT `um_user_id`
-    FOREIGN KEY (`user_id` )
-    REFERENCES `user` (`user_id` )
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-SQL;
-
-        $stmts[] = <<<'SQL'
-CREATE INDEX `um_user_id_idx` ON `user_meta` (`user_id` ASC)
-SQL;
-
         /*** Variables Table **********************************************/
 
         $stmts[] = <<<'SQL'
-CREATE  TABLE IF NOT EXISTS `variable` (
-  `variable_name` VARCHAR(45) NOT NULL ,
-  `variable_value` LONGTEXT NULL ,
-  PRIMARY KEY (`variable_name`) )
+CREATE TABLE IF NOT EXISTS `variable` (
+  `variable_name` VARCHAR(45) NOT NULL,
+  `variable_value` LONGTEXT NULL,
+  PRIMARY KEY (`variable_name`))
 ENGINE = InnoDB
 SQL;
 

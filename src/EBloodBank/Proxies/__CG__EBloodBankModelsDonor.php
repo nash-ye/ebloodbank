@@ -264,56 +264,34 @@ class Donor extends \EBloodBank\Models\Donor implements \Doctrine\ORM\Proxy\Prox
     /**
      * {@inheritDoc}
      */
-    public function getMeta($metaKey, $single = true)
+    public function getMeta(string $key, $fallback = '')
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMeta', [$metaKey, $single]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMeta', [$key, $fallback]);
 
-        return parent::getMeta($metaKey, $single);
+        return parent::getMeta($key, $fallback);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function submitMeta($metaKey, $metaValue, $sanitize = false, $validate = true)
+    public function setMeta(string $key, $value, $sanitize = false, $validate = true)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'submitMeta', [$metaKey, $metaValue, $sanitize, $validate]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setMeta', [$key, $value, $sanitize, $validate]);
 
-        return parent::submitMeta($metaKey, $metaValue, $sanitize, $validate);
+        return parent::setMeta($key, $value, $sanitize, $validate);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addMeta($metaKey, $metaValue, $sanitize = false, $validate = true)
+    public function deleteMeta(string $key)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addMeta', [$metaKey, $metaValue, $sanitize, $validate]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'deleteMeta', [$key]);
 
-        return parent::addMeta($metaKey, $metaValue, $sanitize, $validate);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function updateMeta($metaKey, $metaValue, $currentMetaValue = NULL, $sanitize = false, $validate = true)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'updateMeta', [$metaKey, $metaValue, $currentMetaValue, $sanitize, $validate]);
-
-        return parent::updateMeta($metaKey, $metaValue, $currentMetaValue, $sanitize, $validate);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function deleteMeta($metaKey, $metaValue = NULL)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'deleteMeta', [$metaKey, $metaValue]);
-
-        return parent::deleteMeta($metaKey, $metaValue);
+        return parent::deleteMeta($key);
     }
 
 }

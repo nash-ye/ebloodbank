@@ -2,7 +2,7 @@
 /**
  * View class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Views
  * @since      1.0
  */

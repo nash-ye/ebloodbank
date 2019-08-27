@@ -2,7 +2,7 @@
 /**
  * User entity repository class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Models
  * @since      1.0
  */

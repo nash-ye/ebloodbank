@@ -2,7 +2,7 @@
 /**
  * Add donor page controller class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Controllers
  * @since      1.0
  */
@@ -138,26 +138,26 @@ class AddDonor extends Controller
                 $donor->set('status', 'pending');
             }
 
-            $em->persist($donor);
-            $em->flush();
-
             // Set the donor weight.
-            $donor->addMeta('weight', filter_input(INPUT_POST, 'donor_weight'), true);
+            $donor->setMeta('weight', filter_input(INPUT_POST, 'donor_weight'), true);
 
             // Set the donor email address.
-            $donor->addMeta('email', filter_input(INPUT_POST, 'donor_email'), true);
+            $donor->setMeta('email', filter_input(INPUT_POST, 'donor_email'), true);
 
             // Set the donor email address visibility.
-            $donor->addMeta('email_visibility', filter_input(INPUT_POST, 'donor_email_visibility'), true);
+            $donor->setMeta('email_visibility', filter_input(INPUT_POST, 'donor_email_visibility'), true);
 
             // Set the donor phone number.
-            $donor->addMeta('phone', filter_input(INPUT_POST, 'donor_phone'), true);
+            $donor->setMeta('phone', filter_input(INPUT_POST, 'donor_phone'), true);
 
             // Set the donor phone number visibility.
-            $donor->addMeta('phone_visibility', filter_input(INPUT_POST, 'donor_phone_visibility'), true);
+            $donor->setMeta('phone_visibility', filter_input(INPUT_POST, 'donor_phone_visibility'), true);
 
             // Set the donor address.
-            $donor->addMeta('address', filter_input(INPUT_POST, 'donor_address'), true);
+            $donor->setMeta('address', filter_input(INPUT_POST, 'donor_address'), true);
+
+            $em->persist($donor);
+            $em->flush();
 
             $added = $donor->isExists();
 

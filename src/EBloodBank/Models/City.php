@@ -2,7 +2,7 @@
 /**
  * City entity class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Models
  * @since      1.0
  */
@@ -22,7 +22,9 @@ use EBloodBank as EBB;
 class City extends Entity
 {
     /**
-     * @var int
+     * City ID
+     * 
+     * @var   int
      * @since 1.0
      *
      * @Id
@@ -32,7 +34,9 @@ class City extends Entity
     protected $id = 0;
 
     /**
-     * @var string
+     * City name
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="city_name", unique=true)
@@ -40,7 +44,9 @@ class City extends Entity
     protected $name;
 
     /**
-     * @var string
+     * City creation datetime
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="datetime", name="city_created_at")
@@ -48,7 +54,9 @@ class City extends Entity
     protected $created_at;
 
     /**
-     * @var User
+     * City created by
+     * 
+     * @var   User
      * @since 1.0
      *
      * @ManyToOne(targetEntity="EBloodBank\Models\User")
@@ -57,7 +65,9 @@ class City extends Entity
     protected $created_by;
 
     /**
-     * @var District[]
+     * City districts
+     * 
+     * @var   District[]
      * @since 1.0
      *
      * @OneToMany(targetEntity="EBloodBank\Models\District", mappedBy="city")

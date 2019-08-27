@@ -2,7 +2,7 @@
 /**
  * District entity class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Models
  * @since      1.0
  */
@@ -43,7 +43,7 @@ class District extends Entity
      * @var City
      * @since 1.0
      *
-     * @ManyToOne(targetEntity="EBloodBank\Models\City")
+     * @ManyToOne(targetEntity="EBloodBank\Models\City", inversedBy="districts")
      * @JoinColumn(name="district_city_id", referencedColumnName="city_id")
      */
     protected $city;

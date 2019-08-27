@@ -2,7 +2,7 @@
 /**
  * User entity class file
  *
- * @package    eBloodBank
+ * @package    EBloodBank
  * @subpackage Models
  * @since      1.0
  */
@@ -26,7 +26,9 @@ class User extends Entity
     use EntityMeta;
 
     /**
-     * @var int
+     * User ID
+     * 
+     * @var   int
      * @since 1.0
      *
      * @Id
@@ -36,7 +38,9 @@ class User extends Entity
     protected $id = 0;
 
     /**
-     * @var string
+     * User name
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="user_name")
@@ -44,7 +48,9 @@ class User extends Entity
     protected $name;
 
     /**
-     * @var string
+     * User email
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="user_email", unique=true)
@@ -52,7 +58,9 @@ class User extends Entity
     protected $email;
 
     /**
-     * @var string
+     * User password
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="user_pass")
@@ -60,7 +68,9 @@ class User extends Entity
     protected $pass;
 
     /**
-     * @var string
+     * User role
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="user_role")
@@ -68,7 +78,9 @@ class User extends Entity
     protected $role;
 
     /**
-     * @var string
+     * User creation datetime
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="datetime", name="user_created_at")
@@ -76,12 +88,24 @@ class User extends Entity
     protected $created_at;
 
     /**
-     * @var string
+     * User status
+     * 
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="user_status")
      */
     protected $status;
+
+    /**
+     * User meta
+     * 
+     * @var   array
+     * @since 1.0
+     *
+     * @Column(type="json", name="user_meta")
+     */
+    protected $meta = [];
 
     /**
      * @return bool
