@@ -1,6 +1,6 @@
 ### v1.5 (30/8/2019)
 - Enhancement: Improve the ACL layer by using Zend ACL component.
-- Enhancement: Seperate the ACL layer from the Model layer.
+- Enhancement: Separate the ACL layer from the Model layer.
 
 ### v1.4 (27/8/2019)
 - Enhancement: Update code architecture.
