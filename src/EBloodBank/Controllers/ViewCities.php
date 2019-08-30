@@ -27,7 +27,7 @@ class ViewCities extends Controller
     {
         $currentUser = EBB\getCurrentUser();
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
-        if (! $isSitePublic && (! $currentUser || ! $currentUser->canViewCities())) {
+        if (! $isSitePublic && (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'read'))) {
             View::display('error-403');
         } else {
             View::display('view-cities', [

@@ -48,7 +48,7 @@ class AddDonor extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canAddDonor()) {
+        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'add')) {
             $this->doActions();
             $this->addNotices();
             $donor = $this->getQueriedDonor();
@@ -94,7 +94,7 @@ class AddDonor extends Controller
         try {
             $currentUser = EBB\getCurrentUser();
 
-            if (! $currentUser || ! $currentUser->canAddDonor()) {
+            if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'add')) {
                 return;
             }
 
@@ -132,7 +132,7 @@ class AddDonor extends Controller
             $donor->set('created_by', EBB\getCurrentUser());
 
             // Set the donor status.
-            if ($currentUser->canApproveDonors()) {
+            if ($this->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
                 $donor->set('status', 'approved');
             } else {
                 $donor->set('status', 'pending');

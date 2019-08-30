@@ -259,7 +259,7 @@ class Options
                 }
                 break;
             case 'new_user_role':
-                if (empty($value) || ! Roles::isExists($value)) {
+                if (empty($value)) {
                     throw new InvalidArgumentException(__('Invalid new user role.'));
                 }
                 break;

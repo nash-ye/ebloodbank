@@ -48,7 +48,7 @@ class EditDistrict extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canEditDistricts()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'edit')) {
             View::display('error-403');
             return;
         }
@@ -60,7 +60,7 @@ class EditDistrict extends Controller
 
         $district = $this->getQueriedDistrict();
 
-        if (! $currentUser->canEditDistrict($district)) {
+        if (! $this->getAcl()->canEditEntity($currentUser, $district)) {
             View::display('error-403');
             return;
         }
@@ -114,7 +114,7 @@ class EditDistrict extends Controller
             $currentUser = EBB\getCurrentUser();
             $district = $this->getQueriedDistrict();
 
-            if (! $currentUser || ! $currentUser->canEditDistrict($district)) {
+            if (! $currentUser || ! $this->getAcl()->canEditEntity($currentUser, $district)) {
                 return;
             }
 

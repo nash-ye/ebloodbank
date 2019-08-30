@@ -26,7 +26,7 @@ class EditDonors extends ViewDonors
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canEditDonors()) {
+        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'edit')) {
             $this->doActions();
             $this->addNotices();
             $em = $this->getContainer()->get('entity_manager');

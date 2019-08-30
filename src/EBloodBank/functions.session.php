@@ -17,7 +17,7 @@ function isUserLoggedIn()
 }
 
 /**
- * @return EBloodBank\Models\User
+ * @return \EBloodBank\Models\User
  * @since 1.0
  */
 function getCurrentUser()

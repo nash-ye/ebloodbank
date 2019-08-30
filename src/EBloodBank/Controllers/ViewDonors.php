@@ -27,7 +27,7 @@ class ViewDonors extends Controller
     {
         $currentUser = EBB\getCurrentUser();
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
-        if (! $isSitePublic && (! $currentUser || ! $currentUser->canViewDonors())) {
+        if (! $isSitePublic && (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'read'))) {
             View::display('error-403');
         } else {
             $em = $this->getContainer()->get('entity_manager');
@@ -129,6 +129,11 @@ class ViewDonors extends Controller
 
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
+
+        $currentUser = EBB\getCurrentUser();
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
+            $criteria['status'] = 'approved';
+        }
 
         return $donorRepository->findBy($criteria, ['created_at' => 'DESC'], $limit, $offset);
     }

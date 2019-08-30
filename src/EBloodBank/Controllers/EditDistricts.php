@@ -26,7 +26,7 @@ class EditDistricts extends ViewDistricts
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canEditDistricts()) {
+        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'District', 'edit')) {
             $this->doActions();
             $this->addNotices();
             $view = View::forge('edit-districts', [

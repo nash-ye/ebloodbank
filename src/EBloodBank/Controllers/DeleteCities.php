@@ -24,7 +24,7 @@ class DeleteCities extends Controller
      * @var \EBloodBank\Models\City[]
      * @since 1.1
      */
-    protected $cities;
+    protected $cities = [];
 
     /**
      * @return void
@@ -50,7 +50,7 @@ class DeleteCities extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $currentUser->canDeleteCities()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'delete')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -82,7 +82,7 @@ class DeleteCities extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteCities()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'delete')) {
             return;
         }
 
@@ -105,7 +105,7 @@ class DeleteCities extends Controller
         $districtRepository = $em->getRepository('Entities:District');
 
         foreach ($cities as $city) {
-            if ($currentUser->canDeleteCity($city)) {
+            if ($this->getAcl()->canDeleteEntity($currentUser, $city)) {
                 $districtsCount = $districtRepository->countBy(['city' => $city]);
 
                 if ($districtsCount > 0) {

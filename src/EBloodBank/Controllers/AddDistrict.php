@@ -36,8 +36,8 @@ class AddDistrict extends Controller
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->district = new District();
         parent::__construct($container);
+        $this->district = new District();
     }
 
     /**
@@ -47,7 +47,7 @@ class AddDistrict extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canAddDistrict()) {
+        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'District', 'add')) {
             $this->doActions();
             $this->addNotices();
             $district = $this->getQueriedDistrict();
@@ -93,7 +93,7 @@ class AddDistrict extends Controller
         try {
             $currentUser = EBB\getCurrentUser();
 
-            if (! $currentUser || ! $currentUser->canAddDistrict()) {
+            if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'add')) {
                 return;
             }
 

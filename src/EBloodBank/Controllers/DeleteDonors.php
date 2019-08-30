@@ -49,7 +49,7 @@ class DeleteDonors extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $currentUser->canDeleteDonors()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'delete')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -81,7 +81,7 @@ class DeleteDonors extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteDonors()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'delete')) {
             return;
         }
 
@@ -103,7 +103,7 @@ class DeleteDonors extends Controller
         $em = $this->getContainer()->get('entity_manager');
 
         foreach ($donors as $donor) {
-            if ($currentUser->canDeleteDonor($donor)) {
+            if ($this->getAcl()->canDeleteEntity($currentUser, $donor)) {
                 $em->remove($donor);
                 $deletedDonorsCount++;
             }

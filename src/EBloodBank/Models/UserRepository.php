@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Models;
 
-use EBloodBank as EBB;
-
 /**
  * User entity repository class
  *
@@ -53,12 +51,7 @@ class UserRepository extends EntityRepository
      */
     protected function parseCriteria(array $criteria)
     {
-        if (! isset($criteria['status'])) {
-            $currentUser = EBB\getCurrentUser();
-            if (! $currentUser || ! $currentUser->canActivateUsers()) {
-                $criteria['status'] = 'activated';
-            }
-        } elseif ('any' === $criteria['status']) {
+        if (isset($criteria['status']) && 'any' === $criteria['status']) {
             unset($criteria['status']);
         }
 

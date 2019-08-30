@@ -23,7 +23,7 @@ class ActivateUsers extends Controller
      * @var \EBloodBank\Models\User[]
      * @since 1.1
      */
-    protected $users;
+    protected $users = [];
 
     /**
      * @return void
@@ -31,7 +31,6 @@ class ActivateUsers extends Controller
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->users = [];
         parent::__construct($container);
         if (filter_has_var(INPUT_POST, 'users')) {
             $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
@@ -49,7 +48,7 @@ class ActivateUsers extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $currentUser->canActivateUsers()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -81,7 +80,7 @@ class ActivateUsers extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canActivateUsers()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
             return;
         }
 
@@ -106,7 +105,7 @@ class ActivateUsers extends Controller
             if (! $user->isPending()) {
                 continue;
             }
-            if ($currentUser->canActivateUser($user)) {
+            if ($this->getAcl()->canActivateUser($currentUser, $user)) {
                 $user->set('status', 'activated');
                 $activatedUsersCount++;
             }

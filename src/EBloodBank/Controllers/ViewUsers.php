@@ -26,7 +26,7 @@ class ViewUsers extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $currentUser->canViewDonors()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'read')) {
             View::display('error-403');
         } else {
             View::display('view-users', [
@@ -96,7 +96,13 @@ class ViewUsers extends Controller
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
-        return $userRepository->findBy([], ['created_at' => 'DESC'], $limit, $offset);
+        $criteria = [];
+        $currentUser = EBB\getCurrentUser();
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
+            $criteria['status'] = 'activated';
+        }
+
+        return $userRepository->findBy($criteria, ['created_at' => 'DESC'], $limit, $offset);
     }
 
     /**

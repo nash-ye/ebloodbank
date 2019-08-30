@@ -9,6 +9,7 @@
 namespace EBloodBank\Controllers;
 
 use Aura\Di\ContainerInterface;
+use EBloodBank\Traits\AclTrait;
 
 /**
  * Abstract controller class
@@ -17,6 +18,8 @@ use Aura\Di\ContainerInterface;
  */
 abstract class Controller
 {
+    use AclTrait;
+
     /**
      * @var \Aura\Di\ContainerInterface
      * @since 1.2
@@ -29,7 +32,8 @@ abstract class Controller
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->getContainer = $container;
+        $this->container = $container;
+        $this->setAcl($container->get('acl'));
     }
 
     /**
@@ -38,6 +42,6 @@ abstract class Controller
      */
     public function getContainer()
     {
-        return $this->getContainer;
+        return $this->container;
     }
 }

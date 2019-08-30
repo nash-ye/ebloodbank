@@ -46,7 +46,7 @@ class DeleteDonor extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteDonors()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'delete')) {
             View::display('error-403');
             return;
         }
@@ -58,7 +58,7 @@ class DeleteDonor extends Controller
 
         $donor = $this->getQueriedDonor();
 
-        if (! $currentUser->canDeleteDonor($donor)) {
+        if (! $this->getAcl()->canDeleteEntity($currentUser, $donor)) {
             View::display('error-403');
             return;
         }
@@ -99,7 +99,7 @@ class DeleteDonor extends Controller
         $currentUser = EBB\getCurrentUser();
         $donor = $this->getQueriedDonor();
 
-        if (! $currentUser || ! $currentUser->canDeleteDonor($donor)) {
+        if (! $currentUser || ! $this->getAcl()->canDeleteEntity($currentUser, $donor)) {
             return;
         }
 

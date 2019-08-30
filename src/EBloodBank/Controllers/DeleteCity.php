@@ -47,7 +47,7 @@ class DeleteCity extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteCities()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'delete')) {
             View::display('error-403');
             return;
         }
@@ -59,7 +59,7 @@ class DeleteCity extends Controller
 
         $city = $this->getQueriedCity();
 
-        if (! $currentUser->canDeleteCity($city)) {
+        if (! $this->getAcl()->canDeleteEntity($currentUser, $city)) {
             View::display('error-403');
             return;
         }
@@ -100,7 +100,7 @@ class DeleteCity extends Controller
         $city = $this->getQueriedCity();
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteCity($city)) {
+        if (! $currentUser || ! $this->getAcl()->canDeleteEntity($currentUser, $city)) {
             return;
         }
 

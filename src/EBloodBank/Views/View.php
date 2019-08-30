@@ -8,7 +8,10 @@
  */
 namespace EBloodBank\Views;
 
+use EBloodBank as EBB;
+use EBloodBank\Main;
 use EBloodBank\Themes;
+use EBloodBank\Traits\AclTrait;
 
 /**
  * View class
@@ -17,6 +20,8 @@ use EBloodBank\Themes;
  */
 class View
 {
+    use AclTrait;
+
     /**
      * @var string
      * @since 1.0
@@ -36,7 +41,13 @@ class View
      */
     public static function forge($name, array $data = [])
     {
+        $data += [
+            'currentUser' => EBB\getCurrentUser(),
+        ];
+
         $view = new static($name, $data);
+        $view->setAcl(Main::getInstance()->getContainer()->get('acl'));
+
         return $view;
     }
 
@@ -149,7 +160,15 @@ class View
     public function __invoke()
     {
         if (is_readable($this->getPath())) {
-            extract($this->data + ['view' => $this], EXTR_REFS);
+            $data = $this->data;
+            $data += [
+                'context' => $this,
+                'view'    => $this,
+                'acl'     => $this->getAcl(),
+            ];
+
+            extract($data, EXTR_REFS);
+
             include $this->getPath();
         }
     }

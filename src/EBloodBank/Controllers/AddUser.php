@@ -12,6 +12,7 @@ use DateTime;
 use DateTimeZone;
 use InvalidArgumentException;
 use EBloodBank as EBB;
+use EBloodBank\Roles;
 use EBloodBank\Notices;
 use EBloodBank\Models\User;
 use EBloodBank\Views\View;
@@ -36,8 +37,8 @@ class AddUser extends Controller
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->user = new User();
         parent::__construct($container);
+        $this->user = new User();
     }
 
     /**
@@ -47,7 +48,7 @@ class AddUser extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canAddUser()) {
+        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'User', 'add')) {
             $this->doActions();
             $this->addNotices();
             $user = $this->getQueriedUser();
@@ -93,7 +94,7 @@ class AddUser extends Controller
         try {
             $currentUser = EBB\getCurrentUser();
 
-            if (! $currentUser || ! $currentUser->canAddUser()) {
+            if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'add')) {
                 return;
             }
 
@@ -146,7 +147,7 @@ class AddUser extends Controller
             $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
 
             // Set the user status.
-            if ($currentUser->canActivateUsers()) {
+            if ($this->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
                 $user->set('status', 'activated');
             } else {
                 $user->set('status', Options::getOption('new_user_status'), true);

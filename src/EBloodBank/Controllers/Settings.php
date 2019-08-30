@@ -28,7 +28,7 @@ class Settings extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canEditSettings()) {
+        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'Setting', 'edit')) {
             $this->doActions();
             $this->addNotices();
             $view = View::forge('settings');

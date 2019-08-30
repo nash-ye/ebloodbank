@@ -7,6 +7,7 @@
  */
 namespace EBloodBank;
 
+use EBloodBank\Views\View;
 use EBloodBank\Models\User;
 use EBloodBank\Models\Donor;
 use EBloodBank\Models\City;
@@ -337,7 +338,7 @@ function getActivateUserURL($id)
  * @return string
  * @since 1.0
  */
-function getUsersLink(array $args = [])
+function getUsersLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -350,7 +351,7 @@ function getUsersLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canViewUsers()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'User', 'read')) {
         return $link;
     }
 
@@ -368,7 +369,7 @@ function getUsersLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getAddUserLink(array $args = [])
+function getAddUserLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -381,7 +382,7 @@ function getAddUserLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canAddUser()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'User', 'add')) {
         return $link;
     }
 
@@ -399,7 +400,7 @@ function getAddUserLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getEditUsersLink(array $args = [])
+function getEditUsersLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -412,7 +413,7 @@ function getEditUsersLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canEditUsers()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'User', 'edit')) {
         return $link;
     }
 
@@ -430,7 +431,7 @@ function getEditUsersLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getEditUserLink(array $args)
+function getEditUserLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -449,7 +450,7 @@ function getEditUserLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canEditUser($args['user'])) {
+    if (! $currentUser || ! $context->getAcl()->canEditEntity($currentUser, $args['user'])) {
         return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
@@ -467,7 +468,7 @@ function getEditUserLink(array $args)
  * @return string
  * @since 1.0
  */
-function getDeleteUserLink(array $args)
+function getDeleteUserLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -485,7 +486,7 @@ function getDeleteUserLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canDeleteUser($args['user'])) {
+    if (! $currentUser || ! $context->getAcl()->canDeleteEntity($currentUser, $args['user'])) {
         return $link;
     }
 
@@ -503,7 +504,7 @@ function getDeleteUserLink(array $args)
  * @return string
  * @since 1.0
  */
-function getActivateUserLink(array $args)
+function getActivateUserLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -521,7 +522,7 @@ function getActivateUserLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canActivateUser($args['user'])) {
+    if (! $currentUser || ! $context->getAcl()->canActivateUser($currentUser, $args['user'])) {
         return $link;
     }
 
@@ -640,7 +641,7 @@ function getApproveDonorURL($id)
  * @return string
  * @since 1.0
  */
-function getDonorsLink(array $args = [])
+function getDonorsLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -653,7 +654,7 @@ function getDonorsLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $currentUser->canViewDonors())) {
+    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'Donor', 'read'))) {
         return $link;
     }
 
@@ -671,7 +672,7 @@ function getDonorsLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getDonorLink(array $args = [])
+function getDonorLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -689,7 +690,7 @@ function getDonorLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $currentUser->canViewDonor($args['donor']))) {
+    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $context->getAcl()->canReadEntity($currentUser, $args['donor']))) {
         return $link;
     }
 
@@ -711,7 +712,7 @@ function getDonorLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getAddDonorLink(array $args = [])
+function getAddDonorLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -724,7 +725,7 @@ function getAddDonorLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canAddDonor()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'Donor', 'add')) {
         return $link;
     }
 
@@ -742,7 +743,7 @@ function getAddDonorLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getEditDonorsLink(array $args = [])
+function getEditDonorsLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -755,7 +756,7 @@ function getEditDonorsLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canEditDonors()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'Donor', 'edit')) {
         return $link;
     }
 
@@ -773,7 +774,7 @@ function getEditDonorsLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getEditDonorLink(array $args)
+function getEditDonorLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -792,7 +793,7 @@ function getEditDonorLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canEditDonor($args['donor'])) {
+    if (! $currentUser || ! $context->getAcl()->canEditEntity($currentUser, $args['donor'])) {
         return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
@@ -810,7 +811,7 @@ function getEditDonorLink(array $args)
  * @return string
  * @since 1.0
  */
-function getDeleteDonorLink(array $args)
+function getDeleteDonorLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -828,7 +829,7 @@ function getDeleteDonorLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canDeleteDonor($args['donor'])) {
+    if (! $currentUser || ! $context->getAcl()->canDeleteEntity($currentUser, $args['donor'])) {
         return $link;
     }
 
@@ -846,7 +847,7 @@ function getDeleteDonorLink(array $args)
  * @return string
  * @since 1.0
  */
-function getApproveDonorLink(array $args)
+function getApproveDonorLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -864,7 +865,7 @@ function getApproveDonorLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canApproveDonor($args['donor'])) {
+    if (! $currentUser || ! $context->getAcl()->canApproveDonor($currentUser, $args['donor'])) {
         return $link;
     }
 
@@ -948,7 +949,7 @@ function getDeleteCityURL($id)
  * @return string
  * @since 1.0
  */
-function getCitiesLink(array $args = [])
+function getCitiesLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -961,7 +962,7 @@ function getCitiesLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $currentUser->canViewCities())) {
+    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'City', 'read'))) {
         return $link;
     }
 
@@ -979,7 +980,7 @@ function getCitiesLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getAddCityLink(array $args = [])
+function getAddCityLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -992,7 +993,7 @@ function getAddCityLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canAddCity()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'City', 'add')) {
         return $link;
     }
 
@@ -1010,7 +1011,7 @@ function getAddCityLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getEditCitiesLink(array $args = [])
+function getEditCitiesLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -1023,7 +1024,7 @@ function getEditCitiesLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canEditCities()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'City', 'edit')) {
         return $link;
     }
 
@@ -1041,7 +1042,7 @@ function getEditCitiesLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getEditCityLink(array $args)
+function getEditCityLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -1060,7 +1061,7 @@ function getEditCityLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canEditCity($args['city'])) {
+    if (! $currentUser || ! $context->getAcl()->canEditEntity($currentUser, $args['city'])) {
         return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
@@ -1078,7 +1079,7 @@ function getEditCityLink(array $args)
  * @return string
  * @since 1.0
  */
-function getDeleteCityLink(array $args)
+function getDeleteCityLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -1096,7 +1097,7 @@ function getDeleteCityLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canDeleteCity($args['city'])) {
+    if (! $currentUser || ! $context->getAcl()->canDeleteEntity($currentUser, $args['city'])) {
         return $link;
     }
 
@@ -1180,7 +1181,7 @@ function getDeleteDistrictURL($id)
  * @return string
  * @since 1.0
  */
-function getDistrictsLink(array $args = [])
+function getDistrictsLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -1193,7 +1194,7 @@ function getDistrictsLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $currentUser->canViewDistricts())) {
+    if ('on' !== Options::getOption('site_publication') && (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'District', 'read'))) {
         return $link;
     }
 
@@ -1211,7 +1212,7 @@ function getDistrictsLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getAddDistrictLink(array $args = [])
+function getAddDistrictLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -1224,7 +1225,7 @@ function getAddDistrictLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canAddDistrict()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'District', 'add')) {
         return $link;
     }
 
@@ -1242,7 +1243,7 @@ function getAddDistrictLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getEditDistrictsLink(array $args = [])
+function getEditDistrictsLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -1255,7 +1256,7 @@ function getEditDistrictsLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canEditDistricts()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'District', 'edit')) {
         return $link;
     }
 
@@ -1273,7 +1274,7 @@ function getEditDistrictsLink(array $args = [])
  * @return string
  * @since 1.0
  */
-function getEditDistrictLink(array $args)
+function getEditDistrictLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -1292,7 +1293,7 @@ function getEditDistrictLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canEditDistrict($args['district'])) {
+    if (! $currentUser || ! $context->getAcl()->canEditEntity($currentUser, $args['district'])) {
         return $args['fallbackContent'] ? $args['content'] : $link;
     }
 
@@ -1310,7 +1311,7 @@ function getEditDistrictLink(array $args)
  * @return string
  * @since 1.0
  */
-function getDeleteDistrictLink(array $args)
+function getDeleteDistrictLink(array $args, View $context = null)
 {
     $link = '';
 
@@ -1328,7 +1329,7 @@ function getDeleteDistrictLink(array $args)
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canDeleteDistrict($args['district'])) {
+    if (! $currentUser || ! $context->getAcl()->canDeleteEntity($currentUser, $args['district'])) {
         return $link;
     }
 
@@ -1358,7 +1359,7 @@ function getSettingsURL()
  * @return string
  * @since 1.0
  */
-function getSettingsLink(array $args = [])
+function getSettingsLink(array $args = [], View $context = null)
 {
     $link = '';
 
@@ -1371,7 +1372,7 @@ function getSettingsLink(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canEditSettings()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'Setting', 'edit')) {
         return $link;
     }
 

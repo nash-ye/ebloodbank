@@ -47,7 +47,7 @@ class AddCity extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canAddCity()) {
+        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'City', 'add')) {
             $this->doActions();
             $this->addNotices();
             $city = $this->getQueriedCity();
@@ -93,7 +93,7 @@ class AddCity extends Controller
         try {
             $currentUser = EBB\getCurrentUser();
 
-            if (! $currentUser || ! $currentUser->canAddCity()) {
+            if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'add')) {
                 return;
             }
 

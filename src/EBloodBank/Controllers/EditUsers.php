@@ -26,7 +26,7 @@ class EditUsers extends ViewUsers
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $currentUser->canEditUsers()) {
+        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'User', 'edit')) {
             $this->doActions();
             $this->addNotices();
             $view = View::forge('edit-users', [

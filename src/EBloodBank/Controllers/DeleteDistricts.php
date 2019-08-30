@@ -24,7 +24,7 @@ class DeleteDistricts extends Controller
      * @var \EBloodBank\Models\District[]
      * @since 1.1
      */
-    protected $districts;
+    protected $districts = [];
 
     /**
      * @return void
@@ -33,7 +33,6 @@ class DeleteDistricts extends Controller
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
-        $this->districts = [];
         if (filter_has_var(INPUT_POST, 'districts')) {
             $districtsIDs = filter_input(INPUT_POST, 'districts', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($districtsIDs) && is_array($districtsIDs)) {
@@ -50,7 +49,7 @@ class DeleteDistricts extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $currentUser->canDeleteDistricts()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'delete')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -82,7 +81,7 @@ class DeleteDistricts extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteDistricts()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'delete')) {
             return;
         }
 
@@ -105,7 +104,7 @@ class DeleteDistricts extends Controller
         $donorRepository = $em->getRepository('Entities:Donor');
 
         foreach ($districts as $district) {
-            if ($currentUser->canDeleteDistrict($district)) {
+            if ($this->getAcl()->canDeleteEntity($currentUser, $district)) {
                 $donorsCount = $donorRepository->countBy(['district' => $districts]);
 
                 if ($donorsCount > 0) {

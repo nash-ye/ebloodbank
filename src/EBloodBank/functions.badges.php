@@ -7,13 +7,15 @@
  */
 namespace EBloodBank;
 
+use EBloodBank\Views\View;
+
 /*** Users Template Tags ******************************************************/
 
 /**
  * @return string
  * @since 1.1
  */
-function getPendingUsersCountBadge(array $args = [])
+function getPendingUsersCountBadge(array $args = [], View $context = null)
 {
     $badge = '';
 
@@ -25,7 +27,7 @@ function getPendingUsersCountBadge(array $args = [])
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canActivateUsers()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
         return $badge;
     }
 
@@ -50,19 +52,19 @@ function getPendingUsersCountBadge(array $args = [])
  * @return string
  * @since 1.1
  */
-function getPendingDonorsCountBadge(array $args = [])
+function getPendingDonorsCountBadge(array $args = [], View $context = null)
 {
     $badge = '';
 
     $args = array_merge([
-        'atts' => [],
+        'atts'   => [],
         'before' => ' ',
-        'after' => '',
+        'after'  => '',
     ], $args);
 
     $currentUser = getCurrentUser();
 
-    if (! $currentUser || ! $currentUser->canApproveDonors()) {
+    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
         return $badge;
     }
 

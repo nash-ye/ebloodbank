@@ -46,7 +46,7 @@ class DeleteUser extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteUsers()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'delete')) {
             View::display('error-403');
             return;
         }
@@ -58,7 +58,7 @@ class DeleteUser extends Controller
 
         $user = $this->getQueriedUser();
 
-        if (! $currentUser->canDeleteUser($user)) {
+        if (! $this->getAcl()->canDeleteEntity($currentUser, $user)) {
             View::display('error-403');
             return;
         }
@@ -99,7 +99,7 @@ class DeleteUser extends Controller
         $user = $this->getQueriedUser();
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteUser($user)) {
+        if (! $currentUser || ! $this->getAcl()->canDeleteEntity($currentUser, $user)) {
             return;
         }
 

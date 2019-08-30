@@ -49,7 +49,7 @@ class DeleteUsers extends Controller
     public function __invoke()
     {
         $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $currentUser->canDeleteUsers()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'delete')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -81,7 +81,7 @@ class DeleteUsers extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteUsers()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'delete')) {
             return;
         }
 
@@ -103,7 +103,7 @@ class DeleteUsers extends Controller
         $em = $this->getContainer()->get('entity_manager');
 
         foreach ($users as $user) {
-            if ($currentUser->canDeleteUser($user)) {
+            if ($this->getAcl()->canDeleteEntity($currentUser, $user)) {
                 $em->remove($user);
                 $deletedUsersCount++;
             }

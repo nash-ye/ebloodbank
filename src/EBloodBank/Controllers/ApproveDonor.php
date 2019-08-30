@@ -46,7 +46,7 @@ class ApproveDonor extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canApproveDonors()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
             View::display('error-403');
             return;
         }
@@ -58,7 +58,7 @@ class ApproveDonor extends Controller
 
         $donor = $this->getQueriedDonor();
 
-        if (! $currentUser->canApproveDonor($donor)) {
+        if (! $this->getAcl()->canApproveDonor($currentUser, $donor)) {
             View::display('error-403');
             return;
         }
@@ -99,7 +99,7 @@ class ApproveDonor extends Controller
         $currentUser = EBB\getCurrentUser();
         $donor = $this->getQueriedDonor();
 
-        if (! $currentUser || ! $currentUser->canApproveDonor($donor)) {
+        if (! $currentUser || ! $this->getAcl()->canApproveDonor($currentUser, $donor)) {
             return;
         }
 

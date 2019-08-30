@@ -46,7 +46,7 @@ class DeleteDistrict extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canDeleteDistricts()) {
+        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'delete')) {
             View::display('error-403');
             return;
         }
@@ -58,7 +58,7 @@ class DeleteDistrict extends Controller
 
         $district = $this->getQueriedDistrict();
 
-        if (! $currentUser->canDeleteDistrict($district)) {
+        if (! $this->getAcl()->canDeleteEntity($currentUser, $district)) {
             View::display('error-403');
             return;
         }
@@ -99,7 +99,7 @@ class DeleteDistrict extends Controller
         $currentUser = EBB\getCurrentUser();
         $district = $this->getQueriedDistrict();
 
-        if (! $currentUser || ! $currentUser->canDeleteDistrict($district)) {
+        if (! $currentUser || ! $this->getAcl()->canDeleteEntity($currentUser, $district)) {
             return;
         }
 

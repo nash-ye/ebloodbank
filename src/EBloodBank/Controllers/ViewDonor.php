@@ -48,7 +48,7 @@ class ViewDonor extends Controller
         $currentUser = EBB\getCurrentUser();
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
 
-        if (! $isSitePublic && (! $currentUser || ! $currentUser->canEditDonors())) {
+        if (! $isSitePublic && (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'read'))) {
             View::display('error-403');
             return;
         }
@@ -60,7 +60,7 @@ class ViewDonor extends Controller
 
         $donor = $this->getQueriedDonor();
 
-        if ($currentUser && ! $currentUser->canViewDonor($donor)) {
+        if ($currentUser && ! $this->getAcl()->canReadEntity($currentUser, $donor)) {
             View::display('error-403');
             return;
         }

@@ -27,7 +27,7 @@ class ViewDistricts extends Controller
     {
         $currentUser = EBB\getCurrentUser();
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
-        if (! $isSitePublic && (! $currentUser || ! $currentUser->canViewDistricts())) {
+        if (! $isSitePublic && (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'read'))) {
             View::display('error-403');
         } else {
             View::display('view-districts', [

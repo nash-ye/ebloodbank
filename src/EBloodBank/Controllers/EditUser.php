@@ -48,7 +48,7 @@ class EditUser extends Controller
     {
         $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $currentUser->canEditUsers()) {
+        if (! $currentUser) {
             View::display('error-403');
             return;
         }
@@ -60,7 +60,7 @@ class EditUser extends Controller
 
         $user = $this->getQueriedUser();
 
-        if (! $currentUser->canEditUser($user)) {
+        if (! $this->getAcl()->canEditEntity($currentUser, $user)) {
             View::display('error-403');
             return;
         }
@@ -114,7 +114,7 @@ class EditUser extends Controller
             $currentUser = EBB\getCurrentUser();
             $user = $this->getQueriedUser();
 
-            if (! $currentUser || ! $currentUser->canEditUser($user)) {
+            if (! $currentUser || ! $this->getAcl()->canEditEntity($currentUser, $user)) {
                 return;
             }
 
