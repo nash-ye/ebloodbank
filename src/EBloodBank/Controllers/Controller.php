@@ -10,6 +10,7 @@ namespace EBloodBank\Controllers;
 
 use Aura\Di\ContainerInterface;
 use EBloodBank\Traits\AclTrait;
+use EBloodBank\Traits\EntityManagerTrait;
 
 /**
  * Abstract controller class
@@ -19,6 +20,7 @@ use EBloodBank\Traits\AclTrait;
 abstract class Controller
 {
     use AclTrait;
+    use EntityManagerTrait;
 
     /**
      * @var \Aura\Di\ContainerInterface
@@ -34,6 +36,7 @@ abstract class Controller
     {
         $this->container = $container;
         $this->setAcl($container->get('acl'));
+        $this->setEntityManager($container->get('entity_manager'));
     }
 
     /**

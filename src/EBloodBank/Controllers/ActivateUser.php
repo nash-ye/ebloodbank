@@ -33,7 +33,7 @@ class ActivateUser extends Controller
     {
         parent::__construct($container);
         if (EBB\isValidID($userID)) {
-            $userRepository = $container->get('entity_manager')->getRepository('Entities:User');
+            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
             $this->user = $userRepository->find($userID);
         }
     }
@@ -107,9 +107,8 @@ class ActivateUser extends Controller
             return;
         }
 
-        $em = $this->getContainer()->get('entity_manager');
         $user->set('status', 'activated');
-        $em->flush($user);
+        $this->getEntityManager()->flush($user);
 
         EBB\redirect(
             EBB\addQueryArgs(

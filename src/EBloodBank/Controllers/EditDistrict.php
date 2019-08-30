@@ -35,7 +35,7 @@ class EditDistrict extends Controller
     {
         parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $districtRepository = $container->get('entity_manager')->getRepository('Entities:District');
+            $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
             $this->district = $districtRepository->find($id);
         }
     }
@@ -118,8 +118,7 @@ class EditDistrict extends Controller
                 return;
             }
 
-            $em = $this->getContainer()->get('entity_manager');
-            $cityRepository = $em->getRepository('Entities:City');
+            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
 
             // Set the district name.
             $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
@@ -127,7 +126,7 @@ class EditDistrict extends Controller
             // Set the district city ID.
             $district->set('city', $cityRepository->find(filter_input(INPUT_POST, 'district_city_id')));
 
-            $em->flush($district);
+            $this->getEntityManager()->flush($district);
 
             EBB\redirect(
                 EBB\addQueryArgs(

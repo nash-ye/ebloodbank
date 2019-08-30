@@ -30,14 +30,13 @@ class ViewDonors extends Controller
         if (! $isSitePublic && (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'read'))) {
             View::display('error-403');
         } else {
-            $em = $this->getContainer()->get('entity_manager');
             View::display('view-donors', [
                 'donors' => $this->getQueriedDonors(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
                 'filter.criteria' => $this->getFilterCriteria(),
-                'cityRepository' => $em->getRepository('Entities:City'),
-                'districtRepository' => $em->getRepository('Entities:District'),
+                'cityRepository' => $this->getEntityManager()->getRepository('Entities:City'),
+                'districtRepository' => $this->getEntityManager()->getRepository('Entities:District'),
             ]);
         }
     }
@@ -98,8 +97,7 @@ class ViewDonors extends Controller
      */
     public function getAllDonors()
     {
-        $entityManager = $this->getContainer()->get('entity_manager');
-        $donorRepository = $entityManager->getRepository('Entities:Donor');
+        $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
 
         return $donorRepository->findAll([], ['created_at' => 'DESC']);
     }
@@ -110,8 +108,7 @@ class ViewDonors extends Controller
      */
     public function countAllDonors()
     {
-        $entityManager = $this->getContainer()->get('entity_manager');
-        $donorRepository = $entityManager->getRepository('Entities:Donor');
+        $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
 
         return $donorRepository->countAll();
     }
@@ -122,8 +119,7 @@ class ViewDonors extends Controller
      */
     public function getQueriedDonors()
     {
-        $entityManager = $this->getContainer()->get('entity_manager');
-        $donorRepository = $entityManager->getRepository('Entities:Donor');
+        $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
 
         $criteria = $this->getFilterCriteria();
 

@@ -36,7 +36,7 @@ class DeleteDonors extends Controller
         if (filter_has_var(INPUT_POST, 'donors')) {
             $donorsIDs = filter_input(INPUT_POST, 'donors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($donorsIDs) && is_array($donorsIDs)) {
-                $donorRepository = $container->get('entity_manager')->getRepository('Entities:Donor');
+                $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
                 $this->donors = $donorRepository->findBy(['id' => $donorsIDs]);
             }
         }
@@ -100,16 +100,15 @@ class DeleteDonors extends Controller
         }
 
         $deletedDonorsCount = 0;
-        $em = $this->getContainer()->get('entity_manager');
 
         foreach ($donors as $donor) {
             if ($this->getAcl()->canDeleteEntity($currentUser, $donor)) {
-                $em->remove($donor);
+                $this->getEntityManager()->remove($donor);
                 $deletedDonorsCount++;
             }
         }
 
-        $em->flush();
+        $this->getEntityManager()->flush();
 
         EBB\redirect(
             EBB\addQueryArgs(

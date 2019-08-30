@@ -106,8 +106,7 @@ class AddDistrict extends Controller
             }
 
             $district = $this->getQueriedDistrict();
-            $em = $this->getContainer()->get('entity_manager');
-            $cityRepository = $em->getRepository('Entities:City');
+            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
 
             // Set the district name.
             $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
@@ -121,8 +120,8 @@ class AddDistrict extends Controller
             // Set the originator user.
             $district->set('created_by', EBB\getCurrentUser());
 
-            $em->persist($district);
-            $em->flush();
+            $this->getEntityManager()->persist($district);
+            $this->getEntityManager()->flush();
 
             $added = $district->isExists();
 

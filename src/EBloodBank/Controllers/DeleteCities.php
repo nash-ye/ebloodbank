@@ -32,12 +32,11 @@ class DeleteCities extends Controller
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->cities = [];
         parent::__construct($container);
         if (filter_has_var(INPUT_POST, 'cities')) {
             $citiesIDs = filter_input(INPUT_POST, 'cities', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($citiesIDs) && is_array($citiesIDs)) {
-                $cityRepository = $container->get('entity_manager')->getRepository('Entities:City');
+                $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
                 $this->cities = $cityRepository->findBy(['id' => $citiesIDs]);
             }
         }
@@ -101,8 +100,7 @@ class DeleteCities extends Controller
         }
 
         $deletedCitiesCount = 0;
-        $em = $this->getContainer()->get('entity_manager');
-        $districtRepository = $em->getRepository('Entities:District');
+        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
         foreach ($cities as $city) {
             if ($this->getAcl()->canDeleteEntity($currentUser, $city)) {
@@ -113,12 +111,12 @@ class DeleteCities extends Controller
                     return;
                 }
 
-                $em->remove($city);
+                $this->getEntityManager()->remove($city);
                 $deletedCitiesCount++;
             }
         }
 
-        $em->flush();
+        $this->getEntityManager()->flush();
 
         EBB\redirect(
             EBB\addQueryArgs(

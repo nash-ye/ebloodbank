@@ -68,8 +68,7 @@ class ViewDistricts extends Controller
      */
     public function getAllDistricts()
     {
-        $entityManager = $this->getContainer()->get('entity_manager');
-        $districtRepository = $entityManager->getRepository('Entities:District');
+        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
         return $districtRepository->findAll([], ['created_at' => 'DESC']);
     }
@@ -80,8 +79,7 @@ class ViewDistricts extends Controller
      */
     public function countAllDistricts()
     {
-        $entityManager = $this->getContainer()->get('entity_manager');
-        $districtRepository = $entityManager->getRepository('Entities:District');
+        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
         return $districtRepository->countAll();
     }
@@ -92,8 +90,7 @@ class ViewDistricts extends Controller
      */
     public function getQueriedDistricts()
     {
-        $entityManager = $this->getContainer()->get('entity_manager');
-        $districtRepository = $entityManager->getRepository('Entities:District');
+        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;

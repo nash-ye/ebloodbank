@@ -62,8 +62,7 @@ class Signup extends Controller
         try {
             $user = new User();
 
-            $entityManager = $this->getContainer()->get('entity_manager');
-            $userRepository = $entityManager->getRepository('Entities:User');
+            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
 
             // Set the user name.
             $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
@@ -104,8 +103,8 @@ class Signup extends Controller
             // Set the user status.
             $user->set('status', Options::getOption('new_user_status'), true);
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->getEntityManager()->persist($user);
+            $this->getEntityManager()->flush();
 
             $signedup = $user->isExists();
 
@@ -130,7 +129,7 @@ class Signup extends Controller
 
             if ($addDonor) {
                 $donor = new Donor();
-                $districtRepository = $entityManager->getRepository('Entities:District');
+                $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
                 // Set the donor name.
                 $donor->set('name', filter_input(INPUT_POST, 'user_name'), true);
@@ -174,8 +173,8 @@ class Signup extends Controller
                 // Set the donor address.
                 $donor->setMeta('address', filter_input(INPUT_POST, 'donor_address'), true);
 
-                $entityManager->persist($donor);
-                $entityManager->flush();
+                $this->getEntityManager()->persist($donor);
+                $this->getEntityManager()->flush();
 
                 $donorAdded = $donor->isExists();
 

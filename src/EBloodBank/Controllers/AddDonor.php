@@ -107,8 +107,7 @@ class AddDonor extends Controller
             }
 
             $donor = $this->getQueriedDonor();
-            $em = $this->getContainer()->get('entity_manager');
-            $districtRepository = $em->getRepository('Entities:District');
+            $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
             // Set the donor name.
             $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
@@ -156,8 +155,8 @@ class AddDonor extends Controller
             // Set the donor address.
             $donor->setMeta('address', filter_input(INPUT_POST, 'donor_address'), true);
 
-            $em->persist($donor);
-            $em->flush();
+            $this->getEntityManager()->persist($donor);
+            $this->getEntityManager()->flush();
 
             $added = $donor->isExists();
 

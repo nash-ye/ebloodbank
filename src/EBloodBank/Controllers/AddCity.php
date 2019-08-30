@@ -105,9 +105,8 @@ class AddCity extends Controller
                 return;
             }
 
-            $em = $this->getContainer()->get('entity_manager');
             $city = $this->getQueriedCity();
-            $cityRepository = $em->getRepository('Entities:City');
+            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
 
             // Set the city name.
             $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
@@ -124,8 +123,8 @@ class AddCity extends Controller
             // Set the originator user.
             $city->set('created_by', EBB\getCurrentUser());
 
-            $em->persist($city);
-            $em->flush();
+            $this->getEntityManager()->persist($city);
+            $this->getEntityManager()->flush();
 
             $added = $city->isExists();
 

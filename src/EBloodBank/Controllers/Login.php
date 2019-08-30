@@ -69,8 +69,7 @@ class Login extends Controller
             return;
         }
 
-        $em = $this->getContainer()->get('entity_manager');
-        $userRepository = $em->getRepository('Entities:User');
+        $userRepository = $this->getEntityManager()->getRepository('Entities:User');
         $user = $userRepository->findOneBy(['email' => $userEmail, 'status' => 'any']);
 
         if (empty($user) || ! password_verify($userPass, $user->get('pass'))) {

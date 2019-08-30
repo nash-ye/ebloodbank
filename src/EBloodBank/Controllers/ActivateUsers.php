@@ -35,7 +35,7 @@ class ActivateUsers extends Controller
         if (filter_has_var(INPUT_POST, 'users')) {
             $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($usersIDs) && is_array($usersIDs)) {
-                $userRepository = $container->get('entity_manager')->getRepository('Entities:User');
+                $userRepository = $this->getEntityManager()->getRepository('Entities:User');
                 $this->users = $userRepository->findBy(['id' => $usersIDs]);
             }
         }
@@ -99,7 +99,6 @@ class ActivateUsers extends Controller
         }
 
         $activatedUsersCount = 0;
-        $em = $this->getContainer()->get('entity_manager');
 
         foreach ($users as $user) {
             if (! $user->isPending()) {
@@ -111,7 +110,7 @@ class ActivateUsers extends Controller
             }
         }
 
-        $em->flush();
+        $this->getEntityManager()->flush();
 
         EBB\redirect(
             EBB\addQueryArgs(

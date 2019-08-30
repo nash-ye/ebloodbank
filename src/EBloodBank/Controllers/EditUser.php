@@ -35,7 +35,7 @@ class EditUser extends Controller
     {
         parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $userRepository = $container->get('entity_manager')->getRepository('Entities:User');
+            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
             $this->user = $userRepository->find($id);
         }
     }
@@ -118,8 +118,7 @@ class EditUser extends Controller
                 return;
             }
 
-            $em = $this->getContainer()->get('entity_manager');
-            $userRepository = $em->getRepository('Entities:User');
+            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
 
             // Set the user name.
             $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
@@ -154,7 +153,7 @@ class EditUser extends Controller
                 $user->set('role', filter_input(INPUT_POST, 'user_role'), true);
             }
 
-            $em->flush($user);
+            $this->getEntityManager()->flush($user);
 
             EBB\redirect(
                 EBB\addQueryArgs(

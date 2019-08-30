@@ -33,7 +33,7 @@ class DeleteUser extends Controller
     {
         parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $userRepository = $container->get('entity_manager')->getRepository('Entities:User');
+            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
             $this->user = $userRepository->find($id);
         }
     }
@@ -103,9 +103,8 @@ class DeleteUser extends Controller
             return;
         }
 
-        $em = $this->getContainer()->get('entity_manager');
-        $em->remove($user);
-        $em->flush();
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
 
         EBB\redirect(
             EBB\addQueryArgs(

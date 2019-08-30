@@ -34,7 +34,7 @@ class DeleteCity extends Controller
     {
         parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $cityRepository = $container->get('entity_manager')->getRepository('Entities:City');
+            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
             $this->city = $cityRepository->find($id);
         }
     }
@@ -104,8 +104,7 @@ class DeleteCity extends Controller
             return;
         }
 
-        $em = $this->getContainer()->get('entity_manager');
-        $districtRepository = $em->getRepository('Entities:District');
+        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
         $districtsCount = $districtRepository->countBy(['city' => $city]);
 
         if ($districtsCount > 0) {
@@ -113,8 +112,8 @@ class DeleteCity extends Controller
             return;
         }
 
-        $em->remove($city);
-        $em->flush();
+        $this->getEntityManager()->remove($city);
+        $this->getEntityManager()->flush();
 
         EBB\redirect(
             EBB\addQueryArgs(

@@ -35,7 +35,7 @@ class EditDonor extends Controller
     {
         parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $donorRepository = $container->get('entity_manager')->getRepository('Entities:Donor');
+            $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
             $this->donor = $donorRepository->find($id);
         }
     }
@@ -121,8 +121,7 @@ class EditDonor extends Controller
                 return;
             }
 
-            $em = $this->getContainer()->get('entity_manager');
-            $districtRepository = $em->getRepository('Entities:District');
+            $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
             // Set the donor name.
             $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
@@ -162,7 +161,7 @@ class EditDonor extends Controller
                 $donor->set('status', 'pending');
             }
 
-            $em->flush($donor);
+            $this->getEntityManager()->flush($donor);
 
             EBB\redirect(
                 EBB\addQueryArgs(

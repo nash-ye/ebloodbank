@@ -33,7 +33,7 @@ class DeleteDonor extends Controller
     {
         parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $donorRepository = $container->get('entity_manager')->getRepository('Entities:Donor');
+            $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
             $this->donor = $donorRepository->find($id);
         }
     }
@@ -103,9 +103,8 @@ class DeleteDonor extends Controller
             return;
         }
 
-        $em = $this->getContainer()->get('entity_manager');
-        $em->remove($donor);
-        $em->flush();
+        $this->getEntityManager()->remove($donor);
+        $this->getEntityManager()->flush();
 
         EBB\redirect(
             EBB\addQueryArgs(

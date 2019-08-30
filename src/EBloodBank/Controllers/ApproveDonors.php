@@ -23,7 +23,7 @@ class ApproveDonors extends Controller
      * @var \EBloodBank\Models\Donor[]
      * @since 1.1
      */
-    protected $donors;
+    protected $donors = [];
 
     /**
      * @return void
@@ -31,12 +31,11 @@ class ApproveDonors extends Controller
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->donors = [];
         parent::__construct($container);
         if (filter_has_var(INPUT_POST, 'donors')) {
             $donorsIDs = filter_input(INPUT_POST, 'donors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($donorsIDs) && is_array($donorsIDs)) {
-                $donorRepository = $container->get('entity_manager')->getRepository('Entities:Donor');
+                $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
                 $this->donors = $donorRepository->findBy(['id' => $donorsIDs]);
             }
         }
@@ -100,7 +99,6 @@ class ApproveDonors extends Controller
         }
 
         $approvedDonorsCount = 0;
-        $em = $this->getContainer()->get('entity_manager');
 
         foreach ($donors as $donor) {
             if (! $donor->isPending()) {
@@ -112,7 +110,7 @@ class ApproveDonors extends Controller
             }
         }
 
-        $em->flush();
+        $this->getEntityManager()->flush();
 
         EBB\redirect(
             EBB\addQueryArgs(

@@ -67,8 +67,7 @@ class ViewCities extends Controller
      */
     public function getAllCities()
     {
-        $entityManager = $this->getContainer()->get('entity_manager');
-        $cityRepository = $entityManager->getRepository('Entities:City');
+        $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
 
         return $cityRepository->findAll([], ['created_at' => 'DESC']);
     }
@@ -79,8 +78,7 @@ class ViewCities extends Controller
      */
     public function countAllCities()
     {
-        $entityManager = $this->getContainer()->get('entity_manager');
-        $cityRepository = $entityManager->getRepository('Entities:City');
+        $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
 
         return $cityRepository->countAll();
     }
@@ -91,8 +89,7 @@ class ViewCities extends Controller
      */
     public function getQueriedCities()
     {
-        $entityManager = $this->getContainer()->get('entity_manager');
-        $cityRepository = $entityManager->getRepository('Entities:City');
+        $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
 
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;

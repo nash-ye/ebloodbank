@@ -296,9 +296,8 @@ SQL;
         $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
         $user->set('status', 'activated');
 
-        $em = $this->getContainer()->get('entity_manager');
-        $em->persist($user);
-        $em->flush();
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
     }
 
     /**

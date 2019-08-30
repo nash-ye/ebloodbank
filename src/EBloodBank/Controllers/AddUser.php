@@ -107,8 +107,7 @@ class AddUser extends Controller
             }
 
             $user = $this->getQueriedUser();
-            $em = $this->getContainer()->get('entity_manager');
-            $userRepository = $em->getRepository('Entities:User');
+            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
 
             // Set the user name.
             $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
@@ -153,8 +152,8 @@ class AddUser extends Controller
                 $user->set('status', Options::getOption('new_user_status'), true);
             }
 
-            $em->persist($user);
-            $em->flush();
+            $this->getEntityManager()->persist($user);
+            $this->getEntityManager()->flush();
 
             $added = $user->isExists();
 

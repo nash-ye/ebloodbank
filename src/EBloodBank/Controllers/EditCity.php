@@ -35,7 +35,7 @@ class EditCity extends Controller
     {
         parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $cityRepository = $container->get('entity_manager')->getRepository('Entities:City');
+            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
             $this->city = $cityRepository->find($id);
         }
     }
@@ -118,8 +118,7 @@ class EditCity extends Controller
                 return;
             }
 
-            $em = $this->getContainer()->get('entity_manager');
-            $cityRepository = $em->getRepository('Entities:City');
+            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
 
             // Set the city name.
             $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
@@ -130,7 +129,7 @@ class EditCity extends Controller
                 throw new InvalidArgumentException(__('Please enter a unique city name.'));
             }
 
-            $em->flush($city);
+            $this->getEntityManager()->flush($city);
 
             EBB\redirect(
                 EBB\addQueryArgs(

@@ -33,7 +33,7 @@ class ApproveDonor extends Controller
     {
         parent::__construct($container);
         if (EBB\isValidID($id)) {
-            $donorRepository = $container->get('entity_manager')->getRepository('Entities:Donor');
+            $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
             $this->donor = $donorRepository->find($id);
         }
     }
@@ -107,9 +107,8 @@ class ApproveDonor extends Controller
             return;
         }
 
-        $em = $this->getContainer()->get('entity_manager');
         $donor->set('status', 'approved');
-        $em->flush($donor);
+        $this->getEntityManager()->flush($donor);
 
         EBB\redirect(
             EBB\addQueryArgs(

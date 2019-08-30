@@ -36,7 +36,7 @@ class DeleteDistricts extends Controller
         if (filter_has_var(INPUT_POST, 'districts')) {
             $districtsIDs = filter_input(INPUT_POST, 'districts', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($districtsIDs) && is_array($districtsIDs)) {
-                $districtRepository = $container->get('entity_manager')->getRepository('Entities:District');
+                $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
                 $this->districts = $districtRepository->findBy(['id' => $districtsIDs]);
             }
         }
@@ -100,8 +100,7 @@ class DeleteDistricts extends Controller
         }
 
         $deletedDistrictsCount = 0;
-        $em = $this->getContainer()->get('entity_manager');
-        $donorRepository = $em->getRepository('Entities:Donor');
+        $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
 
         foreach ($districts as $district) {
             if ($this->getAcl()->canDeleteEntity($currentUser, $district)) {
@@ -112,12 +111,12 @@ class DeleteDistricts extends Controller
                     return;
                 }
 
-                $em->remove($district);
+                $this->getEntityManager()->remove($district);
                 $deletedDistrictsCount++;
             }
         }
 
-        $em->flush();
+        $this->getEntityManager()->flush();
 
         EBB\redirect(
             EBB\addQueryArgs(

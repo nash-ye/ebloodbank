@@ -23,7 +23,7 @@ class DeleteUsers extends Controller
      * @var \EBloodBank\Models\User[]
      * @since 1.1
      */
-    protected $users;
+    protected $users = [];
 
     /**
      * @return void
@@ -31,12 +31,11 @@ class DeleteUsers extends Controller
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->users = [];
         parent::__construct($container);
         if (filter_has_var(INPUT_POST, 'users')) {
             $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
             if (! empty($usersIDs) && is_array($usersIDs)) {
-                $userRepository = $container->get('entity_manager')->getRepository('Entities:User');
+                $userRepository = $this->getEntityManager()->getRepository('Entities:User');
                 $this->users = $userRepository->findBy(['id' => $usersIDs]);
             }
         }
@@ -100,16 +99,15 @@ class DeleteUsers extends Controller
         }
 
         $deletedUsersCount = 0;
-        $em = $this->getContainer()->get('entity_manager');
 
         foreach ($users as $user) {
             if ($this->getAcl()->canDeleteEntity($currentUser, $user)) {
-                $em->remove($user);
+                $this->getEntityManager()->remove($user);
                 $deletedUsersCount++;
             }
         }
 
-        $em->flush();
+        $this->getEntityManager()->flush();
 
         EBB\redirect(
             EBB\addQueryArgs(
