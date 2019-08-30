@@ -1,7 +1,7 @@
 {
     "name": "nash-ye/ebloodbank",
-    "description": "An open source blood bank system, that provides a set of must-have features to start an online blood bank.",
-    "version": "1.5-alpha-1",
+    "description": "An open-source blood bank system, that provides a set of must-have features to start an online blood bank.",
+    "version": "1.5",
     "license": "GPL-3.0+",
     "type": "project",
     "authors": [
