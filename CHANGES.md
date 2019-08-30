@@ -1,4 +1,0 @@
-- Update code architecture.
-- Load jQuery and Bootstrap from jsDelivr CDN.
-- Raise PHP and MySQL versions requirement.
-- Use JSON column type instead of separated tables. 
