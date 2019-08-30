@@ -1,24 +1,22 @@
 eBloodBank
 ==========
 
-An open source blood bank system, that provides a set of must-have features to start an online blood bank.
+An open-source blood bank system, that provides a set of must-have features to start an online blood bank.
 
 Feature Highlights
 ------------------
 
-- **Customizable** eBloodBank code is nicely organized to make the customization process a piece of cake.
+- **Customizable** The code is nicely organized to ease the customization process as much as possible.
 
-- **Ease to Use** eBloodBank designed with usability in mind, it's efficient to use and easy to learn.
+- **Translation Ready** It's ready for translation to your language using GNU gettext.
 
-- **Translation Ready** Not an English user? Never mind, eBloodBank is ready for translation to your language.
+- **Users Management** It ships with a straightforward users management system which includes, but is not limited to, the authentication, session and role-based-access-control mechanisms.
 
-- **Users Management** eBloodBank ships with a straightforward users management system which includes, but is not limited to, the authentication, session and role-based-access-control mechanisms.
+- **Donors Management** It includes a simple user-interface to add, edit, approve, remove and search by specific criteria.
 
-- **Donors Management** Storing blood donors data is not a messy process anymore, eBloodBank offers a simple user-interface to add, edit, approve, remove and search by specific criteria.
+- **City\District Taxonomy** It provides an ability to categorize the donors by a manageable cities and districts list.
 
-- **City\District Taxonomy** Being organized is being in control, eBloodBank provides an ability to categorize the donors by a manageable cities and districts list.
-
-- **Pretty Permalinks** eBloodBank add support for the Pretty Permalinks which make sense and not filled with incomprehensible parameters.
+- **Pretty Permalinks** It supports the Pretty Permalinks which make sense and not filled with incomprehensible parameters.
 
 Requirements
 ------------------
@@ -34,7 +32,7 @@ Installation
 1. Run composer and install the system packages.
 2. Open config/config.php.dist file in a text editor, fill in your information and save it as config/config.php.
 3. Open install.php in your browser and follow up the installer instructions.
-4. Sign in with the user e-mail and password you chose during the installation.
+4. Login with the user e-mail and password you chose during the installation.
 
 
 License
