@@ -14,8 +14,8 @@ $view->displayView('header', ['title' => d__('winry', 'Cities')]);
 
     <div class="btn-toolbar">
         <div class="btn-group" role="group">
-            <?= EBB\getEditCitiesLink(['content' => d__('winry', 'Edit'), 'atts' => ['class' => 'btn btn-primary btn-edit btn-edit-cities']]) ?>
-            <?= EBB\getAddCityLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-default btn-add btn-add-city']]) ?>
+            <?= EBB\getEditCitiesLink(['content' => d__('winry', 'Edit'), 'atts' => ['class' => 'btn btn-primary btn-edit btn-edit-cities']], $context) ?>
+            <?= EBB\getAddCityLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-default btn-add btn-add-city']], $context) ?>
         </div>
     </div>
 

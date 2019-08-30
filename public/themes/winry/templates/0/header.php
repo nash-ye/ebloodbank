@@ -44,16 +44,16 @@ use EBloodBank\Options;
 				</div>
 				<div id="navbar-collapse" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-left flip">
-                        <?= EBB\getHomeLink(['content' => EBB\escHTML(d__('winry', 'Home')), 'before' => '<li>', 'after' => '</li>']) ?>
-                        <?= EBB\getDonorsLink(['content' => EBB\escHTML(d__('winry', 'Donors')) . EBB\getPendingDonorsCountBadge(), 'before' => '<li>', 'after' => '</li>']) ?>
-                        <?= EBB\getCitiesLink(['content' => EBB\escHTML(d__('winry', 'Cities')), 'before' => '<li>', 'after' => '</li>']) ?>
-                        <?= EBB\getDistrictsLink(['content' => EBB\escHTML(d__('winry', 'Districts')), 'before' => '<li>', 'after' => '</li>']) ?>
-                        <?= EBB\getUsersLink(['content' => EBB\escHTML(d__('winry', 'Users')) . EBB\getPendingUsersCountBadge(), 'before' => '<li>', 'after' => '</li>']) ?>
-                        <?= EBB\getSettingsLink(['content' => EBB\escHTML(d__('winry', 'Settings')), 'before' => '<li>', 'after' => '</li>']) ?>
+                        <?= EBB\getHomeLink(['content' => EBB\escHTML(d__('winry', 'Home')), 'before' => '<li>', 'after' => '</li>'], $context) ?>
+                        <?= EBB\getDonorsLink(['content' => EBB\escHTML(d__('winry', 'Donors')) . EBB\getPendingDonorsCountBadge([], $context), 'before' => '<li>', 'after' => '</li>'], $context) ?>
+                        <?= EBB\getCitiesLink(['content' => EBB\escHTML(d__('winry', 'Cities')), 'before' => '<li>', 'after' => '</li>'], $context) ?>
+                        <?= EBB\getDistrictsLink(['content' => EBB\escHTML(d__('winry', 'Districts')), 'before' => '<li>', 'after' => '</li>'], $context) ?>
+                        <?= EBB\getUsersLink(['content' => EBB\escHTML(d__('winry', 'Users')) . EBB\getPendingUsersCountBadge([], $context), 'before' => '<li>', 'after' => '</li>'], $context) ?>
+                        <?= EBB\getSettingsLink(['content' => EBB\escHTML(d__('winry', 'Settings')), 'before' => '<li>', 'after' => '</li>'], $context) ?>
 					</ul>
 					<ul class="nav navbar-nav navbar-right flip">
                         <?php if (EBB\isUserLoggedIn()) : ?>
-                        <?= EBB\getEditUserLink(['user' => EBB\getCurrentUser(), 'content' => sprintf(d__('winry', 'Hello, <b>%s</b>!'), EBB\escHTML(EBB\getCurrentUser()->get('name'))), 'before' => '<li>', 'after' => '</li>']) ?>
+                        <?= EBB\getEditUserLink(['user' => EBB\getCurrentUser(), 'content' => sprintf(d__('winry', 'Hello, <b>%s</b>!'), EBB\escHTML(EBB\getCurrentUser()->get('name'))), 'before' => '<li>', 'after' => '</li>'], $context) ?>
                         <?= EBB\getLogoutLink(['before' => '<li>', 'after' => '</li>']) ?>
                         <?php else : ?>
                         <?= EBB\getLoginLink(['content' => EBB\escHTML(d__('winry', 'Anonymous, Log In?')), 'before' => '<li>', 'after' => '</li>']) ?>

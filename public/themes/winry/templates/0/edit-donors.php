@@ -14,8 +14,8 @@ $view->displayView('header', ['title' => d__('winry', 'Edit Donors')]);
 
     <div class="btn-toolbar">
         <div class="btn-group" role="group">
-            <?= EBB\getDonorsLink(['content' => d__('winry', 'View'), 'atts' => ['class' => 'btn btn-default btn-view btn-view-donors']]) ?>
-            <?= EBB\getAddDonorLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-primary btn-add btn-add-donor']]) ?>
+            <?= EBB\getDonorsLink(['content' => d__('winry', 'View'), 'atts' => ['class' => 'btn btn-default btn-view btn-view-donors']], $context) ?>
+            <?= EBB\getAddDonorLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-primary btn-add btn-add-donor']], $context) ?>
         </div>
     </div>
 
@@ -59,7 +59,7 @@ $view->displayView('header', ['title' => d__('winry', 'Edit Donors')]);
                             <input type="checkbox" name="donors[]" value="<?php $donor->display('id', 'attr') ?>" class="cb-select" />
                         </td>
                         <td>
-                            <?= EBB\getEditDonorLink(['donor' => $donor, 'content' => EBB\escHTML($donor->get('name')), 'fallbackContent' => true]) ?>
+                            <?= EBB\getEditDonorLink(['donor' => $donor, 'content' => EBB\escHTML($donor->get('name')), 'fallbackContent' => true], $context) ?>
                             <?php if ($donor->isPending()) : ?>
                                 <span class="label label-warning"><?= EBB\escHTML(d__('winry', 'Pending')) ?></span>
                             <?php endif; ?>
@@ -69,16 +69,16 @@ $view->displayView('header', ['title' => d__('winry', 'Edit Donors')]);
                         <td><?php $donor->display('blood_group') ?></td>
                         <td>
                             <?php $city = $donor->get('district')->get('city') ?>
-                            <?= EBB\getEditCityLink(['city' => $city, 'content' => EBB\escHTML($city->get('name')), 'fallbackContent' => true]) ?>
+                            <?= EBB\getEditCityLink(['city' => $city, 'content' => EBB\escHTML($city->get('name')), 'fallbackContent' => true], $context) ?>
                         </td>
                         <td>
                             <?php $district = $donor->get('district') ?>
-                            <?= EBB\getEditDistrictLink(['district' => $district, 'content' => EBB\escHTML($district->get('name')), 'fallbackContent' => true]) ?>
+                            <?= EBB\getEditDistrictLink(['district' => $district, 'content' => EBB\escHTML($district->get('name')), 'fallbackContent' => true], $context) ?>
                         </td>
                         <td>
-                            <?= EBB\getEditDonorLink(['donor' => $donor, 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                            <?= EBB\getDeleteDonorLink(['donor' => $donor, 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
-                            <?= EBB\getApproveDonorLink(['donor' => $donor, 'content' => '<i class="glyphicon glyphicon-ok"></i>']) ?>
+                            <?= EBB\getEditDonorLink(['donor' => $donor, 'content' => '<i class="glyphicon glyphicon-pencil"></i>'], $context) ?>
+                            <?= EBB\getDeleteDonorLink(['donor' => $donor, 'content' => '<i class="glyphicon glyphicon-trash"></i>'], $context) ?>
+                            <?= EBB\getApproveDonorLink(['donor' => $donor, 'content' => '<i class="glyphicon glyphicon-ok"></i>'], $context) ?>
                         </td>
                     </tr>
 

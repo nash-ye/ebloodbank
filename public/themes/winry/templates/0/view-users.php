@@ -14,8 +14,8 @@ $view->displayView('header', ['title' => d__('winry', 'Users')]);
 
     <div class="btn-toolbar">
         <div class="btn-group" role="group">
-            <?= EBB\getEditUsersLink(['content' => d__('winry', 'Edit'), 'atts' => ['class' => 'btn btn-primary btn-edit btn-edit-users']]) ?>
-            <?= EBB\getAddUserLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-default btn-add btn-add-user']]) ?>
+            <?= EBB\getEditUsersLink(['content' => d__('winry', 'Edit'), 'atts' => ['class' => 'btn btn-primary btn-edit btn-edit-users']], $context) ?>
+            <?= EBB\getAddUserLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-default btn-add btn-add-user']], $context) ?>
         </div>
     </div>
 
@@ -43,7 +43,7 @@ $view->displayView('header', ['title' => d__('winry', 'Users')]);
                     <?php endif; ?>
                 </td>
 				<td><?php $user->display('email') ?></td>
-				<td><?= EBB\escHTML($user->getRoleTitle()) ?></td>
+				<td><?= EBB\escHTML($user->get('role')) ?></td>
 			</tr>
 
             <?php endforeach; ?>

@@ -14,8 +14,8 @@ $view->displayView('header', ['title' => d__('winry', 'Edit Users')]);
 
     <div class="btn-toolbar">
         <div class="btn-group" role="group">
-            <?= EBB\getUsersLink(['content' => d__('winry', 'View'), 'atts' => ['class' => 'btn btn-default btn-view btn-view-users']]) ?>
-            <?= EBB\getAddUserLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-primary btn-add btn-add-user']]) ?>
+            <?= EBB\getUsersLink(['content' => d__('winry', 'View'), 'atts' => ['class' => 'btn btn-default btn-view btn-view-users']], $context) ?>
+            <?= EBB\getAddUserLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-primary btn-add btn-add-user']], $context) ?>
         </div>
     </div>
 
@@ -44,17 +44,17 @@ $view->displayView('header', ['title' => d__('winry', 'Edit Users')]);
                         <input type="checkbox" name="users[]" value="<?php $user->display('id', 'attr') ?>" class="cb-select" />
                     </td>
                     <td>
-                        <?= EBB\getEditUserLink(['user' => $user, 'content' => EBB\escHTML($user->get('name'))]) ?>
+                        <?= EBB\getEditUserLink(['user' => $user, 'content' => EBB\escHTML($user->get('name'))], $context) ?>
                         <?php if ($user->isPending()) : ?>
                             <span class="label label-warning"><?= EBB\escHTML(d__('winry', 'Pending')) ?></span>
                         <?php endif; ?>
                     </td>
                     <td><?php $user->display('email') ?></td>
-                    <td><?= EBB\escHTML($user->getRoleTitle()) ?></td>
+                    <td><?= EBB\escHTML($user->get('role')) ?></td>
                     <td>
-                        <?= EBB\getEditUserLink(['user' => $user, 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                        <?= EBB\getDeleteUserLink(['user' => $user, 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
-                        <?= EBB\getActivateUserLink(['user' => $user, 'content' => '<i class="glyphicon glyphicon-ok"></i>']) ?>
+                        <?= EBB\getEditUserLink(['user' => $user, 'content' => '<i class="glyphicon glyphicon-pencil"></i>'], $context) ?>
+                        <?= EBB\getDeleteUserLink(['user' => $user, 'content' => '<i class="glyphicon glyphicon-trash"></i>'], $context) ?>
+                        <?= EBB\getActivateUserLink(['user' => $user, 'content' => '<i class="glyphicon glyphicon-ok"></i>'], $context) ?>
                     </td>
                 </tr>
 

@@ -14,8 +14,8 @@ $view->displayView('header', ['title' => d__('winry', 'Donors')]);
 
     <div class="btn-toolbar">
         <div class="btn-group" role="group">
-            <?= EBB\getEditDonorsLink(['content' => d__('winry', 'Edit'), 'atts' => ['class' => 'btn btn-primary btn-edit btn-edit-donors']]) ?>
-            <?= EBB\getAddDonorLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-default btn-add btn-add-donor']]) ?>
+            <?= EBB\getEditDonorsLink(['content' => d__('winry', 'Edit'), 'atts' => ['class' => 'btn btn-primary btn-edit btn-edit-donors']], $context) ?>
+            <?= EBB\getAddDonorLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-default btn-add btn-add-donor']], $context) ?>
         </div>
     </div>
 
@@ -52,7 +52,7 @@ $view->displayView('header', ['title' => d__('winry', 'Donors')]);
 				<tr>
 					<td><?php $donor->display('id') ?></td>
 					<td>
-                        <?= EBB\getDonorLink(['donor' => $donor, 'content' => EBB\escHTML($donor->get('name')), 'fallbackContent' => true]) ?>
+                        <?= EBB\getDonorLink(['donor' => $donor, 'content' => EBB\escHTML($donor->get('name')), 'fallbackContent' => true], $context) ?>
                         <?php if ($donor->isPending()) : ?>
                             <span class="label label-warning"><?= EBB\escHTML(d__('winry', 'Pending')) ?></span>
                         <?php endif; ?>

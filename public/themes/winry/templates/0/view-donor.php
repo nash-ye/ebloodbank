@@ -39,14 +39,14 @@ $view->displayView('header', ['title' => $donor->get('name')]); ?>
         <dd><?= EBB\escHTML($donor->getMeta('email')) ?></dd>
 		<?php elseif ('members' === $donorEmailVisibility) : ?>
         <dt><?= EBB\escHTML(d__('winry', 'E-mail')) ?></dt>
-		<?php if (EBB\isUserLoggedIn() && EBB\getCurrentUser()->canViewDonor($donor)) : ?>
+		<?php if (EBB\isUserLoggedIn() && $acl->canReadEntity(EBB\getCurrentUser(), $donor)) : ?>
         <dd><?= EBB\escHTML($donor->getMeta('email')) ?></dd>
 		<?php else : ?>
 		<dd><span class="text-warning"><?= EBB\escHTML(d__('winry', 'Only site members can view this donor e-mail address.')) ?></span></dd>
 		<?php endif; ?>
 		<?php elseif ('staff' === $donorEmailVisibility) : ?>
         <dt><?= EBB\escHTML(d__('winry', 'E-mail')) ?></dt>
-		<?php if (EBB\isUserLoggedIn() && EBB\getCurrentUser()->canEditDonor($donor)) : ?>
+		<?php if (EBB\isUserLoggedIn() && $acl->canEditEntity(EBB\getCurrentUser(), $donor)) : ?>
         <dd><?= EBB\escHTML($donor->getMeta('email')) ?></dd>
 		<?php else : ?>
 		<dd><span class="text-warning"><?= EBB\escHTML(d__('winry', 'Only site staff can view this donor e-mail address.')) ?></span></dd>
@@ -60,14 +60,14 @@ $view->displayView('header', ['title' => $donor->get('name')]); ?>
         <dd><?= EBB\escHTML($donor->getMeta('phone')) ?></dd>
 		<?php elseif ('members' === $donorPhoneVisibility) : ?>
         <dt><?= EBB\escHTML(d__('winry', 'Phone')) ?></dt>
-		<?php if (EBB\isUserLoggedIn() && EBB\getCurrentUser()->canViewDonor($donor)) : ?>
+		<?php if (EBB\isUserLoggedIn() && $acl->canReadEntity(EBB\getCurrentUser(), $donor)) : ?>
         <dd><?= EBB\escHTML($donor->getMeta('phone')) ?></dd>
 		<?php else : ?>
 		<dd><span class="text-warning"><?= EBB\escHTML(d__('winry', 'Only site members can view this donor phone number.')) ?></span></dd>
 		<?php endif; ?>
 		<?php elseif ('staff' === $donorPhoneVisibility) : ?>
         <dt><?= EBB\escHTML(d__('winry', 'Phone')) ?></dt>
-		<?php if (EBB\isUserLoggedIn() && EBB\getCurrentUser()->canEditDonor($donor)) : ?>
+		<?php if (EBB\isUserLoggedIn() && $acl->canEditEntity(EBB\getCurrentUser(), $donor)) : ?>
         <dd><?= EBB\escHTML($donor->getMeta('phone')) ?></dd>
 		<?php else : ?>
 		<dd><span class="text-warning"><?= EBB\escHTML(d__('winry', 'Only site staff can view this donor phone number.')) ?></span></dd>

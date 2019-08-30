@@ -14,8 +14,8 @@ $view->displayView('header', ['title' => d__('winry', 'Edit Cities')]);
 
     <div class="btn-toolbar">
         <div class="btn-group" role="group">
-            <?= EBB\getCitiesLink(['content' => d__('winry', 'View'), 'atts' => ['class' => 'btn btn-default btn-view btn-view-cities']]) ?>
-            <?= EBB\getAddCityLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-primary btn-add btn-add-city']]) ?>
+            <?= EBB\getCitiesLink(['content' => d__('winry', 'View'), 'atts' => ['class' => 'btn btn-default btn-view btn-view-cities']], $context) ?>
+            <?= EBB\getAddCityLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-primary btn-add btn-add-city']], $context) ?>
         </div>
     </div>
 
@@ -44,11 +44,11 @@ $view->displayView('header', ['title' => d__('winry', 'Edit Cities')]);
                         <input type="checkbox" name="cities[]" value="<?php $city->display('id', 'attr') ?>" class="cb-select" />
                     </td>
                     <td>
-                        <?= EBB\getEditCityLink(['city' => $city, 'content' => EBB\escHTML($city->get('name')), 'fallbackContent' => true]) ?>
+                        <?= EBB\getEditCityLink(['city' => $city, 'content' => EBB\escHTML($city->get('name')), 'fallbackContent' => true], $context) ?>
                     </td>
                     <td>
-                        <?= EBB\getEditCityLink(['city' => $city, 'content' => '<i class="glyphicon glyphicon-pencil"></i>']) ?>
-                        <?= EBB\getDeleteCityLink(['city' => $city, 'content' => '<i class="glyphicon glyphicon-trash"></i>']) ?>
+                        <?= EBB\getEditCityLink(['city' => $city, 'content' => '<i class="glyphicon glyphicon-pencil"></i>'], $context) ?>
+                        <?= EBB\getDeleteCityLink(['city' => $city, 'content' => '<i class="glyphicon glyphicon-trash"></i>'], $context) ?>
                     </td>
                 </tr>
 

@@ -14,8 +14,8 @@ $view->displayView('header', ['title' => d__('winry', 'Districts')]);
 
     <div class="btn-toolbar">
         <div class="btn-group" role="group">
-            <?= EBB\getEditDistrictsLink(['content' => d__('winry', 'Edit'), 'atts' => ['class' => 'btn btn-primary btn-edit btn-edit-districts']]) ?>
-            <?= EBB\getAddDistrictLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-default btn-add btn-add-district']]) ?>
+            <?= EBB\getEditDistrictsLink(['content' => d__('winry', 'Edit'), 'atts' => ['class' => 'btn btn-primary btn-edit btn-edit-districts']], $context) ?>
+            <?= EBB\getAddDistrictLink(['content' => d__('winry', 'Add New'), 'atts' => ['class' => 'btn btn-default btn-add btn-add-district']], $context) ?>
         </div>
     </div>
 

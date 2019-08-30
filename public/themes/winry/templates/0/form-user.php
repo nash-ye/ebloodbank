@@ -56,8 +56,8 @@ use EBloodBank\Roles;
 		</div>
 		<div class="col-sm-4">
             <select name="user_role" id="user_role" class="form-control" required>
-				<?php foreach (Roles::getRoles() as $role) : ?>
-                <option<?= EBB\toAttributes(['value' => $role->getSlug(), 'selected' => ($role->getSlug() === $user->get('role'))]) ?>><?= EBB\escHTML($role->getTitle()) ?></option>
+				<?php foreach ($acl->getRoles() as $role) : ?>
+                <option<?= EBB\toAttributes(['value' => $role, 'selected' => ($role === $user->get('role'))]) ?>><?= EBB\escHTML($role) ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>

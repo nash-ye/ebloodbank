@@ -111,8 +111,8 @@ $view->displayView('header', ['title' => d__('winry', 'Settings')]);
                 <div class="col-sm-4">
                     <select name="new_user_role" id="new_user_role" class="form-control">
                         <?php $newUserRole = Options::getOption('new_user_role') ?>
-                        <?php foreach (Roles::getRoles() as $role) : ?>
-                        <option<?= EBB\toAttributes(['value' => $role->getSlug(), 'selected' => $role->getSlug() === $newUserRole]) ?>><?= EBB\escHTML($role->getTitle()) ?></option>
+                        <?php foreach ($acl->getRoles() as $role) : ?>
+                        <option<?= EBB\toAttributes(['value' => $role, 'selected' => $role === $newUserRole]) ?>><?= EBB\escHTML($role) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
