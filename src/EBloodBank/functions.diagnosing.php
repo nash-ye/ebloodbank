@@ -97,6 +97,26 @@ function isAllTablesExists(DBAL\Connection $connection)
 }
 
 /**
+ * Whether any of application database tables is exist.
+ *
+ * @return bool
+ * @since  1.6
+ */
+function isAnyTablesExists(DBAL\Connection $connection)
+{
+    try {
+        $tablesNames = ['user', 'donor', 'city', 'district', 'variable'];
+        $randTableName = $tablesNames[array_rand($tablesNames, 1)];
+
+        $connection->executeQuery("SELECT 1 FROM $randTableName LIMIT 1");
+    } catch (DBAL\DBALException $ex) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
  * @return int
  * @since 1.2
  */
@@ -109,7 +129,7 @@ function getInstallationStatus(DBAL\Connection $connection, $forceCheck = false)
             $status = DATABASE_NOT_SELECTED;
         } elseif (! isDatabaseConnected($connection)) {
             $status = DATABASE_NOT_CONNECTED;
-        } elseif (! isAllTablesExists($connection)) {
+        } elseif (! isAnyTablesExists($connection)) {
             $status = DATABASE_TABLE_NOT_EXIST;
         } else {
             $status = DATABASE_INSTALLED;
