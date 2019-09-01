@@ -44,9 +44,7 @@ class DeleteDonor extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'delete')) {
             View::display('error-403');
             return;
         }
@@ -58,7 +56,7 @@ class DeleteDonor extends Controller
 
         $donor = $this->getQueriedDonor();
 
-        if (! $this->getAcl()->canDeleteEntity($currentUser, $donor)) {
+        if (! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $donor)) {
             View::display('error-403');
             return;
         }
@@ -95,10 +93,9 @@ class DeleteDonor extends Controller
             return;
         }
 
-        $currentUser = EBB\getCurrentUser();
         $donor = $this->getQueriedDonor();
 
-        if (! $currentUser || ! $this->getAcl()->canDeleteEntity($currentUser, $donor)) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $donor)) {
             return;
         }
 

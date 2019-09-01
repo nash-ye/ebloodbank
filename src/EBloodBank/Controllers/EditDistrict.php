@@ -46,9 +46,7 @@ class EditDistrict extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'edit')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'edit')) {
             View::display('error-403');
             return;
         }
@@ -60,7 +58,7 @@ class EditDistrict extends Controller
 
         $district = $this->getQueriedDistrict();
 
-        if (! $this->getAcl()->canEditEntity($currentUser, $district)) {
+        if (! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $district)) {
             View::display('error-403');
             return;
         }
@@ -110,10 +108,9 @@ class EditDistrict extends Controller
                 return;
             }
 
-            $currentUser = EBB\getCurrentUser();
             $district = $this->getQueriedDistrict();
 
-            if (! $currentUser || ! $this->getAcl()->canEditEntity($currentUser, $district)) {
+            if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $district)) {
                 return;
             }
 

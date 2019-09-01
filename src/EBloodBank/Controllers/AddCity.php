@@ -46,8 +46,7 @@ class AddCity extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'City', 'add')) {
+        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'add')) {
             $this->doActions();
             $this->addNotices();
             $city = $this->getQueriedCity();
@@ -91,9 +90,7 @@ class AddCity extends Controller
     protected function doSubmitAction()
     {
         try {
-            $currentUser = EBB\getCurrentUser();
-
-            if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'add')) {
+            if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'add')) {
                 return;
             }
 
@@ -120,7 +117,7 @@ class AddCity extends Controller
             $city->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
 
             // Set the originator user.
-            $city->set('created_by', EBB\getCurrentUser());
+            $city->set('created_by', $this->getAuthenticatedUser());
 
             $this->getEntityManager()->persist($city);
             $this->getEntityManager()->flush();

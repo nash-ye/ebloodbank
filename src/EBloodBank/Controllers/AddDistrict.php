@@ -46,8 +46,7 @@ class AddDistrict extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'District', 'add')) {
+        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'add')) {
             $this->doActions();
             $this->addNotices();
             $district = $this->getQueriedDistrict();
@@ -91,9 +90,7 @@ class AddDistrict extends Controller
     protected function doSubmitAction()
     {
         try {
-            $currentUser = EBB\getCurrentUser();
-
-            if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'add')) {
+            if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'add')) {
                 return;
             }
 
@@ -117,7 +114,7 @@ class AddDistrict extends Controller
             $district->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
 
             // Set the originator user.
-            $district->set('created_by', EBB\getCurrentUser());
+            $district->set('created_by', $this->getAuthenticatedUser());
 
             $this->getEntityManager()->persist($district);
             $this->getEntityManager()->flush();

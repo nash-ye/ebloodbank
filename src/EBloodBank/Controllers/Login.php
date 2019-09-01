@@ -95,7 +95,7 @@ class Login extends Controller
      */
     protected function doLogoutAction()
     {
-        if (EBB\isUserLoggedIn()) {
+        if ($this->hasAuthenticatedUser()) {
             $this->getSession()->destroy();
             $this->getSession()->start();
             $this->getSession()->regenerateId();

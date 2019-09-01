@@ -47,8 +47,7 @@ class AddUser extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'User', 'add')) {
+        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'add')) {
             $this->doActions();
             $this->addNotices();
             $user = $this->getQueriedUser();
@@ -92,9 +91,7 @@ class AddUser extends Controller
     protected function doSubmitAction()
     {
         try {
-            $currentUser = EBB\getCurrentUser();
-
-            if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'add')) {
+            if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'add')) {
                 return;
             }
 
@@ -145,7 +142,7 @@ class AddUser extends Controller
             $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
 
             // Set the user status.
-            if ($this->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
+            if ($this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'activate')) {
                 $user->set('status', 'activated');
             } else {
                 $user->set('status', Options::getOption('new_user_status'), true);

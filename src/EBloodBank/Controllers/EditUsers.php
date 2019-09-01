@@ -25,13 +25,12 @@ class EditUsers extends ViewUsers
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'User', 'edit')) {
+        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'edit')) {
             $this->doActions();
             $this->addNotices();
             $view = View::forge('edit-users', [
-                'users' => $this->getQueriedUsers(),
-                'pagination.total' => $this->getPagesTotal(),
+                'users'              => $this->getQueriedUsers(),
+                'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
             ]);
         } else {

@@ -44,9 +44,7 @@ class ActivateUser extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'activate')) {
             View::display('error-403');
             return;
         }
@@ -58,7 +56,7 @@ class ActivateUser extends Controller
 
         $user = $this->getQueriedUser();
 
-        if (! $this->getAcl()->canActivateUser($currentUser, $user)) {
+        if (! $this->getAcl()->canActivateUser($this->getAuthenticatedUser(), $user)) {
             View::display('error-403');
             return;
         }
@@ -96,9 +94,8 @@ class ActivateUser extends Controller
         }
 
         $user = $this->getQueriedUser();
-        $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $this->getAcl()->canActivateUser($currentUser, $user)) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canActivateUser($this->getAuthenticatedUser(), $user)) {
             return;
         }
 

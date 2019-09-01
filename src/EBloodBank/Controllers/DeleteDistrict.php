@@ -44,9 +44,7 @@ class DeleteDistrict extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'delete')) {
             View::display('error-403');
             return;
         }
@@ -58,7 +56,7 @@ class DeleteDistrict extends Controller
 
         $district = $this->getQueriedDistrict();
 
-        if (! $this->getAcl()->canDeleteEntity($currentUser, $district)) {
+        if (! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $district)) {
             View::display('error-403');
             return;
         }
@@ -95,10 +93,9 @@ class DeleteDistrict extends Controller
             return;
         }
 
-        $currentUser = EBB\getCurrentUser();
         $district = $this->getQueriedDistrict();
 
-        if (! $currentUser || ! $this->getAcl()->canDeleteEntity($currentUser, $district)) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $district)) {
             return;
         }
 

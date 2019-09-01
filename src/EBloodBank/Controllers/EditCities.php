@@ -25,8 +25,7 @@ class EditCities extends ViewCities
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'City', 'edit')) {
+        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'edit')) {
             $this->doActions();
             $this->addNotices();
             $view = View::forge('edit-cities', [

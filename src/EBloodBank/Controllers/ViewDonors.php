@@ -25,17 +25,16 @@ class ViewDonors extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
-        if (! $isSitePublic && (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'read'))) {
+        if (! $isSitePublic && (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'read'))) {
             View::display('error-403');
         } else {
             View::display('view-donors', [
-                'donors' => $this->getQueriedDonors(),
-                'pagination.total' => $this->getPagesTotal(),
+                'donors'             => $this->getQueriedDonors(),
+                'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
-                'filter.criteria' => $this->getFilterCriteria(),
-                'cityRepository' => $this->getEntityManager()->getRepository('Entities:City'),
+                'filter.criteria'    => $this->getFilterCriteria(),
+                'cityRepository'     => $this->getEntityManager()->getRepository('Entities:City'),
                 'districtRepository' => $this->getEntityManager()->getRepository('Entities:District'),
             ]);
         }
@@ -126,8 +125,7 @@ class ViewDonors extends Controller
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
-        $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'approve')) {
             $criteria['status'] = 'approved';
         }
 

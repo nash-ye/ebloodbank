@@ -47,8 +47,7 @@ class ActivateUsers extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'activate')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -78,9 +77,7 @@ class ActivateUsers extends Controller
      */
     protected function doActivateAction()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'activate')) {
             return;
         }
 
@@ -103,7 +100,7 @@ class ActivateUsers extends Controller
             if (! $user->isPending()) {
                 continue;
             }
-            if ($this->getAcl()->canActivateUser($currentUser, $user)) {
+            if ($this->getAcl()->canActivateUser($this->getAuthenticatedUser(), $user)) {
                 $user->set('status', 'activated');
                 $activatedUsersCount++;
             }

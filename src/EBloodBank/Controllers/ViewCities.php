@@ -25,14 +25,13 @@ class ViewCities extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
-        if (! $isSitePublic && (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'read'))) {
+        if (! $isSitePublic && (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'read'))) {
             View::display('error-403');
         } else {
             View::display('view-cities', [
-                'cities' => $this->getQueriedCities(),
-                'pagination.total' => $this->getPagesTotal(),
+                'cities'             => $this->getQueriedCities(),
+                'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
             ]);
         }

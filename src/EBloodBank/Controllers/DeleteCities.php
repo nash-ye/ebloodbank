@@ -48,8 +48,7 @@ class DeleteCities extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'delete')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -79,9 +78,7 @@ class DeleteCities extends Controller
      */
     protected function doDeleteAction()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'delete')) {
             return;
         }
 
@@ -102,7 +99,7 @@ class DeleteCities extends Controller
         $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
         foreach ($cities as $city) {
-            if ($this->getAcl()->canDeleteEntity($currentUser, $city)) {
+            if ($this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $city)) {
                 $districtsCount = $districtRepository->countBy(['city' => $city]);
 
                 if ($districtsCount > 0) {

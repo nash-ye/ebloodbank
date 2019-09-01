@@ -25,16 +25,15 @@ class EditDonors extends ViewDonors
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if ($currentUser && $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'edit')) {
+        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'edit')) {
             $this->doActions();
             $this->addNotices();
             $view = View::forge('edit-donors', [
-                'donors' => $this->getQueriedDonors(),
-                'pagination.total' => $this->getPagesTotal(),
+                'donors'             => $this->getQueriedDonors(),
+                'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
-                'filter.criteria' => $this->getFilterCriteria(),
-                'cityRepository' => $this->getEntityManager()->getRepository('Entities:City'),
+                'filter.criteria'    => $this->getFilterCriteria(),
+                'cityRepository'     => $this->getEntityManager()->getRepository('Entities:City'),
                 'districtRepository' => $this->getEntityManager()->getRepository('Entities:District'),
             ]);
         } else {

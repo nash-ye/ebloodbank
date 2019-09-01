@@ -45,9 +45,7 @@ class DeleteCity extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'delete')) {
             View::display('error-403');
             return;
         }
@@ -59,7 +57,7 @@ class DeleteCity extends Controller
 
         $city = $this->getQueriedCity();
 
-        if (! $this->getAcl()->canDeleteEntity($currentUser, $city)) {
+        if (! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $city)) {
             View::display('error-403');
             return;
         }
@@ -97,9 +95,8 @@ class DeleteCity extends Controller
         }
 
         $city = $this->getQueriedCity();
-        $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $this->getAcl()->canDeleteEntity($currentUser, $city)) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $city)) {
             return;
         }
 

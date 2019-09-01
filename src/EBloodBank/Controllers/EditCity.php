@@ -46,9 +46,7 @@ class EditCity extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'City', 'edit')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'edit')) {
             View::display('error-403');
             return;
         }
@@ -60,7 +58,7 @@ class EditCity extends Controller
 
         $city = $this->getQueriedCity();
 
-        if (! $this->getAcl()->canEditEntity($currentUser, $city)) {
+        if (! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $city)) {
             View::display('error-403');
             return;
         }
@@ -110,10 +108,9 @@ class EditCity extends Controller
                 return;
             }
 
-            $currentUser = EBB\getCurrentUser();
             $city = $this->getQueriedCity();
 
-            if (! $currentUser || ! $this->getAcl()->canEditEntity($currentUser, $city)) {
+            if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $city)) {
                 return;
             }
 

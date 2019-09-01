@@ -25,13 +25,12 @@ class ViewUsers extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'read')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'read')) {
             View::display('error-403');
         } else {
             View::display('view-users', [
-                'users' => $this->getQueriedUsers(),
-                'pagination.total' => $this->getPagesTotal(),
+                'users'              => $this->getQueriedUsers(),
+                'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
             ]);
         }
@@ -94,8 +93,7 @@ class ViewUsers extends Controller
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
         $criteria = [];
-        $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'approve')) {
             $criteria['status'] = 'activated';
         }
 

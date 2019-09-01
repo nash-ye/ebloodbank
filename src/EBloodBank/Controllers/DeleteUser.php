@@ -44,9 +44,7 @@ class DeleteUser extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'User', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'delete')) {
             View::display('error-403');
             return;
         }
@@ -58,7 +56,7 @@ class DeleteUser extends Controller
 
         $user = $this->getQueriedUser();
 
-        if (! $this->getAcl()->canDeleteEntity($currentUser, $user)) {
+        if (! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $user)) {
             View::display('error-403');
             return;
         }
@@ -96,9 +94,8 @@ class DeleteUser extends Controller
         }
 
         $user = $this->getQueriedUser();
-        $currentUser = EBB\getCurrentUser();
 
-        if (! $currentUser || ! $this->getAcl()->canDeleteEntity($currentUser, $user)) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $user)) {
             return;
         }
 

@@ -46,9 +46,7 @@ class EditDonor extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'edit')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'edit')) {
             View::display('error-403');
             return;
         }
@@ -60,7 +58,7 @@ class EditDonor extends Controller
 
         $donor = $this->getQueriedDonor();
 
-        if (! $this->getAcl()->canEditEntity($currentUser, $donor)) {
+        if (! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $donor)) {
             View::display('error-403');
             return;
         }
@@ -113,10 +111,9 @@ class EditDonor extends Controller
                 return;
             }
 
-            $currentUser = EBB\getCurrentUser();
             $donor = $this->getQueriedDonor();
 
-            if (! $currentUser || ! $this->getAcl()->canEditEntity($currentUser, $donor)) {
+            if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $donor)) {
                 return;
             }
 
@@ -156,7 +153,7 @@ class EditDonor extends Controller
             $donor->setMeta('address', filter_input(INPUT_POST, 'donor_address'), true);
 
             // Set the donor status.
-            if ($donor->isApproved() && ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
+            if ($donor->isApproved() && ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'approve')) {
                 $donor->set('status', 'pending');
             }
 

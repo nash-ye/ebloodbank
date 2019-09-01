@@ -48,8 +48,7 @@ class DeleteDonors extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'delete')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -79,9 +78,7 @@ class DeleteDonors extends Controller
      */
     protected function doDeleteAction()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'delete')) {
             return;
         }
 
@@ -101,7 +98,7 @@ class DeleteDonors extends Controller
         $deletedDonorsCount = 0;
 
         foreach ($donors as $donor) {
-            if ($this->getAcl()->canDeleteEntity($currentUser, $donor)) {
+            if ($this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $donor)) {
                 $this->getEntityManager()->remove($donor);
                 $deletedDonorsCount++;
             }

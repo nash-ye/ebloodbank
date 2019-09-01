@@ -46,9 +46,7 @@ class EditUser extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser) {
+        if (! $this->hasAuthenticatedUser()) {
             View::display('error-403');
             return;
         }
@@ -60,7 +58,7 @@ class EditUser extends Controller
 
         $user = $this->getQueriedUser();
 
-        if (! $this->getAcl()->canEditEntity($currentUser, $user)) {
+        if (! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $user)) {
             View::display('error-403');
             return;
         }
@@ -110,10 +108,9 @@ class EditUser extends Controller
                 return;
             }
 
-            $currentUser = EBB\getCurrentUser();
             $user = $this->getQueriedUser();
 
-            if (! $currentUser || ! $this->getAcl()->canEditEntity($currentUser, $user)) {
+            if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $user)) {
                 return;
             }
 
@@ -148,7 +145,7 @@ class EditUser extends Controller
             }
 
             // Set the user role.
-            if ($user->get('id') != EBB\getCurrentUserID()) {
+            if ($user->get('id') != $this->getAuthenticatedUser()->get('id')) {
                 $user->set('role', filter_input(INPUT_POST, 'user_role'), true);
             }
 

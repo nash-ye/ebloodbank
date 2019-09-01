@@ -47,8 +47,7 @@ class ApproveDonors extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'approve')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -78,9 +77,7 @@ class ApproveDonors extends Controller
      */
     protected function doApproveAction()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'approve')) {
             return;
         }
 
@@ -103,7 +100,7 @@ class ApproveDonors extends Controller
             if (! $donor->isPending()) {
                 continue;
             }
-            if ($this->getAcl()->canApproveDonor($currentUser, $donor)) {
+            if ($this->getAcl()->canApproveDonor($this->getAuthenticatedUser(), $donor)) {
                 $donor->set('status', 'approved');
                 $approvedDonorsCount++;
             }

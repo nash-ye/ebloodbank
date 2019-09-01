@@ -48,8 +48,7 @@ class DeleteDistricts extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'delete')) {
             $view = View::forge('error-403');
         } else {
             $this->doActions();
@@ -79,9 +78,7 @@ class DeleteDistricts extends Controller
      */
     protected function doDeleteAction()
     {
-        $currentUser = EBB\getCurrentUser();
-
-        if (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'delete')) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'delete')) {
             return;
         }
 
@@ -102,7 +99,7 @@ class DeleteDistricts extends Controller
         $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
 
         foreach ($districts as $district) {
-            if ($this->getAcl()->canDeleteEntity($currentUser, $district)) {
+            if ($this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $district)) {
                 $donorsCount = $donorRepository->countBy(['district' => $districts]);
 
                 if ($donorsCount > 0) {

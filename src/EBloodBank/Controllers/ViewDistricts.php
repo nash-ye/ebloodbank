@@ -25,14 +25,13 @@ class ViewDistricts extends Controller
      */
     public function __invoke()
     {
-        $currentUser = EBB\getCurrentUser();
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
-        if (! $isSitePublic && (! $currentUser || ! $this->getAcl()->isUserAllowed($currentUser, 'District', 'read'))) {
+        if (! $isSitePublic && (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'read'))) {
             View::display('error-403');
         } else {
             View::display('view-districts', [
-                'districts' => $this->getQueriedDistricts(),
-                'pagination.total' => $this->getPagesTotal(),
+                'districts'          => $this->getQueriedDistricts(),
+                'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
             ]);
         }
