@@ -82,10 +82,9 @@ class Login extends Controller
             return;
         }
 
-        $session = $this->getContainer()->get('session');
-        $segment = $session->getSegment('EBloodBank');
+        $segment = $this->getSession()->getSegment('EBloodBank');
         $segment->set('user_id', (int) $user->get('id'));
-        $session->regenerateId();
+        $this->getSession()->regenerateId();
 
         EBB\redirect(EBB\getHomeURL());
     }
@@ -97,10 +96,9 @@ class Login extends Controller
     protected function doLogoutAction()
     {
         if (EBB\isUserLoggedIn()) {
-            $session = $this->getContainer()->get('session');
-            $session->destroy();
-            $session->start();
-            $session->regenerateId();
+            $this->getSession()->destroy();
+            $this->getSession()->start();
+            $this->getSession()->regenerateId();
             EBB\redirect(
                 EBB\addQueryArgs(
                     EBB\getLoginURL(),

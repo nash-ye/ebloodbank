@@ -88,8 +88,7 @@ class ActivateUser extends Controller
      */
     protected function doActivateAction()
     {
-        $session = $this->getContainer()->get('session');
-        $sessionToken = $session->getCsrfToken();
+        $sessionToken = $this->getSession()->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
 
         if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
