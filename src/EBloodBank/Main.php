@@ -7,20 +7,9 @@
  */
 namespace EBloodBank;
 
-use Redis;
 use Monolog;
-use Gettext;
-use Doctrine;
-use Doctrine\ORM;
-use Doctrine\DBAL;
-use Swift_Mailer;
-use Swift_SmtpTransport;
-use Aura\Di\Factory;
-use Aura\Di\Container;
-use Aura\Dispatcher\Dispatcher;
-use Aura\Router\RouterContainer;
-use Aura\Session\SessionFactory;
-use Zend\Diactoros\ServerRequestFactory;
+use Aura\Di\ContainerBuilder;
+
 
 /**
  * Main class
@@ -52,7 +41,10 @@ class Main
      */
     private function setupContainer()
     {
-        $this->container = new Container(new Factory());
+        $containerBuilder = new ContainerBuilder();
+        $this->container = $containerBuilder->newConfiguredInstance([
+            ContainerConfig::class,
+        ]);
     }
 
     /**
@@ -71,19 +63,8 @@ class Main
      */
     private function setupLogger()
     {
-        $logger = new Monolog\Logger('Main Logger');
-        $this->getContainer()->set('logger', $logger);
-
-        if (EBB_DEV_MODE) {
-            $debugHandler = new Monolog\Handler\StreamHandler(EBB_LOGS_DIR . '/debug.log', Monolog\Logger::DEBUG);
-            $logger->pushHandler($debugHandler);
-        }
-
-        $warningsHandler = new Monolog\Handler\StreamHandler(EBB_LOGS_DIR . '/warnings.log', Monolog\Logger::WARNING);
-        $logger->pushHandler($warningsHandler);
-
         // Register the logger as an exception handler, error handler and fatal error handler.
-        Monolog\ErrorHandler::register($logger);
+        Monolog\ErrorHandler::register($this->getLogger());
     }
 
     /**
@@ -102,15 +83,6 @@ class Main
      */
     private function setupServerRequest()
     {
-        $request = ServerRequestFactory::fromGlobals(
-            $_SERVER,
-            $_GET,
-            $_POST,
-            $_COOKIE,
-            $_FILES
-        );
-
-        $this->getContainer()->set('request', $request);
     }
 
     /**
@@ -129,28 +101,6 @@ class Main
      */
     private function setupCacheDriver()
     {
-        if (EBB_DEV_MODE) {
-            $cacheDriver = new Doctrine\Common\Cache\ArrayCache();
-        } else {
-            if (EBB_REDIS_CACHE && extension_loaded('redis')) {
-                $redis = new Redis();
-                $redis->connect(EBB_REDIS_HOST, EBB_REDIS_PORT);
-                if (EBB_REDIS_PASS) {
-                    $redis->auth(EBB_REDIS_PASS);
-                }
-                if (EBB_REDIS_DB) {
-                    $redis->select(EBB_REDIS_DB);
-                }
-                $cacheDriver = new Doctrine\Common\Cache\RedisCache();
-                $cacheDriver->setRedis($redis);
-            } elseif (EBB_APCU_CACHE && extension_loaded('apcu')) {
-                $cacheDriver = new Doctrine\Common\Cache\ApcuCache();
-            } elseif (EBB_FS_CACHE && is_writable(EBB_CACHE_DIR)) {
-                $cacheDriver = new Doctrine\Common\Cache\FilesystemCache(EBB_CACHE_DIR, '.ebb.data');
-            }
-        }
-
-        $this->getContainer()->set('cache_driver', $cacheDriver ?: new Doctrine\Common\Cache\ArrayCache());
     }
 
     /**
@@ -169,10 +119,7 @@ class Main
      */
     private function setupTranslator()
     {
-        $translator = new Gettext\Translator();
-        $translator->register();
-
-        $this->getContainer()->set('translator', $translator);
+        $this->getTranslator()->register();
     }
 
     /**
@@ -191,18 +138,8 @@ class Main
      */
     private function setupDBConnection()
     {
-        $DBConnection = DBAL\DriverManager::getConnection([
-            'dbname'    => EBB_DB_NAME,
-            'user'      => EBB_DB_USER,
-            'password'  => EBB_DB_PASS,
-            'host'      => EBB_DB_HOST,
-            'driver'    => EBB_DB_DRIVER,
-            'charset'   => 'utf8',
-        ]);
-
-        $this->getContainer()->set('db_connection', $DBConnection);
-
-        tryDatabaseConnection($DBConnection); // Try to establish the database connection.
+        // Try to establish the database connection.
+        tryDatabaseConnection($this->getDBConnection());
     }
 
     /**
@@ -221,24 +158,6 @@ class Main
      */
     private function setupEntityManager()
     {
-        $config = ORM\Tools\Setup::createConfiguration((bool) EBB_DEV_MODE);
-
-        $entitiesPaths = [trimTrailingSlash(EBB_DIR) . '/src/EBloodBank/Models/'];
-        $driverImpl = $config->newDefaultAnnotationDriver($entitiesPaths, true);
-        $config->addEntityNamespace('Entities', 'EBloodBank\Models');
-        $config->setMetadataDriverImpl($driverImpl);
-
-        $config->setProxyDir(trimTrailingSlash(EBB_DIR) . '/src/EBloodBank/Proxies/');
-        $config->setAutoGenerateProxyClasses((bool) EBB_DEV_MODE);
-        $config->setProxyNamespace('EBloodBank\Proxies');
-
-        $config->setMetadataCacheImpl($this->getCacheDriver());
-        $config->setResultCacheImpl($this->getCacheDriver());
-        $config->setQueryCacheImpl($this->getCacheDriver());
-
-        $entityManager = ORM\EntityManager::create($this->getDBConnection(), $config);
-
-        $this->getContainer()->set('entity_manager', $entityManager);
     }
 
     /**
@@ -257,10 +176,7 @@ class Main
      */
     private function setupRouter()
     {
-        $basepath = trimTrailingSlash(getHomeURL('relative'));
-
-        $routerContainer = new RouterContainer($basepath);
-        $this->getContainer()->set('router', $routerContainer);
+        $routerContainer = $this->getRouter();
 
         $routerMap = $routerContainer->getMap();
 
@@ -334,9 +250,6 @@ class Main
      */
     private function setupMailer()
     {
-        $transport = Swift_SmtpTransport::newInstance();
-        $mailer = Swift_Mailer::newInstance($transport);
-        $this->getContainer()->set('mailer', $mailer);
     }
 
     /**
@@ -410,9 +323,7 @@ class Main
      */
     private function setupSession()
     {
-        $sessionFactory = new SessionFactory();
-        $session = $sessionFactory->newInstance($_COOKIE);
-        $this->getContainer()->set('session', $session);
+        $session = $this->getSession();
 
         if (! $session->isStarted()) {
             $session->setName('EBB_SESSION_ID');
@@ -442,8 +353,6 @@ class Main
      */
     private function setupAcl()
     {
-        $aclFactory = new AclFactory();
-        $this->getContainer()->set('acl', $aclFactory($this->getContainer()));
     }
 
     /**
@@ -559,8 +468,8 @@ class Main
             },
         ];
 
-        $dispatcher = new Dispatcher($controllers);
-        $this->getContainer()->set('dispatcher', $dispatcher);
+        $dispatcher = $this->getDispatcher();
+        $dispatcher->setObjects($controllers);
     }
 
     /**

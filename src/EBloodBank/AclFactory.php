@@ -5,7 +5,7 @@
  */
 namespace EBloodBank;
 
-use Aura\Di\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * @since 1.5

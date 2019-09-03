@@ -16,7 +16,7 @@ use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Models\Donor;
 use EBloodBank\Views\View;
-use Aura\Di\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Add donor page controller class

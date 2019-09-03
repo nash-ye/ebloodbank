@@ -9,7 +9,7 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank\Models\User;
-use Aura\Di\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use EBloodBank\Traits\AclTrait;
 use EBloodBank\Traits\SessionTrait;
 use EBloodBank\Traits\EntityManagerTrait;
@@ -26,7 +26,7 @@ abstract class Controller
     use EntityManagerTrait;
 
     /**
-     * @var \Aura\Di\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      * @since 1.2
      */
     protected $container;
@@ -50,7 +50,7 @@ abstract class Controller
     }
 
     /**
-     * @var \Aura\Di\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      * @since 1.2
      */
     public function getContainer()
@@ -93,7 +93,10 @@ abstract class Controller
     protected function getAuthenticatedUser()
     {
         if (is_null($this->authenticatedUser)) {
-            $this->setAuthenticatedUser($this->findAuthenticatedUser());
+            $authenticatedUser = $this->findAuthenticatedUser();
+            if ($authenticatedUser) {
+                $this->setAuthenticatedUser($authenticatedUser);
+            }
         }
 
         return $this->authenticatedUser;

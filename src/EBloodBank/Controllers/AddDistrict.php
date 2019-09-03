@@ -15,7 +15,7 @@ use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\District;
 use EBloodBank\Views\View;
-use Aura\Di\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Add district page controller class

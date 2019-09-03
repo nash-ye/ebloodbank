@@ -10,7 +10,7 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Views\View;
-use Aura\Di\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Activate users page controller class

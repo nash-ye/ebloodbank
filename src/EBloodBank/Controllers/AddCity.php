@@ -15,7 +15,7 @@ use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\City;
 use EBloodBank\Views\View;
-use Aura\Di\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Add city page controller class
