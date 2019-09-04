@@ -10,7 +10,6 @@ namespace EBloodBank;
 use Monolog;
 use Aura\Di\ContainerBuilder;
 
-
 /**
  * Main class
  *
@@ -272,27 +271,6 @@ class Main
     }
 
     /**
-     * @access private
-     * @return void
-     * @since 1.0.1
-     */
-    private function setupSession()
-    {
-        $session = $this->getSession();
-
-        if (! $session->isStarted()) {
-            $session->setName('EBB_SESSION_ID');
-            $session->setCookieParams([
-                'lifetime' => 3600,
-                'path'     => parse_url(getHomeURL(), PHP_URL_PATH),
-                'secure'   => isHTTPS(),
-                'httponly' => true,
-            ]);
-            $session->start();
-        }
-    }
-
-    /**
      * @return \Aura\Session\Session
      * @since 1.0.1
      */
@@ -494,9 +472,6 @@ class Main
 
             // Sets up the current theme.
             $instance->setupCurrentTheme();
-
-            // Sets up the session.
-            $instance->setupSession();
 
             // Sets up the router.
             $instance->setupRouter();

@@ -23,6 +23,19 @@ class SessionFactory
         $sessionFactory = new Session\SessionFactory();
         $session = $sessionFactory->newInstance($_COOKIE);
 
+        if (! $session->isStarted()) {
+            $session->setName('EBB_SESSION_ID');
+            $session->setCookieParams(
+                [
+                    'lifetime' => 3600,
+                    'path'     => parse_url(getHomeURL(), PHP_URL_PATH),
+                    'secure'   => isHTTPS(),
+                    'httponly' => true,
+                ]
+            );
+            $session->start();
+        }
+
         return $session;
     }
 }
