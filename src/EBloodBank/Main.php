@@ -77,39 +77,12 @@ class Main
     }
 
     /**
-     * @access private
-     * @return void
-     * @since 1.3
-     */
-    private function setupServerRequest()
-    {
-    }
-
-    /**
      * @return \Zend\Diactoros\ServerRequest
      * @since 1.3
      */
     public function getServerRequest()
     {
         return $this->getContainer()->get('request');
-    }
-
-    /**
-     * @access private
-     * @return void
-     * @since 1.3
-     */
-    private function setupCacheDriver()
-    {
-    }
-
-    /**
-     * @return \Doctrine\Common\Cache\Cache
-     * @since 1.3
-     */
-    public function getCacheDriver()
-    {
-        return $this->getContainer()->get('cache_driver');
     }
 
     /**
@@ -149,15 +122,6 @@ class Main
     public function getDBConnection()
     {
         return $this->getContainer()->get('db_connection');
-    }
-
-    /**
-     * @access private
-     * @return void
-     * @since 1.0
-     */
-    private function setupEntityManager()
-    {
     }
 
     /**
@@ -241,15 +205,6 @@ class Main
     public function getRouter()
     {
         return $this->getContainer()->get('router');
-    }
-
-    /**
-     * @access private
-     * @return void
-     * @since 1.1
-     */
-    private function setupMailer()
-    {
     }
 
     /**
@@ -344,15 +299,6 @@ class Main
     public function getSession()
     {
         return $this->getContainer()->get('session');
-    }
-
-    /**
-     * @access private
-     * @return void
-     * @since 1.0
-     */
-    private function setupAcl()
-    {
     }
 
     /**
@@ -537,32 +483,17 @@ class Main
             // Sets up the logger.
             $instance->setupLogger();
 
-            // Sets up the server request.
-            $instance->setupServerRequest();
-
-            // Sets up the cache driver.
-            $instance->setupCacheDriver();
-
             // Sets up the translator.
             $instance->setupTranslator();
 
             // Sets up the DB connection.
             $instance->setupDBConnection();
 
-            // Sets up the ORM entity manager.
-            $instance->setupEntityManager();
-
             // Sets up the current locale.
             $instance->setupCurrentLocale();
 
             // Sets up the current theme.
             $instance->setupCurrentTheme();
-
-            // Sets up the mailer.
-            $instance->setupMailer();
-
-            // Sets up the ACL.
-            $instance->setupAcl();
 
             // Sets up the session.
             $instance->setupSession();
