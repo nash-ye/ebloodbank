@@ -49,7 +49,7 @@ use EBloodBank\Roles;
 		</div>
 	</div>
 
-    <?php if ($user->get('id') != EBB\getCurrentUserID()) : ?>
+    <?php if ($user->get('id') != $currentUser->get('id')) : ?>
 	<div class="form-group">
 		<div class="col-sm-2">
 			<label for="user_role"><?= EBB\escHTML(d__('winry', 'Role')) ?> <span class="form-required">*</span></label>

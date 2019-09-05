@@ -52,11 +52,11 @@ use EBloodBank\Options;
                         <?= EBB\getSettingsLink(['content' => EBB\escHTML(d__('winry', 'Settings')), 'before' => '<li>', 'after' => '</li>'], $context) ?>
 					</ul>
 					<ul class="nav navbar-nav navbar-right flip">
-                        <?php if (EBB\isUserLoggedIn()) : ?>
-                        <?= EBB\getEditUserLink(['user' => EBB\getCurrentUser(), 'content' => sprintf(d__('winry', 'Hello, <b>%s</b>!'), EBB\escHTML(EBB\getCurrentUser()->get('name'))), 'before' => '<li>', 'after' => '</li>'], $context) ?>
-                        <?= EBB\getLogoutLink(['before' => '<li>', 'after' => '</li>']) ?>
+                        <?php if ($currentUser) : ?>
+                        <?= EBB\getEditUserLink(['user' => $currentUser, 'content' => sprintf(d__('winry', 'Hello, <b>%s</b>!'), EBB\escHTML($currentUser->get('name'))), 'before' => '<li>', 'after' => '</li>'], $context) ?>
+                        <?= EBB\getLogoutLink(['before' => '<li>', 'after' => '</li>'], $context) ?>
                         <?php else : ?>
-                        <?= EBB\getLoginLink(['content' => EBB\escHTML(d__('winry', 'Anonymous, Log In?')), 'before' => '<li>', 'after' => '</li>']) ?>
+                        <?= EBB\getLoginLink(['content' => EBB\escHTML(d__('winry', 'Anonymous, Log In?')), 'before' => '<li>', 'after' => '</li>'], $context) ?>
                         <?= EBB\getSignupLink(['before' => '<li>', 'after' => '</li>']) ?>
                         <?php endif; ?>
 					</ul>
