@@ -9,7 +9,6 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -49,10 +48,10 @@ class DeleteDonors extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'delete')) {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         } else {
             $this->doActions();
-            $view = View::forge('delete-donors', [
+            $view = $this->viewFactory->forgeView('delete-donors', [
                 'donors' => $this->getQueriedDonors(),
             ]);
         }

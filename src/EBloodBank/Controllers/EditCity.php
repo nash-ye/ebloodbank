@@ -11,7 +11,6 @@ namespace EBloodBank\Controllers;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -47,25 +46,25 @@ class EditCity extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'edit')) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         if (! $this->isQueriedCityExists()) {
-            View::display('error-404');
+            $this->viewFactory->displayView('error-404');
             return;
         }
 
         $city = $this->getQueriedCity();
 
         if (! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $city)) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         $this->doActions();
         $this->addNotices();
-        View::display('edit-city', [
+        $this->viewFactory->displayView('edit-city', [
             'city' => $city,
         ]);
     }

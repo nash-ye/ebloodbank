@@ -8,9 +8,7 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 
 /**
  * Edit donors page controller class
@@ -28,7 +26,7 @@ class EditDonors extends ViewDonors
         if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'edit')) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('edit-donors', [
+            $view = $this->viewFactory->forgeView('edit-donors', [
                 'donors'             => $this->getQueriedDonors(),
                 'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
@@ -37,7 +35,7 @@ class EditDonors extends ViewDonors
                 'districtRepository' => $this->getEntityManager()->getRepository('Entities:District'),
             ]);
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }

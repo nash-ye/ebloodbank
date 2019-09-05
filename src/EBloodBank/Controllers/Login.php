@@ -10,7 +10,6 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 
 /**
  * Log-in page controller class
@@ -27,7 +26,7 @@ class Login extends Controller
     {
         $this->doActions();
         $this->addNotices();
-        $view = View::forge('login');
+        $view = $this->viewFactory->forgeView('login');
         $view();
     }
 

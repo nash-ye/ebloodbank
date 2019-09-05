@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Views;
 
-use EBloodBank as EBB;
-use EBloodBank\Main;
 use EBloodBank\Themes;
 use EBloodBank\Traits\AclTrait;
 
@@ -35,38 +33,10 @@ class View
     protected $data;
 
     /**
-     * @return View
-     * @since 1.0
-     * @static
-     */
-    public static function forge($name, array $data = [])
-    {
-        $data += [
-            'currentUser' => EBB\getCurrentUser(),
-        ];
-
-        $view = new static($name, $data);
-        $view->setAcl(Main::getInstance()->getContainer()->get('acl'));
-
-        return $view;
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     * @static
-     */
-    public static function display($name, array $data = [])
-    {
-        $view = static::forge($name, $data);
-        $view();
-    }
-
-    /**
      * @return void
      * @since 1.0
      */
-    protected function __construct($name, array $data = [])
+    public function __construct($name, array $data = [])
     {
         $this->name = $name;
         $this->data = $data;
@@ -76,18 +46,23 @@ class View
      * @return View
      * @since 1.0
      */
-    public function forgeView($name, array $data = [])
+    public function forgeView(string $name, array $data = [])
     {
-        return self::forge($name, $data);
+        $data = array_merge($this->data, $data);
+        $view = new self($name, $data);
+        $view->setAcl($this->getAcl());
+
+        return $view;
     }
 
     /**
      * @return void
      * @since 1.0
      */
-    public function displayView($name, array $data = [])
+    public function displayView(string $name, array $data = [])
     {
-        return self::display($name, $data);
+        $view = $this->forgeView($name, $data);
+        $view();
     }
 
     /**

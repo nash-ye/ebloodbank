@@ -14,7 +14,6 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\User;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -50,11 +49,11 @@ class AddUser extends Controller
             $this->doActions();
             $this->addNotices();
             $user = $this->getQueriedUser();
-            $view = View::forge('add-user', [
+            $view = $this->viewFactory->forgeView('add-user', [
                 'user' => $user,
             ]);
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }

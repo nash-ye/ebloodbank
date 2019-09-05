@@ -10,7 +10,6 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -49,10 +48,10 @@ class DeleteCities extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'delete')) {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         } else {
             $this->doActions();
-            $view = View::forge('delete-cities', [
+            $view = $this->viewFactory->forgeView('delete-cities', [
                 'cities' => $this->getQueriedCities(),
             ]);
         }

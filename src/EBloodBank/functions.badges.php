@@ -25,10 +25,12 @@ function getPendingUsersCountBadge(array $args = [], View $context = null)
         'after' => '',
     ], $args);
 
-    $currentUser = getCurrentUser();
+    if ($context) {
+        $currentUser = $context->get('currentUser');
 
-    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
-        return $badge;
+        if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'User', 'activate')) {
+            return $badge;
+        }
     }
 
     if (! isset($args['atts']['class'])) {
@@ -62,10 +64,12 @@ function getPendingDonorsCountBadge(array $args = [], View $context = null)
         'after'  => '',
     ], $args);
 
-    $currentUser = getCurrentUser();
+    if ($context) {
+        $currentUser = $context->get('currentUser');
 
-    if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
-        return $badge;
+        if (! $currentUser || ! $context->getAcl()->isUserAllowed($currentUser, 'Donor', 'approve')) {
+            return $badge;
+        }
     }
 
     if (! isset($args['atts']['class'])) {

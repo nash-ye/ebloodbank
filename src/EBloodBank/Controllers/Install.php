@@ -16,7 +16,6 @@ use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Options;
 use EBloodBank\Models\User;
-use EBloodBank\Views\View;
 
 /**
  * Install page controller class
@@ -34,12 +33,12 @@ class Install extends Controller
         $connection = $this->getContainer()->get('db_connection');
         if (EBB\getInstallationStatus($connection) !== EBB\DATABASE_INSTALLED || Options::getOption('installing')) {
             $this->doStepAction();
-            $view = View::forge('install', [
+            $view = $this->viewFactory->forgeView('install', [
                 'step' => $this->getStep(),
                 'status' => 'installing',
             ]);
         } else {
-            $view = View::forge('install', [
+            $view = $this->viewFactory->forgeView('install', [
                 'status' => 'installed',
             ]);
         }

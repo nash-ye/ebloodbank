@@ -11,7 +11,6 @@ namespace EBloodBank\Controllers;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -47,25 +46,25 @@ class EditDonor extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'edit')) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         if (! $this->isQueriedDonorExists()) {
-            View::display('error-404');
+            $this->viewFactory->displayView('error-404');
             return;
         }
 
         $donor = $this->getQueriedDonor();
 
         if (! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $donor)) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         $this->doActions();
         $this->addNotices();
-        View::display('edit-donor', [
+        $this->viewFactory->displayView('edit-donor', [
             'donor' => $donor,
         ]);
     }

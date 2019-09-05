@@ -8,9 +8,7 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank as EBB;
 use EBloodBank\Options;
-use EBloodBank\Views\View;
 
 /**
  * View users page controller class
@@ -26,9 +24,9 @@ class ViewUsers extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'read')) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
         } else {
-            View::display('view-users', [
+            $this->viewFactory->displayView('view-users', [
                 'users'              => $this->getQueriedUsers(),
                 'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),

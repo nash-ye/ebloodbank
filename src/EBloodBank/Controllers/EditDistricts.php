@@ -8,9 +8,7 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 
 /**
  * Edit districts page controller class
@@ -28,13 +26,13 @@ class EditDistricts extends ViewDistricts
         if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'edit')) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('edit-districts', [
+            $view = $this->viewFactory->forgeView('edit-districts', [
                 'districts' => $this->getQueriedDistricts(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
             ]);
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }

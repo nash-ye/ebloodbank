@@ -32,13 +32,18 @@ abstract class Controller
     protected $container;
 
     /**
+     * @var \EBloodBank\Views\ViewFactory
+     * @since 1.6
+     */
+    protected $viewFactory;
+
+    /**
      * @var \EBloodBank\Models\User|null
      * @since 1.2
      */
     protected $authenticatedUser;
 
     /**
-     * @return void
      * @since 1.2
      */
     public function __construct(ContainerInterface $container)
@@ -47,10 +52,13 @@ abstract class Controller
         $this->setAcl($container->get('acl'));
         $this->setSession($container->get('session'));
         $this->setEntityManager($container->get('entity_manager'));
+
+        $this->viewFactory = $container->get('viewFactory');
+        $this->viewFactory->setData('currentUser', $this->getAuthenticatedUser());
     }
 
     /**
-     * @var \Psr\Container\ContainerInterface
+     * @var   \Psr\Container\ContainerInterface
      * @since 1.2
      */
     public function getContainer()

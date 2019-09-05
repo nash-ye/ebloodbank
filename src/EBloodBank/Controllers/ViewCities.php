@@ -10,7 +10,6 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Options;
-use EBloodBank\Views\View;
 
 /**
  * View cities page controller class
@@ -27,9 +26,9 @@ class ViewCities extends Controller
     {
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
         if (! $isSitePublic && (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'read'))) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
         } else {
-            View::display('view-cities', [
+            $this->viewFactory->displayView('view-cities', [
                 'cities'             => $this->getQueriedCities(),
                 'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),

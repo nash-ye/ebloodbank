@@ -12,7 +12,6 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Options;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 
 /**
  * Settings page controller class
@@ -30,9 +29,9 @@ class Settings extends Controller
         if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Setting', 'edit')) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('settings');
+            $view = $this->viewFactory->forgeView('settings');
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }

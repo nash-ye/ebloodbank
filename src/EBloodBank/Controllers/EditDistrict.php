@@ -11,7 +11,6 @@ namespace EBloodBank\Controllers;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -47,25 +46,25 @@ class EditDistrict extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'edit')) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         if (! $this->isQueriedDistrictExists()) {
-            View::display('error-404');
+            $this->viewFactory->displayView('error-404');
             return;
         }
 
         $district = $this->getQueriedDistrict();
 
         if (! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $district)) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         $this->doActions();
         $this->addNotices();
-        View::display('edit-district', [
+        $this->viewFactory->displayView('edit-district', [
             'district' => $district,
         ]);
     }

@@ -9,7 +9,6 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -45,24 +44,24 @@ class DeleteDonor extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'delete')) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         if (! $this->isQueriedDonorExists()) {
-            View::display('error-404');
+            $this->viewFactory->displayView('error-404');
             return;
         }
 
         $donor = $this->getQueriedDonor();
 
         if (! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $donor)) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         $this->doActions();
-        View::display('delete-donor', [
+        $this->viewFactory->displayView('delete-donor', [
             'donor' => $donor,
         ]);
     }

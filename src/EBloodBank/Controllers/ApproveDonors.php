@@ -9,7 +9,6 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -48,10 +47,10 @@ class ApproveDonors extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'approve')) {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         } else {
             $this->doActions();
-            $view = View::forge('approve-donors', [
+            $view = $this->viewFactory->forgeView('approve-donors', [
                 'donors' => $this->getQueriedDonors(),
             ]);
         }

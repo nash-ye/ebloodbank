@@ -10,7 +10,6 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Options;
-use EBloodBank\Views\View;
 
 /**
  * View districts page controller class
@@ -27,9 +26,9 @@ class ViewDistricts extends Controller
     {
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
         if (! $isSitePublic && (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'read'))) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
         } else {
-            View::display('view-districts', [
+            $this->viewFactory->displayView('view-districts', [
                 'districts'          => $this->getQueriedDistricts(),
                 'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),

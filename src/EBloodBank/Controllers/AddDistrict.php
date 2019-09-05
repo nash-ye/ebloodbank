@@ -14,7 +14,6 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\District;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -50,11 +49,11 @@ class AddDistrict extends Controller
             $this->doActions();
             $this->addNotices();
             $district = $this->getQueriedDistrict();
-            $view = View::forge('add-district', [
+            $view = $this->viewFactory->forgeView('add-district', [
                 'district' => $district,
             ]);
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }

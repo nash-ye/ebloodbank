@@ -9,7 +9,6 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -45,24 +44,24 @@ class DeleteDistrict extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'delete')) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         if (! $this->isQueriedDistrictExists()) {
-            View::display('error-404');
+            $this->viewFactory->displayView('error-404');
             return;
         }
 
         $district = $this->getQueriedDistrict();
 
         if (! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $district)) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         $this->doActions();
-        View::display('delete-district', [
+        $this->viewFactory->displayView('delete-district', [
             'district' => $district,
         ]);
     }

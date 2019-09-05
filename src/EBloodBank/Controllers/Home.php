@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank\Views\View;
-
 /**
  * Home page controller class
  *
@@ -23,7 +21,7 @@ class Home extends Controller
      */
     public function __invoke()
     {
-        $view = View::forge('home');
+        $view = $this->viewFactory->forgeView('home');
         $view();
     }
 }

@@ -9,7 +9,6 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -45,24 +44,24 @@ class ActivateUser extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'activate')) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         if (! $this->isQueriedUserExists()) {
-            View::display('error-404');
+            $this->viewFactory->displayView('error-404');
             return;
         }
 
         $user = $this->getQueriedUser();
 
         if (! $this->getAcl()->canActivateUser($this->getAuthenticatedUser(), $user)) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         $this->doActions();
-        View::display('activate-user', [
+        $this->viewFactory->displayView('activate-user', [
             'user' => $user,
         ]);
     }

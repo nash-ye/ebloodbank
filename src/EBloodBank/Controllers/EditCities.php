@@ -8,9 +8,7 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 
 /**
  * Edit cities page controller class
@@ -28,13 +26,13 @@ class EditCities extends ViewCities
         if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'edit')) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('edit-cities', [
+            $view = $this->viewFactory->forgeView('edit-cities', [
                 'cities' => $this->getQueriedCities(),
                 'pagination.total' => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
             ]);
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }

@@ -15,7 +15,6 @@ use EBloodBank as EBB;
 use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Models\Donor;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -51,11 +50,11 @@ class AddDonor extends Controller
             $this->doActions();
             $this->addNotices();
             $donor = $this->getQueriedDonor();
-            $view = View::forge('add-donor', [
+            $view = $this->viewFactory->forgeView('add-donor', [
                 'donor' => $donor,
             ]);
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }

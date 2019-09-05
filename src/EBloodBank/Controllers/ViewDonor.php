@@ -10,7 +10,6 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -48,24 +47,24 @@ class ViewDonor extends Controller
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
 
         if (! $isSitePublic && (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'read'))) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         if (! $this->isQueriedDonorExists()) {
-            View::display('error-404');
+            $this->viewFactory->displayView('error-404');
             return;
         }
 
         $donor = $this->getQueriedDonor();
 
         if ($this->hasAuthenticatedUser() && ! $this->getAcl()->canReadEntity($this->getAuthenticatedUser(), $donor)) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
             return;
         }
 
         $this->addNotices();
-        View::display('view-donor', [
+        $this->viewFactory->displayView('view-donor', [
             'donor' => $donor,
         ]);
     }

@@ -10,7 +10,6 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -49,10 +48,10 @@ class DeleteDistricts extends Controller
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'delete')) {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         } else {
             $this->doActions();
-            $view = View::forge('delete-districts', [
+            $view = $this->viewFactory->forgeView('delete-districts', [
                 'districts' => $this->getQueriedDistricts(),
             ]);
         }

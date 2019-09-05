@@ -8,9 +8,7 @@
  */
 namespace EBloodBank\Controllers;
 
-use EBloodBank as EBB;
 use EBloodBank\Notices;
-use EBloodBank\Views\View;
 
 /**
  * Edit users page controller class
@@ -28,13 +26,13 @@ class EditUsers extends ViewUsers
         if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'edit')) {
             $this->doActions();
             $this->addNotices();
-            $view = View::forge('edit-users', [
+            $view = $this->viewFactory->forgeView('edit-users', [
                 'users'              => $this->getQueriedUsers(),
                 'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
             ]);
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }

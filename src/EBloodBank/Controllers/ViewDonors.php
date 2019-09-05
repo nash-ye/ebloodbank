@@ -10,7 +10,6 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Options;
-use EBloodBank\Views\View;
 
 /**
  * View donors page controller class
@@ -27,9 +26,9 @@ class ViewDonors extends Controller
     {
         $isSitePublic = ('on' === EBB\Options::getOption('site_publication'));
         if (! $isSitePublic && (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'read'))) {
-            View::display('error-403');
+            $this->viewFactory->displayView('error-403');
         } else {
-            View::display('view-donors', [
+            $this->viewFactory->displayView('view-donors', [
                 'donors'             => $this->getQueriedDonors(),
                 'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),

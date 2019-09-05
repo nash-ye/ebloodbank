@@ -14,7 +14,6 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\City;
-use EBloodBank\Views\View;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -50,11 +49,11 @@ class AddCity extends Controller
             $this->doActions();
             $this->addNotices();
             $city = $this->getQueriedCity();
-            $view = View::forge('add-city', [
+            $view = $this->viewFactory->forgeView('add-city', [
                 'city' => $city,
             ]);
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }

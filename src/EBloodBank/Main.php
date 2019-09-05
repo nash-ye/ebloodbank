@@ -422,18 +422,18 @@ class Main
                     break;
 
                 case DATABASE_NOT_CONNECTED:
-                    Views\View::display('error-db');
+                    $this->getContainer()->get('viewFactory')->displayView('error-db');
                     break;
 
                 default:
                     $matchedRoute = $this->getRouter()->getMatcher()->getMatchedRoute();
                     if (empty($matchedRoute)) {
-                        Views\View::display('error-404');
+                        $this->getContainer()->get('viewFactory')->displayView('error-404');
                     } else {
                         try {
                             $dispatcher($matchedRoute->attributes, $matchedRoute->name);
                         } catch (\Aura\Dispatcher\Exception\ObjectNotDefined $ex) {
-                            Views\View::display('error-404');
+                            $this->getContainer()->get('viewFactory')->displayView('error-404');
                         }
                     }
                     break;

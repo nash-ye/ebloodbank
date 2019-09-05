@@ -16,7 +16,6 @@ use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Models\User;
 use EBloodBank\Models\Donor;
-use EBloodBank\Views\View;
 
 /**
  * Sign-up page controller class
@@ -33,9 +32,9 @@ class Signup extends Controller
     {
         if ('on' === Options::getOption('self_registration')) {
             $this->doActions();
-            $view = View::forge('signup');
+            $view = $this->viewFactory->forgeView('signup');
         } else {
-            $view = View::forge('error-403');
+            $view = $this->viewFactory->forgeView('error-403');
         }
         $view();
     }
