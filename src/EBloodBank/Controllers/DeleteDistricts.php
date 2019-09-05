@@ -29,33 +29,27 @@ class DeleteDistricts extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-        if (filter_has_var(INPUT_POST, 'districts')) {
-            $districtsIDs = filter_input(INPUT_POST, 'districts', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
-            if (! empty($districtsIDs) && is_array($districtsIDs)) {
-                $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
-                $this->districts = $districtRepository->findBy(['id' => $districtsIDs]);
-            }
-        }
-    }
-
-    /**
-     * @return void
-     * @since 1.1
-     */
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'delete')) {
-            $view = $this->viewFactory->forgeView('error-403');
-        } else {
-            $this->doActions();
-            $view = $this->viewFactory->forgeView('delete-districts', [
-                'districts' => $this->getQueriedDistricts(),
-            ]);
+            $this->viewFactory->displayView('error-403');
+            return;
         }
-        $view();
+
+        if (filter_has_var(INPUT_POST, 'districts')) {
+            $districtsIDs = filter_input(INPUT_POST, 'districts', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
+            if (! empty($districtsIDs) && is_array($districtsIDs)) {
+                $this->districts = $this->getDistrictRepository()->findBy(['id' => $districtsIDs]);
+            }
+        }
+
+        $this->doActions();
+        $this->viewFactory->displayView(
+            'delete-districts',
+            [
+                'districts' => $this->districts,
+            ]
+        );
     }
 
     /**
@@ -88,18 +82,17 @@ class DeleteDistricts extends Controller
             return;
         }
 
-        $districts = $this->getQueriedDistricts();
+        $districts = $this->districts;
 
         if (! $districts || ! is_array($districts)) {
             return;
         }
 
         $deletedDistrictsCount = 0;
-        $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
 
         foreach ($districts as $district) {
             if ($this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $district)) {
-                $donorsCount = $donorRepository->countBy(['district' => $districts]);
+                $donorsCount = $this->getDonorRepository()->countBy(['district' => $districts]);
 
                 if ($donorsCount > 0) {
                     Notices::addNotice('linked_donors_exists', sprintf(__('At first, delete any linked donors with district "%s".'), $district->get('id')));
@@ -119,14 +112,5 @@ class DeleteDistricts extends Controller
                 ['flag-deleted' => $deletedDistrictsCount]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\District[]
-     * @since 1.1
-     */
-    protected function getQueriedDistricts()
-    {
-        return $this->districts;
     }
 }

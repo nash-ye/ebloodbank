@@ -14,7 +14,6 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\City;
-use Psr\Container\ContainerInterface;
 
 /**
  * Add city page controller class
@@ -33,29 +32,23 @@ class AddCity extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->city = new City();
-        parent::__construct($container);
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
     public function __invoke()
     {
-        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'add')) {
-            $this->doActions();
-            $this->addNotices();
-            $city = $this->getQueriedCity();
-            $view = $this->viewFactory->forgeView('add-city', [
-                'city' => $city,
-            ]);
-        } else {
-            $view = $this->viewFactory->forgeView('error-403');
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'add')) {
+            $this->viewFactory->displayView('error-403');
+            return;
         }
-        $view();
+
+        $this->city = new City();
+
+        $this->doActions();
+        $this->addNotices();
+        $this->viewFactory->displayView(
+            'add-city',
+            [
+                'city' => $this->city,
+            ]
+        );
     }
 
     /**
@@ -100,13 +93,12 @@ class AddCity extends Controller
                 return;
             }
 
-            $city = $this->getQueriedCity();
-            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
+            $city = $this->city;
 
             // Set the city name.
             $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
 
-            $duplicateCity = $cityRepository->findOneBy(['name' => $city->get('name')]);
+            $duplicateCity = $this->getCityRepository()->findOneBy(['name' => $city->get('name')]);
 
             if (! empty($duplicateCity)) {
                 throw new InvalidArgumentException(__('Please enter a unique city name.'));
@@ -132,14 +124,5 @@ class AddCity extends Controller
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_city_argument', $ex->getMessage());
         }
-    }
-
-    /**
-     * @return \EBloodBank\Models\City
-     * @since 1.0
-     */
-    protected function getQueriedCity()
-    {
-        return $this->city;
     }
 }

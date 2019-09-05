@@ -19,21 +19,25 @@ use Psr\Container\ContainerInterface;
 class DeleteDistrict extends Controller
 {
     /**
-     * @var \EBloodBank\Models\District
+     * @var   int
+     * @since 1.6
+     */
+    protected $districtId = 0;
+
+    /**
+     * @var \EBloodBank\Models\District|null
      * @since 1.0
      */
     protected $district;
 
     /**
-     * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container, $id)
+    public function __construct(ContainerInterface $container, $districtId)
     {
         parent::__construct($container);
-        if (EBB\isValidID($id)) {
-            $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
-            $this->district = $districtRepository->find($id);
+        if (EBB\isValidID($districtId)) {
+            $this->districtId = (int) $districtId;
         }
     }
 
@@ -48,12 +52,16 @@ class DeleteDistrict extends Controller
             return;
         }
 
-        if (! $this->isQueriedDistrictExists()) {
+        if ($this->districtId) {
+            $this->district = $this->getDistrictRepository()->find($this->districtId);
+        }
+
+        if (! $this->district) {
             $this->viewFactory->displayView('error-404');
             return;
         }
 
-        $district = $this->getQueriedDistrict();
+        $district = $this->district;
 
         if (! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $district)) {
             $this->viewFactory->displayView('error-403');
@@ -61,9 +69,12 @@ class DeleteDistrict extends Controller
         }
 
         $this->doActions();
-        $this->viewFactory->displayView('delete-district', [
-            'district' => $district,
-        ]);
+        $this->viewFactory->displayView(
+            'delete-district',
+            [
+                'district' => $district,
+            ]
+        );
     }
 
     /**
@@ -85,21 +96,20 @@ class DeleteDistrict extends Controller
      */
     protected function doDeleteAction()
     {
-        $sessionToken = $this->getSession()->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
+        $sessionToken = $this->getSession()->getCsrfToken();
 
         if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
             return;
         }
 
-        $district = $this->getQueriedDistrict();
+        $district = $this->district;
 
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $district)) {
             return;
         }
 
-        $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
-        $donorsCount = $donorRepository->countBy(['district' => $district]);
+        $donorsCount = $this->getDonorRepository()->countBy(['district' => $district]);
 
         if ($donorsCount > 0) {
             Notices::addNotice('linked_donors_exists', __('At first, delete any linked donors with this district.'));
@@ -115,24 +125,5 @@ class DeleteDistrict extends Controller
                 ['flag-deleted' => 1]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\District
-     * @since 1.0
-     */
-    protected function getQueriedDistrict()
-    {
-        return $this->district;
-    }
-
-    /**
-     * @return bool
-     * @since 1.2
-     */
-    protected function isQueriedDistrictExists()
-    {
-        $district = $this->getQueriedDistrict();
-        return ($district && $district->isExists());
     }
 }

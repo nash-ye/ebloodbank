@@ -20,21 +20,25 @@ use Psr\Container\ContainerInterface;
 class ViewDonor extends Controller
 {
     /**
-     * @var \EBloodBank\Models\Donor
+     * @var int
+     * @since 1.6
+     */
+    protected $donorId = 0;
+
+    /**
+     * @var \EBloodBank\Models\Donor|nul
      * @since 1.1
      */
     protected $donor;
 
     /**
-     * @return void
      * @since 1.1
      */
-    public function __construct(ContainerInterface $container, $id)
+    public function __construct(ContainerInterface $container, $donorId)
     {
         parent::__construct($container);
-        if (EBB\isValidID($id)) {
-            $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
-            $this->donor = $donorRepository->find($id);
+        if (EBB\isValidID($donorId)) {
+            $this->donorId = (int) $donorId;
         }
     }
 
@@ -51,12 +55,16 @@ class ViewDonor extends Controller
             return;
         }
 
-        if (! $this->isQueriedDonorExists()) {
+        if ($this->donorId) {
+            $this->donor = $this->getDonorRepository()->find($this->donorId);
+        }
+
+        if (! $this->donor) {
             $this->viewFactory->displayView('error-404');
             return;
         }
 
-        $donor = $this->getQueriedDonor();
+        $donor = $this->donor;
 
         if ($this->hasAuthenticatedUser() && ! $this->getAcl()->canReadEntity($this->getAuthenticatedUser(), $donor)) {
             $this->viewFactory->displayView('error-403');
@@ -64,9 +72,12 @@ class ViewDonor extends Controller
         }
 
         $this->addNotices();
-        $this->viewFactory->displayView('view-donor', [
-            'donor' => $donor,
-        ]);
+        $this->viewFactory->displayView(
+            'view-donor',
+            [
+                'donor' => $donor,
+            ]
+        );
     }
 
     /**
@@ -75,27 +86,8 @@ class ViewDonor extends Controller
      */
     protected function addNotices()
     {
-        if ($this->isQueriedDonorExists() && $this->getQueriedDonor()->isPending()) {
+        if ($this->donor && $this->donor->isPending()) {
             Notices::addNotice('pending', __('This donor is pendng moderation.'), 'warning');
         }
-    }
-
-    /**
-     * @return \EBloodBank\Models\Donor
-     * @since 1.1
-     */
-    protected function getQueriedDonor()
-    {
-        return $this->donor;
-    }
-
-    /**
-     * @return bool
-     * @since 1.2
-     */
-    protected function isQueriedDonorExists()
-    {
-        $donor = $this->getQueriedDonor();
-        return ($donor && $donor->isExists());
     }
 }

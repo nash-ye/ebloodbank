@@ -14,7 +14,6 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\District;
-use Psr\Container\ContainerInterface;
 
 /**
  * Add district page controller class
@@ -33,29 +32,23 @@ class AddDistrict extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-        $this->district = new District();
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
     public function __invoke()
     {
-        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'add')) {
-            $this->doActions();
-            $this->addNotices();
-            $district = $this->getQueriedDistrict();
-            $view = $this->viewFactory->forgeView('add-district', [
-                'district' => $district,
-            ]);
-        } else {
-            $view = $this->viewFactory->forgeView('error-403');
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'District', 'add')) {
+            $this->viewFactory->displayView('error-403');
+            return;
         }
-        $view();
+
+        $this->district = new District();
+
+        $this->doActions();
+        $this->addNotices();
+        $this->viewFactory->displayView(
+            'add-district',
+            [
+                'district' => $this->district,
+            ]
+        );
     }
 
     /**
@@ -100,14 +93,13 @@ class AddDistrict extends Controller
                 return;
             }
 
-            $district = $this->getQueriedDistrict();
-            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
+            $district = $this->district;
 
             // Set the district name.
             $district->set('name', filter_input(INPUT_POST, 'district_name'), true);
 
             // Set the district city ID.
-            $district->set('city', $cityRepository->find(filter_input(INPUT_POST, 'district_city_id')));
+            $district->set('city', $this->getCityRepository()->find(filter_input(INPUT_POST, 'district_city_id')));
 
             // Set the creation date.
             $district->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
@@ -129,14 +121,5 @@ class AddDistrict extends Controller
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_district_argument', $ex->getMessage());
         }
-    }
-
-    /**
-     * @return \EBloodBank\Models\District
-     * @since 1.0
-     */
-    protected function getQueriedDistrict()
-    {
-        return $this->district;
     }
 }

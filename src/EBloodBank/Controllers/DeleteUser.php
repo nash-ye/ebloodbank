@@ -19,21 +19,25 @@ use Psr\Container\ContainerInterface;
 class DeleteUser extends Controller
 {
     /**
-     * @var \EBloodBank\Models\User
+     * @var   int
+     * @since 1.6
+     */
+    protected $userId = 0;
+
+    /**
+     * @var \EBloodBank\Models\User|null
      * @since 1.0
      */
     protected $user;
 
     /**
-     * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container, $id)
+    public function __construct(ContainerInterface $container, $userId)
     {
         parent::__construct($container);
-        if (EBB\isValidID($id)) {
-            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-            $this->user = $userRepository->find($id);
+        if (EBB\isValidID($userId)) {
+            $this->userId = $userId;
         }
     }
 
@@ -48,12 +52,16 @@ class DeleteUser extends Controller
             return;
         }
 
-        if (! $this->isQueriedUserExists()) {
+        if ($this->userId) {
+            $this->user = $this->getUserRepository()->find($this->userId);
+        }
+
+        if (! $this->user) {
             $this->viewFactory->displayView('error-404');
             return;
         }
 
-        $user = $this->getQueriedUser();
+        $user = $this->user;
 
         if (! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $user)) {
             $this->viewFactory->displayView('error-403');
@@ -61,9 +69,12 @@ class DeleteUser extends Controller
         }
 
         $this->doActions();
-        $this->viewFactory->displayView('delete-user', [
-            'user' => $user,
-        ]);
+        $this->viewFactory->displayView(
+            'delete-user',
+            [
+                'user' => $user,
+            ]
+        );
     }
 
     /**
@@ -85,14 +96,14 @@ class DeleteUser extends Controller
      */
     protected function doDeleteAction()
     {
-        $sessionToken = $this->getSession()->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
+        $sessionToken = $this->getSession()->getCsrfToken();
 
         if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
             return;
         }
 
-        $user = $this->getQueriedUser();
+        $user = $this->user;
 
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $user)) {
             return;
@@ -107,24 +118,5 @@ class DeleteUser extends Controller
                 ['flag-deleted' => 1]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\User
-     * @since 1.0
-     */
-    protected function getQueriedUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @return bool
-     * @since 1.2
-     */
-    protected function isQueriedUserExists()
-    {
-        $user = $this->getQueriedUser();
-        return ($user && $user->isExists());
     }
 }

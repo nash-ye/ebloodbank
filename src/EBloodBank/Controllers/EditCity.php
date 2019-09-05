@@ -21,21 +21,25 @@ use Psr\Container\ContainerInterface;
 class EditCity extends Controller
 {
     /**
-     * @var \EBloodBank\Models\City
+     * @var   int
+     * @since 1.6
+     */
+    protected $cityId = 0;
+
+    /**
+     * @var \EBloodBank\Models\City|null
      * @since 1.0
      */
     protected $city;
 
     /**
-     * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container, $id)
+    public function __construct(ContainerInterface $container, $cityId)
     {
         parent::__construct($container);
-        if (EBB\isValidID($id)) {
-            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
-            $this->city = $cityRepository->find($id);
+        if (EBB\isValidID($cityId)) {
+            $this->cityId = $cityId;
         }
     }
 
@@ -50,12 +54,16 @@ class EditCity extends Controller
             return;
         }
 
-        if (! $this->isQueriedCityExists()) {
+        if (EBB\isValidID($this->cityId)) {
+            $this->city = $this->getCityRepository()->find($this->cityId);
+        }
+
+        if (! $this->city) {
             $this->viewFactory->displayView('error-404');
             return;
         }
 
-        $city = $this->getQueriedCity();
+        $city = $this->city;
 
         if (! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $city)) {
             $this->viewFactory->displayView('error-403');
@@ -64,9 +72,12 @@ class EditCity extends Controller
 
         $this->doActions();
         $this->addNotices();
-        $this->viewFactory->displayView('edit-city', [
-            'city' => $city,
-        ]);
+        $this->viewFactory->displayView(
+            'edit-city',
+            [
+                'city' => $city,
+            ]
+        );
     }
 
     /**
@@ -107,18 +118,16 @@ class EditCity extends Controller
                 return;
             }
 
-            $city = $this->getQueriedCity();
+            $city = $this->city;
 
             if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $city)) {
                 return;
             }
 
-            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
-
             // Set the city name.
             $city->set('name', filter_input(INPUT_POST, 'city_name'), true);
 
-            $duplicateCity = $cityRepository->findOneBy(['name' => $city->get('name')]);
+            $duplicateCity = $this->getCityRepository()->findOneBy(['name' => $city->get('name')]);
 
             if (! empty($duplicateCity) && $duplicateCity->get('id') != $city->get('id')) {
                 throw new InvalidArgumentException(__('Please enter a unique city name.'));
@@ -135,24 +144,5 @@ class EditCity extends Controller
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_city_argument', $ex->getMessage());
         }
-    }
-
-    /**
-     * @return \EBloodBank\Models\City
-     * @since 1.0
-     */
-    protected function getQueriedCity()
-    {
-        return $this->city;
-    }
-
-    /**
-     * @return bool
-     * @since 1.2
-     */
-    protected function isQueriedCityExists()
-    {
-        $city = $this->getQueriedCity();
-        return ($city && $city->isExists());
     }
 }

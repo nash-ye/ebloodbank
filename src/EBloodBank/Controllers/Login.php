@@ -68,8 +68,7 @@ class Login extends Controller
             return;
         }
 
-        $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-        $user = $userRepository->findOneBy(['email' => $userEmail, 'status' => 'any']);
+        $user = $this->getUserRepository()->findOneBy(['email' => $userEmail, 'status' => 'any']);
 
         if (empty($user) || ! password_verify($userPass, $user->get('pass'))) {
             Notices::addNotice('wrong_login_details', __('No match for user e-mail and/or password.'), 'warning');

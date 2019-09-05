@@ -31,8 +31,8 @@ class EditDonors extends ViewDonors
                 'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
                 'filter.criteria'    => $this->getFilterCriteria(),
-                'cityRepository'     => $this->getEntityManager()->getRepository('Entities:City'),
-                'districtRepository' => $this->getEntityManager()->getRepository('Entities:District'),
+                'cityRepository'     => $this->getCityRepository(),
+                'districtRepository' => $this->getDistrictRepository(),
             ]);
         } else {
             $view = $this->viewFactory->forgeView('error-403');

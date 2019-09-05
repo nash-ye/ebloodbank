@@ -61,15 +61,13 @@ class Signup extends Controller
         try {
             $user = new User();
 
-            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-
             // Set the user name.
             $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
 
             // Set the user email.
             $user->set('email', filter_input(INPUT_POST, 'user_email'), true);
 
-            $duplicateUser = $userRepository->findOneBy(['email' => $user->get('email'), 'status' => 'any']);
+            $duplicateUser = $this->getUserRepository()->findOneBy(['email' => $user->get('email'), 'status' => 'any']);
 
             if (! empty($duplicateUser)) {
                 throw new InvalidArgumentException(__('Please enter another e-mail address.'));
@@ -128,7 +126,6 @@ class Signup extends Controller
 
             if ($addDonor) {
                 $donor = new Donor();
-                $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
                 // Set the donor name.
                 $donor->set('name', filter_input(INPUT_POST, 'user_name'), true);
@@ -143,7 +140,7 @@ class Signup extends Controller
                 $donor->set('blood_group', filter_input(INPUT_POST, 'donor_blood_group'), true);
 
                 // Set the donor district ID.
-                $donor->set('district', $districtRepository->find(filter_input(INPUT_POST, 'donor_district_id')));
+                $donor->set('district', $this->getDistrictRepository()->find(filter_input(INPUT_POST, 'donor_district_id')));
 
                 // Set the creation date.
                 $donor->set('created_at', new DateTime('now', new DateTimeZone('UTC')));

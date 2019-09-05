@@ -19,21 +19,25 @@ use Psr\Container\ContainerInterface;
 class ActivateUser extends Controller
 {
     /**
-     * @var \EBloodBank\Models\User
+     * @var int
+     * @since 1.6
+     */
+    protected $userId = 0;
+
+    /**
+     * @var \EBloodBank\Models\User|null
      * @since 1.0
      */
     protected $user;
 
     /**
-     * @return void
      * @since 1.0
      */
     public function __construct(ContainerInterface $container, $userID)
     {
         parent::__construct($container);
         if (EBB\isValidID($userID)) {
-            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-            $this->user = $userRepository->find($userID);
+            $this->userId = (int) $userID;
         }
     }
 
@@ -48,22 +52,27 @@ class ActivateUser extends Controller
             return;
         }
 
-        if (! $this->isQueriedUserExists()) {
+        if ($this->userID) {
+            $this->user = $this->getUserRepository()->find($this->userID);
+        }
+
+        if (! $this->user) {
             $this->viewFactory->displayView('error-404');
             return;
         }
 
-        $user = $this->getQueriedUser();
-
-        if (! $this->getAcl()->canActivateUser($this->getAuthenticatedUser(), $user)) {
+        if (! $this->getAcl()->canActivateUser($this->getAuthenticatedUser(), $this->user)) {
             $this->viewFactory->displayView('error-403');
             return;
         }
 
         $this->doActions();
-        $this->viewFactory->displayView('activate-user', [
-            'user' => $user,
-        ]);
+        $this->viewFactory->displayView(
+            'activate-user',
+            [
+                'user' => $this->user,
+            ]
+        );
     }
 
     /**
@@ -85,25 +94,23 @@ class ActivateUser extends Controller
      */
     protected function doActivateAction()
     {
-        $sessionToken = $this->getSession()->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
+        $sessionToken = $this->getSession()->getCsrfToken();
 
         if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
             return;
         }
 
-        $user = $this->getQueriedUser();
-
-        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canActivateUser($this->getAuthenticatedUser(), $user)) {
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canActivateUser($this->getAuthenticatedUser(), $this->user)) {
             return;
         }
 
-        if (! $user->isPending()) {
+        if (! $this->user->isPending()) {
             return;
         }
 
-        $user->set('status', 'activated');
-        $this->getEntityManager()->flush($user);
+        $this->user->set('status', 'activated');
+        $this->getEntityManager()->flush($this->user);
 
         EBB\redirect(
             EBB\addQueryArgs(
@@ -111,24 +118,5 @@ class ActivateUser extends Controller
                 ['flag-activated' => 1]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\User
-     * @since 1.0
-     */
-    protected function getQueriedUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @return bool
-     * @since 1.2
-     */
-    protected function isQueriedUserExists()
-    {
-        $user = $this->getQueriedUser();
-        return ($user && $user->isExists());
     }
 }

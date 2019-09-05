@@ -9,7 +9,6 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
-use Psr\Container\ContainerInterface;
 
 /**
  * Delete users page controller class
@@ -28,33 +27,27 @@ class DeleteUsers extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-        if (filter_has_var(INPUT_POST, 'users')) {
-            $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
-            if (! empty($usersIDs) && is_array($usersIDs)) {
-                $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-                $this->users = $userRepository->findBy(['id' => $usersIDs]);
-            }
-        }
-    }
-
-    /**
-     * @return void
-     * @since 1.1
-     */
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'delete')) {
-            $view = $this->viewFactory->forgeView('error-403');
-        } else {
-            $this->doActions();
-            $view = $this->viewFactory->forgeView('delete-users', [
-                'users' => $this->getQueriedUsers(),
-            ]);
+            $this->viewFactory->displayView('error-403');
+            return;
         }
-        $view();
+
+        if (filter_has_var(INPUT_POST, 'users')) {
+            $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
+            if (! empty($usersIDs) && is_array($usersIDs)) {
+                $this->users = $this->getUserRepository()->findBy(['id' => $usersIDs]);
+            }
+        }
+
+        $this->doActions();
+        $this->viewFactory->displayView(
+            'delete-users',
+            [
+                'users' => $this->users,
+            ]
+        );
     }
 
     /**
@@ -87,7 +80,7 @@ class DeleteUsers extends Controller
             return;
         }
 
-        $users = $this->getQueriedUsers();
+        $users = $this->users;
 
         if (! $users || ! is_array($users)) {
             return;
@@ -110,14 +103,5 @@ class DeleteUsers extends Controller
                 ['flag-deleted' => $deletedUsersCount]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\User[]
-     * @since 1.1
-     */
-    protected function getQueriedUsers()
-    {
-        return $this->users;
     }
 }

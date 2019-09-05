@@ -33,8 +33,8 @@ class ViewDonors extends Controller
                 'pagination.total'   => $this->getPagesTotal(),
                 'pagination.current' => $this->getCurrentPage(),
                 'filter.criteria'    => $this->getFilterCriteria(),
-                'cityRepository'     => $this->getEntityManager()->getRepository('Entities:City'),
-                'districtRepository' => $this->getEntityManager()->getRepository('Entities:District'),
+                'cityRepository'     => $this->getCityRepository(),
+                'districtRepository' => $this->getDistrictRepository(),
             ]);
         }
     }
@@ -95,9 +95,7 @@ class ViewDonors extends Controller
      */
     public function getAllDonors()
     {
-        $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
-
-        return $donorRepository->findAll([], ['created_at' => 'DESC']);
+        return $this->getDonorRepository()->findAll([], ['created_at' => 'DESC']);
     }
 
     /**
@@ -106,9 +104,7 @@ class ViewDonors extends Controller
      */
     public function countAllDonors()
     {
-        $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
-
-        return $donorRepository->countAll();
+        return $this->getDonorRepository()->countAll();
     }
 
     /**
@@ -117,8 +113,6 @@ class ViewDonors extends Controller
      */
     public function getQueriedDonors()
     {
-        $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
-
         $criteria = $this->getFilterCriteria();
 
         $limit = (int) Options::getOption('entities_per_page');
@@ -128,7 +122,7 @@ class ViewDonors extends Controller
             $criteria['status'] = 'approved';
         }
 
-        return $donorRepository->findBy($criteria, ['created_at' => 'DESC'], $limit, $offset);
+        return $this->getDonorRepository()->findBy($criteria, ['created_at' => 'DESC'], $limit, $offset);
     }
 
     /**

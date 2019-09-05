@@ -66,9 +66,7 @@ class ViewDistricts extends Controller
      */
     public function getAllDistricts()
     {
-        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
-
-        return $districtRepository->findAll([], ['created_at' => 'DESC']);
+        return $this->getDistrictRepository()->findAll([], ['created_at' => 'DESC']);
     }
 
     /**
@@ -77,9 +75,7 @@ class ViewDistricts extends Controller
      */
     public function countAllDistricts()
     {
-        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
-
-        return $districtRepository->countAll();
+        return $this->getDistrictRepository()->countAll();
     }
 
     /**
@@ -88,12 +84,10 @@ class ViewDistricts extends Controller
      */
     public function getQueriedDistricts()
     {
-        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
-
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
-        return $districtRepository->findBy([], ['created_at' => 'DESC'], $limit, $offset);
+        return $this->getDistrictRepository()->findBy([], ['created_at' => 'DESC'], $limit, $offset);
     }
 
     /**

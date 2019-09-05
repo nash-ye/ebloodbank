@@ -21,21 +21,25 @@ use Psr\Container\ContainerInterface;
 class EditDonor extends Controller
 {
     /**
-     * @var \EBloodBank\Models\Donor
+     * @var   int
+     * @since 1.6
+     */
+    protected $donorId = 0;
+
+    /**
+     * @var \EBloodBank\Models\Donor|null
      * @since 1.0
      */
     protected $donor;
 
     /**
-     * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container, $id)
+    public function __construct(ContainerInterface $container, $donorId)
     {
         parent::__construct($container);
-        if (EBB\isValidID($id)) {
-            $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
-            $this->donor = $donorRepository->find($id);
+        if (EBB\isValidID($donorId)) {
+            $this->donorId = (int) $donorId;
         }
     }
 
@@ -50,12 +54,16 @@ class EditDonor extends Controller
             return;
         }
 
-        if (! $this->isQueriedDonorExists()) {
+        if ($this->donorId) {
+            $this->donor = $this->getDonorRepository()->find($this->donorId);
+        }
+
+        if (! $this->donor) {
             $this->viewFactory->displayView('error-404');
             return;
         }
 
-        $donor = $this->getQueriedDonor();
+        $donor = $this->donor;
 
         if (! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $donor)) {
             $this->viewFactory->displayView('error-403');
@@ -91,7 +99,7 @@ class EditDonor extends Controller
         if (filter_has_var(INPUT_GET, 'flag-edited')) {
             Notices::addNotice('edited', __('Donor edited.'), 'success');
         }
-        if ($this->isQueriedDonorExists() && $this->getQueriedDonor()->isPending()) {
+        if ($this->donor && $this->donor->isPending()) {
             Notices::addNotice('pending', __('This donor is pendng moderation.'), 'warning');
         }
     }
@@ -110,13 +118,11 @@ class EditDonor extends Controller
                 return;
             }
 
-            $donor = $this->getQueriedDonor();
+            $donor = $this->donor;
 
             if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canEditEntity($this->getAuthenticatedUser(), $donor)) {
                 return;
             }
-
-            $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
             // Set the donor name.
             $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
@@ -131,7 +137,7 @@ class EditDonor extends Controller
             $donor->set('blood_group', filter_input(INPUT_POST, 'donor_blood_group'), true);
 
             // Set the donor district ID.
-            $donor->set('district', $districtRepository->find(filter_input(INPUT_POST, 'donor_district_id')));
+            $donor->set('district', $this->getDistrictRepository()->find(filter_input(INPUT_POST, 'donor_district_id')));
 
             // Set the donor weight.
             $donor->setMeta('weight', filter_input(INPUT_POST, 'donor_weight'), true);
@@ -167,24 +173,5 @@ class EditDonor extends Controller
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_donor_argument', $ex->getMessage());
         }
-    }
-
-    /**
-     * @return \EBloodBank\Models\Donor
-     * @since 1.0
-     */
-    protected function getQueriedDonor()
-    {
-        return $this->donor;
-    }
-
-    /**
-     * @return bool
-     * @since 1.2
-     */
-    protected function isQueriedDonorExists()
-    {
-        $donor = $this->getQueriedDonor();
-        return ($donor && $donor->isExists());
     }
 }

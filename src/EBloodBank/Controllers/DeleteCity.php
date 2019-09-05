@@ -20,7 +20,13 @@ use Psr\Container\ContainerInterface;
 class DeleteCity extends Controller
 {
     /**
-     * @var \EBloodBank\Models\City
+     * @var   int
+     * @since 1.6
+     */
+    protected $cityId = 0;
+
+    /**
+     * @var \EBloodBank\Models\City|null
      * @since 1.0
      */
     protected $city;
@@ -29,12 +35,11 @@ class DeleteCity extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container, $id)
+    public function __construct(ContainerInterface $container, $cityId)
     {
         parent::__construct($container);
-        if (EBB\isValidID($id)) {
-            $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
-            $this->city = $cityRepository->find($id);
+        if (EBB\isValidID($cityId)) {
+            $this->cityId = $cityId;
         }
     }
 
@@ -49,12 +54,16 @@ class DeleteCity extends Controller
             return;
         }
 
-        if (! $this->isQueriedCityExists()) {
+        if ($this->cityId) {
+            $this->city = $this->getCityRepository()->find($this->cityId);
+        }
+
+        if (! $this->city) {
             $this->viewFactory->displayView('error-404');
             return;
         }
 
-        $city = $this->getQueriedCity();
+        $city = $this->city;
 
         if (! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $city)) {
             $this->viewFactory->displayView('error-403');
@@ -62,9 +71,12 @@ class DeleteCity extends Controller
         }
 
         $this->doActions();
-        $this->viewFactory->displayView('delete-city', [
-            'city' => $city,
-        ]);
+        $this->viewFactory->displayView(
+            'delete-city',
+            [
+                'city' => $city,
+            ]
+        );
     }
 
     /**
@@ -93,14 +105,13 @@ class DeleteCity extends Controller
             return;
         }
 
-        $city = $this->getQueriedCity();
+        $city = $this->city;
 
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $city)) {
             return;
         }
 
-        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
-        $districtsCount = $districtRepository->countBy(['city' => $city]);
+        $districtsCount = $this->getDistrictRepository()->countBy(['city' => $city]);
 
         if ($districtsCount > 0) {
             Notices::addNotice('linked_districts_exists', __('At first, delete any linked districts with this city.'));
@@ -116,24 +127,5 @@ class DeleteCity extends Controller
                 ['flag-deleted' => 1]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\City
-     * @since 1.0
-     */
-    protected function getQueriedCity()
-    {
-        return $this->city;
-    }
-
-    /**
-     * @return bool
-     * @since 1.2
-     */
-    protected function isQueriedCityExists()
-    {
-        $city = $this->getQueriedCity();
-        return ($city && $city->isExists());
     }
 }

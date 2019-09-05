@@ -63,9 +63,7 @@ class ViewUsers extends Controller
      */
     public function getAllUsers()
     {
-        $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-
-        return $userRepository->findAll([], ['created_at' => 'DESC']);
+        return $this->getUserRepository()->findAll([], ['created_at' => 'DESC']);
     }
 
     /**
@@ -74,9 +72,7 @@ class ViewUsers extends Controller
      */
     public function countAllUsers()
     {
-        $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-
-        return $userRepository->countAll();
+        return $this->getUserRepository()->countAll();
     }
 
     /**
@@ -85,8 +81,6 @@ class ViewUsers extends Controller
      */
     public function getQueriedUsers()
     {
-        $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-
         $limit = (int) Options::getOption('entities_per_page');
         $offset = ($this->getCurrentPage() - 1) * $limit;
 
@@ -95,7 +89,7 @@ class ViewUsers extends Controller
             $criteria['status'] = 'activated';
         }
 
-        return $userRepository->findBy($criteria, ['created_at' => 'DESC'], $limit, $offset);
+        return $this->getUserRepository()->findBy($criteria, ['created_at' => 'DESC'], $limit, $offset);
     }
 
     /**

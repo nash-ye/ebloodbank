@@ -15,7 +15,6 @@ use EBloodBank as EBB;
 use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Models\Donor;
-use Psr\Container\ContainerInterface;
 
 /**
  * Add donor page controller class
@@ -34,29 +33,23 @@ class AddDonor extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->donor = new Donor();
-        parent::__construct($container);
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
     public function __invoke()
     {
-        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'add')) {
-            $this->doActions();
-            $this->addNotices();
-            $donor = $this->getQueriedDonor();
-            $view = $this->viewFactory->forgeView('add-donor', [
-                'donor' => $donor,
-            ]);
-        } else {
-            $view = $this->viewFactory->forgeView('error-403');
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'add')) {
+            $this->viewFactory->displayView('error-403');
+            return;
         }
-        $view();
+
+        $this->donor = new Donor();
+
+        $this->doActions();
+        $this->addNotices();
+        $this->viewFactory->displayView(
+            'add-donor',
+            [
+                'donor' => $this->donor,
+            ]
+        );
     }
 
     /**
@@ -101,8 +94,7 @@ class AddDonor extends Controller
                 return;
             }
 
-            $donor = $this->getQueriedDonor();
-            $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
+            $donor = $this->donor;
 
             // Set the donor name.
             $donor->set('name', filter_input(INPUT_POST, 'donor_name'), true);
@@ -117,7 +109,7 @@ class AddDonor extends Controller
             $donor->set('blood_group', filter_input(INPUT_POST, 'donor_blood_group'), true);
 
             // Set the donor district ID.
-            $donor->set('district', $districtRepository->find(filter_input(INPUT_POST, 'donor_district_id')));
+            $donor->set('district', $this->getDistrictRepository()->find(filter_input(INPUT_POST, 'donor_district_id')));
 
             // Set the creation date.
             $donor->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
@@ -183,14 +175,5 @@ class AddDonor extends Controller
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_donor_argument', $ex->getMessage());
         }
-    }
-
-    /**
-     * @return \EBloodBank\Models\Donor
-     * @since 1.0
-     */
-    protected function getQueriedDonor()
-    {
-        return $this->donor;
     }
 }

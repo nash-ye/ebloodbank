@@ -19,27 +19,31 @@ use Psr\Container\ContainerInterface;
 class ApproveDonor extends Controller
 {
     /**
-     * @var \EBloodBank\Models\Donor
+     * @var   int
+     * @since 1.0
+     */
+    protected $donorId = 0;
+
+    /**
+     * @var   \EBloodBank\Models\Donor|null
      * @since 1.0
      */
     protected $donor;
 
     /**
-     * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container, $id)
+    public function __construct(ContainerInterface $container, $donorId)
     {
         parent::__construct($container);
-        if (EBB\isValidID($id)) {
-            $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
-            $this->donor = $donorRepository->find($id);
+        if (EBB\isValidID($donorId)) {
+            $this->donorId = (int) $donorId;
         }
     }
 
     /**
      * @return void
-     * @since 1.0
+     * @since  1.0
      */
     public function __invoke()
     {
@@ -48,12 +52,16 @@ class ApproveDonor extends Controller
             return;
         }
 
-        if (! $this->isQueriedDonorExists()) {
+        if ($this->donorId) {
+            $this->donor = $this->getDonorRepository()->find($this->donorId);
+        }
+
+        if (! $this->donor) {
             $this->viewFactory->displayView('error-404');
             return;
         }
 
-        $donor = $this->getQueriedDonor();
+        $donor = $this->donor;
 
         if (! $this->getAcl()->canApproveDonor($this->getAuthenticatedUser(), $donor)) {
             $this->viewFactory->displayView('error-403');
@@ -68,7 +76,7 @@ class ApproveDonor extends Controller
 
     /**
      * @return void
-     * @since 1.0
+     * @since  1.0
      */
     protected function doActions()
     {
@@ -81,18 +89,18 @@ class ApproveDonor extends Controller
 
     /**
      * @return void
-     * @since 1.0
+     * @since  1.0
      */
     protected function doApproveAction()
     {
-        $sessionToken = $this->getSession()->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
+        $sessionToken = $this->getSession()->getCsrfToken();
 
         if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
             return;
         }
 
-        $donor = $this->getQueriedDonor();
+        $donor = $this->donor;
 
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->canApproveDonor($this->getAuthenticatedUser(), $donor)) {
             return;
@@ -111,24 +119,5 @@ class ApproveDonor extends Controller
                 ['flag-approved' => 1]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\Donor
-     * @since 1.0
-     */
-    protected function getQueriedDonor()
-    {
-        return $this->donor;
-    }
-
-    /**
-     * @return bool
-     * @since 1.2
-     */
-    protected function isQueriedDonorExists()
-    {
-        $donor = $this->getQueriedDonor();
-        return ($donor && $donor->isExists());
     }
 }

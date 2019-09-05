@@ -10,7 +10,6 @@ namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
 use EBloodBank\Notices;
-use Psr\Container\ContainerInterface;
 
 /**
  * Delete cities page controller class
@@ -29,33 +28,27 @@ class DeleteCities extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-        if (filter_has_var(INPUT_POST, 'cities')) {
-            $citiesIDs = filter_input(INPUT_POST, 'cities', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
-            if (! empty($citiesIDs) && is_array($citiesIDs)) {
-                $cityRepository = $this->getEntityManager()->getRepository('Entities:City');
-                $this->cities = $cityRepository->findBy(['id' => $citiesIDs]);
-            }
-        }
-    }
-
-    /**
-     * @return void
-     * @since 1.1
-     */
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'City', 'delete')) {
-            $view = $this->viewFactory->forgeView('error-403');
-        } else {
-            $this->doActions();
-            $view = $this->viewFactory->forgeView('delete-cities', [
-                'cities' => $this->getQueriedCities(),
-            ]);
+            $this->viewFactory->displayView('error-403');
+            return;
         }
-        $view();
+
+        if (filter_has_var(INPUT_POST, 'cities')) {
+            $citiesIDs = filter_input(INPUT_POST, 'cities', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
+            if (! empty($citiesIDs) && is_array($citiesIDs)) {
+                $this->cities = $this->getCityRepository()->findBy(['id' => $citiesIDs]);
+            }
+        }
+
+        $this->doActions();
+        $this->viewFactory->displayView(
+            'delete-cities',
+            [
+                'cities' => $this->cities,
+            ]
+        );
     }
 
     /**
@@ -88,18 +81,17 @@ class DeleteCities extends Controller
             return;
         }
 
-        $cities = $this->getQueriedCities();
+        $cities = $this->cities;
 
         if (! $cities || ! is_array($cities)) {
             return;
         }
 
         $deletedCitiesCount = 0;
-        $districtRepository = $this->getEntityManager()->getRepository('Entities:District');
 
         foreach ($cities as $city) {
             if ($this->getAcl()->canDeleteEntity($this->getAuthenticatedUser(), $city)) {
-                $districtsCount = $districtRepository->countBy(['city' => $city]);
+                $districtsCount = $this->getDistrictRepository()->countBy(['city' => $city]);
 
                 if ($districtsCount > 0) {
                     Notices::addNotice('linked_districts_exists', sprintf(__('At first, delete any linked districts with city "%s".'), $city->get('name')));
@@ -119,14 +111,5 @@ class DeleteCities extends Controller
                 ['flag-deleted' => $deletedCitiesCount]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\City[]
-     * @since 1.1
-     */
-    protected function getQueriedCities()
-    {
-        return $this->cities;
     }
 }

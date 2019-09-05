@@ -12,7 +12,7 @@ use EBloodBank\Models\User;
 use Psr\Container\ContainerInterface;
 use EBloodBank\Traits\AclTrait;
 use EBloodBank\Traits\SessionTrait;
-use EBloodBank\Traits\EntityManagerTrait;
+use EBloodBank\Traits\EntityRepositoryTrait;
 
 /**
  * Abstract controller class
@@ -23,7 +23,7 @@ abstract class Controller
 {
     use AclTrait;
     use SessionTrait;
-    use EntityManagerTrait;
+    use EntityRepositoryTrait;
 
     /**
      * @var \Psr\Container\ContainerInterface
@@ -88,8 +88,7 @@ abstract class Controller
             return;
         }
 
-        $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-        $user = $userRepository->find($userID);
+        $user = $this->getUserRepository()->find($userID);
 
         return $user;
     }

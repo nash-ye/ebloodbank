@@ -14,7 +14,6 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\User;
-use Psr\Container\ContainerInterface;
 
 /**
  * Add user page controller class
@@ -33,29 +32,23 @@ class AddUser extends Controller
      * @return void
      * @since 1.0
      */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-        $this->user = new User();
-    }
-
-    /**
-     * @return void
-     * @since 1.0
-     */
     public function __invoke()
     {
-        if ($this->hasAuthenticatedUser() && $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'add')) {
-            $this->doActions();
-            $this->addNotices();
-            $user = $this->getQueriedUser();
-            $view = $this->viewFactory->forgeView('add-user', [
-                'user' => $user,
-            ]);
-        } else {
-            $view = $this->viewFactory->forgeView('error-403');
+        if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'add')) {
+            $this->viewFactory->displayView('error-403');
+            return; 
         }
-        $view();
+
+        $this->user = new User();
+
+        $this->doActions();
+        $this->addNotices();
+        $this->viewFactory->displayView(
+            'add-user',
+            [
+                'user' => $this->user,
+            ]
+        );
     }
 
     /**
@@ -100,8 +93,7 @@ class AddUser extends Controller
                 return;
             }
 
-            $user = $this->getQueriedUser();
-            $userRepository = $this->getEntityManager()->getRepository('Entities:User');
+            $user = $this->user;
 
             // Set the user name.
             $user->set('name', filter_input(INPUT_POST, 'user_name'), true);
@@ -109,7 +101,7 @@ class AddUser extends Controller
             // Set the user email.
             $user->set('email', filter_input(INPUT_POST, 'user_email'), true);
 
-            $duplicateUser = $userRepository->findOneBy(['email' => $user->get('email'), 'status' => 'any']);
+            $duplicateUser = $this->getUserRepository()->findOneBy(['email' => $user->get('email'), 'status' => 'any']);
 
             if (! empty($duplicateUser)) {
                 throw new InvalidArgumentException(__('Please enter a unique user e-mail.'));
@@ -160,14 +152,5 @@ class AddUser extends Controller
         } catch (InvalidArgumentException $ex) {
             Notices::addNotice('invalid_user_argument', $ex->getMessage());
         }
-    }
-
-    /**
-     * @return \EBloodBank\Models\User
-     * @since 1.0
-     */
-    protected function getQueriedUser()
-    {
-        return $this->user;
     }
 }

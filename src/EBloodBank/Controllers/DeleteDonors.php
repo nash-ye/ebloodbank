@@ -9,7 +9,6 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
-use Psr\Container\ContainerInterface;
 
 /**
  * Delete donors page controller class
@@ -22,24 +21,7 @@ class DeleteDonors extends Controller
      * @var \EBloodBank\Models\Donor[]
      * @since 1.1
      */
-    protected $donors;
-
-    /**
-     * @return void
-     * @since 1.1
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->donors = [];
-        parent::__construct($container);
-        if (filter_has_var(INPUT_POST, 'donors')) {
-            $donorsIDs = filter_input(INPUT_POST, 'donors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
-            if (! empty($donorsIDs) && is_array($donorsIDs)) {
-                $donorRepository = $this->getEntityManager()->getRepository('Entities:Donor');
-                $this->donors = $donorRepository->findBy(['id' => $donorsIDs]);
-            }
-        }
-    }
+    protected $donors = [];
 
     /**
      * @return void
@@ -49,13 +31,22 @@ class DeleteDonors extends Controller
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'Donor', 'delete')) {
             $view = $this->viewFactory->forgeView('error-403');
-        } else {
-            $this->doActions();
-            $view = $this->viewFactory->forgeView('delete-donors', [
-                'donors' => $this->getQueriedDonors(),
-            ]);
         }
-        $view();
+
+        if (filter_has_var(INPUT_POST, 'donors')) {
+            $donorsIDs = filter_input(INPUT_POST, 'donors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
+            if (! empty($donorsIDs) && is_array($donorsIDs)) {
+                $this->donors = $this->getDonorRepository()->findBy(['id' => $donorsIDs]);
+            }
+        }
+
+        $this->doActions();
+        $this->viewFactory->displayView(
+            'delete-donors',
+            [
+                'donors' => $this->donors,
+            ]
+        );
     }
 
     /**
@@ -81,14 +72,14 @@ class DeleteDonors extends Controller
             return;
         }
 
-        $sessionToken = $this->getSession()->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
+        $sessionToken = $this->getSession()->getCsrfToken();
 
         if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
             return;
         }
 
-        $donors = $this->getQueriedDonors();
+        $donors = $this->donors;
 
         if (! $donors || ! is_array($donors)) {
             return;
@@ -111,14 +102,5 @@ class DeleteDonors extends Controller
                 ['flag-deleted' => $deletedDonorsCount]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\Donor[]
-     * @since 1.1
-     */
-    protected function getQueriedDonors()
-    {
-        return $this->donors;
     }
 }

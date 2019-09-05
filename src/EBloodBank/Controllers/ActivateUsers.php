@@ -9,7 +9,6 @@
 namespace EBloodBank\Controllers;
 
 use EBloodBank as EBB;
-use Psr\Container\ContainerInterface;
 
 /**
  * Activate users page controller class
@@ -28,33 +27,27 @@ class ActivateUsers extends Controller
      * @return void
      * @since 1.1
      */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-        if (filter_has_var(INPUT_POST, 'users')) {
-            $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
-            if (! empty($usersIDs) && is_array($usersIDs)) {
-                $userRepository = $this->getEntityManager()->getRepository('Entities:User');
-                $this->users = $userRepository->findBy(['id' => $usersIDs]);
-            }
-        }
-    }
-
-    /**
-     * @return void
-     * @since 1.1
-     */
     public function __invoke()
     {
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'activate')) {
-            $view = $this->viewFactory->forgeView('error-403');
-        } else {
-            $this->doActions();
-            $view = $this->viewFactory->forgeView('activate-users', [
-                'users' => $this->getQueriedUsers(),
-            ]);
+            $this->viewFactory->displayView('error-403');
+            return;
         }
-        $view();
+
+        if (filter_has_var(INPUT_POST, 'users')) {
+            $usersIDs = filter_input(INPUT_POST, 'users', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
+            if (! empty($usersIDs) && is_array($usersIDs)) {
+                $this->users = $this->getUserRepository()->findBy(['id' => $usersIDs]);
+            }
+        }
+
+        $this->doActions();
+        $this->viewFactory->displayView(
+            'activate-users',
+            [
+                'users' => $this->users,
+            ]
+        );
     }
 
     /**
@@ -76,26 +69,25 @@ class ActivateUsers extends Controller
      */
     protected function doActivateAction()
     {
+        // Double check
         if (! $this->hasAuthenticatedUser() || ! $this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'activate')) {
             return;
         }
 
-        $sessionToken = $this->getSession()->getCsrfToken();
         $actionToken = filter_input(INPUT_POST, 'token');
+        $sessionToken = $this->getSession()->getCsrfToken();
 
         if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
             return;
         }
 
-        $users = $this->getQueriedUsers();
-
-        if (! $users || ! is_array($users)) {
+        if (empty($this->users)) {
             return;
         }
 
         $activatedUsersCount = 0;
 
-        foreach ($users as $user) {
+        foreach ($this->users as $user) {
             if (! $user->isPending()) {
                 continue;
             }
@@ -113,14 +105,5 @@ class ActivateUsers extends Controller
                 ['flag-activated' => $activatedUsersCount]
             )
         );
-    }
-
-    /**
-     * @return \EBloodBank\Models\User[]
-     * @since 1.1
-     */
-    protected function getQueriedUsers()
-    {
-        return $this->users;
     }
 }
