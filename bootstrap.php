@@ -148,7 +148,6 @@ require EBB_DIR . '/src/EBloodBank/functions.uri.php';
 require EBB_DIR . '/src/EBloodBank/functions.http.php';
 require EBB_DIR . '/src/EBloodBank/functions.html.php';
 require EBB_DIR . '/src/EBloodBank/functions.context.php';
-require EBB_DIR . '/src/EBloodBank/functions.session.php';
 require EBB_DIR . '/src/EBloodBank/functions.filtering.php';
 require EBB_DIR . '/src/EBloodBank/functions.formatting.php';
 require EBB_DIR . '/src/EBloodBank/functions.diagnosing.php';
