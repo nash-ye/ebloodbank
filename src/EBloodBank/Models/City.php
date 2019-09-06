@@ -8,8 +8,10 @@
  */
 namespace EBloodBank\Models;
 
-use InvalidArgumentException;
+use DateTime;
+use DateTimeZone;
 use EBloodBank as EBB;
+use InvalidArgumentException;
 
 /**
  * City entity class
@@ -18,6 +20,7 @@ use EBloodBank as EBB;
  *
  * @Entity(repositoryClass="EBloodBank\Models\CityRepository")
  * @Table(name="city")
+ * @HasLifecycleCallbacks
  */
 class City extends Entity
 {
@@ -46,7 +49,7 @@ class City extends Entity
     /**
      * City creation datetime
      * 
-     * @var   string
+     * @var   \DateTime
      * @since 1.0
      *
      * @Column(type="datetime", name="city_created_at")
@@ -76,7 +79,7 @@ class City extends Entity
 
     /**
      * @return bool
-     * @since 1.0
+     * @since  1.0
      */
     public function isExists()
     {
@@ -85,8 +88,20 @@ class City extends Entity
     }
 
     /**
+     * @return void
+     * @since  1.6
+     * 
+     * @PrePersist
+     */
+    public function doActionOnPrePersist()
+    {
+        $this->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
+    }
+
+    /**
      * @return mixed
-     * @since 1.0
+     * @since  1.0
+     * @static
      */
     public static function sanitize($key, $value)
     {
@@ -97,18 +112,16 @@ class City extends Entity
             case 'name':
                 $value = EBB\sanitizeTitle($value);
                 break;
-            case 'created_at':
-                break;
-            case 'created_by':
-                break;
         }
+
         return $value;
     }
 
     /**
      * @throws \InvalidArgumentException
      * @return bool
-     * @since 1.0
+     * @since  1.0
+     * @static
      */
     public static function validate($key, $value)
     {
@@ -123,14 +136,13 @@ class City extends Entity
                     throw new InvalidArgumentException(__('Invalid city name.'));
                 }
                 break;
-            case 'created_at':
-                break;
             case 'created_by':
                 if (! $value instanceof User || ! $value->isExists()) {
                     throw new InvalidArgumentException(__('Invalid city originator.'));
                 }
                 break;
         }
+
         return true;
     }
 }

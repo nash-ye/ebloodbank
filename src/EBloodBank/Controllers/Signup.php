@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Controllers;
 
-use DateTime;
-use DateTimeZone;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Options;
@@ -94,9 +92,6 @@ class Signup extends Controller
             // Set the user role.
             $user->set('role', Options::getOption('new_user_role'), true);
 
-            // Set the user time.
-            $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
-
             // Set the user status.
             $user->set('status', Options::getOption('new_user_status'), true);
 
@@ -141,9 +136,6 @@ class Signup extends Controller
 
                 // Set the donor district ID.
                 $donor->set('district', $this->getDistrictRepository()->find(filter_input(INPUT_POST, 'donor_district_id')));
-
-                // Set the creation date.
-                $donor->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
 
                 // Set the originator user.
                 $donor->set('created_by', $user);

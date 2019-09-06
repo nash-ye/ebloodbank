@@ -8,8 +8,10 @@
  */
 namespace EBloodBank\Models;
 
-use InvalidArgumentException;
+use DateTime;
+use DateTimeZone;
 use EBloodBank as EBB;
+use InvalidArgumentException;
 
 /**
  * District entity class
@@ -18,11 +20,12 @@ use EBloodBank as EBB;
  *
  * @Entity(repositoryClass="EBloodBank\Models\DistrictRepository")
  * @Table(name="district")
+ * @HasLifecycleCallbacks
  */
 class District extends Entity
 {
     /**
-     * @var int
+     * @var   int
      * @since 1.0
      *
      * @Id
@@ -32,7 +35,7 @@ class District extends Entity
     protected $id = 0;
 
     /**
-     * @var string
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="district_name")
@@ -40,7 +43,7 @@ class District extends Entity
     protected $name;
 
     /**
-     * @var City
+     * @var   City
      * @since 1.0
      *
      * @ManyToOne(targetEntity="EBloodBank\Models\City", inversedBy="districts")
@@ -49,7 +52,7 @@ class District extends Entity
     protected $city;
 
     /**
-     * @var string
+     * @var   \DateTime
      * @since 1.0
      *
      * @Column(type="datetime", name="district_created_at")
@@ -57,7 +60,7 @@ class District extends Entity
     protected $created_at;
 
     /**
-     * @var User
+     * @var   User
      * @since 1.0
      *
      * @ManyToOne(targetEntity="EBloodBank\Models\User")
@@ -66,7 +69,7 @@ class District extends Entity
     protected $created_by;
 
     /**
-     * @var Donor[]
+     * @var   Donor[]
      * @since 1.0
      *
      * @OneToMany(targetEntity="EBloodBank\Models\Donor", mappedBy="district")
@@ -75,7 +78,7 @@ class District extends Entity
 
     /**
      * @return bool
-     * @since 1.0
+     * @since  1.0
      */
     public function isExists()
     {
@@ -84,8 +87,19 @@ class District extends Entity
     }
 
     /**
+     * @return void
+     * @since  1.6
+     * 
+     * @PrePersist
+     */
+    public function doActionOnPrePersist()
+    {
+        $this->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
+    }
+
+    /**
      * @return mixed
-     * @since 1.0
+     * @since  1.0
      * @static
      */
     public static function sanitize($key, $value)
@@ -97,20 +111,15 @@ class District extends Entity
             case 'name':
                 $value = EBB\sanitizeTitle($value);
                 break;
-            case 'city':
-                break;
-            case 'created_at':
-                break;
-            case 'created_by':
-                break;
         }
+
         return $value;
     }
 
     /**
      * @throws \InvalidArgumentException
      * @return bool
-     * @since 1.0
+     * @since  1.0
      * @static
      */
     public static function validate($key, $value)
@@ -131,14 +140,13 @@ class District extends Entity
                     throw new InvalidArgumentException(__('Invalid district city.'));
                 }
                 break;
-            case 'created_at':
-                break;
             case 'created_by':
                 if (! $value instanceof User || ! $value->isExists()) {
                     throw new InvalidArgumentException(__('Invalid district originator.'));
                 }
                 break;
         }
+
         return true;
     }
 }

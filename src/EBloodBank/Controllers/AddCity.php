@@ -8,12 +8,10 @@
  */
 namespace EBloodBank\Controllers;
 
-use DateTime;
-use DateTimeZone;
-use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\City;
+use InvalidArgumentException;
 
 /**
  * Add city page controller class
@@ -86,8 +84,8 @@ class AddCity extends Controller
                 return;
             }
 
-            $sessionToken = $this->getSession()->getCsrfToken();
             $actionToken = filter_input(INPUT_POST, 'token');
+            $sessionToken = $this->getSession()->getCsrfToken();
 
             if (! $actionToken || ! $sessionToken->isValid($actionToken)) {
                 return;
@@ -103,9 +101,6 @@ class AddCity extends Controller
             if (! empty($duplicateCity)) {
                 throw new InvalidArgumentException(__('Please enter a unique city name.'));
             }
-
-            // Set the creation date.
-            $city->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
 
             // Set the originator user.
             $city->set('created_by', $this->getAuthenticatedUser());

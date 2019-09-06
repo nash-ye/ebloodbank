@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Controllers;
 
-use DateTime;
-use DateTimeZone;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
@@ -100,9 +98,6 @@ class AddDistrict extends Controller
 
             // Set the district city ID.
             $district->set('city', $this->getCityRepository()->find(filter_input(INPUT_POST, 'district_city_id')));
-
-            // Set the creation date.
-            $district->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
 
             // Set the originator user.
             $district->set('created_by', $this->getAuthenticatedUser());

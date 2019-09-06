@@ -22,7 +22,7 @@ use EBloodBank as EBB;
 class Variable extends Entity
 {
     /**
-     * @var string
+     * @var   string
      * @since 1.0
      *
      * @Id
@@ -31,7 +31,7 @@ class Variable extends Entity
     protected $name;
 
     /**
-     * @var string
+     * @var   string
      * @since 1.0
      *
      * @Column(type="string", name="variable_value", nullable=true)
@@ -40,7 +40,7 @@ class Variable extends Entity
 
     /**
      * @return bool
-     * @since 1.0
+     * @since  1.0
      */
     public function isExists()
     {
@@ -50,7 +50,7 @@ class Variable extends Entity
 
     /**
      * @return mixed
-     * @since 1.0
+     * @since  1.0
      * @static
      */
     public static function sanitize($key, $value)
@@ -59,16 +59,15 @@ class Variable extends Entity
             case 'name':
                 $value = EBB\sanitizeTitle($value);
                 break;
-            case 'value':
-                break;
         }
+
         return $value;
     }
 
     /**
      * @throws \InvalidArgumentException
      * @return bool
-     * @since 1.0
+     * @since  1.0
      * @static
      */
     public static function validate($key, $value)
@@ -79,9 +78,8 @@ class Variable extends Entity
                     throw new InvalidArgumentException(__('Invalid variable name.'));
                 }
                 break;
-            case 'value':
-                break;
         }
+
         return true;
     }
 }

@@ -8,6 +8,8 @@
  */
 namespace EBloodBank\Models;
 
+use DateTime;
+use DateTimeZone;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Traits\EntityMeta;
@@ -19,6 +21,7 @@ use EBloodBank\Traits\EntityMeta;
  *
  * @Entity(repositoryClass="EBloodBank\Models\UserRepository")
  * @Table(name="user")
+ * @HasLifecycleCallbacks
  */
 class User extends Entity
 {
@@ -79,7 +82,7 @@ class User extends Entity
     /**
      * User creation datetime
      * 
-     * @var   string
+     * @var   \DateTime
      * @since 1.0
      *
      * @Column(type="datetime", name="user_created_at")
@@ -108,7 +111,7 @@ class User extends Entity
 
     /**
      * @return bool
-     * @since 1.0
+     * @since  1.0
      */
     public function isExists()
     {
@@ -118,7 +121,7 @@ class User extends Entity
 
     /**
      * @return bool
-     * @since 1.0
+     * @since  1.0
      */
     public function isPending()
     {
@@ -127,7 +130,7 @@ class User extends Entity
 
     /**
      * @return bool
-     * @since 1.0
+     * @since  1.0
      */
     public function isActivated()
     {
@@ -135,8 +138,19 @@ class User extends Entity
     }
 
     /**
+     * @return void
+     * @since  1.6
+     * 
+     * @PrePersist
+     */
+    public function doActionOnPrePersist()
+    {
+        $this->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
+    }
+
+    /**
      * @return mixed
-     * @since 1.0
+     * @since  1.0
      * @static
      */
     public static function sanitize($key, $value)
@@ -164,7 +178,7 @@ class User extends Entity
     /**
      * @throws \InvalidArgumentException
      * @return bool
-     * @since 1.0
+     * @since  1.0
      * @static
      */
     public static function validate($key, $value)
@@ -195,14 +209,13 @@ class User extends Entity
                     throw new InvalidArgumentException(__('Invalid user role.'));
                 }
                 break;
-            case 'created_at':
-                break;
             case 'status':
                 if (! is_string($value) || empty($value)) {
                     throw new InvalidArgumentException(__('Invalid user status.'));
                 }
                 break;
         }
+
         return true;
     }
 }

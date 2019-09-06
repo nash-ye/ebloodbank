@@ -231,6 +231,17 @@ class Donor extends \EBloodBank\Models\Donor implements \Doctrine\ORM\Proxy\Prox
     /**
      * {@inheritDoc}
      */
+    public function doActionOnPrePersist()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'doActionOnPrePersist', []);
+
+        return parent::doActionOnPrePersist();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function get($key)
     {
 

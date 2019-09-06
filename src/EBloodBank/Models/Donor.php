@@ -21,6 +21,7 @@ use EBloodBank\Traits\EntityMeta;
  *
  * @Entity(repositoryClass="EBloodBank\Models\DonorRepository")
  * @Table(name="donor")
+ * @HasLifecycleCallbacks
  */
 class Donor extends Entity
 {
@@ -189,6 +190,17 @@ class Donor extends Entity
     }
 
     /**
+     * @return void
+     * @since  1.6
+     * 
+     * @PrePersist
+     */
+    public function doActionOnPrePersist()
+    {
+        $this->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
+    }
+
+    /**
      * @return mixed
      * @since 1.0
      * @static
@@ -208,13 +220,8 @@ class Donor extends Entity
             case 'blood_group':
                 $value = EBB\sanitizeSlug($value);
                 break;
-            case 'district':
-                break;
-            case 'created_at':
-                break;
-            case 'created_by':
-                break;
         }
+
         return $value;
     }
 
@@ -242,8 +249,6 @@ class Donor extends Entity
                     throw new InvalidArgumentException(__('Invalid donor gender.'));
                 }
                 break;
-            case 'birthdate':
-                break;
             case 'blood_group':
                 if (! in_array($value, EBB\getBloodGroups(), true)) {
                     throw new InvalidArgumentException(__('Invalid donor blood group.'));
@@ -253,8 +258,6 @@ class Donor extends Entity
                 if (! $value instanceof District || ! $value->isExists()) {
                     throw new InvalidArgumentException(__('Invalid donor district.'));
                 }
-                break;
-            case 'created_at':
                 break;
             case 'created_by':
                 if (! $value instanceof User || ! $value->isExists()) {
@@ -267,6 +270,7 @@ class Donor extends Entity
                 }
                 break;
         }
+
         return true;
     }
 
@@ -331,6 +335,7 @@ class Donor extends Entity
                 }
                 break;
         }
+
         return true;
     }
 }

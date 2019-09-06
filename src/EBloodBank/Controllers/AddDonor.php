@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Controllers;
 
-use DateTime;
-use DateTimeZone;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Options;
@@ -110,9 +108,6 @@ class AddDonor extends Controller
 
             // Set the donor district ID.
             $donor->set('district', $this->getDistrictRepository()->find(filter_input(INPUT_POST, 'donor_district_id')));
-
-            // Set the creation date.
-            $donor->set('created_at', new DateTime('now', new DateTimeZone('UTC')));
 
             // Set the originator user.
             $donor->set('created_by', $this->getAuthenticatedUser());

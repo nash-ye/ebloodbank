@@ -8,8 +8,6 @@
  */
 namespace EBloodBank\Controllers;
 
-use DateTime;
-use DateTimeZone;
 use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
@@ -127,9 +125,6 @@ class AddUser extends Controller
 
             // Set the user role.
             $user->set('role', filter_input(INPUT_POST, 'user_role'), true);
-
-            // Set the user time.
-            $user->set('created_at', new DateTime('now', new DateTimeZone('UTC')), true);
 
             // Set the user status.
             if ($this->getAcl()->isUserAllowed($this->getAuthenticatedUser(), 'User', 'activate')) {
