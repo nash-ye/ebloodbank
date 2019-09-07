@@ -54,7 +54,7 @@ class Options
      * @since 1.0
      * @static
      */
-    public static function addOption($name, $value, $sanitize = false, $validate = true)
+    public static function addOption($name, $value, bool $sanitize = false, bool $validate = true)
     {
         if ($sanitize) {
             $value = self::sanitizeOption($name, $value);
@@ -93,7 +93,7 @@ class Options
      * @since 1.0
      * @static
      */
-    public static function updateOption($name, $value, $sanitize = false, $validate = true)
+    public static function updateOption($name, $value, bool $sanitize = false, bool $validate = true)
     {
         if ($sanitize) {
             $value = self::sanitizeOption($name, $value);
@@ -129,7 +129,7 @@ class Options
      * @since 1.0
      * @static
      */
-    public static function submitOption($name, $value, $sanitize = false, $validate = true)
+    public static function submitOption($name, $value, bool $sanitize = false, bool $validate = true)
     {
         if ('' === strval($value)) {
             return self::deleteOption($name);
