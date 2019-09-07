@@ -1,7 +1,11 @@
 eBloodBank
 ==========
 
-An open-source blood bank system, that provides a set of must-have features to start an online blood bank.
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nash-ye/ebloodbank/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nash-ye/ebloodbank/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/nash-ye/ebloodbank/badges/build.png?b=master)](https://scrutinizer-ci.com/g/nash-ye/ebloodbank/build-status/master)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/nash-ye/ebloodbank/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+
+An open-source system that provides a set of must-have features to start an online blood bank.
 
 Feature Highlights
 ------------------
@@ -29,9 +33,9 @@ Requirements
 Installation
 ------------------
 
-1. Run composer and install the system packages.
-2. Open config/config.php.dist file in a text editor, fill in your information and save it as config/config.php.
-3. Open install.php in your browser and follow up the installer instructions.
+1. Run `composer` and install the system packages.
+2. Open `config/config.php.dist` file in a text editor, fill in your information and save it as `config/config.php`.
+3. Open `install.php` in your browser and follow up the installer instructions.
 4. Login with the user e-mail and password you chose during the installation.
 
 
