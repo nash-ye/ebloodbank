@@ -1,3 +1,8 @@
+### v1.6 (7/9/2019)
+- Enhancement: Reduce the project code complexity.
+- Enhancement: Reduce the code duplication and enhance code quality.
+- Enhancement: Reduce the project loading time and enhance the performance.
+
 ### v1.5 (30/8/2019)
 - Enhancement: Improve the ACL layer by using Zend ACL component.
 - Enhancement: Separate the ACL layer from the Model layer.
