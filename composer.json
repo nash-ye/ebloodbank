@@ -27,7 +27,8 @@
         "monolog/monolog": "1.*",
         "swiftmailer/swiftmailer": "^5.4",
         "zendframework/zend-diactoros": "1.*",
-        "zendframework/zend-permissions-acl": "^2.7"
+        "zendframework/zend-permissions-acl": "^2.7",
+        "symfony/event-dispatcher": "^4.3"
     },
     "require-dev": {
     },

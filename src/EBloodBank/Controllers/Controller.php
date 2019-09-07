@@ -12,6 +12,7 @@ use EBloodBank\Models\User;
 use Psr\Container\ContainerInterface;
 use EBloodBank\Traits\AclTrait;
 use EBloodBank\Traits\SessionTrait;
+use EBloodBank\Traits\EventManagerTrait;
 use EBloodBank\Traits\EntityRepositoryTrait;
 
 /**
@@ -23,6 +24,7 @@ abstract class Controller
 {
     use AclTrait;
     use SessionTrait;
+    use EventManagerTrait;
     use EntityRepositoryTrait;
 
     /**
@@ -51,6 +53,7 @@ abstract class Controller
         $this->container = $container;
         $this->setAcl($container->get('acl'));
         $this->setSession($container->get('session'));
+        $this->setEventManager($container->get('eventManager'));
         $this->setEntityManager($container->get('entity_manager'));
 
         $this->viewFactory = $container->get('viewFactory');

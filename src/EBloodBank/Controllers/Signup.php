@@ -14,6 +14,7 @@ use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Models\User;
 use EBloodBank\Models\Donor;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Sign-up page controller class
@@ -100,22 +101,7 @@ class Signup extends Controller
 
             $signedup = $user->isExists();
 
-            if ($signedup) {
-                $mailer = $this->getContainer()->get('mailer');
-                $message = $mailer->createMessage();
-
-                $message->setSubject(sprintf(__('[%s] New User Registration'), Options::getOption('site_name')));
-                $message->setFrom(Options::getOption('site_email'));
-                $message->setTo(Options::getOption('site_email'));
-
-                $messageBody  = sprintf(__('New user registration on %s:'), Options::getOption('site_name')) . "\r\n\r\n";
-                $messageBody .= sprintf(__('Username: %s'), $user->get('name')) . "\r\n";
-                $messageBody .= sprintf(__('E-mail: %s'), $user->get('email')) . "\r\n";
-
-                $message->setBody($messageBody, 'text/plain');
-
-                $mailer->send($message);
-            }
+            $this->getEventManager()->getEventDispatcher()->dispatch('user.created', new GenericEvent($user));
 
             $addDonor = filter_input(INPUT_POST, 'add_as_a_donor');
 
@@ -164,26 +150,7 @@ class Signup extends Controller
                 $this->getEntityManager()->persist($donor);
                 $this->getEntityManager()->flush();
 
-                $donorAdded = $donor->isExists();
-
-                if ($donorAdded) {
-                    $mailer = $this->getContainer()->get('mailer');
-                    $message = $mailer->createMessage();
-
-                    $message->setSubject(sprintf(__('[%s] New Donor'), Options::getOption('site_name')));
-                    $message->setFrom(Options::getOption('site_email'));
-                    $message->setTo(Options::getOption('site_email'));
-
-                    $messageBody  = sprintf(__('New donor addition on %s:'), Options::getOption('site_name')) . "\r\n\r\n";
-                    $messageBody .= sprintf(__('Name: %s'), $donor->get('name')) . "\r\n";
-                    $messageBody .= sprintf(__('Gender: %s'), $donor->getGenderTitle()) . "\r\n";
-                    $messageBody .= sprintf(__('Blood Group: %s'), $donor->get('blood_group')) . "\r\n";
-                    $messageBody .= sprintf(__('City\District: %1$s\%2$s'), $donor->get('district')->get('city')->get('name'), $donor->get('district')->get('name'));
-
-                    $message->setBody($messageBody, 'text/plain');
-
-                    $mailer->send($message);
-                }
+                $this->getEventManager()->getEventDispatcher()->dispatch('donor.created', new GenericEvent($donor));
             }
 
             EBB\redirect(

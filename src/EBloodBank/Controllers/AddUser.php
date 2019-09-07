@@ -12,6 +12,7 @@ use InvalidArgumentException;
 use EBloodBank as EBB;
 use EBloodBank\Notices;
 use EBloodBank\Models\User;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Add user page controller class
@@ -135,6 +136,8 @@ class AddUser extends Controller
 
             $this->getEntityManager()->persist($user);
             $this->getEntityManager()->flush();
+
+            $this->getEventManager()->getEventDispatcher()->dispatch('user.created', new GenericEvent($user));
 
             $added = $user->isExists();
 

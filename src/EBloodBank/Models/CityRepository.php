@@ -10,6 +10,7 @@ namespace EBloodBank\Models;
 
 /**
  * City entity repository class
+ * 
  * @since 1.0
  */
 class CityRepository extends EntityRepository

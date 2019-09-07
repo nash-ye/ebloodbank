@@ -31,6 +31,7 @@ class ContainerConfig extends \Aura\Di\ContainerConfig
         $this->setupAcl($container);
         $this->setupDispatcher($container);
         $container->set('viewFactory', $container->lazyNew(Views\ViewFactory::class, [$container]));
+        $container->set('eventManager', $container->lazy(new EventManagerFactory(), $container));
     }
 
     /**

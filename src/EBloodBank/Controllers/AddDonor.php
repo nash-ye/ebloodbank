@@ -10,9 +10,9 @@ namespace EBloodBank\Controllers;
 
 use InvalidArgumentException;
 use EBloodBank as EBB;
-use EBloodBank\Options;
 use EBloodBank\Notices;
 use EBloodBank\Models\Donor;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Add donor page controller class
@@ -140,26 +140,9 @@ class AddDonor extends Controller
             $this->getEntityManager()->persist($donor);
             $this->getEntityManager()->flush();
 
+            $this->getEventManager()->getEventDispatcher()->dispatch('donor.created', new GenericEvent($donor));
+
             $added = $donor->isExists();
-
-            if ($added) {
-                $mailer = $this->getContainer()->get('mailer');
-                $message = $mailer->createMessage();
-
-                $message->setSubject(sprintf(__('[%s] New Donor'), Options::getOption('site_name')));
-                $message->setFrom(Options::getOption('site_email'));
-                $message->setTo(Options::getOption('site_email'));
-
-                $messageBody  = sprintf(__('New donor addition on %s:'), Options::getOption('site_name')) . "\r\n\r\n";
-                $messageBody .= sprintf(__('Name: %s'), $donor->get('name')) . "\r\n";
-                $messageBody .= sprintf(__('Gender: %s'), $donor->getGenderTitle()) . "\r\n";
-                $messageBody .= sprintf(__('Blood Group: %s'), $donor->get('blood_group')) . "\r\n";
-                $messageBody .= sprintf(__('City\District: %1$s\%2$s'), $donor->get('district')->get('city')->get('name'), $donor->get('district')->get('name'));
-
-                $message->setBody($messageBody, 'text/plain');
-
-                $mailer->send($message);
-            }
 
             EBB\redirect(
                 EBB\addQueryArgs(
