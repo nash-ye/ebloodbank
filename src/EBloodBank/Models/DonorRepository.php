@@ -55,35 +55,7 @@ class DonorRepository extends EntityRepository
     {
         if (isset($criteria['blood_group_alternatives']) && $criteria['blood_group_alternatives']) {
             if (isset($criteria['blood_group']) && is_string($criteria['blood_group'])) {
-                switch ($criteria['blood_group']) {
-                    case 'A+':
-                        $criteria['blood_group'] = ['A+', 'A-', 'O+', 'O-'];
-                        break;
-                    case 'A-':
-                        $criteria['blood_group'] = ['A-', 'O-'];
-                        break;
-                    case 'B+':
-                        $criteria['blood_group'] = ['B+', 'B-', 'O+', 'O-'];
-                        break;
-                    case 'B+':
-                        $criteria['blood_group'] = ['B+', 'B-', 'O+', 'O-'];
-                        break;
-                    case 'B-':
-                        $criteria['blood_group'] = ['B-', 'O-'];
-                        break;
-                    case 'O+':
-                        $criteria['blood_group'] = ['O+', 'O-'];
-                        break;
-                    case 'O-':
-                        $criteria['blood_group'] = ['O-'];
-                        break;
-                    case 'AB+':
-                        $criteria['blood_group'] = ['any'];
-                        break;
-                    case 'AB-':
-                        $criteria['blood_group'] = ['A-', 'B-', 'O-', 'AB-'];
-                        break;
-                }
+                $criteria['blood_group'] = $this->findCompatibleRedBloodCellGroup($criteria['blood_group']);
             }
         }
 
@@ -126,5 +98,46 @@ class DonorRepository extends EntityRepository
         }
 
         return $criteria;
+    }
+
+    /**
+     * @return array
+     * @since  1.6
+     */
+    protected function findCompatibleRedBloodCellGroup(string $bloodGroup)
+    {
+        $compatibleGroups = [];
+
+        switch ($bloodGroup) {
+            case 'A+':
+                $compatibleGroups = ['A+', 'A-', 'O+', 'O-'];
+                break;
+            case 'A-':
+                $compatibleGroups = ['A-', 'O-'];
+                break;
+            case 'B+':
+                $compatibleGroups = ['B+', 'B-', 'O+', 'O-'];
+                break;
+            case 'B+':
+                $compatibleGroups = ['B+', 'B-', 'O+', 'O-'];
+                break;
+            case 'B-':
+                $compatibleGroups = ['B-', 'O-'];
+                break;
+            case 'O+':
+                $compatibleGroups = ['O+', 'O-'];
+                break;
+            case 'O-':
+                $compatibleGroups = ['O-'];
+                break;
+            case 'AB+':
+                $compatibleGroups = ['any'];
+                break;
+            case 'AB-':
+                $compatibleGroups = ['A-', 'B-', 'O-', 'AB-'];
+                break;
+        }
+
+        return $compatibleGroups;
     }
 }
